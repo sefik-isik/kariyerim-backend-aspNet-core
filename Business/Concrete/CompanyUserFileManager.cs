@@ -1,0 +1,95 @@
+﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Core.Utilities.Results;
+using Core.Utilities.Security.Status;
+using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
+using Entities.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Business.Concrete
+{
+    public class CompanyUserFileManager : ICompanyUserFileService
+    {
+        ICompanyUserFileDal _companyFileDal;
+        IUserService _userService;
+
+        public CompanyUserFileManager(ICompanyUserFileDal companyUserFileDal, IUserService userService)
+        {
+            _companyFileDal = companyUserFileDal;
+            _userService = userService;
+
+        }
+        [SecuredOperation("admin,user")]
+        public IResult Add(CompanyUserFile companyUserFile)
+        {
+            _companyFileDal.Add(companyUserFile);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin,user")]
+        public IResult Update(CompanyUserFile companyUserFile)
+        {
+            _companyFileDal.Update(companyUserFile);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin,user")]
+        public IResult Delete(CompanyUserFile companyUserFile)
+        {
+            _companyFileDal.Delete(companyUserFile);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserFile>> GetAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll());
+            }
+        }
+        [SecuredOperation("admin,user")]
+        public IDataResult<CompanyUserFile> GetById(int companyFileId)
+        {
+            return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c=> c.Id == companyFileId));
+        }
+
+        //DTO
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserFileDTO>> GetCompanyUserFileDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetCompanyUserFileDTO().FindAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetCompanyUserFileDTO());
+            }
+            
+        }
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserFileDTO>> GetCompanyUserFileDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetCompanyUserFileDeletedDTO().FindAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetCompanyUserFileDeletedDTO());
+            }
+            
+        }
+    }
+}
