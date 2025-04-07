@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -25,8 +26,12 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUserDepartments.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyUserName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  DepartmentName = companyUserDepartments.DepartmentName,
                                  CreatedDate = companyUserDepartments.CreatedDate,
                                  UpdatedDate = companyUserDepartments.UpdatedDate,
@@ -42,13 +47,19 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserDepartments in context.CompanyUserDepartments
                              join companyUsers in context.CompanyUsers on companyUserDepartments.CompanyUserId equals companyUsers.Id
+                             join users in context.Users on companyUsers.UserId equals users.Id
 
                              where companyUserDepartments.DeletedDate != null
                              select new CompanyUserDepartmentDTO
                              {
                                  Id = companyUserDepartments.Id,
+                                 UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyUserName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  DepartmentName = companyUserDepartments.DepartmentName,
                                  CreatedDate = companyUserDepartments.CreatedDate,
                                  UpdatedDate = companyUserDepartments.UpdatedDate,

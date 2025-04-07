@@ -27,6 +27,10 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUserFiles.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
                                  FileName = personelUserFiles.FileName,
                                  FilePath = personelUserFiles.FilePath,
@@ -51,6 +55,10 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUserFiles.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
                                  FileName = personelUserFiles.FileName,
                                  FilePath = personelUserFiles.FilePath,

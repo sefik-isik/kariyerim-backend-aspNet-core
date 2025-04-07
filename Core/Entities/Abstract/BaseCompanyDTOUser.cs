@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Entities.Abstract
 {
-    public abstract class BaseUser : Entity, IEntity
+    public class BaseCompanyDTOUser:BaseDTOUser
     {
-        public int UserId { get; set; }
-        
+        public int CompanyUserId { get; set; }
+        public string CompanyUserName { get; set; }
     }
 }

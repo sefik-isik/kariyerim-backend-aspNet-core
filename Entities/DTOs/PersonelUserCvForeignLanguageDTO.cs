@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class PersonelUserCvForeignLanguageDTO : BasePersonelUser, IDto
+    public class PersonelUserCvForeignLanguageDTO : BasePersonelDTOUser, IDto
     {
         public int CvId { get; set; }
         public string CvName { get; set; }

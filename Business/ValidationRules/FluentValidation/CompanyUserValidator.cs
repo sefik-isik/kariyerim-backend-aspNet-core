@@ -16,9 +16,9 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(c => c.SectorId).GreaterThan(0);
 
-            RuleFor(c => c.CompanyName).NotEmpty();
-            RuleFor(c => c.CompanyName).NotNull();
-            RuleFor(c => c.CompanyName).MinimumLength(2);
+            RuleFor(c => c.CompanyUserName).NotEmpty();
+            RuleFor(c => c.CompanyUserName).NotNull();
+            RuleFor(c => c.CompanyUserName).MinimumLength(2);
 
             RuleFor(c => c.TaxCityId).GreaterThan(0);
             RuleFor(c => c.TaxOfficeId).GreaterThan(0);

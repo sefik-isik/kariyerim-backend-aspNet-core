@@ -25,8 +25,12 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUserFiles.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyUserName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  FileName = companyUserFiles.FileName,
                                  FilePath = companyUserFiles.FilePath,
                                  CreatedDate = companyUserFiles.CreatedDate,
@@ -42,13 +46,19 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserFiles in context.CompanyUserFiles
                              join companyUsers in context.CompanyUsers on companyUserFiles.CompanyUserId equals companyUsers.Id
+                             join users in context.Users on companyUsers.UserId equals users.Id
 
                              where companyUserFiles.DeletedDate != null
                              select new CompanyUserFileDTO
                              {
                                  Id = companyUserFiles.Id,
+                                 UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyUserName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  FileName = companyUserFiles.FileName,
                                  FilePath = companyUserFiles.FilePath,
                                  CreatedDate = companyUserFiles.CreatedDate,

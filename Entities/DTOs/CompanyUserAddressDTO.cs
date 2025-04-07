@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CompanyUserAddressDTO : BaseCompanyUser, IDto
+    public class CompanyUserAddressDTO : BaseCompanyDTOUser, IDto
     {
-        public string CompanyName { get; set; }
         public int CountryId { get; set; }
         public string CountryName { get; set; }
         public int CityId { get; set; }

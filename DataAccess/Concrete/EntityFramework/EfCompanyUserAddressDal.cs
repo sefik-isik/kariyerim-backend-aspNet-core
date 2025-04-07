@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -28,8 +29,12 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUserAddresses.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  CountryId=countries.Id,
                                  CountryName = countries.CountryName,
                                  CityId=cities.Id,
@@ -51,6 +56,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserAddresses in context.CompanyUserAddresses
                              join companyUsers in context.CompanyUsers on companyUserAddresses.CompanyUserId equals companyUsers.Id
+                             join users in context.Users on companyUsers.UserId equals users.Id
                              join countries in context.Countries on companyUserAddresses.CountryId equals countries.Id
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
@@ -58,8 +64,13 @@ namespace DataAccess.Concrete.EntityFramework
                              select new CompanyUserAddressDTO
                              {
                                  Id = companyUserAddresses.Id,
+                                 UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  CompanyUserId = companyUsers.Id,
-                                 CompanyName = companyUsers.CompanyName,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  CountryId = countries.Id,
                                  CountryName = countries.CountryName,
                                  CityId = cities.Id,

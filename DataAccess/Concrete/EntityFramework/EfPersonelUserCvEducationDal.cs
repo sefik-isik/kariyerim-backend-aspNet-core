@@ -28,6 +28,10 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = cvEducation.Id,
                                  UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
                                  CvId = cv.Id,
                                  EducationInfo = cvEducation.EducationInfo,
@@ -54,6 +58,8 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from cvEducation in context.PersonelUserCvEducations
                              join cv in context.Cvs on cvEducation.CvId equals cv.Id
+                             join personelUsers in context.PersonelUsers on cvEducation.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
                              join university in context.Universities on cvEducation.UniversityId equals university.Id
                              join department in context.UniversityDepartments on cvEducation.DepartmentId equals department.Id
                              join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
@@ -61,6 +67,12 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PersonelUserCvEducationDTO
                              {
                                  Id = cvEducation.Id,
+                                 UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
+                                 PersonelUserId = personelUsers.Id,
                                  CvId = cv.Id,
                                  EducationInfo = cvEducation.EducationInfo,
                                  UniversityId = university.Id,

@@ -35,7 +35,7 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Add(CompanyUser companyUser)
         {
-            IResult result = BusinessRules.Run(IsCompanyNameExist(companyUser.CompanyName),IsTaxNumberExist(companyUser.TaxNumber));
+            IResult result = BusinessRules.Run(IsCompanyNameExist(companyUser.CompanyUserName),IsTaxNumberExist(companyUser.TaxNumber));
             if (result != null)
             {
                 return result;
@@ -116,7 +116,7 @@ namespace Business.Concrete
         //Business Rules
         private IResult IsCompanyNameExist(string companyName)
         {
-            var result = _companyUserDal.GetAll(c => c.CompanyName.ToLower() == companyName.ToLower()).Any();
+            var result = _companyUserDal.GetAll(c => c.CompanyUserName.ToLower() == companyName.ToLower()).Any();
 
             if (result)
             {

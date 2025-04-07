@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CompanyUserDepartmentDTO : BaseCompanyUser, IDto
+    public class CompanyUserDepartmentDTO : BaseCompanyDTOUser, IDto
     {
-        public string CompanyUserName { get; set; }
-
         public string DepartmentName { get; set; }
     }
 }

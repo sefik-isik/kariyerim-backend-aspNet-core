@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CompanyUserFileDTO : BaseCompanyDTOUser, IDto
+    public class PersonelUserImageDTO : BasePersonelDTOUser, IDto
     {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
     }
 }
