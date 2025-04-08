@@ -15,15 +15,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("uploadfiles")]
-        public IActionResult UploadFile(IFormFile file, int companyUserId)
+        public IActionResult UploadFile(IFormFile file, int userId)
         {
             if (file == null || file.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (companyUserId <= 0)
+            if (userId <= 0)
             {
-                return BadRequest("Invalid company user ID.");
+                return BadRequest("Invalid user ID.");
             }
             try
             {
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
 
                 string fullFileName = uploadFileHandler.UploadFile(file);
 
-                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + companyUserId + "\\";
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\";
 
 
 
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
                     file.CopyTo(stream);
                 }
 
-                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + companyUserId +"/", name = fullFileName });
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + userId + "/", name = fullFileName });
 
             }
             catch (Exception ex)

@@ -84,11 +84,11 @@ namespace Business.Concrete
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetCompanyUserDepartmentDTO().FindAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetCompanyUserDepartmentDeletedDTO().FindAll(c => c.UserId == userId));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetCompanyUserDepartmentDTO());
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetCompanyUserDepartmentDeletedDTO());
             }
             
         }
