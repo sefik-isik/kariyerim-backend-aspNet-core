@@ -10,7 +10,7 @@ namespace Entities.DTOs
     public class UserDTO : Dto, IDto
     {
         public string Email { get; set; }
-        public string Password { get; set; }
+        
 
     }
 }

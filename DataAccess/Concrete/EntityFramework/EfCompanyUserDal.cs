@@ -21,6 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUsers.Id,
                                  UserId = users.Id,
+                                 CompanyUserId=companyUsers.UserId,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
@@ -56,6 +57,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUsers.Id,
                                  UserId = users.Id,
+                                 CompanyUserId = companyUsers.UserId,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,

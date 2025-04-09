@@ -65,7 +65,17 @@ namespace Business.Concrete
         public IDataResult<List<CompanyUser>> GetAll(int userId) 
         
         {
-            return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userId), Messages.CompaniesListed);
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(), Messages.CompaniesListed);
+            }
+
+            
 
         }
 
@@ -79,14 +89,32 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserDTO>> GetCompanyUserDTO(int userId)
         {
-            return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDTO()), Messages.CompaniesListed);
+            }
+            
 
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserDTO>> GetCompanyUserDeletedDTO(int userId)
         {
-            return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDeletedDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDeletedDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetCompanyDeletedDTO()), Messages.CompaniesListed);
+            }
+            
 
         }
 
