@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Abstract;
+using Core.Entities.Concrete;
+using Core.Utilities.Results;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebAPI.Controllers
 {
@@ -8,10 +13,12 @@ namespace WebAPI.Controllers
     public class UploadsController : ControllerBase
     {
         private readonly IWebHostEnvironment _environment;
+        private ICompanyUserFileService _companyUserFileService;
 
-        public UploadsController(IWebHostEnvironment environment)
+        public UploadsController(IWebHostEnvironment environment, ICompanyUserFileService companyUserFileService)
         {
             _environment = environment;
+            _companyUserFileService = companyUserFileService;
         }
 
         [HttpPost("uploadfiles")]
@@ -59,6 +66,26 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("deletefiles")]
+        public IActionResult DeleteFile(CompanyUserFile companyUserFile)
+        {
+                string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + companyUserFile.UserId + "\\" + companyUserFile.FileName;
+
+                if (System.IO.File.Exists(fullFilePath))
+                {
+                    System.IO.File.Delete(fullFilePath);
+
+                }
+
+            companyUserFile.FilePath = "noPath";
+            companyUserFile.FileName = "noName";
+
+                var result = _companyUserFileService.Update(companyUserFile);
+                return result.IsSuccess ? Ok(result) : BadRequest(result);
+
+
+        }
+
         [HttpPost("uploadimages")]
         public IActionResult UploadImage(IFormFile file)
         {
@@ -81,4 +108,17 @@ namespace WebAPI.Controllers
         }
     }
 }
+
+/*
+ {
+  "id": 1,
+  "createdDate": "2025-04-10T21:10:04.276Z",
+  "updatedDate": "2025-04-10T21:10:04.276Z",
+  "deletedDate": "2025-04-10T21:10:04.276Z",
+  "userId": 1,
+  "companyUserId": 1,
+  "fileName": "80e5a523-d645-4a01-8674-a6d5a2f3c884.pdf",
+  "filePath": "uploads/files/1"
+}
+ */
 
