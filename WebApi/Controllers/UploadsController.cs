@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
                 }
 
             companyUserFile.FilePath = "noPath";
-            companyUserFile.FileName = "noName";
+            companyUserFile.FileName = "noFile";
 
                 var result = _companyUserFileService.Update(companyUserFile);
                 return result.IsSuccess ? Ok(result) : BadRequest(result);
@@ -108,17 +108,3 @@ namespace WebAPI.Controllers
         }
     }
 }
-
-/*
- {
-  "id": 1,
-  "createdDate": "2025-04-10T21:10:04.276Z",
-  "updatedDate": "2025-04-10T21:10:04.276Z",
-  "deletedDate": "2025-04-10T21:10:04.276Z",
-  "userId": 1,
-  "companyUserId": 1,
-  "fileName": "80e5a523-d645-4a01-8674-a6d5a2f3c884.pdf",
-  "filePath": "uploads/files/1"
-}
- */
-
