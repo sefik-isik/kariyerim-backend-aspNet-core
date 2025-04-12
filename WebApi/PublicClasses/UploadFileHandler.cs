@@ -12,7 +12,7 @@
                 throw new Exception("Invalid file type. Only .zip, .rar, .doc, .docx and .pdf are allowed.");
             }
             //size
-            if (file.Length > 50 * 1024 * 1024) // 5 MB
+            if (file.Length > 10 * 1024 * 1024) // 10 MB
             {
                 throw new Exception("File size exceeds the limit of 5 MB.");
             }
@@ -22,13 +22,10 @@
             {
                 throw new Exception("File name exceeds the limit of 50 characters.");
             }
-            //path
             
             //file name
             string uniqueFileName = Guid.NewGuid().ToString();
             string fullFileName = Path.Combine( uniqueFileName + fileExtension);
-            
-            //return file path
 
 
             return fullFileName;

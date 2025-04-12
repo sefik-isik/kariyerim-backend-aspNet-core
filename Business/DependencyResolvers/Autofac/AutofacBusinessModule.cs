@@ -54,6 +54,7 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfCompanyUserAddressDal>().As<ICompanyUserAddressDal>().SingleInstance();
             builderItem.RegisterType<EfCompanyUserDepartmentDal>().As<ICompanyUserDepartmentDal>().SingleInstance();
             builderItem.RegisterType<EfCompanyUserFileDal>().As<ICompanyUserFileDal>().SingleInstance();
+            builderItem.RegisterType<EfCompanyUserImageDal>().As<ICompanyUserImageDal>().SingleInstance();
             builderItem.RegisterType<EfSectorDal>().As<ISectorDal>().SingleInstance();
             builderItem.RegisterType<EfCountryDal>().As<ICountryDal>().SingleInstance();
             builderItem.RegisterType<EfPersonelUserCvAboutDal>().As<IPersonelUserCvAboutDal>().SingleInstance();

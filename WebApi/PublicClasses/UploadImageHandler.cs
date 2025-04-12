@@ -7,7 +7,6 @@ namespace WebAPI.PublicClasses
     {
         public string UploadImage(IFormFile file)
         {
-
             //extention
             List<string> allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".gif" };
             string fileExtension = Path.GetExtension(file.FileName).ToLower();
@@ -16,7 +15,7 @@ namespace WebAPI.PublicClasses
                 throw new Exception("Invalid file type. Only .jpg, .jpeg, .png, and .gif are allowed.");
             }
             //size
-            if (file.Length > 5 * 1024 * 1024) // 5 MB
+            if (file.Length > 10 * 1024 * 1024) // 10 MB
             {
                 throw new Exception("File size exceeds the limit of 5 MB.");
             }
@@ -26,24 +25,12 @@ namespace WebAPI.PublicClasses
             {
                 throw new Exception("File name exceeds the limit of 50 characters.");
             }
-            //path
-            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads/images");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+
             //file name
             string uniqueFileName = Guid.NewGuid().ToString();
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName) + fileExtension; ;
-            //save file
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-            //return file path
+            string fullImageName = Path.Combine(uniqueFileName) + fileExtension; ;
 
-
-            return filePath;
+            return fullImageName;
         }
     }
 }

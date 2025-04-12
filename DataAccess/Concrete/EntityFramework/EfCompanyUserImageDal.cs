@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserImageDal : EfEntityRepositoryBase<CompanyUserImage, KariyerimContext>, ICompanyUserImageDal
     {
-        public List<CompanyUserImageDTO> GetCompanyUserImageDeletedDTO()
+        public List<CompanyUserImageDTO> GetCompanyUserImageDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -40,8 +40,7 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
-
-        public List<CompanyUserImageDTO> GetCompanyUserImageDTO()
+        public List<CompanyUserImageDTO> GetCompanyUserImageDeletedDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -69,5 +68,7 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+
+        
     }
 }

@@ -24,23 +24,25 @@ namespace Business.Concrete
             _userService = userService;
 
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IResult Add(CompanyUserImage companyUserImage)
         {
             _companyUserImageDal.Add(companyUserImage);
             return new SuccessResult();
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IResult Update(CompanyUserImage companyUserImage)
         {
+            _companyUserImageDal.Update(companyUserImage);
             return new SuccessResult();
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserImage companyUserImage)
         {
+            _companyUserImageDal.Delete(companyUserImage);
             return new SuccessResult();
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserImage>> GetAll(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
@@ -54,14 +56,14 @@ namespace Business.Concrete
             }
             
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<CompanyUserImage> GetById(int companyUserImageId)
         {
             return new SuccessDataResult<CompanyUserImage>(_companyUserImageDal.Get(c=>c.Id==companyUserImageId));
         }
 
         //DTO
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserImageDTO>> GetCompanyUserImageDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
@@ -75,7 +77,7 @@ namespace Business.Concrete
             }
             
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserImageDTO>> GetCompanyUserImageDeletedDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
