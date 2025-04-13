@@ -29,6 +29,14 @@ namespace WebAPI.Controllers
 
             }
 
+            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\thumbs\\" + companyUserImage.ImageName;
+
+            if (System.IO.File.Exists(fullThumbImagePath))
+            {
+                System.IO.File.Delete(fullThumbImagePath);
+
+            }
+
             companyUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             companyUserImage.ImageName = "noImage.jpg";
 

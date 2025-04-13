@@ -8,6 +8,8 @@ using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using SixLabors.ImageSharp.Web.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +56,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseImageSharp();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -64,7 +68,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-//app.ConfigureCustomExceptionMiddleware();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseCors(options =>
     options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

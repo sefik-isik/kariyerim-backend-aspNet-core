@@ -15,7 +15,7 @@ namespace WebAPI.PublicClasses
                 throw new Exception("Invalid file type. Only .jpg, .jpeg, .png, and .gif are allowed.");
             }
             //size
-            if (file.Length > 10 * 1024 * 1024) // 10 MB
+            if (file.Length > 5 * 1024 * 1024) // 5 MB
             {
                 throw new Exception("File size exceeds the limit of 5 MB.");
             }

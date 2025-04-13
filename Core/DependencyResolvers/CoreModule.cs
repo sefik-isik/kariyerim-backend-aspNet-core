@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp.Web.DependencyInjection;
+
 
 namespace Core.DependencyResolvers
 {
@@ -20,6 +22,10 @@ namespace Core.DependencyResolvers
             serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             serviceCollection.AddSingleton<ICacheService, MemoryCacheManager>();
             serviceCollection.AddSingleton<Stopwatch>();
+            serviceCollection.AddImageSharp();
+
         }
+
+
     }
 }

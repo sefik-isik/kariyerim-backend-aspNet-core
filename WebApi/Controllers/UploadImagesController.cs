@@ -2,6 +2,9 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Memory;
+using SixLabors.ImageSharp.Processing;
 
 namespace WebAPI.Controllers
 {
@@ -50,6 +53,27 @@ namespace WebAPI.Controllers
                     image.CopyTo(stream);
                 }
 
+                string uploadsThumbFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\";
+
+                if (!Directory.Exists(uploadsThumbFolder))
+                {
+                    Directory.CreateDirectory(uploadsThumbFolder);
+                }
+
+                string fullImageThumbPath = uploadsThumbFolder + fullImageName;
+
+                //save thumb file
+                using (var thumbImage = Image.Load(image.OpenReadStream()))
+                {
+                    string newSize = ImageResize(thumbImage, 600, 600);
+                    string[] sizeArray = newSize.Split(',');
+
+                    thumbImage.Mutate(x => x.Resize(Convert.ToInt32(sizeArray[0]), Convert.ToInt32(sizeArray[1])));
+
+                    thumbImage.Save(fullImageThumbPath);
+                }
+
+
                 return Ok(new { type = "https://localhost:7088/" + "/uploads/images/" + userId + "/", name = fullImageName });
 
             }
@@ -59,6 +83,24 @@ namespace WebAPI.Controllers
             }
         }
 
-        
+        public string ImageResize(Image image, int maxWidth, int maxHeight)
+        {
+            if (image.Width > maxWidth || image.Height > maxHeight)
+            {
+                double widthRatio = (double)image.Width / (double)maxWidth;
+                double heightRatio = (double)image.Height / (double)maxHeight;
+                double ratio = Math.Max(widthRatio, heightRatio);
+                int newWidth = (int)(image.Width / ratio);
+                int newHeight = (int)(image.Height / ratio);
+
+                return newWidth.ToString() + "," + newHeight.ToString();
+            }
+            else
+            {
+                return image.Width.ToString() + "," + image.Height.ToString();
+            }
+        }
     }
+
+    
 }
