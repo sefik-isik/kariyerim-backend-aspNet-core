@@ -48,9 +48,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Sector> GetById(int companySectorId)
+        public IDataResult<Sector> GetById(int SectorId)
         {
-            return new SuccessDataResult<Sector>(_companyUserSectorDal.Get(c=> c.Id == companySectorId));
+            return new SuccessDataResult<Sector>(_companyUserSectorDal.Get(c=> c.Id == SectorId));
         }
 
     }

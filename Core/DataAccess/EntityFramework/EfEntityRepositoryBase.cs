@@ -55,7 +55,7 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return filter == null ? context.Set<TEntity>().Where(x => x.DeletedDate == null).SingleOrDefault(filter) : context.Set<TEntity>().SingleOrDefault(filter);
+                return context.Set<TEntity>().SingleOrDefault(filter);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return filter == null? context.Set<TEntity>().Where(x => x.DeletedDate == null).ToList() : context.Set<TEntity>().Where(x => x.DeletedDate == null).Where(filter).ToList();
+                return filter == null? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
             }
         }
     }

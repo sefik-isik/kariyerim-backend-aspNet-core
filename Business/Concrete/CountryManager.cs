@@ -28,6 +28,7 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Update(Country country)
         {
+            _countryDal.Update(country);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]

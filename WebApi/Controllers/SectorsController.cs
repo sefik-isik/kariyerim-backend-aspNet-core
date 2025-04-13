@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int companyUserSectorId)
+        public IActionResult GetById(int sectorId)
         {
-            var result = _SectorService.GetById(companyUserSectorId);
+            var result = _SectorService.GetById(sectorId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
