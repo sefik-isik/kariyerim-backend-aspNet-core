@@ -83,6 +83,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [NonAction]
         public string ImageResize(Image image, int maxWidth, int maxHeight)
         {
             if (image.Width > maxWidth || image.Height > maxHeight)
