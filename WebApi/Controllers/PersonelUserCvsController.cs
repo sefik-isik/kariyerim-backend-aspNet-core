@@ -50,5 +50,19 @@ namespace WebAPI.Controllers
             var result = _cvService.GetById(cvId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("getpersonelusercvdto")]
+        public IActionResult GetPersonelUserCvDTO(int userId)
+        {
+            var result = _cvService.GetPersonelUserCvDTO(userId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getpersonelusercvdeleteddto")]
+        public IActionResult GetPersonelUserCvDeletedDTO(int userId)
+        {
+            var result = _cvService.GetPersonelUserCvDeletedDTO(userId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

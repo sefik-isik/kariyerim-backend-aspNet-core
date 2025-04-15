@@ -65,7 +65,7 @@ namespace Business.Concrete
             return new SuccessDataResult<PersonelUserCvAbout>(_cvAboutDal.Get(c=> c.Id == cvAboutId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAboutDTO>> GetCvAboutDTO(int userId)
+        public IDataResult<List<PersonelUserCvAboutDTO>> GetPersonelUserCvAboutDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
@@ -78,7 +78,7 @@ namespace Business.Concrete
             }
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAboutDTO>> GetCvAboutDeletedDTO(int userId)
+        public IDataResult<List<PersonelUserCvAboutDTO>> GetPersonelUserCvAboutDeletedDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)

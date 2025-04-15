@@ -64,7 +64,7 @@ namespace Business.Concrete
             return new SuccessDataResult<PersonelUserCvWorkExperience>(_cvWorkExperienceDal.Get(c=> c.Id == cvWorkExperienceId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetCvWorkExperienceDTO(int userId)
+        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
@@ -78,7 +78,7 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetCvWorkExperienceDeletedDTO(int userId)
+        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDeletedDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)

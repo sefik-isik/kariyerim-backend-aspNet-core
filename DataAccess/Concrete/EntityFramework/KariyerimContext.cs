@@ -25,13 +25,13 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<CompanyUserImage> CompanyUserImages { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
         public DbSet<PersonelUserCvAbout> PersonelUserCvAbouts { get; set; }
         public DbSet<PersonelUserCvEducation> PersonelUserCvEducations { get; set; }
         public DbSet<PersonelUserCvSummary> PersonelUserCvSummaries { get; set; }
         public DbSet<PersonelUserCvWorkExperience> PersonelUserCvWorkExperiences { get; set; }
         public DbSet<DriverLicense> DriverLicenses { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
-        public DbSet<PersonelUserCvForeignLanguage> PersonelUserCvForeignLanguages { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
@@ -45,7 +45,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<PersonelUserCoverLetter> PersonelUserCoverLetters { get; set; }
         public DbSet<PersonelUserFile> PersonelUserFiles { get; set; }
         public DbSet<PersonelUserImage> PersonelUserImages { get; set; }
-        public DbSet<PersonelUserCv> Cvs { get; set; }
         public DbSet<WorkingMethod> WorkingMethods { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }

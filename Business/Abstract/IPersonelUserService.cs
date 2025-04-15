@@ -19,7 +19,7 @@ namespace Business.Abstract
         IDataResult<PersonelUser> GetById(int personelUserId);
 
         //DTO
-        IDataResult<List<PersonelUserDTO>> GetUserDTO(int userId);
-        IDataResult<List<PersonelUserDTO>> GetUserDeletedDTO(int userId);
+        IDataResult<List<PersonelUserDTO>> GetPersonelUserDTO(int userId);
+        IDataResult<List<PersonelUserDTO>> GetPersonelUserDeletedDTO(int userId);
     }
 }

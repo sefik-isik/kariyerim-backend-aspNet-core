@@ -10,7 +10,18 @@ namespace Entities.DTOs
     public class PersonelUserCvDTO : BasePersonelDTOUser, IDto
     {
         public string CvName { get; set; }
-        public int ForeignLanguageId { get; set; }
+        public int LanguageId { get; set; }
+        public string IdentityNumber { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string LanguageName { get; set; }
+        public int LanguageLevelId { get; set; }
+        public int Level { get; set; }
+        public string LevelTitle { get; set; }
+        public string LevelDescription { get; set; }
+        public int LicenceId { get; set; }
+        public string LicenceName { get; set; }
+        public int BirthPlaceId { get; set; }
+        public string BirthPlaceName { get; set; }
         public bool IsPrivate { get; set; }
     }
 }

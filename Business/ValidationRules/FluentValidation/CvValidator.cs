@@ -16,6 +16,10 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.CvName).NotNull();
             RuleFor(c => c.CvName).MinimumLength(2);
 
+            RuleFor(c => c.LanguageId).GreaterThan(0);
+
+            RuleFor(c => c.LanguageLevelId).GreaterThan(0);
+
             RuleFor(c => c.IsPrivate).NotEmpty();
             RuleFor(c => c.IsPrivate).NotNull();
         }

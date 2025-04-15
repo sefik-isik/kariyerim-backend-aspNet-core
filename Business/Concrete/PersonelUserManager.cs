@@ -58,7 +58,7 @@ namespace Business.Concrete
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserDTO>> GetUserDTO(int userId)
+        public IDataResult<List<PersonelUserDTO>> GetPersonelUserDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
@@ -72,7 +72,7 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserDTO>> GetUserDeletedDTO(int userId) {
+        public IDataResult<List<PersonelUserDTO>> GetPersonelUserDeletedDTO(int userId) {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {

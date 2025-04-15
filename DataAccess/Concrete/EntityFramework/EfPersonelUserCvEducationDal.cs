@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from cvEducation in context.PersonelUserCvEducations
-                             join cv in context.Cvs on cvEducation.CvId equals cv.Id
+                             join personelUserCv in context.PersonelUserCvs on cvEducation.CvId equals personelUserCv.Id
                              join personelUsers in context.PersonelUsers on cvEducation.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join university in context.Universities on cvEducation.UniversityId equals university.Id
@@ -33,7 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
-                                 CvId = cv.Id,
+                                 CvId = personelUserCv.Id,
                                  EducationInfo = cvEducation.EducationInfo,
                                  UniversityId = university.Id,
                                  UniversityName = university.UniversityName,
@@ -57,7 +57,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from cvEducation in context.PersonelUserCvEducations
-                             join cv in context.Cvs on cvEducation.CvId equals cv.Id
+                             join personelUserCv in context.PersonelUserCvs on cvEducation.CvId equals personelUserCv.Id
                              join personelUsers in context.PersonelUsers on cvEducation.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join university in context.Universities on cvEducation.UniversityId equals university.Id
@@ -73,7 +73,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
-                                 CvId = cv.Id,
+                                 CvId = personelUserCv.Id,
                                  EducationInfo = cvEducation.EducationInfo,
                                  UniversityId = university.Id,
                                  UniversityName = university.UniversityName,

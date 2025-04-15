@@ -17,8 +17,8 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from cvWorkExperiences in context.PersonelUserCvWorkExperiences
-                             join cvs in context.Cvs on cvWorkExperiences.CvId equals cvs.Id
-                             join personelUsers in context.PersonelUsers on cvs.PersonelUserId equals personelUsers.Id
+                             join personelUserCv in context.PersonelUserCvs on cvWorkExperiences.CvId equals personelUserCv.Id
+                             join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on cvWorkExperiences.CompanySectorId equals sectors.Id
                              join companyDepartments in context.CompanyUserDepartments on cvWorkExperiences.DepartmentId equals companyDepartments.Id
@@ -36,8 +36,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
-                                 CvId = cvs.Id,
-                                 CvName = cvs.CvName,
+                                 CvId = personelUserCv.Id,
+                                 CvName = personelUserCv.CvName,
                                  Position = cvWorkExperiences.Position,
                                  CompanyName = cvWorkExperiences.CompanyName,
                                  Working = cvWorkExperiences.Working,
@@ -70,8 +70,8 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from cvWorkExperiences in context.PersonelUserCvWorkExperiences
-                             join cvs in context.Cvs on cvWorkExperiences.CvId equals cvs.Id
-                             join personelUsers in context.PersonelUsers on cvs.PersonelUserId equals personelUsers.Id
+                             join personelUserCv in context.PersonelUserCvs on cvWorkExperiences.CvId equals personelUserCv.Id
+                             join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on cvWorkExperiences.CompanySectorId equals sectors.Id
                              join companyDepartments in context.CompanyUserDepartments on cvWorkExperiences.DepartmentId equals companyDepartments.Id
@@ -89,8 +89,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
                                  PersonelUserId = personelUsers.Id,
-                                 CvId = cvs.Id,
-                                 CvName = cvs.CvName,
+                                 CvId = personelUserCv.Id,
+                                 CvName = personelUserCv.CvName,
                                  Position = cvWorkExperiences.Position,
                                  CompanyName = cvWorkExperiences.CompanyName,
                                  Working = cvWorkExperiences.Working,
