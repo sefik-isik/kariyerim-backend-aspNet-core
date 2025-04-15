@@ -51,14 +51,14 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcompanyuserdepartmentsdto")]
+        [HttpGet("getdto")]
         public IActionResult GetCompanyUserDepartmentDTO(int userId)
         {
             var result = _companyUserDepartmentService.GetCompanyUserDepartmentDTO(userId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcompanyuserdepartmentsdeleteddto")]
+        [HttpGet("getdeleteddto")]
         public IActionResult GetCompanyUserDepartmentDeletedDTO(int userId)
         {
             var result = _companyUserDepartmentService.GetCompanyUserDepartmentDeletedDTO(userId);

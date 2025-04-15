@@ -1,8 +1,8 @@
 ﻿namespace WebAPI.PublicClasses
 {
-    public class UploadFileHandler
+    public class CreateFileNameHelper
     {
-        public string UploadFile(IFormFile file)
+        public string CreateFileName(IFormFile file)
         {
             //extention
             List<string> allowedExtensions = new List<string> { ".zip", ".rar", ".doc", ".docx", ".pdf" };

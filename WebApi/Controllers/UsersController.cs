@@ -16,14 +16,14 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("getuserdto")]
+        [HttpGet("getdto")]
         public IActionResult GetUserDTO(int UserId)
         {
             var result = _userService.GetUserDTO(UserId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getuserdeleteddto")]
+        [HttpGet("getdeleteddto")]
         public IActionResult GetUserDeletedDTO(int UserId)
         {
             var result = _userService.GetUserDeletedDTO(UserId);

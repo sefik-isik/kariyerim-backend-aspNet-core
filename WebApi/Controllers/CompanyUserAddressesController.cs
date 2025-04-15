@@ -50,14 +50,14 @@ namespace WebAPI.Controllers
             var result = _companyUserAddressService.GetById(companyUserAddressId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
-        [HttpGet("getcompanyuseraddressdto")]
+        [HttpGet("getdto")]
         public IActionResult GetCompanyUserAddressDTO(int userId)
         {
             var result = _companyUserAddressService.GetCompanyUserAddressDTO(userId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcompanyuseraddressdeleteddto")]
+        [HttpGet("getdeleteddto")]
         public IActionResult GetCompanyUserAddressDeletedDTO(int userId)
         {
             var result = _companyUserAddressService.GetCompanyUserAddressDeletedDTO(userId);

@@ -10,10 +10,14 @@ namespace WebAPI.Controllers
     public class CompanyUserFilesController : ControllerBase
     {
         ICompanyUserFileService _companyUserFileService;
+        private readonly IWebHostEnvironment _environment;
 
-        public CompanyUserFilesController(ICompanyUserFileService companyUserFileService)
+
+        public CompanyUserFilesController(ICompanyUserFileService companyUserFileService, IWebHostEnvironment environment)
         {
             _companyUserFileService = companyUserFileService;
+            _environment = environment;
+
         }
 
         [HttpPost("add")]
@@ -51,17 +55,76 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcompanyuserfiledto")]
+        [HttpGet("getdto")]
         public IActionResult GetCompanyUserFiletDTO(int userId)
         {
             var result = _companyUserFileService.GetCompanyUserFileDTO(userId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcompanyuserfiledeleteddto")]
+        [HttpGet("getdeleteddto")]
         public IActionResult GetCompanyUserFileDeletedDTO(int userId)
         {
             var result = _companyUserFileService.GetCompanyUserFileDeletedDTO(userId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("uploadfile")]
+        public IActionResult UploadFile(IFormFile file, int userId)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+            try
+            {
+                var uploadFileHandler = new WebAPI.PublicClasses.CreateFileNameHelper();
+
+                string fullFileName = uploadFileHandler.CreateFileName(file);
+
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\";
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string fullFilePath = uploadsFolder + fullFileName;
+
+                //save file
+                using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + userId + "/", name = fullFileName });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("deletefile")]
+        public IActionResult DeleteFile(CompanyUserFile companyUserFile)
+        {
+            string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + companyUserFile.UserId + "\\" + companyUserFile.FileName;
+
+            if (System.IO.File.Exists(fullFilePath))
+            {
+                System.IO.File.Delete(fullFilePath);
+
+            }
+
+            companyUserFile.FilePath = "noPath";
+            companyUserFile.FileName = "noFile";
+
+            var result = _companyUserFileService.Update(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

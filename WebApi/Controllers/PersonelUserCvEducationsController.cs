@@ -51,14 +51,14 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("cveducationdto")]
+        [HttpGet("getdto")]
         public IActionResult GetCvEducationDTO(int userId)
         {
             var result = _cvEducationService.GetCvEducationDTO(userId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("cveducationdeleteddto")]
+        [HttpGet("getdeleteddto")]
         public IActionResult GetCvEducationDeletedDTO(int userId)
         {
             var result = _cvEducationService.GetCvEducationDeletedDTO(userId);
