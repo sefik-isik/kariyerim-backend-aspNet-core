@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         
 
-        public List<PersonelUserFileDTO> GetPersonelUserFileDTO()
+        public List<PersonelUserFileDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -22,7 +22,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserFiles.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where personelUserFiles.DeletedDate == null
                              select new PersonelUserFileDTO
                              {
                                  Id = personelUserFiles.Id,
@@ -42,33 +41,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<PersonelUserFileDTO> GetPersonelUserFileDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from personelUserFiles in context.PersonelUserFiles
-                             join personelUsers in context.PersonelUsers on personelUserFiles.PersonelUserId equals personelUsers.Id
-                             join users in context.Users on personelUsers.UserId equals users.Id
-
-                             where personelUserFiles.DeletedDate != null
-                             select new PersonelUserFileDTO
-                             {
-                                 Id = personelUserFiles.Id,
-                                 UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
-                                 Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
-                                 PersonelUserId = personelUsers.Id,
-                                 FileName = personelUserFiles.FileName,
-                                 FilePath = personelUserFiles.FilePath,
-                                 CreatedDate = personelUserFiles.CreatedDate,
-                                 UpdatedDate = personelUserFiles.UpdatedDate,
-                                 DeletedDate = personelUserFiles.DeletedDate,
-                             };
-                return result.ToList();
-            }
-        }
+        
     }
 
 

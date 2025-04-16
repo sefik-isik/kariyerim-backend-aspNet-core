@@ -11,7 +11,6 @@ namespace DataAccess.Abstract
 {
     public interface IPersonelUserCvWorkExperienceDal : IEntityRepository<PersonelUserCvWorkExperience>
     {
-        List<PersonelUserCvWorkExperienceDTO> GetPersonelUserCvWorkExperienceDTO();
-        List<PersonelUserCvWorkExperienceDTO> GetPersonelUserCvWorkExperienceDeletedDTO();
+        List<PersonelUserCvWorkExperienceDTO> GetAllDTO();
     }
 }

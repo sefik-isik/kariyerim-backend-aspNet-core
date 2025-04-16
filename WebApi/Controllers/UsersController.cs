@@ -16,18 +16,12 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("getdto")]
-        public IActionResult GetUserDTO(int UserId)
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO(int UserId)
         {
-            var result = _userService.GetUserDTO(UserId);
+            var result = _userService.GetAllDTO(UserId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeleteddto")]
-        public IActionResult GetUserDeletedDTO(int UserId)
-        {
-            var result = _userService.GetUserDeletedDTO(UserId);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
     }
 }

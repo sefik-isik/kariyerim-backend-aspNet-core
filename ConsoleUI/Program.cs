@@ -63,19 +63,19 @@ public class Program
     //DTO
     private static void GetCityDTO(CityManager cityManager)
     {
-        Console.WriteLine(cityManager.GetCityDTO().Message);
-        Console.WriteLine("İşlem Sonucu : " + cityManager.GetCityDTO().IsSuccess);
-        if (cityManager.GetCityDTO().IsSuccess)
+        Console.WriteLine(cityManager.GetAllDTO().Message);
+        Console.WriteLine("İşlem Sonucu : " + cityManager.GetAllDTO().IsSuccess);
+        if (cityManager.GetAllDTO().IsSuccess)
         {
-            foreach (var city in cityManager.GetCityDTO().Data)
+            foreach (var city in cityManager.GetAllDTO().Data)
             {
                 Console.WriteLine(city.Id + " " + city.CityName + " / " + city.CountryName);
             }
         }
         else
         {
-            Console.WriteLine(cityManager.GetCityDTO().Message);
-            Console.WriteLine("İşlem Sonucu : " + cityManager.GetCityDTO().IsSuccess);
+            Console.WriteLine(cityManager.GetAllDTO().Message);
+            Console.WriteLine("İşlem Sonucu : " + cityManager.GetAllDTO().IsSuccess);
         }
     }
 

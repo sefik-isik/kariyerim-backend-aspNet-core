@@ -54,14 +54,10 @@ namespace Business.Concrete
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDTO>> GetUniversityDepartmentDTO()
+        public IDataResult<List<UniversityDepartmentDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetUniversityDepartmentDTO());
+            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDTO());
         }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDTO>> GetUniversityDepartmentDeletedDTO()
-        {
-            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetUniversityDepartmentDeletedDTO());
-        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace Business.Abstract
         
 
         //DTO
-        IDataResult<List<CompanyUserFileDTO>> GetCompanyUserFileDTO(int userId);
-        IDataResult<List<CompanyUserFileDTO>> GetCompanyUserFileDeletedDTO(int userId);
+        IDataResult<List<CompanyUserFileDTO>> GetAllDTO(int userId);
+
     }
 }

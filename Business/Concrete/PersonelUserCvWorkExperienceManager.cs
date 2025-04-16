@@ -64,32 +64,19 @@ namespace Business.Concrete
             return new SuccessDataResult<PersonelUserCvWorkExperience>(_cvWorkExperienceDal.Get(c=> c.Id == cvWorkExperienceId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDTO(int userId)
+        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetPersonelUserCvWorkExperienceDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetPersonelUserCvWorkExperienceDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDTO(), Messages.CompaniesListed);
             }
 
         }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDeletedDTO(int userId)
-        {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetPersonelUserCvWorkExperienceDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetPersonelUserCvWorkExperienceDeletedDTO(), Messages.CompaniesListed);
-            }
 
-        }
     }
 }

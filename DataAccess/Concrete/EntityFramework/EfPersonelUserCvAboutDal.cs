@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserCvAboutDal : EfEntityRepositoryBase<PersonelUserCvAbout, KariyerimContext>, IPersonelUserCvAboutDal
     {
-        public List<PersonelUserCvAboutDTO> GetPersonelUserCvAboutDTO()
+        public List<PersonelUserCvAboutDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -21,8 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCvAbouts.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUserCvAbouts.UserId equals users.Id
                              join driverLicences in context.DriverLicenses on personelUserCvAbouts.DriverLicenseId equals driverLicences.Id
-                             
-                             where personelUserCvAbouts.DeletedDate==null
+
                              select new PersonelUserCvAboutDTO
                              {
                                  Id = personelUserCvAbouts.Id,
@@ -46,37 +45,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<PersonelUserCvAboutDTO> GetPersonelUserCvAboutDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from personelUserCvAbouts in context.PersonelUserCvAbouts
-                             join personelUsers in context.PersonelUsers on personelUserCvAbouts.PersonelUserId equals personelUsers.Id
-                             join users in context.Users on personelUserCvAbouts.UserId equals users.Id
-                             join driverLicences in context.DriverLicenses on personelUserCvAbouts.DriverLicenseId equals driverLicences.Id
-
-                             where personelUserCvAbouts.DeletedDate != null
-                             select new PersonelUserCvAboutDTO
-                             {
-                                 Id = personelUserCvAbouts.Id,
-                                 UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
-                                 Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
-                                 PersonelUserId = personelUsers.Id,
-                                 CvId = personelUserCvAbouts.CvId,
-                                 NationalStatus = personelUserCvAbouts.NationalStatus,
-                                 DriverLicenseId = personelUserCvAbouts.DriverLicenseId,
-                                 DriverLicenseName = driverLicences.LicenseName,
-                                 MilitaryStatus = personelUserCvAbouts.MilitaryStatus,
-                                 RetirementStatus = personelUserCvAbouts.RetirementStatus,
-                                 CreatedDate = personelUserCvAbouts.CreatedDate,
-                                 UpdatedDate = personelUserCvAbouts.UpdatedDate,
-                                 DeletedDate = personelUserCvAbouts.DeletedDate,
-                             };
-                return result.ToList();
-            }
-        }
+        
     }
 }

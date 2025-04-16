@@ -19,7 +19,6 @@ namespace Business.Abstract
         IDataResult<User> IsAdmin(string status, int userId);
 
         //DTO
-        IDataResult<List<UserDTO>> GetUserDTO(int userId);
-        IDataResult<List<UserDTO>> GetUserDeletedDTO(int userId);
+        IDataResult<List<UserDTO>> GetAllDTO(int userId);
     }
 }

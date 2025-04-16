@@ -21,11 +21,11 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<UserDTO> GetUserDTO()
+        public List<UserDTO> GetAllDTO()
         {
             using (var context = new KariyerimContext())
             {
-                var result = from users in context.Users where users.DeletedDate==null
+                var result = from users in context.Users
                              select new UserDTO { 
                                  Id = users.Id,
                                  Email = users.Email,
@@ -34,18 +34,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<UserDTO> GetUserDeletedDTO()
-        {
-            using (var context = new KariyerimContext())
-            {
-                var result = from users in context.Users where users.DeletedDate != null
-                             select new UserDTO
-                             {
-                                 Id = users.Id,
-                                 Email = users.Email,
-                             };
-                return result.ToList();
-            }
-        }
+        
     }
 }

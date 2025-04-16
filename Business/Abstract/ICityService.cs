@@ -19,7 +19,7 @@ namespace Business.Abstract
         
 
         //DTO
-        IDataResult<List<CityDTO>> GetCityDTO();
-        IDataResult<List<CityDTO>> GetCityDeletedDTO();
+        IDataResult<List<CityDTO>> GetAllDTO();
+         
     }
 }

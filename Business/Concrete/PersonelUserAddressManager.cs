@@ -66,32 +66,19 @@ namespace Business.Concrete
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAddressDTO>> GetUserAddressDTO(int userId)
+        public IDataResult<List<PersonelUserAddressDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetPersonelUserAddressDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetPersonelUserAddressDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetAllDTO(), Messages.CompaniesListed);
             }
             
         }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAddressDTO>> GetUserAddressDeletedDTO(int userId)
-        {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetPersonelUserAddressDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(_personelUserAddressDal.GetPersonelUserAddressDeletedDTO(), Messages.CompaniesListed);
-            }
-            
-        }
+
     }
 }

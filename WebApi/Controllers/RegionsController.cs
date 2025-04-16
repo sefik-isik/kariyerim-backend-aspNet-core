@@ -51,18 +51,12 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdto")]
-        public IActionResult GetRegionDTO()
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO()
         {
-            var result = _regionService.GetRegionDTO();
+            var result = _regionService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeleteddto")]
-        public IActionResult GetRegionDeletedDTO()
-        {
-            var result = _regionService.GetRegionDeletedDTO();
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
     }
 }

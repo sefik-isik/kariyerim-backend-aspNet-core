@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserDepartmentDal : EfEntityRepositoryBase<CompanyUserDepartment, KariyerimContext>, ICompanyUserDepartmentDal
     {
-        public List<CompanyUserDepartmentDTO> GetCompanyUserDepartmentDTO()
+        public List<CompanyUserDepartmentDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -21,7 +21,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join companyUsers in context.CompanyUsers on companyUserDepartments.CompanyUserId equals companyUsers.Id
                              join users in context.Users on companyUsers.UserId equals users.Id
 
-                             where companyUserDepartments.DeletedDate == null
                              select new CompanyUserDepartmentDTO
                              {
                                  Id = companyUserDepartments.Id,
@@ -41,32 +40,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
     
-        public List<CompanyUserDepartmentDTO> GetCompanyUserDepartmentDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from companyUserDepartments in context.CompanyUserDepartments
-                             join companyUsers in context.CompanyUsers on companyUserDepartments.CompanyUserId equals companyUsers.Id
-                             join users in context.Users on companyUsers.UserId equals users.Id
-
-                             where companyUserDepartments.DeletedDate != null
-                             select new CompanyUserDepartmentDTO
-                             {
-                                 Id = companyUserDepartments.Id,
-                                 UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
-                                 Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
-                                 CompanyUserId = companyUsers.Id,
-                                 CompanyUserName = companyUsers.CompanyUserName,
-                                 DepartmentName = companyUserDepartments.DepartmentName,
-                                 CreatedDate = companyUserDepartments.CreatedDate,
-                                 UpdatedDate = companyUserDepartments.UpdatedDate,
-                                 DeletedDate = companyUserDepartments.DeletedDate,
-                             };
-                return result.ToList();
-            }
-        }
+        
     }
 }

@@ -74,16 +74,11 @@ namespace Business.Concrete
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CityDTO>> GetCityDTO()
+        public IDataResult<List<CityDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetCityDTO(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO(), Messages.CitiesListed);
         }
 
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CityDTO>> GetCityDeletedDTO()
-        {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetCityDeletedDTO(), Messages.CitiesListed);
-        }
 
 
         //Business Rules
@@ -98,4 +93,4 @@ namespace Business.Concrete
             return new SuccessResult();
         }
     }
-}
+} 

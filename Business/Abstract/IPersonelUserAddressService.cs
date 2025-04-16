@@ -19,7 +19,6 @@ namespace Business.Abstract
         
 
         //DTO
-        IDataResult<List<PersonelUserAddressDTO>> GetUserAddressDTO(int userId);
-        IDataResult<List<PersonelUserAddressDTO>> GetUserAddressDeletedDTO(int userId);
+        IDataResult<List<PersonelUserAddressDTO>> GetAllDTO(int userId);
     }
 }

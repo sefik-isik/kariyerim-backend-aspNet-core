@@ -53,17 +53,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdto")]
-        public IActionResult GetCityDTO()
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO()
         {
-            var result = _cityService.GetCityDTO();
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpGet("getdeleteddto")]
-        public IActionResult GetCityDletedDTO()
-        {
-            var result = _cityService.GetCityDeletedDTO();
+            var result = _cityService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

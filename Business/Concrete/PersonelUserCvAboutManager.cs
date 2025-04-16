@@ -65,31 +65,18 @@ namespace Business.Concrete
             return new SuccessDataResult<PersonelUserCvAbout>(_cvAboutDal.Get(c=> c.Id == cvAboutId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAboutDTO>> GetPersonelUserCvAboutDTO(int userId)
+        public IDataResult<List<PersonelUserCvAboutDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetPersonelUserCvAboutDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetPersonelUserCvAboutDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetAllDTO(), Messages.CompaniesListed);
             }
         }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAboutDTO>> GetPersonelUserCvAboutDeletedDTO(int userId)
-        {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetPersonelUserCvAboutDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetPersonelUserCvAboutDeletedDTO(), Messages.CompaniesListed);
-            }
 
-        }
     }
 }

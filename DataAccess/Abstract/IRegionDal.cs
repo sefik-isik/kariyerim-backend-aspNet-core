@@ -11,7 +11,6 @@ namespace DataAccess.Abstract
 {
     public interface IRegionDal : IEntityRepository<Region>
     {
-        List<RegionDTO> GetRegionDTO();
-        List<RegionDTO> GetRegionDeletedDTO();
+        List<RegionDTO> GetAllDTO();
     }
 }

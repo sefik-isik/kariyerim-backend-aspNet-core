@@ -49,14 +49,10 @@ namespace Business.Concrete
             return new SuccessDataResult<Region>(_regionDal.Get(r=>r.Id == regionId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<RegionDTO>> GetRegionDTO()
+        public IDataResult<List<RegionDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetRegionDTO());
+            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO());
         }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<RegionDTO>> GetRegionDeletedDTO()
-        {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetRegionDeletedDTO());
-        }
+
     }
 }

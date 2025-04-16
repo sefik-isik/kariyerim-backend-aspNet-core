@@ -64,35 +64,19 @@ namespace Business.Concrete
 
         //DTO
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImageDTO>> GetCompanyUserImageDTO(int userId)
+        public IDataResult<List<CompanyUserImageDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetCompanyUserImageDTO().FindAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().FindAll(c => c.UserId == userId));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetCompanyUserImageDTO());
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO());
             }
             
         }
-        //[SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImageDTO>> GetCompanyUserImageDeletedDTO(int userId)
-        {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetCompanyUserImageDeletedDTO().FindAll(c => c.UserId == userId));
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetCompanyUserImageDeletedDTO());
-            }
-            
-        }
-
-       
 
 
     }

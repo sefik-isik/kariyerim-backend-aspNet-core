@@ -12,13 +12,13 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRegionDal : EfEntityRepositoryBase<Region, KariyerimContext>,IRegionDal
     {
-        public List<RegionDTO> GetRegionDTO()
+        public List<RegionDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from region in context.Regions
                              join city in context.Cities on region.CityId equals city.Id
-                             where region.DeletedDate==null
+
                              select new RegionDTO
                              {
                                  Id = region.Id,
@@ -33,25 +33,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<RegionDTO> GetRegionDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from region in context.Regions
-                             join city in context.Cities on region.CityId equals city.Id
-                             where region.DeletedDate != null
-                             select new RegionDTO
-                             {
-                                 Id = region.Id,
-                                 RegionName = region.RegionName,
-                                 CityId = city.Id,
-                                 CityName = city.CityName,
-                                 CreatedDate = region.CreatedDate,
-                                 UpdatedDate = region.UpdatedDate,
-                                 DeletedDate = region.DeletedDate,
-                             };
-                return result.ToList();
-            }
-        }
+        
     }
 }

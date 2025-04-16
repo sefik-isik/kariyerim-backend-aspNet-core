@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface ICityDal :IEntityRepository<City>
     {
-        List<CityDTO> GetCityDTO();
-        List<CityDTO> GetCityDeletedDTO();
+        List<CityDTO> GetAllDTO();
+
     }
 }

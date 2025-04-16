@@ -19,7 +19,6 @@ namespace Business.Abstract
         
 
         //DTO
-        IDataResult<List<UniversityDepartmentDTO>> GetUniversityDepartmentDTO();
-        IDataResult<List<UniversityDepartmentDTO>> GetUniversityDepartmentDeletedDTO();
+        IDataResult<List<UniversityDepartmentDTO>> GetAllDTO();
     }
 }

@@ -17,7 +17,6 @@ namespace Business.Abstract
         IDataResult<List<PersonelUserCvWorkExperience>> GetAll(int UserId);
         IDataResult<PersonelUserCvWorkExperience> GetById(int cvWorkExperienceId);
         
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDTO(int userId);
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetPersonelUserCvWorkExperienceDeletedDTO(int userId);
+        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(int userId);
     }
 }

@@ -64,30 +64,16 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvDTO>> GetPersonelUserCvDTO(int userId)
+        public IDataResult<List<PersonelUserCvDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetPersonelUserCvDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetPersonelUserCvDTO(), Messages.CompaniesListed);
-            }
-
-        }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvDTO>> GetPersonelUserCvDeletedDTO(int userId)
-        {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetPersonelUserCvDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetPersonelUserCvDeletedDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO(), Messages.CompaniesListed);
             }
 
         }

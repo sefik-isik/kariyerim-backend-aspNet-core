@@ -7,13 +7,13 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserDal : EfEntityRepositoryBase<PersonelUser, KariyerimContext>, IPersonelUserDal
     {
-        public List<PersonelUserDTO> GetPersonelUserDTO()
+        public List<PersonelUserDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from personelUsers in context.PersonelUsers
                              join users in context.Users on personelUsers.UserId equals users.Id
-                             where personelUsers.DeletedDate==null
+
                              select new PersonelUserDTO
                              {
                                  Id = personelUsers.Id,
@@ -33,29 +33,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<PersonelUserDTO> GetPersonelUserDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from personelUser in context.PersonelUsers
-                             join user in context.Users on personelUser.UserId equals user.Id
-                             where personelUser.DeletedDate != null
-                             select new PersonelUserDTO
-                             {
-                                 Id = personelUser.Id,
-                                 FirstName = user.FirstName,
-                                 LastName = user.LastName,
-                                 Email = user.Email,
-                                 PhoneNumber = user.PhoneNumber,
-                                 IdentityNumber = personelUser.IdentityNumber,
-                                 DateOfBirth = personelUser.DateOfBirth,
-                                 CreatedDate = personelUser.CreatedDate,
-                                 UpdatedDate = personelUser.UpdatedDate,
-                                 DeletedDate = personelUser.DeletedDate,
-
-                             };
-                return result.ToList();
-            }
-        }
+       
     }
 }

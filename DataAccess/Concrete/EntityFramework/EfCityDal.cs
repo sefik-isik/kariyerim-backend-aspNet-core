@@ -15,13 +15,13 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCityDal : EfEntityRepositoryBase<City, KariyerimContext>, ICityDal
     {
-        public List<CityDTO> GetCityDTO()
+        public List<CityDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from countries in context.Countries
                              join city in context.Cities on countries.Id equals city.CountryId
-                             where city.DeletedDate == null
+
                              select new CityDTO
                              {
                                  Id = city.Id,
@@ -37,27 +37,6 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CityDTO> GetCityDeletedDTO()
-        {
-            using (KariyerimContext context = new KariyerimContext())
-            {
-                var result = from countries in context.Countries
-                             join city in context.Cities on countries.Id equals city.CountryId
-                             where city.DeletedDate != null
-                             select new CityDTO
-                             {
-                                 Id = city.Id,
-                                 CityName = city.CityName,
-                                 CountryIso = countries.CountryIso,
-                                 CountryId = city.CountryId,
-                                 CountryName = countries.CountryName,
-                                 CreatedDate = city.CreatedDate,
-                                 UpdatedDate = city.UpdatedDate,
-                                 DeletedDate = city.DeletedDate,
-                             };
-                return result.ToList();
-            }
-        }
     }
 }
 
