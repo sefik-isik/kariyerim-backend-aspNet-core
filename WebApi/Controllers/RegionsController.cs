@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int regionId)
+        public IActionResult GetById(int id)
         {
-            var result = _regionService.GetById(regionId);
+            var result = _regionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

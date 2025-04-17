@@ -38,16 +38,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAll(int id)
         {
-            var result = _personelUserCoverLetterService.GetAll(userId);
+            var result = _personelUserCoverLetterService.GetAll(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int personelUserCoverLetterId)
+        public IActionResult GetById(int id)
         {
-            var result = _personelUserCoverLetterService.GetById(personelUserCoverLetterId);
+            var result = _personelUserCoverLetterService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

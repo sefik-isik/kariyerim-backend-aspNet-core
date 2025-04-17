@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int languageId)
+        public IActionResult GetById(int id)
         {
-            var result = _languageService.GetById(languageId);
+            var result = _languageService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

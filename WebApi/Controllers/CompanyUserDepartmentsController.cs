@@ -38,23 +38,23 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAll(int id)
         {
-            var result = _companyUserDepartmentService.GetAll(userId);
+            var result = _companyUserDepartmentService.GetAll(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int companyUserDepartmentId)
+        public IActionResult GetById(int id)
         {
-            var result = _companyUserDepartmentService.GetById(companyUserDepartmentId);
+            var result = _companyUserDepartmentService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int userId)
+        public IActionResult GetAllDTO(int id)
         {
-            var result = _companyUserDepartmentService.GetAllDTO(userId);
+            var result = _companyUserDepartmentService.GetAllDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

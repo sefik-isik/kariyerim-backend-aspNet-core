@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int driverLicenseId)
+        public IActionResult GetById(int id)
         {
-            var result = _licenseService.GetById(driverLicenseId);
+            var result = _licenseService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

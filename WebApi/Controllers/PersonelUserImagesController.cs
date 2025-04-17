@@ -43,27 +43,27 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAll(int id)
         {
-            var result = _personelUserImageService.GetAll(userId);
+            var result = _personelUserImageService.GetAll(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int personelUserImageId)
+        public IActionResult GetById(int id)
         {
-            var result = _personelUserImageService.GetById(personelUserImageId);
+            var result = _personelUserImageService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadimage")]
-        public IActionResult UploadImage(IFormFile image, int userId)
+        public IActionResult UploadImage(IFormFile image, int id)
         {
             if (image == null || image.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (userId <= 0)
+            if (id <= 0)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
 
                 string fullImageName = uploadImageHandler.CreateFileName(image);
 
-                string uploadsFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\";
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\images\\" + id + "\\";
 
                 if (!Directory.Exists(uploadsFolder))
                 {
@@ -88,7 +88,7 @@ namespace WebAPI.Controllers
                     image.CopyTo(stream);
                 }
 
-                string uploadsThumbFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\";
+                string uploadsThumbFolder = _environment.WebRootPath + "\\uploads\\images\\" + id + "\\thumbs\\";
 
                 if (!Directory.Exists(uploadsThumbFolder))
                 {
@@ -109,7 +109,7 @@ namespace WebAPI.Controllers
                 }
 
 
-                return Ok(new { type = "https://localhost:7088/" + "/uploads/images/" + userId + "/", name = fullImageName });
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/images/" + id + "/", name = fullImageName });
 
             }
             catch (Exception ex)

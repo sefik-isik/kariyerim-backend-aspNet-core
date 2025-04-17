@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int licenseDegreeId)
+        public IActionResult GetById(int id)
         {
-            var result = _licenseDegreeService.GetById(licenseDegreeId);
+            var result = _licenseDegreeService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

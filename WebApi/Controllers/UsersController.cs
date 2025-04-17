@@ -17,9 +17,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int UserId)
+        public IActionResult GetAllDTO(int id)
         {
-            var result = _userService.GetAllDTO(UserId);
+            var result = _userService.GetAllDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

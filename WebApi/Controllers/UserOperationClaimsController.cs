@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int userOperationClaimId)
+        public IActionResult GetById(int id)
         {
-            var result = _userOperationClaimService.GetById(userOperationClaimId);
+            var result = _userOperationClaimService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

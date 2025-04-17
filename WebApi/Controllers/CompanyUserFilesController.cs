@@ -49,28 +49,28 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int companyUserFileId)
+        public IActionResult GetById(int id)
         {
-            var result = _companyUserFileService.GetById(companyUserFileId);
+            var result = _companyUserFileService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int userId)
+        public IActionResult GetAllDTO(int id)
         {
-            var result = _companyUserFileService.GetAllDTO(userId);
+            var result = _companyUserFileService.GetAllDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
 
         [HttpPost("uploadfile")]
-        public IActionResult UploadFile(IFormFile file, int userId)
+        public IActionResult UploadFile(IFormFile file, int id)
         {
             if (file == null || file.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (userId <= 0)
+            if (id <= 0)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
 
                 string fullFileName = uploadFileHandler.CreateFileName(file);
 
-                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\";
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + id + "\\";
 
                 if (!Directory.Exists(uploadsFolder))
                 {
@@ -95,7 +95,7 @@ namespace WebAPI.Controllers
                     file.CopyTo(stream);
                 }
 
-                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + userId + "/", name = fullFileName });
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + id + "/", name = fullFileName });
 
             }
             catch (Exception ex)

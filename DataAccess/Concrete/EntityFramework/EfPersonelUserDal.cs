@@ -18,6 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUsers.Id,
                                  UserId = users.Id,
+                                 PersonelUserId = personelUsers.Id,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  Email = users.Email,

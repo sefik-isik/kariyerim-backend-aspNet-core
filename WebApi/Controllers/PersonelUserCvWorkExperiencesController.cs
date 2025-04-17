@@ -38,16 +38,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAll(int id)
         {
-            var result = _cvWorkExperienceService.GetAll(userId);
+            var result = _cvWorkExperienceService.GetAll(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int cvWorkExperienceId)
+        public IActionResult GetById(int id)
         {
-            var result = _cvWorkExperienceService.GetById(cvWorkExperienceId);
+            var result = _cvWorkExperienceService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

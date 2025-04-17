@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int workingMethodId)
+        public IActionResult GetById(int id)
         {
-            var result = _workingMethodService.GetById(workingMethodId);
+            var result = _workingMethodService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
