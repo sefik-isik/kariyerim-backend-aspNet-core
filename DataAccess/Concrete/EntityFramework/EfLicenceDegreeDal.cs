@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfLicenceDegreeDal : EfEntityRepositoryBase<LicenseDegree, KariyerimContext>, ILicenseDegreeDal
+    public class EfLicenceDegreeDal : EfEntityRepositoryBase<LicenceDegree, KariyerimContext>, ILicenceDegreeDal
     {
     }
 }

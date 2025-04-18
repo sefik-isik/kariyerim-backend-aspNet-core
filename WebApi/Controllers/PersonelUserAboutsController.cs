@@ -7,54 +7,54 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonelUserCvAboutsController : ControllerBase
+    public class PersonelUserAboutsController : ControllerBase
     {
-        IPersonelUserCvAboutService _cvAboutService;
+        IPersonelUserAboutService _personelUserAboutService;
 
-        public PersonelUserCvAboutsController(IPersonelUserCvAboutService cvAboutService)
+        public PersonelUserAboutsController(IPersonelUserAboutService personelUserAboutService)
         {
-            _cvAboutService = cvAboutService;
+            _personelUserAboutService = personelUserAboutService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCvAbout cvAbout)
+        public IActionResult Add(PersonelUserAbout personelUserAbout)
         {
-            var result = _cvAboutService.Add(cvAbout);
+            var result = _personelUserAboutService.Add(personelUserAbout);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCvAbout cvAbout)
+        public IActionResult Update(PersonelUserAbout personelUserAbout)
         {
-            var result = _cvAboutService.Update(cvAbout);
+            var result = _personelUserAboutService.Update(personelUserAbout);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCvAbout cvAbout)
+        public IActionResult Delete(PersonelUserAbout personelUserAbout)
         {
-            var result = _cvAboutService.Delete(cvAbout);
+            var result = _personelUserAboutService.Delete(personelUserAbout);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll(int id)
         {
-            var result = _cvAboutService.GetAll(id);
+            var result = _personelUserAboutService.GetAll(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _cvAboutService.GetById(id);
+            var result = _personelUserAboutService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
         public IActionResult GetAllDTO(int id)
         {
-            var result = _cvAboutService.GetAllDTO(id);
+            var result = _personelUserAboutService.GetAllDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

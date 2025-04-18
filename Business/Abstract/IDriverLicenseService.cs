@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IDriverLicenseService
+    public interface IDriverLicenceService
     {
-        IResult Add(DriverLicense driverLicense);
-        IResult Update(DriverLicense driverLicense);
-        IResult Delete(DriverLicense driverLicense);
-        IDataResult<List<DriverLicense>> GetAll();
-        IDataResult<DriverLicense> GetById(int driverLicenseId);
+        IResult Add(DriverLicence driverLicence);
+        IResult Update(DriverLicence driverLicence);
+        IResult Delete(DriverLicence driverLicence);
+        IDataResult<List<DriverLicence>> GetAll();
+        IDataResult<DriverLicence> GetById(int driverLicenceId);
         
     }
 }

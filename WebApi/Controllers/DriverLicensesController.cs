@@ -7,47 +7,47 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DriverLicensesController : ControllerBase
+    public class DriverLicencesController : ControllerBase
     {
-        IDriverLicenseService _licenseService;
+        IDriverLicenceService _licenceService;
 
-        public DriverLicensesController(IDriverLicenseService licenseService)
+        public DriverLicencesController(IDriverLicenceService licenceService)
         {
-            _licenseService = licenseService;
+            _licenceService = licenceService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(DriverLicense driverLicense)
+        public IActionResult Add(DriverLicence driverLicence)
         {
-            var result = _licenseService.Add(driverLicense);
+            var result = _licenceService.Add(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(DriverLicense driverLicense)
+        public IActionResult Update(DriverLicence driverLicence)
         {
-            var result = _licenseService.Update(driverLicense);
+            var result = _licenceService.Update(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(DriverLicense driverLicense)
+        public IActionResult Delete(DriverLicence driverLicence)
         {
-            var result = _licenseService.Delete(driverLicense);
+            var result = _licenceService.Delete(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _licenseService.GetAll();
+            var result = _licenceService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _licenseService.GetById(id);
+            var result = _licenceService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

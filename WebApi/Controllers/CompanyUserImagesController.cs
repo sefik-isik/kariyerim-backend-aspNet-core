@@ -3,7 +3,6 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Memory;
 using SixLabors.ImageSharp.Processing;
 
 namespace WebAPI.Controllers

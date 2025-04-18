@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfDriverLicenceDal : EfEntityRepositoryBase<DriverLicense, KariyerimContext>, IDriverLicenseDal
+    public class EfDriverLicenceDal : EfEntityRepositoryBase<DriverLicence, KariyerimContext>, IDriverLicenceDal
     {
     }
 }

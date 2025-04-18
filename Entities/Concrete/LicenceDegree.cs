@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Concrete
+namespace Entities.Concrete
 {
-    public class DriverLicense : Entity, IEntity
+    public class LicenceDegree : Entity, IEntity
     {
-        public string LicenseName { get; set; }
+        public string LicenceName { get; set; }
     }
 }

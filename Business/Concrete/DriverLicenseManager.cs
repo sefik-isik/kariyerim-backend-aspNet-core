@@ -11,41 +11,41 @@ using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
-    public class DriverLicenseManager : IDriverLicenseService
+    public class DriverLicenceManager : IDriverLicenceService
     {
-        IDriverLicenseDal _driverLicenseDal;
+        IDriverLicenceDal _driverLicenceDal;
 
-        public DriverLicenseManager(IDriverLicenseDal driverLicenseDal)
+        public DriverLicenceManager(IDriverLicenceDal driverLicenceDal)
         {
-            _driverLicenseDal = driverLicenseDal;
+            _driverLicenceDal = driverLicenceDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(DriverLicense driverLicense)
+        public IResult Add(DriverLicence driverLicence)
         {
-            _driverLicenseDal.Add(driverLicense);
+            _driverLicenceDal.Add(driverLicence);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Update(DriverLicense driverLicense)
+        public IResult Update(DriverLicence driverLicence)
         {
-            _driverLicenseDal.Update(driverLicense);
+            _driverLicenceDal.Update(driverLicence);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Delete(DriverLicense driverLicense)
+        public IResult Delete(DriverLicence driverLicence)
         {
-            _driverLicenseDal.Delete(driverLicense);
+            _driverLicenceDal.Delete(driverLicence);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<DriverLicense>> GetAll()
+        public IDataResult<List<DriverLicence>> GetAll()
         {
-            return new SuccessDataResult<List<DriverLicense>>(_driverLicenseDal.GetAll());
+            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<DriverLicense> GetById(int driverLicenseId)
+        public IDataResult<DriverLicence> GetById(int driverLicenceId)
         {
-            return new SuccessDataResult<DriverLicense>(_driverLicenseDal.Get(d=> d.Id == driverLicenseId));
+            return new SuccessDataResult<DriverLicence>(_driverLicenceDal.Get(d=> d.Id == driverLicenceId));
         }
 
         

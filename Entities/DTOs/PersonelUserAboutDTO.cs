@@ -6,15 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class PersonelUserCvAbout : BaseCv, IEntity
+    public class PersonelUserAboutDTO : BasePersonelDTOUser, IDto
     {
-        public int GenderId { get; set; }
+        public string IdentityNumber { get; set; }
         public bool NationalStatus { get; set; }
-        public int DriverLicenseId { get; set; }
+        public int DriverLicenceId { get; set; }
+        public string DriverLicenceName { get; set; }
+        public int GenderId { get; set; }
+        public string GenderName { get; set; }
         public bool MilitaryStatus { get; set; }
         public bool RetirementStatus { get; set; }
-
     }
 }

@@ -7,47 +7,47 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LicenseDegreesController : ControllerBase
+    public class LicenceDegreesController : ControllerBase
     {
-        ILicenseDegreeService _licenseDegreeService;
+        ILicenceDegreeService _licenceDegreeService;
 
-        public LicenseDegreesController(ILicenseDegreeService licenseDegreeService)
+        public LicenceDegreesController(ILicenceDegreeService licenceDegreeService)
         {
-            _licenseDegreeService = licenseDegreeService;
+            _licenceDegreeService = licenceDegreeService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(LicenseDegree licenseDegree)
+        public IActionResult Add(LicenceDegree LicenceDegree)
         {
-            var result = _licenseDegreeService.Add(licenseDegree);
+            var result = _licenceDegreeService.Add(LicenceDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(LicenseDegree licenseDegree)
+        public IActionResult Update(LicenceDegree LicenceDegree)
         {
-            var result = _licenseDegreeService.Update(licenseDegree);
+            var result = _licenceDegreeService.Update(LicenceDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(LicenseDegree licenseDegree)
+        public IActionResult Delete(LicenceDegree LicenceDegree)
         {
-            var result = _licenseDegreeService.Delete(licenseDegree);
+            var result = _licenceDegreeService.Delete(LicenceDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _licenseDegreeService.GetAll();
+            var result = _licenceDegreeService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _licenseDegreeService.GetById(id);
+            var result = _licenceDegreeService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

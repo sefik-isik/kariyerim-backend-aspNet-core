@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class DriverLicenseValidator : AbstractValidator<DriverLicense>
+    public class DriverLicenceValidator : AbstractValidator<DriverLicence>
     {
-        public DriverLicenseValidator()
+        public DriverLicenceValidator()
         {
-            RuleFor(c => c.LicenseName).NotEmpty();
-            RuleFor(c => c.LicenseName).NotNull();
-            RuleFor(c => c.LicenseName).MinimumLength(1);
+            RuleFor(c => c.LicenceName).NotEmpty();
+            RuleFor(c => c.LicenceName).NotNull();
+            RuleFor(c => c.LicenceName).MinimumLength(1);
         }
     }
 }

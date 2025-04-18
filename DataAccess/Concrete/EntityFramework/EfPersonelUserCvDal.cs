@@ -21,7 +21,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCvs.PersonelUserId equals personelUsers.Id
                              join languages in context.Languages on personelUserCvs.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on personelUserCvs.LanguageLevelId equals languageLevels.Id
-                             join lisansDegrees in context.LicenseDegrees on personelUsers.LicenseId equals lisansDegrees.Id
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
 
                              select new PersonelUserCvDTO
@@ -42,8 +41,6 @@ namespace DataAccess.Concrete.EntityFramework
                                  Level = languageLevels.Level,
                                  LevelTitle = languageLevels.LevelTitle,
                                  LevelDescription = languageLevels.LevelDescription,
-                                 LicenceId= personelUsers.LicenseId,
-                                 LicenceName= lisansDegrees.LicenceName,
                                  BirthPlaceId=cities.Id,
                                  BirthPlaceName=cities.CityName,
                                  IsPrivate = personelUserCvs.IsPrivate,

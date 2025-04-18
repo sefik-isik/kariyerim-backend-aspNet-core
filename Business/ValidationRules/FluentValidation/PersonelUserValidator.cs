@@ -14,7 +14,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(c => c.UserId).GreaterThan(0);
 
-            RuleFor(c => c.LicenseId).GreaterThan(0);
+            RuleFor(c => c.LicenceId).GreaterThan(0);
             RuleFor(c => c.BirthPlaceId).GreaterThan(0);
 
             RuleFor(c => c.DateOfBirth).NotEmpty();

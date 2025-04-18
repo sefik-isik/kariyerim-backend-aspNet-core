@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface ILicenseDegreeService
+    public interface ILicenceDegreeService
     {
-        IResult Add(LicenseDegree licenseDegree);
-        IResult Update(LicenseDegree licenseDegree);
-        IResult Delete(LicenseDegree licenseDegree);
-        IDataResult<List<LicenseDegree>> GetAll();
-        IDataResult<LicenseDegree> GetById(int licenseDegreeId);
+        IResult Add(LicenceDegree licenceDegreeId);
+        IResult Update(LicenceDegree licenceDegreeId);
+        IResult Delete(LicenceDegree licenceDegreeId);
+        IDataResult<List<LicenceDegree>> GetAll();
+        IDataResult<LicenceDegree> GetById(int licenceDegreeId);
         
     }
 }

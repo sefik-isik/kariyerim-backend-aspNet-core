@@ -16,65 +16,65 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class PersonelUserCvAboutManager : IPersonelUserCvAboutService
+    public class PersonelUserAboutManager : IPersonelUserAboutService
     {
-        IPersonelUserCvAboutDal _cvAboutDal;
+        IPersonelUserAboutDal _cvAboutDal;
         IUserService _userService;
 
-        public PersonelUserCvAboutManager(IPersonelUserCvAboutDal cvAboutDal, IUserService userService)
+        public PersonelUserAboutManager(IPersonelUserAboutDal cvAboutDal, IUserService userService)
         {
             this._cvAboutDal = cvAboutDal;
             _userService = userService;
 
         }
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserCvAbout cvAbout)
+        public IResult Add(PersonelUserAbout cvAbout)
         {
             _cvAboutDal.Add(cvAbout);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IResult Update(PersonelUserCvAbout cvAbout)
+        public IResult Update(PersonelUserAbout cvAbout)
         {
             _cvAboutDal.Update(cvAbout);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IResult Delete(PersonelUserCvAbout cvAbout)
+        public IResult Delete(PersonelUserAbout cvAbout)
         {
             _cvAboutDal.Delete(cvAbout);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAbout>> GetAll(int userId)
+        public IDataResult<List<PersonelUserAbout>> GetAll(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvAbout>>(_cvAboutDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserAbout>>(_cvAboutDal.GetAll(c => c.UserId == userId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvAbout>>(_cvAboutDal.GetAll());
+                return new SuccessDataResult<List<PersonelUserAbout>>(_cvAboutDal.GetAll());
             }
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCvAbout> GetById(int cvAboutId)
+        public IDataResult<PersonelUserAbout> GetById(int cvAboutId)
         {
-            return new SuccessDataResult<PersonelUserCvAbout>(_cvAboutDal.Get(c=> c.Id == cvAboutId));
+            return new SuccessDataResult<PersonelUserAbout>(_cvAboutDal.Get(c=> c.Id == cvAboutId));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvAboutDTO>> GetAllDTO(int userId)
+        public IDataResult<List<PersonelUserAboutDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserAboutDTO>>(_cvAboutDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvAboutDTO>>(_cvAboutDal.GetAllDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserAboutDTO>>(_cvAboutDal.GetAllDTO(), Messages.CompaniesListed);
             }
         }
 

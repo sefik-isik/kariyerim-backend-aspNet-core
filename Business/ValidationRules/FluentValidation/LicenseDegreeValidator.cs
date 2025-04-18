@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class LicenseDegreeValidator : AbstractValidator<LicenseDegree>
+    public class LicenceDegreeValidator : AbstractValidator<LicenceDegree>
     {
-        public LicenseDegreeValidator()
+        public LicenceDegreeValidator()
         {
             RuleFor(c => c.LicenceName).NotEmpty();
             RuleFor(c => c.LicenceName).NotNull();

@@ -11,7 +11,7 @@ namespace Entities.Concrete
     {
         public string IdentityNumber { get; set; }
         public int CvId { get; set; }
-        public int LicenseId { get; set; }
+        public int LicenceId { get; set; }
         public int BirthPlaceId { get; set; }
         public DateTime DateOfBirth { get; set; }
 

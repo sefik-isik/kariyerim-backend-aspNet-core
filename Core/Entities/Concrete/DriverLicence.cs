@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete
 {
-    public class LicenseDegree : Entity, IEntity
+    public class DriverLicence : Entity, IEntity
     {
         public string LicenceName { get; set; }
     }

@@ -26,16 +26,16 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
-        public DbSet<PersonelUserCvAbout> PersonelUserCvAbouts { get; set; }
+        public DbSet<PersonelUserAbout> PersonelUserAbouts { get; set; }
         public DbSet<PersonelUserCvEducation> PersonelUserCvEducations { get; set; }
         public DbSet<PersonelUserCvSummary> PersonelUserCvSummaries { get; set; }
         public DbSet<PersonelUserCvWorkExperience> PersonelUserCvWorkExperiences { get; set; }
-        public DbSet<DriverLicense> DriverLicenses { get; set; }
+        public DbSet<DriverLicence> DriverLicences { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
-        public DbSet<LicenseDegree> LicenseDegrees { get; set; }
+        public DbSet<LicenceDegree> LicenceDegrees { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<University> Universities { get; set; }

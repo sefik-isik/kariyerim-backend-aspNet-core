@@ -11,41 +11,41 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class LicenseDegreeManager : ILicenseDegreeService
+    public class LicenceDegreeManager : ILicenceDegreeService
     {
-        ILicenseDegreeDal _licenseDegreeDal;
+        ILicenceDegreeDal _licenceDegreeDal;
 
-        public LicenseDegreeManager(ILicenseDegreeDal licenseDegreeDal)
+        public LicenceDegreeManager(ILicenceDegreeDal licenceDegreeDal)
         {
-            _licenseDegreeDal = licenseDegreeDal;
+            _licenceDegreeDal = licenceDegreeDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(LicenseDegree licenseDegree)
+        public IResult Add(LicenceDegree LicenceDegree)
         {
-            _licenseDegreeDal.Add(licenseDegree);
+            _licenceDegreeDal.Add(LicenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Update(LicenseDegree licenseDegree)
+        public IResult Update(LicenceDegree LicenceDegree)
         {
-            _licenseDegreeDal.Update(licenseDegree);
+            _licenceDegreeDal.Update(LicenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Delete(LicenseDegree licenseDegree)
+        public IResult Delete(LicenceDegree LicenceDegree)
         {
-            _licenseDegreeDal.Delete(licenseDegree);
+            _licenceDegreeDal.Delete(LicenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<LicenseDegree>> GetAll()
+        public IDataResult<List<LicenceDegree>> GetAll()
         {
-            return new SuccessDataResult<List<LicenseDegree>>(_licenseDegreeDal.GetAll());
+            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<LicenseDegree> GetById(int licenseDegreeId)
+        public IDataResult<LicenceDegree> GetById(int LicenceDegreeId)
         {
-            return new SuccessDataResult<LicenseDegree>(_licenseDegreeDal.Get(l=>l.Id == licenseDegreeId));
+            return new SuccessDataResult<LicenceDegree>(_licenceDegreeDal.Get(l=>l.Id == LicenceDegreeId));
         }
 
         

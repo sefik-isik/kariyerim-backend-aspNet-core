@@ -10,8 +10,8 @@ using DataAccess.Concrete.EntityFramework;
 
 namespace DataAccess.Abstract
 {
-    public interface IPersonelUserCvAboutDal : IEntityRepository<PersonelUserCvAbout>
+    public interface IPersonelUserAboutDal : IEntityRepository<PersonelUserAbout>
     {
-        List<PersonelUserCvAboutDTO> GetAllDTO();
+        List<PersonelUserAboutDTO> GetAllDTO();
     }
 }
