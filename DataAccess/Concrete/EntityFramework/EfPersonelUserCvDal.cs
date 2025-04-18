@@ -41,8 +41,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Level = languageLevels.Level,
                                  LevelTitle = languageLevels.LevelTitle,
                                  LevelDescription = languageLevels.LevelDescription,
-                                 BirthPlaceId=cities.Id,
-                                 BirthPlaceName=cities.CityName,
+                                 BirthPlaceId = cities.Id,
+                                 BirthPlaceName = cities.CityName,
                                  IsPrivate = personelUserCvs.IsPrivate,
                                  CreatedDate = personelUserCvs.CreatedDate,
                                  UpdatedDate = personelUserCvs.UpdatedDate,
@@ -51,8 +51,8 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
-        
 
-        
+
+
     }
 }

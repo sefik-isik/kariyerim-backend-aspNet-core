@@ -22,7 +22,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<CompanyUserImageManager>().As<ICompanyUserImageService>().SingleInstance();
             builderItem.RegisterType<SectorManager>().As<ISectorService>().SingleInstance();
             builderItem.RegisterType<CountryManager>().As<ICountryService>().SingleInstance();
-            builderItem.RegisterType<PersonelUserAboutManager>().As<IPersonelUserAboutService>().SingleInstance();
             builderItem.RegisterType<PersonelUserCvEducationManager>().As<IPersonelUserCvEducationService>().SingleInstance();
             builderItem.RegisterType<PersonelUserCvSummaryManager>().As<IPersonelUserCvSummaryService>().SingleInstance();
             builderItem.RegisterType<PersonelUserCvWorkExperienceManager>().As<IPersonelUserCvWorkExperienceService>().SingleInstance();
@@ -56,7 +55,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfCompanyUserImageDal>().As<ICompanyUserImageDal>().SingleInstance();
             builderItem.RegisterType<EfSectorDal>().As<ISectorDal>().SingleInstance();
             builderItem.RegisterType<EfCountryDal>().As<ICountryDal>().SingleInstance();
-            builderItem.RegisterType<EfPersonelUserAboutDal>().As<IPersonelUserAboutDal>().SingleInstance();
             builderItem.RegisterType<EfPersonelUserCvEducationDal>().As<IPersonelUserCvEducationDal>().SingleInstance();
             builderItem.RegisterType<EfPersonelUserCvSummaryDal>().As<IPersonelUserCvSummaryDal>().SingleInstance();
             builderItem.RegisterType<EfPersonelUserCvWorkExperienceDal>().As<IPersonelUserCvWorkExperienceDal>().SingleInstance();

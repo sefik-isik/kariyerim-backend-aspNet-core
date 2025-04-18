@@ -26,7 +26,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
-        public DbSet<PersonelUserAbout> PersonelUserAbouts { get; set; }
         public DbSet<PersonelUserCvEducation> PersonelUserCvEducations { get; set; }
         public DbSet<PersonelUserCvSummary> PersonelUserCvSummaries { get; set; }
         public DbSet<PersonelUserCvWorkExperience> PersonelUserCvWorkExperiences { get; set; }
