@@ -9,10 +9,12 @@ namespace Entities.DTOs
 {
     public class PersonelUserCvDTO : BasePersonelDTOUser, IDto
     {
+        public int CvId { get; set; }
         public string CvName { get; set; }
         public int LanguageId { get; set; }
         public string IdentityNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public bool Gender { get; set; }
         public string LanguageName { get; set; }
         public int LanguageLevelId { get; set; }
         public int Level { get; set; }

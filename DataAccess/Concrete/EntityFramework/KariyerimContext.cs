@@ -31,7 +31,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<PersonelUserCvWorkExperience> PersonelUserCvWorkExperiences { get; set; }
         public DbSet<DriverLicence> DriverLicences { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
-        public DbSet<Gender> Genders { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
         public DbSet<LicenceDegree> LicenceDegrees { get; set; }

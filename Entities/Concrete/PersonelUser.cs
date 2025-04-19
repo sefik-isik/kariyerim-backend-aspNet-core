@@ -13,7 +13,7 @@ namespace Entities.Concrete
         public int CvId { get; set; }
         public int LicenceId { get; set; }
         public int BirthPlaceId { get; set; }
-        public int GenderId { get; set; }
+        public bool Gender { get; set; }
         public bool NationalStatus { get; set; }
         public int DriverLicenceId { get; set; }
         public bool MilitaryStatus { get; set; }

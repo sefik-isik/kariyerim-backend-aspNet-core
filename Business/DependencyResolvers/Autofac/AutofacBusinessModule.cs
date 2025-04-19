@@ -27,7 +27,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<PersonelUserCvWorkExperienceManager>().As<IPersonelUserCvWorkExperienceService>().SingleInstance();
             builderItem.RegisterType<DriverLicenceManager>().As<IDriverLicenceService>().SingleInstance();
             builderItem.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
-            builderItem.RegisterType<GenderManager>().As<IGenderService>().SingleInstance();
             builderItem.RegisterType<LanguageLevelManager>().As<ILanguageLevelService>().SingleInstance();
             builderItem.RegisterType<LanguageManager>().As<ILanguageService>().SingleInstance();
             builderItem.RegisterType<LicenceDegreeManager>().As<ILicenceDegreeService>().SingleInstance();
@@ -60,7 +59,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfPersonelUserCvWorkExperienceDal>().As<IPersonelUserCvWorkExperienceDal>().SingleInstance();
             builderItem.RegisterType<EfDriverLicenceDal>().As<IDriverLicenceDal>().SingleInstance();
             builderItem.RegisterType<EfFacultyDal>().As<IFacultyDal>().SingleInstance();
-            builderItem.RegisterType<EfGenderDal>().As<IGenderDal>().SingleInstance();
             builderItem.RegisterType<EfLanguageLevelDal>().As<ILanguageLevelDal>().SingleInstance();
             builderItem.RegisterType<EfLanguageDal>().As<ILanguageDal>().SingleInstance();
             builderItem.RegisterType<EfLicenceDegreeDal>().As<ILicenceDegreeDal>().SingleInstance();
