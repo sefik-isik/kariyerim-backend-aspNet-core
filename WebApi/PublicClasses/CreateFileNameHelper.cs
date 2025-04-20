@@ -5,11 +5,11 @@
         public string CreateFileName(IFormFile file)
         {
             //extention
-            List<string> allowedExtensions = new List<string> { ".zip", ".rar", ".doc", ".docx", ".pdf" };
+            List<string> allowedExtensions = new List<string> { ".zip", ".rar", ".doc", ".docx", ".pdf", ".png", ".jpg", ".gif" };
             string fileExtension = Path.GetExtension(file.FileName).ToLower();
             if (!allowedExtensions.Contains(fileExtension))
             {
-                throw new Exception("Invalid file type. Only .zip, .rar, .doc, .docx and .pdf are allowed.");
+                throw new Exception("Invalid file type. Only .zip, .rar, .doc, .docx, .png, .jpg, .gif and .pdf are allowed.");
             }
             //size
             if (file.Length > 5 * 1024 * 1024) // 5 MB
