@@ -2,7 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +49,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<TaxOffice>(_taxOfficeDal.Get(t=>t.Id == taxOfficeId));
         }
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<TaxOfficeDTO>> GetAllDTO()
+        {
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO());
+        }
 
-        
     }
 }

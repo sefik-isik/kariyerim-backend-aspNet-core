@@ -9,45 +9,52 @@ namespace WebAPI.Controllers
     [ApiController]
     public class TaxOfficesController : ControllerBase
     {
-        ITaxOfficeService _officeService;
+        ITaxOfficeService _taxOfficeService;
 
         public TaxOfficesController(ITaxOfficeService officeService)
         {
-            _officeService = officeService;
+            _taxOfficeService = officeService;
         }
 
         [HttpPost("add")]
         public IActionResult Add(TaxOffice taxOffice)
         {
-            var result = _officeService.Add(taxOffice);
+            var result = _taxOfficeService.Add(taxOffice);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
         public IActionResult Update(TaxOffice taxOffice)
         {
-            var result = _officeService.Update(taxOffice);
+            var result = _taxOfficeService.Update(taxOffice);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
         public IActionResult Delete(TaxOffice taxOffice)
         {
-            var result = _officeService.Delete(taxOffice);
+            var result = _taxOfficeService.Delete(taxOffice);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _officeService.GetAll();
+            var result = _taxOfficeService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _officeService.GetById(id);
+            var result = _taxOfficeService.GetById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO()
+        {
+            var result = _taxOfficeService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
