@@ -50,5 +50,12 @@ namespace WebAPI.Controllers
             var result = _userOperationClaimService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO()
+        {
+            var result = _userOperationClaimService.GetAllDTO();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

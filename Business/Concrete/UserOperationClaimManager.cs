@@ -4,6 +4,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,13 @@ namespace Business.Concrete
             return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userOperationClaimId));
         }
 
-        
+        //DTO
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UserOperationClaimDTO>> GetAllDTO()
+        {
+            return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO());
+        }
+
+
     }
 }
