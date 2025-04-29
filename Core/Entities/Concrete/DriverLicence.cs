@@ -9,6 +9,6 @@ namespace Core.Entities.Concrete
 {
     public class DriverLicence : Entity, IEntity
     {
-        public string LicenceName { get; set; }
+        public string DriverLicenceName { get; set; }
     }
 }

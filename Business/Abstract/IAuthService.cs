@@ -11,6 +11,7 @@ namespace Business.Abstract
         IDataResult<User> Register(UserForRegisterDTO userForRegisterDto);
         IDataResult<User> Login(UserForLoginDTO userForLoginDto);
         IDataResult<User> UpdatePassword(PasswordDTO passwordDto);
+        IDataResult<User> UpdateUserCode(UserCodeDTO userCode);
         IResult UserExists(string email);
         IDataResult<AccessToken> CreateAccessToken(User user);
 

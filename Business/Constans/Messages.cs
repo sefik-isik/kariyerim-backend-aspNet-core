@@ -13,7 +13,6 @@ namespace Business.Constans
         public static string MaintanceTime = JsonConvert.SerializeObject("Bakım Zamanı");
         public static string CityListed = JsonConvert.SerializeObject("Şehirler başarıyla listelendi");
         public static string CitiesListed = JsonConvert.SerializeObject("Şehirler başarıyla listelendi");
-
         public static string SuccessCompanyAdded = JsonConvert.SerializeObject("Şirket başarıyla eklendi");
         public static string SuccessCompanyUpdated = JsonConvert.SerializeObject("Şirket başarıyla güncellendi");
         public static string SuccessCompanyDeleted = JsonConvert.SerializeObject("Şirket başarıyla silindi");
@@ -30,9 +29,8 @@ namespace Business.Constans
         public static string AccessTokenCreated = JsonConvert.SerializeObject("İşlem Başarılı");
         public static string PasswordNotSame = JsonConvert.SerializeObject("Password Alanları Aynı Değil");
         public static string SuccessPasswordChange= JsonConvert.SerializeObject("Password Başarıyla Değiştirildi");
-
         public static string CompanyNameAlreadyExist = JsonConvert.SerializeObject("Bu şirket ismi daha önce eklenmiş");
-
         public static string TaxNumberAlreadyExist = JsonConvert.SerializeObject("Bu vergi numarası daha önce eklenmiş");
+        public static string UserCodeAlreadyUpdated = JsonConvert.SerializeObject("Kullanıcı seçimi daha önce yapılmış");
     }
 }

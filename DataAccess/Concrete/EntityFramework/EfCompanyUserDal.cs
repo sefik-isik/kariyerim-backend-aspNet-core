@@ -27,6 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
                                  SectorId = sectors.Id,
                                  SectorName = sectors.SectorName,
                                  TaxCityId = cities.Id,

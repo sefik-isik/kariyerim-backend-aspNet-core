@@ -33,6 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
+                                 Code= users.Code,
                                  CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  CountryId=countries.Id,

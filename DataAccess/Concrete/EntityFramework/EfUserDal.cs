@@ -28,12 +28,29 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from users in context.Users
                              select new UserDTO { 
                                  Id = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
                                  Email = users.Email,
+                                 Code = users.Code,
                              };
                 return result.ToList();
             }
         }
 
-        
+        public List<UserCodeDTO> GetCode(int userId)
+        {
+            using (var context = new KariyerimContext())
+            {
+                var result = from users in context.Users
+                             where users.Id == userId
+                             select new UserCodeDTO
+                             {
+                                 Id = users.Id,
+                                 Code = users.Code,
+                             };
+                return result.ToList();
+            }
+        }
     }
 }

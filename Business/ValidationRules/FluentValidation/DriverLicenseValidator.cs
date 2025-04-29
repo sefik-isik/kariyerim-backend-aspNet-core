@@ -12,9 +12,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public DriverLicenceValidator()
         {
-            RuleFor(c => c.LicenceName).NotEmpty();
-            RuleFor(c => c.LicenceName).NotNull();
-            RuleFor(c => c.LicenceName).MinimumLength(1);
+            RuleFor(c => c.DriverLicenceName).NotEmpty();
+            RuleFor(c => c.DriverLicenceName).NotNull();
+            RuleFor(c => c.DriverLicenceName).MinimumLength(1);
         }
     }
 }

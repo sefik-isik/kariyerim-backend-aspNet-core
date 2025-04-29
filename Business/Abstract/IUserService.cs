@@ -14,11 +14,12 @@ namespace Business.Abstract
         IDataResult<List<OperationClaim>> GetClaims(User user);
         IResult Add(User user);
         IResult Update(User user);
+        User GetById(int userId);
         IDataResult<User> GetByMail(string email);
-
         IDataResult<User> IsAdmin(string status, int userId);
 
         //DTO
         IDataResult<List<UserDTO>> GetAllDTO(int userId);
+        IDataResult<List<UserCodeDTO>> GetCode(int userId);
     }
 }

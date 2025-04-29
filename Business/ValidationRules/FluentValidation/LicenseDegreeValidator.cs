@@ -12,9 +12,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public LicenceDegreeValidator()
         {
-            RuleFor(c => c.LicenceName).NotEmpty();
-            RuleFor(c => c.LicenceName).NotNull();
-            RuleFor(c => c.LicenceName).MinimumLength(2);
+            RuleFor(c => c.LicenceDegreeName).NotEmpty();
+            RuleFor(c => c.LicenceDegreeName).NotNull();
+            RuleFor(c => c.LicenceDegreeName).MinimumLength(2);
         }
     }
 }

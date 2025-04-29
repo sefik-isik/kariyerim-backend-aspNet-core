@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class LicenceDegree : Entity, IEntity
+    public class UserCodeDTO : Dto
     {
-        public string LicenceDegreeName { get; set; }
+        public string Code { get; set; }
+        public string Email { get; set; }
     }
 }

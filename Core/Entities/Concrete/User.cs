@@ -16,5 +16,7 @@ namespace Core.Entities.Concrete
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
         public string Status { get; set; }
+        public string Code { get; set; }
+
     }
 }

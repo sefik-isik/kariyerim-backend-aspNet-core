@@ -30,6 +30,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  Email = users.Email,
                                  PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  FileName = personelUserFiles.FileName,
                                  FilePath = personelUserFiles.FilePath,

@@ -5,6 +5,8 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -44,6 +46,19 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
+
+        [SecuredOperation("admin,user")]
+        public User GetById(int userId)
+        {
+            return _userDal.Get(u => u.Id == userId);
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UserCodeDTO>> GetCode(int userId)
+        {
+            return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userId));
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<User> IsAdmin(string status, int userId)
         {
@@ -62,6 +77,5 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDTO(), Messages.CompaniesListed);
             }
         }
-
     }
 }

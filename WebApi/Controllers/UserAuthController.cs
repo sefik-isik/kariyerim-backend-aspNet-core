@@ -69,5 +69,24 @@ namespace WebAPI.Controllers
 
             return BadRequest(result.Message);
         }
+
+        [HttpPost("updatecode")]
+        public ActionResult UpdateCode(UserCodeDTO userCodeDTO)
+        {
+            var userToLogin = _userAuthService.UpdateUserCode(userCodeDTO);
+            if (!userToLogin.IsSuccess)
+            {
+                return BadRequest(userToLogin.Message);
+            }
+
+            var result = _userAuthService.CreateAccessToken(userToLogin.Data);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result.Message);
+        }
     }
 }

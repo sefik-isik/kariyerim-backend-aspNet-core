@@ -23,5 +23,12 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getcode")]
+        public IActionResult GetCode(int userId)
+        {
+            var result = _userService.GetCode(userId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
     }
 }

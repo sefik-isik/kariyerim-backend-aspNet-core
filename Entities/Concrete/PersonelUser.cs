@@ -10,14 +10,13 @@ namespace Entities.Concrete
     public class PersonelUser : BaseUser, IEntity
     {
         public string IdentityNumber { get; set; }
-        public int CvId { get; set; }
-        public int LicenceId { get; set; }
-        public int BirthPlaceId { get; set; }
         public bool Gender { get; set; }
+        public int LicenceDegreeId { get; set; }
+        public int BirthPlaceId { get; set; }
         public bool NationalStatus { get; set; }
-        public int DriverLicenceId { get; set; }
         public bool MilitaryStatus { get; set; }
         public bool RetirementStatus { get; set; }
+        public int DriverLicenceId { get; set; }
         public DateTime DateOfBirth { get; set; }
 
     }
