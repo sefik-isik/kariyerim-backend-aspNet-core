@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -22,6 +23,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join counties in context.Countries on personelUserAddresses.CountryId equals counties.Id
                              join cities in context.Cities on personelUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on personelUserAddresses.RegionId equals regions.Id
+
+                             where users.Code == UserCodes.PersonelUserCode
 
                              select new PersonelUserAddressDTO
                              {

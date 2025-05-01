@@ -36,7 +36,7 @@ namespace Business.Concrete
                 PasswordSalt = passwordSalt,
                 Code= "VmaWsgScWeSUsiLCJhdWQiOiJzZWZpa2lzaWtAZ21haWwuY29tIn0.E53sJM4VSvSVE93feNe-XjwI5tmy2YntPeXTD_wavFn5mD6Vsk8",
                 Status = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9",
-                CreatedDate = DateTime.Now,
+
 
             };
             _userService.Add(user);
@@ -134,6 +134,97 @@ namespace Business.Concrete
                 CreatedDate=currentUser.CreatedDate,
                 UpdatedDate = DateTime.Now,
                 DeletedDate=currentUser.DeletedDate,
+            };
+
+            _userService.Update(user);
+            return new SuccessDataResult<User>(user);
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<User> UpdateUser(User Updateduser)
+        {
+
+            User currentUser = _userService.GetById(Updateduser.Id);
+
+            var user = new User
+            {
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+
+                Id = Updateduser.Id,
+                FirstName = Updateduser.FirstName,
+                LastName = Updateduser.LastName,
+                PhoneNumber = Updateduser.PhoneNumber,
+                Email = Updateduser.Email,
+                Code = Updateduser.Code,
+                Status = Updateduser.Status,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = DateTime.Now,
+                DeletedDate = null,
+            };
+
+            _userService.Update(user);
+            return new SuccessDataResult<User>(user);
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<User> DeleteUser(User deletedUser)
+        {
+            var userToCheck = _userService.GetByMail(deletedUser.Email);
+
+            if (userToCheck.Data == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserNotFound);
+            }
+
+            User currentUser = _userService.GetById(deletedUser.Id);
+
+            var user = new User
+            {
+                Id = deletedUser.Id,
+                Code = currentUser.Code,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                PhoneNumber = currentUser.PhoneNumber,
+                Email = currentUser.Email,
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+                Status = currentUser.Status,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = currentUser.DeletedDate,
+                DeletedDate = DateTime.Now,
+            };
+
+            _userService.Delete(user);
+            return new SuccessDataResult<User>(user);
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<User> UnDeleteUser(User deletedUser)
+        {
+            var userToCheck = _userService.GetByMail(deletedUser.Email);
+
+            if (userToCheck.Data == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserNotFound);
+            }
+
+            User currentUser = _userService.GetById(deletedUser.Id);
+
+            var user = new User
+            {
+                Id = deletedUser.Id,
+                Code = currentUser.Code,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                PhoneNumber = currentUser.PhoneNumber,
+                Email = currentUser.Email,
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+                Status = currentUser.Status,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = DateTime.Now,
+                DeletedDate = null,
             };
 
             _userService.Update(user);

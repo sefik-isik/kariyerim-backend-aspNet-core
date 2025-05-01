@@ -33,8 +33,35 @@ namespace DataAccess.Concrete.EntityFramework
                                  PhoneNumber = users.PhoneNumber,
                                  Email = users.Email,
                                  Code = users.Code,
+                                 Status = users.Status,
+                                 CreatedDate = users.CreatedDate,
+                                 UpdatedDate= users.UpdatedDate,
+                                 DeletedDate= users.DeletedDate,
                              };
                 return result.ToList();
+            }
+        }
+
+        public UserDTO GetByIdDTO(int userId)
+        {
+            using (var context = new KariyerimContext())
+            {
+                var result = from users in context.Users
+                             where users.Id == userId
+                             select new UserDTO
+                             {
+                                 Id = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Email = users.Email,
+                                 Code = users.Code,
+                                 Status = users.Status,
+                                 CreatedDate = users.CreatedDate,
+                                 UpdatedDate = users.UpdatedDate,
+                                 DeletedDate = users.DeletedDate,
+                             };
+                return result.ToList()[0];
             }
         }
 

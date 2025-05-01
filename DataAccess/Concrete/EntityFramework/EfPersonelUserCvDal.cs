@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -22,6 +23,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join languages in context.Languages on personelUserCvs.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on personelUserCvs.LanguageLevelId equals languageLevels.Id
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
+
+                             where users.Code == UserCodes.PersonelUserCode
 
                              select new PersonelUserCvDTO
                              {

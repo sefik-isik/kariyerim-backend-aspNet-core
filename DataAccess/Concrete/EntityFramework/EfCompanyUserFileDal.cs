@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -19,6 +20,8 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from companyUserFiles in context.CompanyUserFiles
                              join companyUsers in context.CompanyUsers on companyUserFiles.CompanyUserId equals companyUsers.Id
                              join users in context.Users on companyUsers.UserId equals users.Id
+
+                             where users.Code == UserCodes.CompanyUserCode
 
                              select new CompanyUserFileDTO
                              {

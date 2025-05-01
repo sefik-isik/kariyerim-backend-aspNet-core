@@ -41,16 +41,30 @@ namespace Business.Concrete
             _userDal.Update(user);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin,user")]
+        public IResult Delete(User user)
+        {
+            _userDal.Delete(user);
+            return new SuccessResult();
+        }
+
         //[SecuredOperation("admin,user")]
         public IDataResult<User> GetByMail(string email)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
 
-        [SecuredOperation("admin,user")]
+        [SecuredOperation("admin")]
         public User GetById(int userId)
         {
             return _userDal.Get(u => u.Id == userId);
+        }
+
+        [SecuredOperation("admin")]
+        public IDataResult<UserDTO> GetByIdDTO(int userId)
+        {
+            return new SuccessDataResult<UserDTO>(_userDal.GetByIdDTO(userId));
         }
 
         [SecuredOperation("admin,user")]
@@ -59,12 +73,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userId));
         }
 
-        [SecuredOperation("admin,user")]
+        [SecuredOperation("admin")]
         public IDataResult<User> IsAdmin(string status, int userId)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Status == status && u.Id == userId));
         }
-        [SecuredOperation("admin,user")]
+        [SecuredOperation("admin")]
         public IDataResult<List<UserDTO>> GetAllDTO(int userId)
         {
             var userIsAdmin = IsAdmin(UserStatus.Admin, userId);

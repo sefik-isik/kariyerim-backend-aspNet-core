@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.Business.Constans;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -24,6 +25,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join countries in context.Countries on companyUserAddresses.CountryId equals countries.Id
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
+
+                             where users.Code == UserCodes.CompanyUserCode
 
                              select new CompanyUserAddressDTO
                              {

@@ -23,10 +23,31 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getbyiddto")]
+        public IActionResult GetByIdDTO(int id)
+        {
+            var result = _userService.GetByIdDTO(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getcode")]
         public IActionResult GetCode(int userId)
         {
             var result = _userService.GetCode(userId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(User user)
+        {
+            var result = _userService.Update(user);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(User user)
+        {
+            var result = _userService.Delete(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

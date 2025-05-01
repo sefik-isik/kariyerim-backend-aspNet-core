@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -23,6 +24,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join university in context.Universities on cvEducation.UniversityId equals university.Id
                              join department in context.UniversityDepartments on cvEducation.DepartmentId equals department.Id
                              join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
+
+                             where users.Code == UserCodes.PersonelUserCode
 
                              select new PersonelUserCvEducationDTO
                              {

@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.DTOs;
+using Core.Utilities.Business.Constans;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -16,6 +17,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join sectors in context.Sectors on companyUsers.SectorId equals sectors.Id
                              join cities in context.Cities on companyUsers.TaxCityId equals cities.Id
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
+
+                             where users.Code == UserCodes.CompanyUserCode
 
                              select new CompanyUserDTO
                              {

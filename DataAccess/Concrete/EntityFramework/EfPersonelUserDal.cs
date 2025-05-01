@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.DTOs;
+using Core.Utilities.Business.Constans;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -16,6 +17,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join driverLicences in context.DriverLicences on personelUsers.DriverLicenceId equals driverLicences.Id
                              join licenceDegrees in context.LicenceDegrees on personelUsers.LicenceDegreeId equals licenceDegrees.Id
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
+
+                             where users.Code == UserCodes.PersonelUserCode
 
                              select new PersonelUserDTO
                              {
