@@ -49,6 +49,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getdeletedall")]
+        public IActionResult GetDeletedAll(int id)
+        {
+            var result = _companyUserImageService.GetDeletedAll(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -62,7 +69,12 @@ namespace WebAPI.Controllers
             var result = _companyUserImageService.GetAllDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
-
+        [HttpGet("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(int id)
+        {
+            var result = _companyUserImageService.GetAllDeletedDTO(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
 
         [HttpPost("uploadimage")]
         public IActionResult UploadImage(IFormFile image, int id)

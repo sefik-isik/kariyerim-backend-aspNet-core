@@ -18,13 +18,14 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on companyUsers.TaxCityId equals cities.Id
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
 
-                             where users.Code == UserCodes.CompanyUserCode
+                             where users.Code == UserCodes.CompanyUserCode &&
+                                    companyUsers.DeletedDate == null
 
                              select new CompanyUserDTO
                              {
                                  Id = companyUsers.Id,
                                  UserId = users.Id,
-                                 CompanyUserId=companyUsers.UserId,
+                                 CompanyUserId = companyUsers.UserId,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
@@ -47,7 +48,45 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        
+        public List<CompanyUserDTO> GetAllDeletedDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUsers in context.CompanyUsers
+                             join users in context.Users on companyUsers.UserId equals users.Id
+                             join sectors in context.Sectors on companyUsers.SectorId equals sectors.Id
+                             join cities in context.Cities on companyUsers.TaxCityId equals cities.Id
+                             join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
+
+                             where users.Code == UserCodes.CompanyUserCode &&
+                                    companyUsers.DeletedDate != null
+
+                             select new CompanyUserDTO
+                             {
+                                 Id = companyUsers.Id,
+                                 UserId = users.Id,
+                                 CompanyUserId = companyUsers.UserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
+                                 SectorId = sectors.Id,
+                                 SectorName = sectors.SectorName,
+                                 TaxCityId = cities.Id,
+                                 TaxCityName = cities.CityName,
+                                 TaxOfficeId = taxOffices.Id,
+                                 TaxOfficeName = taxOffices.TaxOfficeName,
+                                 TaxNumber = companyUsers.TaxNumber,
+                                 CreatedDate = companyUsers.CreatedDate,
+                                 UpdatedDate = companyUsers.UpdatedDate,
+                                 DeletedDate = companyUsers.DeletedDate,
+
+                             };
+                return result.ToList();
+            }
+        }
     }
 }
 

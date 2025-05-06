@@ -46,6 +46,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<UniversityDepartment>>(_universityDepartmentDal.GetAll());
         }
 
+        [SecuredOperation("admin")]
+        public IDataResult<List<UniversityDepartment>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<UniversityDepartment>>(_universityDepartmentDal.GetDeletedAll());
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<UniversityDepartment> GetById(int universityDepartmentId)
         {
@@ -57,6 +63,12 @@ namespace Business.Concrete
         public IDataResult<List<UniversityDepartmentDTO>> GetAllDTO()
         {
             return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDTO());
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UniversityDepartmentDTO>> GetAllDeletedDTO()
+        {
+            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDeletedDTO());
         }
 
     }

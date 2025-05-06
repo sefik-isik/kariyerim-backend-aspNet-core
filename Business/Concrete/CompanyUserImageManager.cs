@@ -42,7 +42,8 @@ namespace Business.Concrete
             _companyUserImageDal.Delete(companyUserImage);
             return new SuccessResult();
         }
-        //[SecuredOperation("admin,user")]
+        
+        [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserImage>> GetAll(int userId)
         {
             var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
@@ -56,6 +57,22 @@ namespace Business.Concrete
             }
             
         }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<CompanyUserImage>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetDeletedAll());
+            }
+
+        }
+
         //[SecuredOperation("admin,user")]
         public IDataResult<CompanyUserImage> GetById(int companyUserImageId)
         {
@@ -78,6 +95,18 @@ namespace Business.Concrete
             
         }
 
+        public IDataResult<List<CompanyUserImageDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO());
+            }
 
+        }
     }
 }

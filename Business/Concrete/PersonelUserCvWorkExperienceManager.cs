@@ -58,6 +58,20 @@ namespace Business.Concrete
             }
             
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetDeletedAll());
+            }
+
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<PersonelUserCvWorkExperience> GetById(int cvWorkExperienceId)
         {
@@ -74,6 +88,21 @@ namespace Business.Concrete
             else
             {
                 return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDTO(), Messages.CompaniesListed);
+            }
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDeletedDTO(), Messages.CompaniesListed);
             }
 
         }

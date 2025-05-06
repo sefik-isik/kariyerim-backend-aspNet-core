@@ -14,10 +14,10 @@ namespace Business.Abstract
         IResult Add(PersonelUserCvEducation cvEducation);
         IResult Update(PersonelUserCvEducation cvEducation);
         IResult Delete(PersonelUserCvEducation cvEducation);
-        IDataResult<List<PersonelUserCvEducation>> GetAll(int UserId);
+        IDataResult<List<PersonelUserCvEducation>> GetAll(int UserId);IDataResult<List<PersonelUserCvEducation>> GetDeletedAll(int UserId);
         IDataResult<PersonelUserCvEducation> GetById(int cvEducationId);
 
         //DTO
-        IDataResult<List<PersonelUserCvEducationDTO>> GetAllDTO(int userId);
+        IDataResult<List<PersonelUserCvEducationDTO>> GetAllDTO(int userId);IDataResult<List<PersonelUserCvEducationDTO>> GetAllDeletedDTO(int userId);
     }
 }

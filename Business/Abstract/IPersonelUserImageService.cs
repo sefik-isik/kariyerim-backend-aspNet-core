@@ -13,7 +13,7 @@ namespace Business.Abstract
         IResult Add(PersonelUserImage personelUserImage);
         IResult Update(PersonelUserImage personelUserImage);
         IResult Delete(PersonelUserImage personelUserImage);
-        IDataResult<List<PersonelUserImage>> GetAll(int UserId);
+        IDataResult<List<PersonelUserImage>> GetAll(int UserId);IDataResult<List<PersonelUserImage>> GetDeletedAll(int UserId);
         IDataResult<PersonelUserImage> GetById(int personelUserImageId);
         
     }

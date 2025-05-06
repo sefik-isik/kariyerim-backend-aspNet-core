@@ -74,9 +74,21 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(), Messages.CompaniesListed);
             }
+        }
 
-            
+        [SecuredOperation("admin")]
+        public IDataResult<List<CompanyUser>> GetDeletedAll(int userId)
 
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(), Messages.CompaniesListed);
+            }
         }
 
         [SecuredOperation("admin,user")]
@@ -99,6 +111,22 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO()), Messages.CompaniesListed);
             }
             
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO()), Messages.CompaniesListed);
+            }
+
 
         }
 

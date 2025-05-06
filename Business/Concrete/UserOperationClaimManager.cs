@@ -21,7 +21,7 @@ namespace Business.Concrete
         {
             _userOperationClaimDal = userOperationClaimDal;
         }
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IResult Add(UserOperationClaim userOperationClaim)
         {
             _userOperationClaimDal.Add(userOperationClaim);
@@ -44,6 +44,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<UserOperationClaim>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<UserOperationClaim> GetById(int userOperationClaimId)
         {
@@ -57,6 +62,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO());
         }
 
-
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UserOperationClaimDTO>> GetAllDeletedDTO()
+        {
+            return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO());
+        }
     }
 }

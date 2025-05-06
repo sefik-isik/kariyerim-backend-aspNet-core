@@ -47,6 +47,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<Sector>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<Sector> GetById(int SectorId)
         {

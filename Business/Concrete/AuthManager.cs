@@ -15,11 +15,13 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
+        private IUserOperationClaimService _userOperationClaimService;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IUserOperationClaimService userOperationClaimService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _userOperationClaimService = userOperationClaimService;
         }
 
         public IDataResult<User> Register(UserForRegisterDTO userForRegisterDto)
@@ -40,6 +42,16 @@ namespace Business.Concrete
 
             };
             _userService.Add(user);
+
+            var currentUser = _userService.GetByMail(userForRegisterDto.Email);
+
+            var userOperationClaim = new UserOperationClaim
+            {
+                UserId = currentUser.Data.Id,
+                OperationClaimId = 2
+            };
+            _userOperationClaimService.Add(userOperationClaim);
+
             return new SuccessDataResult<User>(user, Messages.SuccessfulLogin);
         }
 
@@ -156,7 +168,7 @@ namespace Business.Concrete
                 LastName = Updateduser.LastName,
                 PhoneNumber = Updateduser.PhoneNumber,
                 Email = Updateduser.Email,
-                Code = Updateduser.Code,
+                Code = currentUser.Code,
                 Status = Updateduser.Status,
                 CreatedDate = currentUser.CreatedDate,
                 UpdatedDate = DateTime.Now,

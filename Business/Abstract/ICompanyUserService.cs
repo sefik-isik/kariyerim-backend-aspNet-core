@@ -15,12 +15,12 @@ namespace Business.Abstract
         IResult Add(CompanyUser companyUser);
         IResult Update(CompanyUser companyUser);
         IResult Delete(CompanyUser companyUser);
-        IDataResult<List<CompanyUser>> GetAll(int userId);
+        IDataResult<List<CompanyUser>> GetAll(int userId);IDataResult<List<CompanyUser>> GetDeletedAll(int userId);
         IDataResult<CompanyUser> GetById(int UserId);
 
         //DTO
         IDataResult<List<CompanyUserDTO>> GetAllDTO(int userId);
-
+IDataResult<List<CompanyUserDTO>> GetAllDeletedDTO(int userId);
         
     }
 }

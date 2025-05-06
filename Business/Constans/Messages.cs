@@ -32,5 +32,7 @@ namespace Business.Constans
         public static string CompanyNameAlreadyExist = JsonConvert.SerializeObject("Bu şirket ismi daha önce eklenmiş");
         public static string TaxNumberAlreadyExist = JsonConvert.SerializeObject("Bu vergi numarası daha önce eklenmiş");
         public static string UserCodeAlreadyUpdated = JsonConvert.SerializeObject("Kullanıcı seçimi daha önce yapılmış");
+
+        public static string PersonelUserAlreadyExist = JsonConvert.SerializeObject("Kullanıcı daha önce eklenmiş");
     }
 }

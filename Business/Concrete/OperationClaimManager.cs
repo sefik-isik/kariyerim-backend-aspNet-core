@@ -44,6 +44,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<OperationClaim>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<OperationClaim> GetById(int operationClaimId)
         {

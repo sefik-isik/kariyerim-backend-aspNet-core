@@ -14,11 +14,11 @@ namespace Business.Abstract
         IResult Add(UniversityDepartment universityDepartment);
         IResult Update(UniversityDepartment universityDepartment);
         IResult Delete(UniversityDepartment universityDepartment);
-        IDataResult<List<UniversityDepartment>> GetAll();
+        IDataResult<List<UniversityDepartment>> GetAll();IDataResult<List<UniversityDepartment>> GetDeletedAll();
         IDataResult<UniversityDepartment> GetById(int universityDepartmentId);
         
 
         //DTO
-        IDataResult<List<UniversityDepartmentDTO>> GetAllDTO();
+        IDataResult<List<UniversityDepartmentDTO>> GetAllDTO();IDataResult<List<UniversityDepartmentDTO>> GetAllDeletedDTO();
     }
 }

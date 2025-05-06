@@ -13,7 +13,7 @@ namespace Business.Abstract
         IResult Add(PersonelUserCvSummary cvSummary);
         IResult Update(PersonelUserCvSummary cvSummary);
         IResult Delete(PersonelUserCvSummary cvSummary);
-        IDataResult<List<PersonelUserCvSummary>> GetAll(int UserId);
+        IDataResult<List<PersonelUserCvSummary>> GetAll(int UserId);IDataResult<List<PersonelUserCvSummary>> GetDeletedAll(int UserId);
         IDataResult<PersonelUserCvSummary> GetById(int cvSummaryId);
         
     }

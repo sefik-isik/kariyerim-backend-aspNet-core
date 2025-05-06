@@ -56,6 +56,21 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll());
             }
         }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<CompanyUserFile>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll());
+            }
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<CompanyUserFile> GetById(int companyFileId)
         {
@@ -76,6 +91,21 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDTO());
             }
             
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserFileDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDeletedDTO());
+            }
+
         }
 
     }

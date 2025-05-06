@@ -16,12 +16,7 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
-        {
-            var result = _userService.GetAllDTO(id);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
+        
 
         [HttpGet("getbyiddto")]
         public IActionResult GetByIdDTO(int id)
@@ -48,6 +43,20 @@ namespace WebAPI.Controllers
         public IActionResult Delete(User user)
         {
             var result = _userService.Delete(user);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO(int id)
+        {
+            var result = _userService.GetAllDTO(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(int id)
+        {
+            var result = _userService.GetAllDeletedDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

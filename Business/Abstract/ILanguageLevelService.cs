@@ -13,7 +13,7 @@ namespace Business.Abstract
         IResult Add(LanguageLevel languageLevel);
         IResult Update(LanguageLevel languageLevel);
         IResult Delete(LanguageLevel languageLevel);
-        IDataResult<List<LanguageLevel>> GetAll();
+        IDataResult<List<LanguageLevel>> GetAll();IDataResult<List<LanguageLevel>> GetDeletedAll();
         IDataResult<LanguageLevel> GetById(int languageLevelId);
         
     }

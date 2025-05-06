@@ -43,6 +43,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Language>>(_languageDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<Language>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<Language> GetById(int languageId)
         {

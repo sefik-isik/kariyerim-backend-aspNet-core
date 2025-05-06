@@ -44,6 +44,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getdeletedall")]
+        public IActionResult GetDeletedAll()
+        {
+            var result = _regionService.GetDeletedAll();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -55,6 +62,13 @@ namespace WebAPI.Controllers
         public IActionResult GetAllDTO()
         {
             var result = _regionService.GetAllDTO();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO()
+        {
+            var result = _regionService.GetAllDeletedDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

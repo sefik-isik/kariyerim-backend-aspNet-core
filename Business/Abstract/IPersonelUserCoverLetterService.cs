@@ -13,7 +13,7 @@ namespace Business.Abstract
         IResult Add(PersonelUserCoverLetter personelUserCoverLetter);
         IResult Update(PersonelUserCoverLetter personelUserCoverLetter);
         IResult Delete(PersonelUserCoverLetter personelUserCoverLetter);
-        IDataResult<List<PersonelUserCoverLetter>> GetAll(int UserId);
+        IDataResult<List<PersonelUserCoverLetter>> GetAll(int UserId);IDataResult<List<PersonelUserCoverLetter>> GetDeletedAll(int UserId);
         IDataResult<PersonelUserCoverLetter> GetById(int personelUserCoverLetterId);
         
     }

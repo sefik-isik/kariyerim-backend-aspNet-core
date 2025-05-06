@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -18,6 +19,9 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from universityDepartment in context.UniversityDepartments
                              join university in context.Universities on universityDepartment.UniversityId equals university.Id
+
+                             where universityDepartment.DeletedDate == null 
+
                              select new UniversityDepartmentDTO
                              {
                                  Id = universityDepartment.Id,
@@ -32,6 +36,27 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        
+        public List<UniversityDepartmentDTO> GetAllDeletedDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from universityDepartment in context.UniversityDepartments
+                             join university in context.Universities on universityDepartment.UniversityId equals university.Id
+
+                             where universityDepartment.DeletedDate != null 
+
+                             select new UniversityDepartmentDTO
+                             {
+                                 Id = universityDepartment.Id,
+                                 UniversityId = university.Id,
+                                 UniversityName = university.UniversityName,
+                                 DepartmentName = universityDepartment.DepartmentName,
+                                 CreatedDate = universityDepartment.CreatedDate,
+                                 UpdatedDate = universityDepartment.UpdatedDate,
+                                 DeletedDate = universityDepartment.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
     }
 }

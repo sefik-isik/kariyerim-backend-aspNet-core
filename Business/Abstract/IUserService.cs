@@ -24,7 +24,7 @@ namespace Business.Abstract
         //DTO
 
         IDataResult<UserDTO> GetByIdDTO(int userId);
-        IDataResult<List<UserDTO>> GetAllDTO(int userId);
+        IDataResult<List<UserDTO>> GetAllDTO(int userId);IDataResult<List<UserDTO>> GetAllDeletedDTO(int userId);
         IDataResult<List<UserCodeDTO>> GetCode(int userId);
     }
 }

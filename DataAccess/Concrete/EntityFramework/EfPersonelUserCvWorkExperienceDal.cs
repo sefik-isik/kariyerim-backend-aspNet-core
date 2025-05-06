@@ -28,7 +28,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on cvWorkExperiences.CityId equals cities.Id
                              join regions in context.Regions on cvWorkExperiences.RegionId equals regions.Id
 
-                             where users.Code == UserCodes.PersonelUserCode
+                             where users.Code == UserCodes.PersonelUserCode &&
+                             cvWorkExperiences.DeletedDate == null
 
                              select new PersonelUserCvWorkExperienceDTO
                              {
@@ -69,6 +70,61 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        
+        public List<PersonelUserCvWorkExperienceDTO> GetAllDeletedDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from cvWorkExperiences in context.PersonelUserCvWorkExperiences
+                             join personelUserCv in context.PersonelUserCvs on cvWorkExperiences.CvId equals personelUserCv.Id
+                             join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
+                             join sectors in context.Sectors on cvWorkExperiences.CompanySectorId equals sectors.Id
+                             join companyDepartments in context.CompanyUserDepartments on cvWorkExperiences.DepartmentId equals companyDepartments.Id
+                             join workingMethods in context.WorkingMethods on cvWorkExperiences.WorkingMethodId equals workingMethods.Id
+                             join countries in context.Countries on cvWorkExperiences.CountryId equals countries.Id
+                             join cities in context.Cities on cvWorkExperiences.CityId equals cities.Id
+                             join regions in context.Regions on cvWorkExperiences.RegionId equals regions.Id
+
+                             where users.Code == UserCodes.PersonelUserCode &&
+                             cvWorkExperiences.DeletedDate != null
+
+                             select new PersonelUserCvWorkExperienceDTO
+                             {
+                                 Id = cvWorkExperiences.Id,
+                                 UserId = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 Email = users.Email,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
+                                 CvId = personelUserCv.Id,
+                                 CvName = personelUserCv.CvName,
+                                 Position = cvWorkExperiences.Position,
+                                 CompanyName = cvWorkExperiences.CompanyName,
+                                 Working = cvWorkExperiences.Working,
+                                 StartDate = cvWorkExperiences.StartDate,
+                                 EndDate = cvWorkExperiences.EndDate,
+                                 CompanySectorId = sectors.Id,
+                                 CompanySectorName = sectors.SectorName,
+                                 DepartmentId = companyDepartments.Id,
+                                 DepartmentName = companyDepartments.DepartmentName,
+                                 WorkingMethodId = workingMethods.Id,
+                                 WorkingMethodName = workingMethods.MethodName,
+                                 CountryId = countries.Id,
+                                 Countryname = countries.CountryName,
+                                 CityId = cities.Id,
+                                 CityName = cities.CityName,
+                                 RegionId = regions.Id,
+                                 RegionName = regions.RegionName,
+                                 Detail = cvWorkExperiences.Detail,
+                                 CreatedDate = cvWorkExperiences.CreatedDate,
+                                 UpdatedDate = cvWorkExperiences.UpdatedDate,
+                                 DeletedDate = cvWorkExperiences.DeletedDate,
+                             };
+                return result.ToList();
+
+            }
+        }
     }
 }

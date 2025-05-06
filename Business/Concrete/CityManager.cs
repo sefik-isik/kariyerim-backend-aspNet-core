@@ -64,6 +64,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<City>>(_cityDal.GetAll(), Messages.CitiesListed);
         }
 
+        [SecuredOperation("admin")]
+        //[CacheAspect]
+        public IDataResult<List<City>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll(), Messages.CitiesListed);
+        }
+
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<City> GetById(int cityId)
@@ -79,6 +86,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO(), Messages.CitiesListed);
         }
 
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<CityDTO>> GetAllDeletedDTO()
+        {
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDeletedDTO(), Messages.CitiesListed);
+        }
 
 
         //Business Rules

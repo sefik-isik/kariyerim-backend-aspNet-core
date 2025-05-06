@@ -43,6 +43,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Region>>(_regionDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<Region>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<Region>>(_regionDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<Region> GetById(int regionId)
         {
@@ -53,6 +58,10 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO());
         }
-
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<RegionDTO>> GetAllDeletedDTO()
+        {
+            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDeletedDTO());
+        }
     }
 }

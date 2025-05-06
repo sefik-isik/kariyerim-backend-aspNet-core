@@ -45,6 +45,12 @@ namespace WebAPI.Controllers
             var result = _modelMenuService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+        [HttpGet("getdeletedall")]
+        public IActionResult GetDeletedAll()
+        {
+            var result = _modelMenuService.GetDeletedAll();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
 
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)

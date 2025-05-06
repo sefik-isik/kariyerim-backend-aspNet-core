@@ -57,6 +57,20 @@ namespace Business.Concrete
             }
             
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<PersonelUserCvSummary>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetDeletedAll());
+            }
+
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<PersonelUserCvSummary> GetById(int cvSummaryId)
         {

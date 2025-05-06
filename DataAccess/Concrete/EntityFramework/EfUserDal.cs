@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
+using Entities.Concrete;
 using Entities.DTOs;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -12,9 +13,12 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new KariyerimContext())
             {
                 var result = from operationClaims in context.OperationClaims
-                             join userOperationClaims in context.UserOperationClaims
-                                 on operationClaims.Id equals userOperationClaims.OperationClaimId
-                             where userOperationClaims.UserId == user.Id
+                             join userOperationClaims in context.UserOperationClaims on operationClaims.Id equals userOperationClaims.OperationClaimId
+                             join users in context.Users on userOperationClaims.UserId equals users.Id
+
+
+                             where userOperationClaims.UserId == user.Id 
+
                              select new OperationClaim { Id = operationClaims.Id, Name = operationClaims.Name };
                 return result.ToList();
 
@@ -26,6 +30,35 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new KariyerimContext())
             {
                 var result = from users in context.Users
+
+                             where users.DeletedDate == null
+
+
+                             select new UserDTO { 
+                                 Id = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Email = users.Email,
+                                 Code = users.Code,
+                                 Status = users.Status,
+                                 CreatedDate = users.CreatedDate,
+                                 UpdatedDate= users.UpdatedDate,
+                                 DeletedDate= users.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
+        
+        public List<UserDTO> GetAllDeletedDTO()
+        {
+            using (var context = new KariyerimContext())
+            {
+                var result = from users in context.Users
+
+                             where users.DeletedDate != null
+
+
                              select new UserDTO { 
                                  Id = users.Id,
                                  FirstName = users.FirstName,
@@ -47,7 +80,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new KariyerimContext())
             {
                 var result = from users in context.Users
-                             where users.Id == userId
+                             where users.Id == userId 
                              select new UserDTO
                              {
                                  Id = users.Id,
@@ -70,7 +103,8 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new KariyerimContext())
             {
                 var result = from users in context.Users
-                             where users.Id == userId
+                             where users.Id == userId 
+
                              select new UserCodeDTO
                              {
                                  Id = users.Id,

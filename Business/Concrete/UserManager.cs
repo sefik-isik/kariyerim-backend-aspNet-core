@@ -91,5 +91,19 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDTO(), Messages.CompaniesListed);
             }
         }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<UserDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDeletedDTO().FindAll(c => c.Id == userId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+            }
+        }
     }
 }

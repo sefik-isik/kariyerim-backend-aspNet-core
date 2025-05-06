@@ -21,6 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from countries in context.Countries
                              join city in context.Cities on countries.Id equals city.CountryId
+                             where countries.DeletedDate == null 
 
                              select new CityDTO
                              {
@@ -36,7 +37,28 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+        public List<CityDTO> GetAllDeletedDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from countries in context.Countries
+                             join city in context.Cities on countries.Id equals city.CountryId
+                             where countries.DeletedDate != null
 
+                             select new CityDTO
+                             {
+                                 Id = city.Id,
+                                 CityName = city.CityName,
+                                 CountryIso = countries.CountryIso,
+                                 CountryName = countries.CountryName,
+                                 CountryId = city.CountryId,
+                                 CreatedDate = city.CreatedDate,
+                                 UpdatedDate = city.UpdatedDate,
+                                 DeletedDate = city.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
     }
 }
 

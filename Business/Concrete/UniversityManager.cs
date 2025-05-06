@@ -42,6 +42,12 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<University>>(_universityDal.GetAll());
         }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<University>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<University>>(_universityDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<University> GetById(int universityId)
         {

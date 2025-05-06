@@ -14,11 +14,11 @@ namespace Business.Abstract
         IResult Add(Region region);
         IResult Update(Region region);
         IResult Delete(Region region);
-        IDataResult<List<Region>> GetAll();
+        IDataResult<List<Region>> GetAll();IDataResult<List<Region>> GetDeletedAll();
         IDataResult<Region> GetById(int regionId);
         
 
         //DTO
-        IDataResult<List<RegionDTO>> GetAllDTO();
+        IDataResult<List<RegionDTO>> GetAllDTO();IDataResult<List<RegionDTO>> GetAllDeletedDTO();
     }
 }

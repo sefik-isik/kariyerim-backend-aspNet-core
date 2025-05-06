@@ -12,5 +12,6 @@ namespace DataAccess.Abstract
     public interface ICompanyUserFileDal : IEntityRepository<CompanyUserFile>
     {
         List<CompanyUserFileDTO> GetAllDTO();
+        List<CompanyUserFileDTO> GetAllDeletedDTO();
     }
 }

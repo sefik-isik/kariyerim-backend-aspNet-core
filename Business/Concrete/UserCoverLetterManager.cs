@@ -57,6 +57,22 @@ namespace Business.Concrete
 
             
         }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<PersonelUserCoverLetter>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetDeletedAll());
+            }
+
+
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<PersonelUserCoverLetter> GetById(int personelUserCoverLetterId)
         {

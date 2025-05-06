@@ -13,7 +13,7 @@ namespace Business.Abstract
         IResult Add(University university);
         IResult Update(University university);
         IResult Delete(University university);
-        IDataResult<List<University>> GetAll();
+        IDataResult<List<University>> GetAll();IDataResult<List<University>> GetDeletedAll();
         IDataResult<University> GetById(int universityId);
         
     }

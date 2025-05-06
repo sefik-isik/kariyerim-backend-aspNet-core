@@ -15,6 +15,7 @@ using Core.Entities.Abstract;
 using Core.Utilities.Security.Status;
 using Core.Entities.Concrete;
 using Business.BusinessAspects.Autofac;
+using Core.Utilities.Business;
 
 namespace Business.Concrete
 {
@@ -32,6 +33,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUser personelUser)
         {
+            IResult result = BusinessRules.Run(IsPersonelUserExist(personelUser.UserId));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             _personelUserDal.Add(personelUser);
             return new SuccessResult();
         }
@@ -49,12 +57,37 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUser>> GetAll(int userId) => _userService.IsAdmin(UserStatus.Admin, userId).Data == null 
-            ? new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(p=>p.UserId==userId)) 
-            : new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll())
+        public IDataResult<List<PersonelUser>> GetAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll());
+            }
+
+        }
+        [SecuredOperation("admin")]
+        public IDataResult<List<PersonelUser>> GetDeletedAll(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll(c => c.UserId == userId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll());
+            }
+
+        }
 
 
-;        public IDataResult<PersonelUser> GetById(int userId) => new SuccessDataResult<PersonelUser>(_personelUserDal.Get(u => u.Id == userId));
+
+        public IDataResult<PersonelUser> GetById(int userId) => new SuccessDataResult<PersonelUser>(_personelUserDal.Get(u => u.Id == userId));
 
         //DTO
         [SecuredOperation("admin,user")]
@@ -70,6 +103,33 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO(), Messages.CompaniesListed);
             }
 
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<PersonelUserDTO>> GetAllDeletedDTO(int userId)
+        {
+            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+            }
+
+        }
+
+        //Business Rules
+        private IResult IsPersonelUserExist(int userID)
+        {
+            var result = _personelUserDal.GetAll(c => c.UserId == userID).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.PersonelUserAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

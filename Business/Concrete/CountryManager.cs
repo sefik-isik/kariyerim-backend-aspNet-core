@@ -42,6 +42,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Country>>(_countryDal.GetAll());
         }
+        [SecuredOperation("admin")]
+        public IDataResult<List<Country>> GetDeletedAll()
+        {
+            return new SuccessDataResult<List<Country>>(_countryDal.GetDeletedAll());
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<Country> GetById(int countryId)
         {
