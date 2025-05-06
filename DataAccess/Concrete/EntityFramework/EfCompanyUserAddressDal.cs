@@ -26,8 +26,11 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
 
-                             where users.Code == UserCodes.CompanyUserCode && companyUserAddresses.DeletedDate == null
-           
+                             where users.Code == UserCodes.CompanyUserCode && 
+                             companyUserAddresses.DeletedDate == null &&
+                             users.DeletedDate == null &&  
+                             companyUsers.DeletedDate == null
+
                              select new CompanyUserAddressDTO
                              {
                                  Id = companyUserAddresses.Id,
@@ -65,7 +68,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
 
-                             where users.Code == UserCodes.CompanyUserCode && companyUserAddresses.DeletedDate != null
+                             where users.Code == UserCodes.CompanyUserCode && companyUserAddresses.DeletedDate != null && 
+                             users.DeletedDate == null && companyUsers.DeletedDate == null
 
 
                              select new CompanyUserAddressDTO

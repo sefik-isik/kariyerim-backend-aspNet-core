@@ -29,7 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join regions in context.Regions on cvWorkExperiences.RegionId equals regions.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvWorkExperiences.DeletedDate == null
+                             cvWorkExperiences.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
                              select new PersonelUserCvWorkExperienceDTO
                              {
@@ -86,7 +86,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join regions in context.Regions on cvWorkExperiences.RegionId equals regions.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvWorkExperiences.DeletedDate != null
+                             cvWorkExperiences.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
                              select new PersonelUserCvWorkExperienceDTO
                              {

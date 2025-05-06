@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvEducation.DeletedDate == null
+                             cvEducation.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
                              select new PersonelUserCvEducationDTO
                              {
@@ -70,7 +70,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvEducation.DeletedDate != null 
+                             cvEducation.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
 
                              select new PersonelUserCvEducationDTO

@@ -19,7 +19,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUsers.DeletedDate == null 
+                             personelUsers.DeletedDate == null && users.DeletedDate == null
 
                              select new PersonelUserDTO
                              {
@@ -62,7 +62,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUsers.DeletedDate != null
+                             personelUsers.DeletedDate != null && users.DeletedDate == null
 
                              select new PersonelUserDTO
                              {

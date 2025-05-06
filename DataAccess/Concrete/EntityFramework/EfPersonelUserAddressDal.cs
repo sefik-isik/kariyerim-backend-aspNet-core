@@ -25,7 +25,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join regions in context.Regions on personelUserAddresses.RegionId equals regions.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUserAddresses.DeletedDate == null
+                             personelUserAddresses.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserAddressDTO
                              {
@@ -64,7 +64,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join regions in context.Regions on personelUserAddresses.RegionId equals regions.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUserAddresses.DeletedDate != null
+                             personelUserAddresses.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserAddressDTO
                              {

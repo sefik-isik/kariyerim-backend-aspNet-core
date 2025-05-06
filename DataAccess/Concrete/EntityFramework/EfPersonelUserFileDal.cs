@@ -24,7 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join users in context.Users on personelUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUserFiles.DeletedDate == null 
+                             personelUserFiles.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFileDTO
                              {
@@ -55,7 +55,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join users in context.Users on personelUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             personelUserFiles.DeletedDate != null 
+                             personelUserFiles.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFileDTO
                              {

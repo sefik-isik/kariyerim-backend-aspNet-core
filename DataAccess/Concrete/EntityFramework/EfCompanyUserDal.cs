@@ -19,7 +19,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
-                                    companyUsers.DeletedDate == null
+                                    companyUsers.DeletedDate == null &&
+                                    users.DeletedDate == null
 
                              select new CompanyUserDTO
                              {
@@ -59,7 +60,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
-                                    companyUsers.DeletedDate != null
+                                    companyUsers.DeletedDate != null && users.DeletedDate == null
 
                              select new CompanyUserDTO
                              {

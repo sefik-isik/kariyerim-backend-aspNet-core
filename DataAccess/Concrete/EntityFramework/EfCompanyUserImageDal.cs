@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join users in context.Users on companyUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
-                             companyUserImages.DeletedDate == null
+                             companyUserImages.DeletedDate == null && users.DeletedDate == null && companyUsers.DeletedDate == null
 
                              select new CompanyUserImageDTO
                              {
@@ -54,7 +54,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join users in context.Users on companyUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
-                             companyUserImages.DeletedDate != null
+                             companyUserImages.DeletedDate != null && users.DeletedDate == null && companyUsers.DeletedDate == null
 
                              select new CompanyUserImageDTO
                              {
