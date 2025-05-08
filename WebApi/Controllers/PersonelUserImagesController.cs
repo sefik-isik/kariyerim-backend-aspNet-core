@@ -70,11 +70,15 @@ namespace WebAPI.Controllers
         [HttpPost("uploadimage")]
         public IActionResult UploadImage(IFormFile image, int id)
         {
+            PersonelUser personelUser = _personelUserService.GetByUserId(id);
+
+            int userId = personelUser.UserId;
+
             if (image == null || image.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -84,7 +88,7 @@ namespace WebAPI.Controllers
 
                 string fullImageName = uploadImageHandler.CreateFileName(image);
 
-                string uploadsFolder = _environment.WebRootPath + "\\uploads\\images\\" + id + "\\";
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\";
 
                 if (!Directory.Exists(uploadsFolder))
                 {
@@ -99,7 +103,7 @@ namespace WebAPI.Controllers
                     image.CopyTo(stream);
                 }
 
-                string uploadsThumbFolder = _environment.WebRootPath + "\\uploads\\images\\" + id + "\\thumbs\\";
+                string uploadsThumbFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\";
 
                 if (!Directory.Exists(uploadsThumbFolder))
                 {
@@ -120,7 +124,7 @@ namespace WebAPI.Controllers
                 }
 
 
-                return Ok(new { type = "https://localhost:7088/" + "/uploads/images/" + id + "/", name = fullImageName });
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/images/" + userId + "/", name = fullImageName });
 
             }
             catch (Exception ex)
@@ -132,7 +136,7 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(PersonelUserImage personelUserImage)
         {
-            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(personelUserImage.PersonelUserId);
+            PersonelUser personelUser = _personelUserService.GetByUserId(personelUserImage.PersonelUserId);
 
             int userId = personelUser.UserId;
 

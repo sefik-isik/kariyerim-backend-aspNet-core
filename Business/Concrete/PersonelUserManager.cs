@@ -108,9 +108,9 @@ namespace Business.Concrete
 
         }
 
-        public IDataResult<PersonelUser> GetByUserId(int id)
+        public PersonelUser GetByUserId(int id)
         {
-            return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.UserId == id));
+            return _personelUserDal.Get(c => c.Id == id);
         }
 
 

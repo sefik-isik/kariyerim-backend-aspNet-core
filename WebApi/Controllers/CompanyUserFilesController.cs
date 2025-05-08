@@ -83,11 +83,15 @@ namespace WebAPI.Controllers
         [HttpPost("uploadfile")]
         public IActionResult UploadFile(IFormFile file, int id)
         {
+            CompanyUser companyUser = _companyUserService.GetByUserId(id);
+
+            int userId = companyUser.UserId;
+
             if (file == null || file.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -97,7 +101,7 @@ namespace WebAPI.Controllers
 
                 string fullFileName = uploadFileHandler.CreateFileName(file);
 
-                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + id + "\\";
+                string uploadsFolder = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\";
 
                 if (!Directory.Exists(uploadsFolder))
                 {
@@ -112,7 +116,7 @@ namespace WebAPI.Controllers
                     file.CopyTo(stream);
                 }
 
-                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + id + "/", name = fullFileName });
+                return Ok(new { type = "https://localhost:7088/" + "/uploads/files/" + userId + "/", name = fullFileName });
 
             }
             catch (Exception ex)
@@ -125,11 +129,11 @@ namespace WebAPI.Controllers
         public IActionResult DeleteFile(CompanyUserFile companyUserFile)
         {
 
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(companyUserFile.CompanyUserId);
+            CompanyUser companyUser = _companyUserService.GetByUserId(companyUserFile.CompanyUserId);
 
             int userId = companyUser.UserId;
 
-            string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + companyUserFile.CompanyUserId + "\\" + companyUserFile.FileName;
+            string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\" + companyUserFile.FileName;
 
             if (System.IO.File.Exists(fullFilePath))
             {

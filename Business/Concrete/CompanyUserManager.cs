@@ -99,9 +99,9 @@ namespace Business.Concrete
             return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == id), Messages.CompanyListed);
         }
 
-        public IDataResult<CompanyUser> GetByUserId(int id)
+        public CompanyUser GetByUserId(int id)
         {
-            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.UserId == id));
+            return _companyUserDal.Get(c => c.Id == id);
         }
 
         //DTO
