@@ -49,9 +49,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Region>>(_regionDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Region> GetById(int regionId)
+        public IDataResult<Region> GetById(int id)
         {
-            return new SuccessDataResult<Region>(_regionDal.Get(r=>r.Id == regionId));
+            return new SuccessDataResult<Region>(_regionDal.Get(r=>r.Id == id));
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<RegionDTO>> GetAllDTO()

@@ -53,9 +53,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Sector> GetById(int SectorId)
+        public IDataResult<Sector> GetById(int id)
         {
-            return new SuccessDataResult<Sector>(_companyUserSectorDal.Get(c=> c.Id == SectorId));
+            return new SuccessDataResult<Sector>(_companyUserSectorDal.Get(c=> c.Id == id));
         }
 
     }

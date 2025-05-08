@@ -14,6 +14,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,13 @@ namespace Business.Concrete
     {
         ICompanyUserAddressDal _companyUserAddressDal;
         IUserService _userService;
+        ICompanyUserService _companyUserService;
 
-        public CompanyUserAddressManager(ICompanyUserAddressDal companyUserAddressDal, IUserService userService)
+        public CompanyUserAddressManager(ICompanyUserAddressDal companyUserAddressDal, IUserService userService, ICompanyUserService companyUserService)
         {
             _companyUserAddressDal = companyUserAddressDal;
             _userService = userService;
-
+            _companyUserService = companyUserService;
         }
         [SecuredOperation("admin,user")]
         [ValidationAspect(typeof(CompanyUserAddressValidator))]
@@ -56,12 +58,14 @@ namespace Business.Concrete
         }
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<List<CompanyUserAddress>> GetAll(int userId)
+        public IDataResult<List<CompanyUserAddress>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll(c => c.CompanyUserId == companyUser.Id));
             }
             else
             {
@@ -71,12 +75,14 @@ namespace Business.Concrete
         
         [SecuredOperation("admin")]
         //[CacheAspect]
-        public IDataResult<List<CompanyUserAddress>> GetDeletedAll(int userId)
+        public IDataResult<List<CompanyUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Id));
             }
             else
             {
@@ -87,19 +93,21 @@ namespace Business.Concrete
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<CompanyUserAddress> GetById(int companyUserAddressId)
+        public IDataResult<CompanyUserAddress> GetById(int id)
         {
-            return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == companyUserAddressId));
+            return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == id));
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAddressDTO>> GetAllDTO(int userId)
+        public IDataResult<List<CompanyUserAddressDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDTO().FindAll(c=>c.UserId==userId));
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDTO().FindAll(c=>c.UserId== userAdminDTO.UserId));
             }
             else
             {
@@ -109,12 +117,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAddressDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<CompanyUserAddressDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {

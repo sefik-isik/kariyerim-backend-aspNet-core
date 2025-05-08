@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Abstract
+namespace Entities.DTOs
 {
-    public class BaseDTOUser : BaseUser
+    public class UserAdminDTO
     {
+        public int UserId { get; set; }
         public string Email { get; set; }
-        public string Code { get; set; }
+        public string Status { get; set; }
     }
 }

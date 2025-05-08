@@ -25,10 +25,6 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = userOperationClaims.Id,
                                  UserId = userOperationClaims.UserId,
-                                 Email = users.Email,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
-                                 PhoneNumber = users.PhoneNumber,
                                  OperationClaimId = userOperationClaims.OperationClaimId,
                                  OperationClaimName = operationClaims.Name,
                                  CreatedDate = userOperationClaims.CreatedDate,
@@ -53,10 +49,6 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = userOperationClaims.Id,
                                  UserId = userOperationClaims.UserId,
-                                 Email = users.Email,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
-                                 PhoneNumber = users.PhoneNumber,
                                  OperationClaimId = userOperationClaims.OperationClaimId,
                                  OperationClaimName = operationClaims.Name,
                                  CreatedDate = userOperationClaims.CreatedDate,

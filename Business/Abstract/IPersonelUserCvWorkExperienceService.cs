@@ -14,9 +14,11 @@ namespace Business.Abstract
         IResult Add(PersonelUserCvWorkExperience cvWorkExperience);
         IResult Update(PersonelUserCvWorkExperience cvWorkExperience);
         IResult Delete(PersonelUserCvWorkExperience cvWorkExperience);
-        IDataResult<List<PersonelUserCvWorkExperience>> GetAll(int UserId);IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(int UserId);
-        IDataResult<PersonelUserCvWorkExperience> GetById(int cvWorkExperienceId);
+        IDataResult<List<PersonelUserCvWorkExperience>> GetAll(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        IDataResult<PersonelUserCvWorkExperience> GetById(int id);
         
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(int userId);IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDeletedDTO(int userId);
+        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
     }
 }

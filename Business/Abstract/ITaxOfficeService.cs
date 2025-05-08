@@ -14,11 +14,13 @@ namespace Business.Abstract
         IResult Add(TaxOffice taxOffice);
         IResult Update(TaxOffice taxOffice);
         IResult Delete(TaxOffice taxOffice);
-        IDataResult<List<TaxOffice>> GetAll();IDataResult<List<TaxOffice>> GetDeletedAll();
-        IDataResult<TaxOffice> GetById(int taxOfficeId);
+        IDataResult<List<TaxOffice>> GetAll();
+        IDataResult<List<TaxOffice>> GetDeletedAll();
+        IDataResult<TaxOffice> GetById(int id);
 
         //DTO
-        IDataResult<List<TaxOfficeDTO>> GetAllDTO();IDataResult<List<TaxOfficeDTO>> GetAllDeletedDTO();
+        IDataResult<List<TaxOfficeDTO>> GetAllDTO();
+        IDataResult<List<TaxOfficeDTO>> GetAllDeletedDTO();
 
     }
 }

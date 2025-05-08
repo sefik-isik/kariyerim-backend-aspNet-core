@@ -13,8 +13,9 @@ namespace Business.Abstract
         IResult Add(Country country);
         IResult Update(Country country);
         IResult Delete(Country country);
-        IDataResult<List<Country>> GetAll();IDataResult<List<Country>> GetDeletedAll();
-        IDataResult<Country> GetById(int UserId);
+        IDataResult<List<Country>> GetAll();
+        IDataResult<List<Country>> GetDeletedAll();
+        IDataResult<Country> GetById(int id);
         
     }
 }

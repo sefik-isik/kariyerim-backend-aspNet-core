@@ -13,8 +13,9 @@ namespace Business.Abstract
         IResult Add(DriverLicence driverLicence);
         IResult Update(DriverLicence driverLicence);
         IResult Delete(DriverLicence driverLicence);
-        IDataResult<List<DriverLicence>> GetAll();IDataResult<List<DriverLicence>> GetDeletedAll();
-        IDataResult<DriverLicence> GetById(int driverLicenceId);
+        IDataResult<List<DriverLicence>> GetAll();
+        IDataResult<List<DriverLicence>> GetDeletedAll();
+        IDataResult<DriverLicence> GetById(int id);
         
     }
 }

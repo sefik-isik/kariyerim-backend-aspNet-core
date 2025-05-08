@@ -49,9 +49,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<DriverLicence> GetById(int driverLicenceId)
+        public IDataResult<DriverLicence> GetById(int id)
         {
-            return new SuccessDataResult<DriverLicence>(_driverLicenceDal.Get(d=> d.Id == driverLicenceId));
+            return new SuccessDataResult<DriverLicence>(_driverLicenceDal.Get(d=> d.Id == id));
         }
 
         

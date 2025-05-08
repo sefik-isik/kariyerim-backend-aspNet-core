@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,17 +38,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetAll(id);
+            var result = _personelUserAddressService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetDeletedAll(id);
+            var result = _personelUserAddressService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -58,17 +59,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetAllDTO(id);
+            var result = _personelUserAddressService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(int id)
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetAllDeletedDTO(id);
+            var result = _personelUserAddressService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

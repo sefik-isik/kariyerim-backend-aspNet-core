@@ -48,9 +48,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<LicenceDegree> GetById(int LicenceDegreeId)
+        public IDataResult<LicenceDegree> GetById(int id)
         {
-            return new SuccessDataResult<LicenceDegree>(_licenceDegreeDal.Get(l=>l.Id == LicenceDegreeId));
+            return new SuccessDataResult<LicenceDegree>(_licenceDegreeDal.Get(l=>l.Id == id));
         }
 
         

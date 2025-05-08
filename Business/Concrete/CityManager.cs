@@ -73,9 +73,9 @@ namespace Business.Concrete
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<City> GetById(int cityId)
+        public IDataResult<City> GetById(int id)
         {
-            return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == cityId), Messages.CityListed);
+            return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == id), Messages.CityListed);
         }
 
 

@@ -56,35 +56,38 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public User GetById(int userId)
+        public User GetById(int id)
         {
-            return _userDal.Get(u => u.Id == userId);
+            return _userDal.Get(u => u.Id == id);
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<UserDTO> GetByIdDTO(int userId)
+        public IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<UserDTO>(_userDal.GetByIdDTO(userId));
+            return new SuccessDataResult<UserDTO>(_userDal.GetByIdDTO(userAdminDTO.UserId));
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserCodeDTO>> GetCode(int userId)
+        public IDataResult<List<UserCodeDTO>> GetCode(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userId));
+            return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userAdminDTO.UserId));
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<User> IsAdmin(string status, int userId)
+        public IDataResult<User> IsAdmin(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Status == status && u.Id == userId));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Status == userAdminDTO.Status && u.Id == userAdminDTO.UserId && u.Email == userAdminDTO.Email));
         }
+
+
         [SecuredOperation("admin")]
-        public IDataResult<List<UserDTO>> GetAllDTO(int userId)
+        public IDataResult<List<UserDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDTO().FindAll(c => c.Id == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -93,16 +96,44 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<List<UserDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<UserDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = IsAdmin(userAdminDTO);
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDeletedDTO().FindAll(c => c.Id == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDeletedDTO().FindAll(c => c.Id == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
                 return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+            }
+        }
+
+        public IDataResult<List<UserDTO>> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllCompanyUserDTO().FindAll(c => c.Id == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllCompanyUserDTO(), Messages.CompaniesListed);
+            }
+        }
+
+        public IDataResult<List<UserDTO>> GetAllPersonelUserDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllPersonelUserDTO().FindAll(c => c.Id == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllPersonelUserDTO(), Messages.CompaniesListed);
             }
         }
     }

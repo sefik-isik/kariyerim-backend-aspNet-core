@@ -16,20 +16,23 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from region in context.Regions
-                             join city in context.Cities on region.CityId equals city.Id
+                var result = from regions in context.Regions
+                             join cities in context.Cities on regions.CityId equals cities.Id
+                             join countries in context.Countries on cities.CountryId equals countries.Id
 
-                             where region.DeletedDate == null 
+                             where regions.DeletedDate == null && countries.DeletedDate == null && cities.DeletedDate == null
 
                              select new RegionDTO
                              {
-                                 Id = region.Id,
-                                 RegionName = region.RegionName,
-                                 CityId = city.Id,
-                                 CityName = city.CityName,
-                                 CreatedDate = region.CreatedDate,
-                                 UpdatedDate = region.UpdatedDate,
-                                 DeletedDate = region.DeletedDate,
+                                 Id = regions.Id,
+                                 RegionName = regions.RegionName,
+                                 CityId = cities.Id,
+                                 CityName = cities.CityName,
+                                 CountryId = cities.CountryId,
+                                 CountryName=countries.CountryName,
+                                 CreatedDate = regions.CreatedDate,
+                                 UpdatedDate = regions.UpdatedDate,
+                                 DeletedDate = regions.DeletedDate,
                              };
                 return result.ToList();
             }
@@ -38,20 +41,23 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from region in context.Regions
-                             join city in context.Cities on region.CityId equals city.Id
+                var result = from regions in context.Regions
+                             join cities in context.Cities on regions.CityId equals cities.Id
+                             join countries in context.Countries on cities.CountryId equals countries.Id
 
-                             where region.DeletedDate != null 
+                             where regions.DeletedDate != null && countries.DeletedDate == null && cities.DeletedDate == null
 
                              select new RegionDTO
                              {
-                                 Id = region.Id,
-                                 RegionName = region.RegionName,
-                                 CityId = city.Id,
-                                 CityName = city.CityName,
-                                 CreatedDate = region.CreatedDate,
-                                 UpdatedDate = region.UpdatedDate,
-                                 DeletedDate = region.DeletedDate,
+                                 Id = regions.Id,
+                                 RegionName = regions.RegionName,
+                                 CityId = cities.Id,
+                                 CityName = cities.CityName,
+                                 CountryId = cities.CountryId,
+                                 CountryName = countries.CountryName,
+                                 CreatedDate = regions.CreatedDate,
+                                 UpdatedDate = regions.UpdatedDate,
+                                 DeletedDate = regions.DeletedDate,
                              };
                 return result.ToList();
             }

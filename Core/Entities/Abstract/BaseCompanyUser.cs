@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities.Abstract
 {
-    public abstract class BaseCompanyUser: BaseUser, IDto
+    public abstract class BaseCompanyUser: Entity, IEntity
     {
         public int CompanyUserId { get; set; }
     }

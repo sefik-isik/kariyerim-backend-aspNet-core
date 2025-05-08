@@ -28,8 +28,8 @@ namespace Business.Concrete
         {
             _personelUserDal = personelUserDal;
             _userService = userService;
-
         }
+
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUser personelUser)
         {
@@ -57,12 +57,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUser>> GetAll(int userId)
+        public IDataResult<List<PersonelUser>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -71,12 +72,13 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<PersonelUser>> GetDeletedAll(int userId)
+        public IDataResult<List<PersonelUser>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -87,16 +89,17 @@ namespace Business.Concrete
 
 
 
-        public IDataResult<PersonelUser> GetById(int userId) => new SuccessDataResult<PersonelUser>(_personelUserDal.Get(u => u.Id == userId));
+        public IDataResult<PersonelUser> GetById(int id) => new SuccessDataResult<PersonelUser>(_personelUserDal.Get(u => u.Id == id));
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserDTO>> GetAllDTO(int userId)
+        public IDataResult<List<PersonelUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -105,13 +108,20 @@ namespace Business.Concrete
 
         }
 
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<PersonelUser> GetByUserId(int id)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.UserId == id));
+        }
+
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<PersonelUserDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -121,9 +131,9 @@ namespace Business.Concrete
         }
 
         //Business Rules
-        private IResult IsPersonelUserExist(int userID)
+        private IResult IsPersonelUserExist(int id)
         {
-            var result = _personelUserDal.GetAll(c => c.UserId == userID).Any();
+            var result = _personelUserDal.GetAll(c => c.UserId == id).Any();
 
             if (result)
             {
@@ -131,5 +141,6 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
     }
 }

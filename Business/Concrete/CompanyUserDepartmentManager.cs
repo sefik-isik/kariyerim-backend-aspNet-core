@@ -9,6 +9,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,13 @@ namespace Business.Concrete
     {
         ICompanyUserDepartmentDal _companyUserDepartmentDal;
         IUserService _userService;
+        ICompanyUserService _companyUserService;
 
-        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal, IUserService userService)
+        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal, IUserService userService, ICompanyUserService companyUserService)
         {
             _companyUserDepartmentDal = companyUserDepartmentDal;
             _userService = userService;
+            _companyUserService = companyUserService;
 
         }
         [SecuredOperation("admin,user")]
@@ -45,12 +48,14 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartment>> GetAll(int userId)
+        public IDataResult<List<CompanyUserDepartment>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.CompanyUserId == companyUser.Id));
             }
             else
             {
@@ -59,12 +64,14 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<List<CompanyUserDepartment>> GetDeletedAll(int userId)
+        public IDataResult<List<CompanyUserDepartment>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Id));
             }
             else
             {
@@ -73,19 +80,20 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserDepartment> GetById(int companyUserDepartmentId)
+        public IDataResult<CompanyUserDepartment> GetById(int id)
         {
-            return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c=> c.Id == companyUserDepartmentId));
+            return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c=> c.Id == id));
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartmentDTO>> GetAllDTO(int userId)
+        public IDataResult<List<CompanyUserDepartmentDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().FindAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -94,12 +102,14 @@ namespace Business.Concrete
             
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartmentDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<CompanyUserDepartmentDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {

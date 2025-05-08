@@ -25,10 +25,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUsers.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  IdentityNumber = personelUsers.IdentityNumber,
                                  Gender=personelUsers.Gender,
@@ -68,15 +65,12 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUsers.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  IdentityNumber = personelUsers.IdentityNumber,
-                                 Gender=personelUsers.Gender,
-                                 LicenceDegreeId=personelUsers.LicenceDegreeId,
-                                 LicenceDegreeName=licenceDegrees.LicenceDegreeName,
+                                 Gender = personelUsers.Gender,
+                                 LicenceDegreeId = personelUsers.LicenceDegreeId,
+                                 LicenceDegreeName = licenceDegrees.LicenceDegreeName,
                                  DriverLicenceId = driverLicences.Id,
                                  DriverLicenceName = driverLicences.DriverLicenceName,
                                  MilitaryStatus = personelUsers.MilitaryStatus,
@@ -88,7 +82,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CreatedDate = personelUsers.CreatedDate,
                                  UpdatedDate = personelUsers.UpdatedDate,
                                  DeletedDate = personelUsers.DeletedDate,
-                                 
+
                              };
                 return result.ToList();
             }

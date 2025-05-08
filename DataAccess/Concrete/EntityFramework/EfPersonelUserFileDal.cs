@@ -30,10 +30,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUserFiles.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  FileName = personelUserFiles.FileName,
@@ -54,17 +51,14 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserFiles.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where users.Code == UserCodes.PersonelUserCode &&
-                             personelUserFiles.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null
+                             where users.Code != UserCodes.PersonelUserCode &&
+                             personelUserFiles.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFileDTO
                              {
                                  Id = personelUserFiles.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  FileName = personelUserFiles.FileName,

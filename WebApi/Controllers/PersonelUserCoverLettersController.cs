@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,17 +38,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetAll(id);
+            var result = _personelUserCoverLetterService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetDeletedAll(id);
+            var result = _personelUserCoverLetterService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

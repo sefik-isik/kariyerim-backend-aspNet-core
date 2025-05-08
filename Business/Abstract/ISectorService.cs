@@ -13,8 +13,9 @@ namespace Business.Abstract
         IResult Add(Sector companyUserSector);
         IResult Update(Sector companyUserSector);
         IResult Delete(Sector companyUserSector);
-        IDataResult<List<Sector>> GetAll();IDataResult<List<Sector>> GetDeletedAll();
-        IDataResult<Sector> GetById(int companyUserSectorId);
+        IDataResult<List<Sector>> GetAll();
+        IDataResult<List<Sector>> GetDeletedAll();
+        IDataResult<Sector> GetById(int id);
         
     }
 }

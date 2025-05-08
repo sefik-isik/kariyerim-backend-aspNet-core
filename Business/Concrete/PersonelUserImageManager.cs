@@ -5,8 +5,10 @@ using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +19,13 @@ namespace Business.Concrete
     {
         IPersonelUserImageDal _personelUserImageDal;
         IUserService _userService;
+        IPersonelUserService _personelUserService;
 
-        public PersonelUserImageManager(IPersonelUserImageDal personelUserImageDal, IUserService userService)
+        public PersonelUserImageManager(IPersonelUserImageDal personelUserImageDal, IUserService userService, IPersonelUserService personelUserService)
         {
             _personelUserImageDal = personelUserImageDal;
             _userService = userService;
+            _personelUserService = personelUserService;
 
         }
         [SecuredOperation("admin,user")]
@@ -43,12 +47,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImage>> GetAll(int userId)
+        public IDataResult<List<PersonelUserImage>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -57,12 +64,15 @@ namespace Business.Concrete
             
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<PersonelUserImage>> GetDeletedAll(int userId)
+        public IDataResult<List<PersonelUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -71,9 +81,9 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserImage> GetById(int personelUserImageId)
+        public IDataResult<PersonelUserImage> GetById(int id)
         {
-            return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c=>c.Id==personelUserImageId));
+            return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c=>c.Id== id));
         }
 
         

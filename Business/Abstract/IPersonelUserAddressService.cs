@@ -14,11 +14,13 @@ namespace Business.Abstract
         IResult Add(PersonelUserAddress personelUserAddress);
         IResult Update(PersonelUserAddress personelUserAddress);
         IResult Delete(PersonelUserAddress personelUserAddress);
-        IDataResult<List<PersonelUserAddress>> GetAll(int UserId);IDataResult<List<PersonelUserAddress>> GetDeletedAll(int UserId);
-        IDataResult<PersonelUserAddress> GetById(int personelUserAddressId);
+        IDataResult<List<PersonelUserAddress>> GetAll(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        IDataResult<PersonelUserAddress> GetById(int id);
         
 
         //DTO
-        IDataResult<List<PersonelUserAddressDTO>> GetAllDTO(int userId);IDataResult<List<PersonelUserAddressDTO>> GetAllDeletedDTO(int userId);
+        IDataResult<List<PersonelUserAddressDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserAddressDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
     }
 }

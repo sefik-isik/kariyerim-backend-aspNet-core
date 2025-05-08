@@ -48,9 +48,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<WorkingMethod> GetById(int workingMethodId)
+        public IDataResult<WorkingMethod> GetById(int id)
         {
-            return new SuccessDataResult<WorkingMethod>(_workingMethodDal.Get(w=>w.Id == workingMethodId));
+            return new SuccessDataResult<WorkingMethod>(_workingMethodDal.Get(w=>w.Id == id));
         }
 
         

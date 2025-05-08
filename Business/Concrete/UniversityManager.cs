@@ -49,9 +49,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<University>>(_universityDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<University> GetById(int universityId)
+        public IDataResult<University> GetById(int id)
         {
-            return new SuccessDataResult<University>(_universityDal.Get(u=>u.Id == universityId));
+            return new SuccessDataResult<University>(_universityDal.Get(u=>u.Id == id));
         }
 
         

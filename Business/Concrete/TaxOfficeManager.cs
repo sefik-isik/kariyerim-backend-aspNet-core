@@ -50,9 +50,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<TaxOffice>>(_taxOfficeDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<TaxOffice> GetById(int taxOfficeId)
+        public IDataResult<TaxOffice> GetById(int id)
         {
-            return new SuccessDataResult<TaxOffice>(_taxOfficeDal.Get(t=>t.Id == taxOfficeId));
+            return new SuccessDataResult<TaxOffice>(_taxOfficeDal.Get(t=>t.Id == id));
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<TaxOfficeDTO>> GetAllDTO()

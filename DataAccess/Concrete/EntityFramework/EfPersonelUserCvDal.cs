@@ -19,8 +19,8 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from personelUserCvs in context.PersonelUserCvs
-                             join users in context.Users on personelUserCvs.UserId equals users.Id
                              join personelUsers in context.PersonelUsers on personelUserCvs.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
                              join languages in context.Languages on personelUserCvs.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on personelUserCvs.LanguageLevelId equals languageLevels.Id
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
@@ -33,10 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUserCvs.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  IdentityNumber = personelUsers.IdentityNumber,
@@ -66,8 +63,8 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from personelUserCvs in context.PersonelUserCvs
-                             join users in context.Users on personelUserCvs.UserId equals users.Id
                              join personelUsers in context.PersonelUsers on personelUserCvs.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
                              join languages in context.Languages on personelUserCvs.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on personelUserCvs.LanguageLevelId equals languageLevels.Id
                              join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
@@ -80,10 +77,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = personelUserCvs.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  IdentityNumber = personelUsers.IdentityNumber,

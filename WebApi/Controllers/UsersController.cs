@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +17,17 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        
-
-        [HttpGet("getbyiddto")]
-        public IActionResult GetByIdDTO(int id)
+        [HttpPost("getbyiddto")]
+        public IActionResult GetByIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetByIdDTO(id);
+            var result = _userService.GetByIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getcode")]
-        public IActionResult GetCode(int userId)
+        [HttpPost("getcode")]
+        public IActionResult GetCode(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetCode(userId);
+            var result = _userService.GetCode(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -46,17 +45,31 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetAllDTO(id);
+            var result = _userService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(int id)
+        [HttpPost("getallcompanyuserdto")]
+        public IActionResult GetAllCompanyUserDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetAllDeletedDTO(id);
+            var result = _userService.GetAllCompanyUserDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getallpersoneluserdto")]
+        public IActionResult GetAllPersonelUserDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _userService.GetAllPersonelUserDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _userService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

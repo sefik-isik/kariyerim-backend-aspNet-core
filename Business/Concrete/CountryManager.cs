@@ -48,9 +48,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Country>>(_countryDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Country> GetById(int countryId)
+        public IDataResult<Country> GetById(int id)
         {
-            return new SuccessDataResult<Country>(_countryDal.Get(c=> c.Id == countryId));
+            return new SuccessDataResult<Country>(_countryDal.Get(c=> c.Id == id));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Business.Abstract
         IDataResult<List<City>> GetAll();
 
         IDataResult<List<City>> GetDeletedAll();
-        IDataResult<City> GetById(int cityId);
+        IDataResult<City> GetById(int id);
         
 
         //DTO

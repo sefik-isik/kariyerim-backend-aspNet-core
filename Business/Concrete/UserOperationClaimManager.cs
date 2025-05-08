@@ -1,9 +1,11 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,14 @@ namespace Business.Concrete
     public class UserOperationClaimManager : IUserOperationClaimService
     {
         IUserOperationClaimDal _userOperationClaimDal;
+        IUserService _userService;
+        IPersonelUserService _personelUserService;
 
-        public UserOperationClaimManager(IUserOperationClaimDal userOperationClaimDal)
+        public UserOperationClaimManager(IUserOperationClaimDal userOperationClaimDal, IUserService userService, IPersonelUserService personelUserService)
         {
             _userOperationClaimDal = userOperationClaimDal;
+            _userService = userService;
+            _personelUserService = personelUserService;
         }
         //[SecuredOperation("admin")]
         public IResult Add(UserOperationClaim userOperationClaim)
@@ -40,32 +46,70 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaim>> GetAll()
+        public IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
+            }
+           
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<UserOperationClaim>> GetDeletedAll()
+        public IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll());
+            }
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<UserOperationClaim> GetById(int userOperationClaimId)
+        public IDataResult<UserOperationClaim> GetById(int id)
         {
-            return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userOperationClaimId));
+            return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == id));
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaimDTO>> GetAllDTO()
+        public IDataResult<List<UserOperationClaimDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO());
+            }
+
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaimDTO>> GetAllDeletedDTO()
+        public IDataResult<List<UserOperationClaimDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO());
+            }
         }
     }
 }

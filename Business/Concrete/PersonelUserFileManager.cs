@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -19,6 +20,7 @@ namespace Business.Concrete
     {
         IPersonelUserFileDal _personelUserFileDal;
         IUserService _userService;
+        IPersonelUserService _personelUserService;
 
         public PersonelUserFileManager(IPersonelUserFileDal personelUserFileDal, IUserService userService)
         {
@@ -45,12 +47,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserFile>> GetAll(int userId)
+        public IDataResult<List<PersonelUserFile>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -59,12 +64,15 @@ namespace Business.Concrete
             
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<PersonelUserFile>> GetDeletedAll(int userId)
+        public IDataResult<List<PersonelUserFile>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -73,19 +81,20 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserFile> GetById(int personelFileId)
+        public IDataResult<PersonelUserFile> GetById(int id)
         {
-            return new SuccessDataResult<PersonelUserFile>(_personelUserFileDal.Get(c => c.Id == personelFileId));
+            return new SuccessDataResult<PersonelUserFile>(_personelUserFileDal.Get(c => c.Id == id));
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserFileDTO>> GetAllDTO(int userId)
+        public IDataResult<List<PersonelUserFileDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -95,12 +104,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserFileDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<PersonelUserFileDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {

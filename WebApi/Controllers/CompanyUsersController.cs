@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
@@ -38,17 +39,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserService.GetAll(id);
+            var result = _companyUserService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserService.GetDeletedAll(id);
+            var result = _companyUserService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -59,17 +60,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserService.GetAllDTO(id);
+            var result = _companyUserService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(int id)
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserService.GetAllDeletedDTO(id);
+            var result = _companyUserService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

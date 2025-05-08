@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
@@ -13,12 +14,13 @@ namespace WebAPI.Controllers
     {
         ICompanyUserImageService _companyUserImageService;
         private readonly IWebHostEnvironment _environment;
+        ICompanyUserService _companyUserService;
 
-        public CompanyUserImagesController(ICompanyUserImageService companyUserImageService, IWebHostEnvironment environment)
+        public CompanyUserImagesController(ICompanyUserImageService companyUserImageService, IWebHostEnvironment environment,ICompanyUserService companyUserService)
         {
             _companyUserImageService = companyUserImageService;
             _environment = environment;
-
+            _companyUserService = companyUserService;
         }
 
         [HttpPost("add")]
@@ -42,17 +44,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetAll(id);
+            var result = _companyUserImageService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetDeletedAll(id);
+            var result = _companyUserImageService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -63,16 +65,16 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetAllDTO(id);
+            var result = _companyUserImageService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
-        [HttpGet("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(int id)
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetAllDeletedDTO(id);
+            var result = _companyUserImageService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -141,7 +143,11 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(CompanyUserImage companyUserImage)
         {
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\" + companyUserImage.ImageName;
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(companyUserImage.CompanyUserId);
+
+            int userId = companyUser.UserId;
+
+            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\" + companyUserImage.ImageName;
 
             if (System.IO.File.Exists(fullImagePath))
             {
@@ -149,7 +155,7 @@ namespace WebAPI.Controllers
 
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\thumbs\\" + companyUserImage.ImageName;
+            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\" + companyUserImage.ImageName;
 
             if (System.IO.File.Exists(fullThumbImagePath))
             {

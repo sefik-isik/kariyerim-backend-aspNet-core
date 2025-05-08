@@ -17,41 +17,38 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from cvEducation in context.PersonelUserCvEducations
-                             join personelUserCv in context.PersonelUserCvs on cvEducation.CvId equals personelUserCv.Id
-                             join personelUsers in context.PersonelUsers on cvEducation.PersonelUserId equals personelUsers.Id
+                var result = from personelUserCvEducations in context.PersonelUserCvEducations
+                             join personelUserCv in context.PersonelUserCvs on personelUserCvEducations.CvId equals personelUserCv.Id
+                             join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
-                             join university in context.Universities on cvEducation.UniversityId equals university.Id
-                             join department in context.UniversityDepartments on cvEducation.DepartmentId equals department.Id
-                             join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
+                             join university in context.Universities on personelUserCvEducations.UniversityId equals university.Id
+                             join department in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals department.Id
+                             join faculty in context.Faculties on personelUserCvEducations.FacultyId equals faculty.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvEducation.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
+                             personelUserCvEducations.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
                              select new PersonelUserCvEducationDTO
                              {
-                                 Id = cvEducation.Id,
+                                 Id = personelUserCvEducations.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  CvId = personelUserCv.Id,
-                                 EducationInfo = cvEducation.EducationInfo,
+                                 EducationInfo = personelUserCvEducations.EducationInfo,
                                  UniversityId = university.Id,
                                  UniversityName = university.UniversityName,
-                                 DepartmentId=department.Id,
+                                 DepartmentId = department.Id,
                                  DepartmentName = department.DepartmentName,
-                                 StartDate = cvEducation.StartDate,
-                                 EndDate = cvEducation.EndDate,
-                                 FacultyId=faculty.Id,
+                                 StartDate = personelUserCvEducations.StartDate,
+                                 EndDate = personelUserCvEducations.EndDate,
+                                 FacultyId = faculty.Id,
                                  FacultyName = faculty.FacultyName,
-                                 Detail = cvEducation.Detail,
-                                 CreatedDate = cvEducation.CreatedDate,
-                                 UpdatedDate = cvEducation.UpdatedDate,
-                                 DeletedDate = cvEducation.DeletedDate,
+                                 Detail = personelUserCvEducations.Detail,
+                                 CreatedDate = personelUserCvEducations.CreatedDate,
+                                 UpdatedDate = personelUserCvEducations.UpdatedDate,
+                                 DeletedDate = personelUserCvEducations.DeletedDate,
                              };
                 return result.ToList();
             }
@@ -61,42 +58,38 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from cvEducation in context.PersonelUserCvEducations
-                             join personelUserCv in context.PersonelUserCvs on cvEducation.CvId equals personelUserCv.Id
-                             join personelUsers in context.PersonelUsers on cvEducation.PersonelUserId equals personelUsers.Id
+                var result = from personelUserCvEducations in context.PersonelUserCvEducations
+                             join personelUserCv in context.PersonelUserCvs on personelUserCvEducations.CvId equals personelUserCv.Id
+                             join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
-                             join university in context.Universities on cvEducation.UniversityId equals university.Id
-                             join department in context.UniversityDepartments on cvEducation.DepartmentId equals department.Id
-                             join faculty in context.Faculties on cvEducation.FacultyId equals faculty.Id
+                             join university in context.Universities on personelUserCvEducations.UniversityId equals university.Id
+                             join department in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals department.Id
+                             join faculty in context.Faculties on personelUserCvEducations.FacultyId equals faculty.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
-                             cvEducation.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
-
+                             personelUserCvEducations.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
 
                              select new PersonelUserCvEducationDTO
                              {
-                                 Id = cvEducation.Id,
+                                 Id = personelUserCvEducations.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  PersonelUserId = personelUsers.Id,
                                  CvId = personelUserCv.Id,
-                                 EducationInfo = cvEducation.EducationInfo,
+                                 EducationInfo = personelUserCvEducations.EducationInfo,
                                  UniversityId = university.Id,
                                  UniversityName = university.UniversityName,
                                  DepartmentId = department.Id,
                                  DepartmentName = department.DepartmentName,
-                                 StartDate = cvEducation.StartDate,
-                                 EndDate = cvEducation.EndDate,
+                                 StartDate = personelUserCvEducations.StartDate,
+                                 EndDate = personelUserCvEducations.EndDate,
                                  FacultyId = faculty.Id,
                                  FacultyName = faculty.FacultyName,
-                                 Detail = cvEducation.Detail,
-                                 CreatedDate = cvEducation.CreatedDate,
-                                 UpdatedDate = cvEducation.UpdatedDate,
-                                 DeletedDate = cvEducation.DeletedDate,
+                                 Detail = personelUserCvEducations.Detail,
+                                 CreatedDate = personelUserCvEducations.CreatedDate,
+                                 UpdatedDate = personelUserCvEducations.UpdatedDate,
+                                 DeletedDate = personelUserCvEducations.DeletedDate,
                              };
                 return result.ToList();
             }

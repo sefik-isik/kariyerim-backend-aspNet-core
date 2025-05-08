@@ -53,9 +53,9 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<UniversityDepartment> GetById(int universityDepartmentId)
+        public IDataResult<UniversityDepartment> GetById(int id)
         {
-            return new SuccessDataResult<UniversityDepartment>(_universityDepartmentDal.Get(u=>u.Id == universityDepartmentId));
+            return new SuccessDataResult<UniversityDepartment>(_universityDepartmentDal.Get(u=>u.Id == id));
         }
 
         //DTO

@@ -13,8 +13,9 @@ namespace Business.Abstract
         IResult Add(Language language);
         IResult Update(Language language);
         IResult Delete(Language language);
-        IDataResult<List<Language>> GetAll();IDataResult<List<Language>> GetDeletedAll();
-        IDataResult<Language> GetById(int languageId);
+        IDataResult<List<Language>> GetAll();
+        IDataResult<List<Language>> GetDeletedAll();
+        IDataResult<Language> GetById(int id);
         
     }
 }

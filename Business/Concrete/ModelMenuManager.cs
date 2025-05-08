@@ -51,9 +51,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<ModelMenu> GetById(int modelMenuId)
+        public IDataResult<ModelMenu> GetById(int id)
         {
-            return new SuccessDataResult<ModelMenu>(_modelMenuDal.Get(g => g.Id == modelMenuId));
+            return new SuccessDataResult<ModelMenu>(_modelMenuDal.Get(g => g.Id == id));
         }
     }
 }

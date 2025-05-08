@@ -62,13 +62,14 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUser>> GetAll(int userId) 
+        public IDataResult<List<CompanyUser>> GetAll(UserAdminDTO userAdminDTO) 
         
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -77,13 +78,14 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<List<CompanyUser>> GetDeletedAll(int userId)
+        public IDataResult<List<CompanyUser>> GetDeletedAll(UserAdminDTO userAdminDTO)
 
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -92,19 +94,25 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUser> GetById(int companyId)
+        public IDataResult<CompanyUser> GetById(int id)
         {
-            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == companyId), Messages.CompanyListed);
+            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == id), Messages.CompanyListed);
+        }
+
+        public IDataResult<CompanyUser> GetByUserId(int id)
+        {
+            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.UserId == id));
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDTO>> GetAllDTO(int userId)
+        public IDataResult<List<CompanyUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId)), Messages.CompaniesListed);
             }
             else
             {
@@ -115,12 +123,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<CompanyUserDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId)), Messages.CompaniesListed);
             }
             else
             {
@@ -128,7 +137,9 @@ namespace Business.Concrete
             }
 
 
-        }
+        } 
+        
+        
 
 
         //Business Rules
@@ -153,6 +164,8 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
+       
 
 
     }

@@ -30,10 +30,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUserDepartments.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
@@ -62,10 +59,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  Id = companyUserDepartments.Id,
                                  UserId = users.Id,
-                                 FirstName = users.FirstName,
-                                 LastName = users.LastName,
                                  Email = users.Email,
-                                 PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
                                  CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,

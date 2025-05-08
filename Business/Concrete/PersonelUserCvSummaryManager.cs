@@ -5,6 +5,7 @@ using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -18,11 +19,16 @@ namespace Business.Concrete
     {
         IPersonelUserCvSummaryDal _cvSummaryDal;
         IUserService _userService;
+        IPersonelUserService _personelUserService;
+        IPersonelUserCvService _personelUserCvService;
 
-        public PersonelUserCvSummaryManager(IPersonelUserCvSummaryDal cvSummaryDal, IUserService userService)
+        public PersonelUserCvSummaryManager(IPersonelUserCvSummaryDal cvSummaryDal, IUserService userService, IPersonelUserService personelUserService ,IPersonelUserCvService personelUserCvService)
         {
             _cvSummaryDal = cvSummaryDal;
             _userService = userService;
+            _personelUserService = personelUserService;
+            _personelUserCvService = personelUserCvService;
+
 
         }
         [SecuredOperation("admin,user")]
@@ -44,12 +50,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvSummary>> GetAll(int userId)
+        public IDataResult<List<PersonelUserCvSummary>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -58,12 +67,15 @@ namespace Business.Concrete
             
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<PersonelUserCvSummary>> GetDeletedAll(int userId)
+        public IDataResult<List<PersonelUserCvSummary>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserCvSummary>>(_cvSummaryDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -72,9 +84,9 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCvSummary> GetById(int cvSummaryId)
+        public IDataResult<PersonelUserCvSummary> GetById(int id)
         {
-            return new SuccessDataResult<PersonelUserCvSummary>(_cvSummaryDal.Get(c=> c.Id == cvSummaryId));
+            return new SuccessDataResult<PersonelUserCvSummary>(_cvSummaryDal.Get(c=> c.Id == id));
         }
 
         

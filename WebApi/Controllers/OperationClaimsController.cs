@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,14 +38,14 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
+        [HttpPost("getall")]
         public IActionResult GetAll()
         {
             var result = _operationClaimService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
+        [HttpPost("getdeletedall")]
         public IActionResult GetDeletedAll()
         {
             var result = _operationClaimService.GetDeletedAll();

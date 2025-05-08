@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
@@ -14,11 +15,14 @@ namespace WebAPI.Controllers
     {
         IPersonelUserImageService _personelUserImageService;
         private readonly IWebHostEnvironment _environment;
+        private IPersonelUserService _personelUserService;
 
-        public PersonelUserImagesController(IPersonelUserImageService personelUserImageService, IWebHostEnvironment webHostEnvironment)
+        public PersonelUserImagesController(IPersonelUserImageService personelUserImageService, IWebHostEnvironment webHostEnvironment, IPersonelUserService personelUserService)
         {
             _personelUserImageService = personelUserImageService;
             _environment = webHostEnvironment;
+            _personelUserService = personelUserService;
+
         }
 
         [HttpPost("add")]
@@ -42,17 +46,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetAll(id);
+            var result = _personelUserImageService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetDeletedAll(id);
+            var result = _personelUserImageService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -128,7 +132,11 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(PersonelUserImage personelUserImage)
         {
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\" + personelUserImage.ImageName;
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(personelUserImage.PersonelUserId);
+
+            int userId = personelUser.UserId;
+
+            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\" + personelUserImage.ImageName;
 
             if (System.IO.File.Exists(fullImagePath))
             {
@@ -136,7 +144,7 @@ namespace WebAPI.Controllers
 
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\thumbs\\" + personelUserImage.ImageName;
+            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\" + personelUserImage.ImageName;
 
             if (System.IO.File.Exists(fullThumbImagePath))
             {

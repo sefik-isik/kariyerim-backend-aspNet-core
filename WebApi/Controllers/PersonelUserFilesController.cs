@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +12,13 @@ namespace WebAPI.Controllers
     {
         IPersonelUserFileService _personelUserFileService;
         private readonly IWebHostEnvironment _environment;
+        private IPersonelUserService _personelUserService;
 
-        public PersonelUserFilesController(IPersonelUserFileService personelUserFileService, IWebHostEnvironment environment)
+        public PersonelUserFilesController(IPersonelUserFileService personelUserFileService, IWebHostEnvironment environment, IPersonelUserService personelUserService)
         {
             _personelUserFileService = personelUserFileService;
             _environment = environment;
+            _personelUserService = personelUserService;
 
         }
 
@@ -40,17 +43,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll(int id)
+        [HttpPost("getall")]
+        public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetAll(id);
+            var result = _personelUserFileService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll(int id)
+        [HttpPost("getdeletedall")]
+        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetDeletedAll(id);
+            var result = _personelUserFileService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -61,17 +64,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
-        public IActionResult GetAllDTO(int id)
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetAllDTO(id);
+            var result = _personelUserFileService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(int id)
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetAllDeletedDTO(id);
+            var result = _personelUserFileService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -119,7 +122,12 @@ namespace WebAPI.Controllers
         [HttpPost("deletefile")]
         public IActionResult DeleteFile(PersonelUserFile personelUserFile)
         {
-            string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + personelUserFile.UserId + "\\" + personelUserFile.FileName;
+
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(personelUserFile.PersonelUserId);
+
+            int userId = personelUser.UserId;
+
+            string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\" + personelUserFile.FileName;
 
             if (System.IO.File.Exists(fullFilePath))
             {

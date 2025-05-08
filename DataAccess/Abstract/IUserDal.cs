@@ -13,6 +13,8 @@ namespace DataAccess.Abstract
     {
         List<OperationClaim> GetClaims(User user);
         List<UserDTO> GetAllDTO();
+        List<UserDTO> GetAllCompanyUserDTO();
+        List<UserDTO> GetAllPersonelUserDTO();
         List<UserDTO> GetAllDeletedDTO();
         UserDTO GetByIdDTO(int userId);
         List<UserCodeDTO> GetCode(int userId);

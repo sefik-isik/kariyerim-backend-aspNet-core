@@ -14,11 +14,13 @@ namespace Business.Abstract
         IResult Add(UserOperationClaim userOperationClaim);
         IResult Update(UserOperationClaim userOperationClaim);
         IResult Delete(UserOperationClaim userOperationClaim);
-        IDataResult<List<UserOperationClaim>> GetAll();IDataResult<List<UserOperationClaim>> GetDeletedAll();
-        IDataResult<UserOperationClaim> GetById(int userOperationClaimId);
+        IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO);
+        IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        IDataResult<UserOperationClaim> GetById(int id);
 
         //DTO
-        IDataResult<List<UserOperationClaimDTO>> GetAllDTO();IDataResult<List<UserOperationClaimDTO>> GetAllDeletedDTO();
+        IDataResult<List<UserOperationClaimDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<UserOperationClaimDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
 
     }
 }

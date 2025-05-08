@@ -4,6 +4,7 @@ using Business.Constans;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -18,11 +19,13 @@ namespace Business.Concrete
     {
         IPersonelUserCvDal _cvDal;
         IUserService _userService;
+        IPersonelUserService _personelUserService;
 
-        public PersonelUserCvManager(IPersonelUserCvDal cvDal, IUserService userService)
+        public PersonelUserCvManager(IPersonelUserCvDal cvDal, IUserService userService, IPersonelUserService personelUserService)
         {
             _cvDal = cvDal;
             _userService = userService;
+            _personelUserService = personelUserService;
 
         }
         [SecuredOperation("admin,user")]
@@ -44,12 +47,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCv>> GetAll(int userId)
+        public IDataResult<List<PersonelUserCv>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -58,12 +64,15 @@ namespace Business.Concrete
             
         }
         [SecuredOperation("admin")]
-        public IDataResult<List<PersonelUserCv>> GetDeletedAll(int userId)
+        public IDataResult<List<PersonelUserCv>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll(c => c.UserId == userId));
+                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
             }
             else
             {
@@ -72,18 +81,25 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCv> GetById(int userCvId)
+        public IDataResult<PersonelUserCv> GetById(int id)
         {
-            return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(u=>u.Id==userCvId));
+            return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(u=>u.Id== id));
+        }
+
+        [SecuredOperation("admin")]
+        public PersonelUserCv GetPersonelUserCv(int cvId)
+        {
+            return _cvDal.Get(c => c.Id == cvId);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvDTO>> GetAllDTO(int userId)
+        public IDataResult<List<PersonelUserCvDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
@@ -93,12 +109,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvDTO>> GetAllDeletedDTO(int userId)
+        public IDataResult<List<PersonelUserCvDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(UserStatus.Admin, userId);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDeletedDTO().FindAll(c => c.UserId == userId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
             }
             else
             {
