@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Abstract
 {
-    public abstract class BaseCv : BasePersonelUser
+    public abstract class BaseCv : BasePersonelUser, IEntity
     {
         public int CvId { get; set; }
     }

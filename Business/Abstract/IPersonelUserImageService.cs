@@ -16,7 +16,7 @@ namespace Business.Abstract
         IResult Delete(PersonelUserImage personelUserImage);
         IDataResult<List<PersonelUserImage>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserImage> GetById(int id);
-        
+        IDataResult<PersonelUserImage> GetById(UserAdminDTO userAdminDTO);
+
     }
 }

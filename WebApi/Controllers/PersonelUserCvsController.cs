@@ -52,10 +52,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("getbyid")]
+        public IActionResult GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _cvService.GetById(id);
+            var result = _cvService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

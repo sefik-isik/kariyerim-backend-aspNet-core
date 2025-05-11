@@ -16,8 +16,8 @@ namespace Business.Abstract
         IResult Delete(PersonelUserCvWorkExperience cvWorkExperience);
         IDataResult<List<PersonelUserCvWorkExperience>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserCvWorkExperience> GetById(int id);
-        
+        IDataResult<PersonelUserCvWorkExperience> GetById(UserAdminDTO userAdminDTO);
+
         IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
     }

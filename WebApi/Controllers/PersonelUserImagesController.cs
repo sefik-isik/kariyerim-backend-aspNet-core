@@ -60,19 +60,19 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("getbyid")]
+        public IActionResult GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetById(id);
+            var result = _personelUserImageService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadimage")]
         public IActionResult UploadImage(IFormFile image, int id)
         {
-            PersonelUser personelUser = _personelUserService.GetByUserId(id);
+            var personelUser = _personelUserService.GetById(id);
 
-            int userId = personelUser.UserId;
+            int userId = personelUser.Data.UserId;
 
             if (image == null || image.Length == 0)
             {
@@ -136,9 +136,9 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(PersonelUserImage personelUserImage)
         {
-            PersonelUser personelUser = _personelUserService.GetByUserId(personelUserImage.PersonelUserId);
+            var personelUser = _personelUserService.GetById(personelUserImage.PersonelUserId);
 
-            int userId = personelUser.UserId;
+            int userId = personelUser.Data.UserId;
 
             string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\" + personelUserImage.ImageName;
 

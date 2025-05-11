@@ -15,14 +15,12 @@ namespace Business.Abstract
         IResult Add(User user);
         IResult Update(User user);
         IResult Delete(User user);
+        IDataResult<User> GetByMail(string email);
+
         User GetById(int id);
 
-        IDataResult<User> IsAdmin(UserAdminDTO userAdminDTO);
-
-        IDataResult<User> GetByMail(string email);
-        //IDataResult<User> IsAdmin(string status);
-
         //DTO
+        IDataResult<User> IsAdmin(UserAdminDTO userAdminDTO);
         IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO);
         IDataResult<List<UserCodeDTO>> GetCode(UserAdminDTO userAdminDTO);
         IDataResult<List<UserDTO>> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO);

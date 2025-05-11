@@ -58,10 +58,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("getbyid")]
+        public IActionResult GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetById(id);
+            var result = _companyUserFileService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -83,9 +83,9 @@ namespace WebAPI.Controllers
         [HttpPost("uploadfile")]
         public IActionResult UploadFile(IFormFile file, int id)
         {
-            CompanyUser companyUser = _companyUserService.GetByUserId(id);
+            var companyUser = _companyUserService.GetById(id);
 
-            int userId = companyUser.UserId;
+            int userId = companyUser.Data.UserId;
 
             if (file == null || file.Length == 0)
             {
@@ -129,9 +129,9 @@ namespace WebAPI.Controllers
         public IActionResult DeleteFile(CompanyUserFile companyUserFile)
         {
 
-            CompanyUser companyUser = _companyUserService.GetByUserId(companyUserFile.CompanyUserId);
+            var companyUser = _companyUserService.GetById(companyUserFile.CompanyUserId);
 
-            int userId = companyUser.UserId;
+            int userId = companyUser.Data.UserId;
 
             string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\" + companyUserFile.FileName;
 

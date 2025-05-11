@@ -19,6 +19,7 @@ namespace Entities.DTOs
         public string DepartmentName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool Abandonment { get; set; }
         public int FacultyId { get; set; }
         public string FacultyName { get; set; }
         public string Detail { get; set; }

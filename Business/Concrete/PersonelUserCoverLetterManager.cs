@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -49,13 +50,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCoverLetter>> GetAll(UserAdminDTO userAdminDTO)
         {
-            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
 
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetAll(c => c.PersonelUserId == personelUser.Id));
+                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
             }
             else
             {
@@ -68,13 +69,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IDataResult<List<PersonelUserCoverLetter>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
 
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
+                return new SuccessDataResult<List<PersonelUserCoverLetter>>(_personelUserCoverLetterDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
             }
             else
             {
@@ -84,11 +85,56 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCoverLetter> GetById(int id)
+        public IDataResult<PersonelUserCoverLetter> GetById(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<PersonelUserCoverLetter>(_personelUserCoverLetterDal.Get(u=>u.Id== id));
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
+
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<PersonelUserCoverLetter>(_personelUserCoverLetterDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+            }
+            else
+            {
+                return new SuccessDataResult<PersonelUserCoverLetter>(_personelUserCoverLetterDal.Get(c => c.Id == userAdminDTO.Id));
+            }
         }
 
-        
+        //DTO
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        {
+
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO(), Messages.CompaniesListed);
+            }
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+            }
+
+        }
+
     }
 }

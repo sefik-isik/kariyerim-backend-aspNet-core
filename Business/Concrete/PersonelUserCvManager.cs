@@ -49,13 +49,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCv>> GetAll(UserAdminDTO userAdminDTO)
         {
-            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
 
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll(c => c.PersonelUserId == personelUser.Id));
+                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
             }
             else
             {
@@ -66,13 +66,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IDataResult<List<PersonelUserCv>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            PersonelUser personelUser = (PersonelUser)_personelUserService.GetByUserId(userAdminDTO.UserId);
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
 
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Id));
+                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
             }
             else
             {
@@ -81,9 +81,21 @@ namespace Business.Concrete
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCv> GetById(int id)
+        public IDataResult<PersonelUserCv> GetById(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(u=>u.Id== id));
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
+
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+            }
+            else
+            {
+                return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(c => c.Id == userAdminDTO.Id));
+            }
         }
 
         [SecuredOperation("admin")]

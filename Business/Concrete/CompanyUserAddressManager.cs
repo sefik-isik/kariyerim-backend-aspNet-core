@@ -60,7 +60,7 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<List<CompanyUserAddress>> GetAll(UserAdminDTO userAdminDTO)
         {
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
+            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByAdminId(userAdminDTO);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
@@ -77,12 +77,13 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<List<CompanyUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Id));
+                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
@@ -93,9 +94,23 @@ namespace Business.Concrete
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<CompanyUserAddress> GetById(int id)
+        public IDataResult<CompanyUserAddress> GetById(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == id));
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
+
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+            }
+            else
+            {
+                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id));
+            }
+
+            
         }
 
         //DTO

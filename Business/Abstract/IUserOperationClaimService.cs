@@ -16,7 +16,7 @@ namespace Business.Abstract
         IResult Delete(UserOperationClaim userOperationClaim);
         IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<UserOperationClaim> GetById(int id);
+        IDataResult<UserOperationClaim> GetById(UserAdminDTO userAdminDTO);
 
         //DTO
         IDataResult<List<UserOperationClaimDTO>> GetAllDTO(UserAdminDTO userAdminDTO);

@@ -56,15 +56,24 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public User GetById(int id)
+        public IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO)
         {
-            return _userDal.Get(u => u.Id == id);
+            var userIsAdmin = IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<UserDTO>(_userDal.GetByIdDTO(userAdminDTO.UserId, userAdminDTO.Id));
+            }
+            else
+            {
+                return new SuccessDataResult<UserDTO>(_userDal.GetByIdForAdminDTO(userAdminDTO.Id));
+            }
         }
 
         [SecuredOperation("admin")]
-        public IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO)
+        public User GetById(int id)
         {
-            return new SuccessDataResult<UserDTO>(_userDal.GetByIdDTO(userAdminDTO.UserId));
+                return _userDal.Get(u => u.Id == id);
         }
 
         [SecuredOperation("admin,user")]
@@ -78,7 +87,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Status == userAdminDTO.Status && u.Id == userAdminDTO.UserId && u.Email == userAdminDTO.Email));
         }
-
+        
 
         [SecuredOperation("admin")]
         public IDataResult<List<UserDTO>> GetAllDTO(UserAdminDTO userAdminDTO)

@@ -75,9 +75,18 @@ namespace Business.Concrete
             }
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<UserOperationClaim> GetById(int id)
+        public IDataResult<UserOperationClaim> GetById(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == id));
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id));
+            }
         }
 
         //DTO

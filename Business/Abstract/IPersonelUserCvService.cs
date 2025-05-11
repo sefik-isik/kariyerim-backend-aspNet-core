@@ -16,7 +16,7 @@ namespace Business.Abstract
         IResult Delete(PersonelUserCv cv);
         IDataResult<List<PersonelUserCv>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCv>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserCv> GetById(int id);
+        IDataResult<PersonelUserCv> GetById(UserAdminDTO userAdminDTO);
         PersonelUserCv GetPersonelUserCv(int id);
 
         //DTO

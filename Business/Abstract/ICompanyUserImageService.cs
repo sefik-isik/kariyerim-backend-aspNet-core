@@ -16,8 +16,8 @@ namespace Business.Abstract
         IResult Delete(CompanyUserImage companyUserImage);
         IDataResult<List<CompanyUserImage>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<CompanyUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<CompanyUserImage> GetById(int id);
-        
+        IDataResult<CompanyUserImage> GetById(UserAdminDTO userAdminDTO);
+
 
         //DTO
         IDataResult<List<CompanyUserImageDTO>> GetAllDTO(UserAdminDTO userAdminDTO);

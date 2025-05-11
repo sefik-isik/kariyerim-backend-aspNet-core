@@ -12,9 +12,7 @@ namespace Business.Abstract
         IDataResult<User> Login(UserForLoginDTO userForLoginDto);
         IDataResult<User> UpdatePassword(PasswordDTO passwordDto);
         IDataResult<User> UpdateUserCode(UserCodeDTO userCode);
-
         IDataResult<User> UpdateUser(User Updateduser);
-
         IDataResult<User> DeleteUser(User deletedUser);
         IDataResult<User> UnDeleteUser(User deletedUser);
         IResult UserExists(string email);

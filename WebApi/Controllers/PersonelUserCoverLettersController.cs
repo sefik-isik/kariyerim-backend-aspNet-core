@@ -52,10 +52,24 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("getbyid")]
+        public IActionResult GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetById(id);
+            var result = _personelUserCoverLetterService.GetById(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _personelUserCoverLetterService.GetAllDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _personelUserCoverLetterService.GetAllDeletedDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

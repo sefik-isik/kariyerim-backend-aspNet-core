@@ -38,14 +38,14 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getall")]
+        [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var result = _operationClaimService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getdeletedall")]
+        [HttpGet("getdeletedall")]
         public IActionResult GetDeletedAll()
         {
             var result = _operationClaimService.GetDeletedAll();

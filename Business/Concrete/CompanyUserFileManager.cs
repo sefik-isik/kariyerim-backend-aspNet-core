@@ -50,12 +50,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserFile>> GetAll(UserAdminDTO userAdminDTO)
         {
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll(c => c.CompanyUserId == companyUser.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
@@ -66,12 +67,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IDataResult<List<CompanyUserFile>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByUserId(userAdminDTO.UserId);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
@@ -80,9 +82,21 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserFile> GetById(int id)
+        public IDataResult<CompanyUserFile> GetById(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c=> c.Id == id));
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
+
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+            }
+            else
+            {
+                return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c => c.Id == userAdminDTO.Id));
+            }
         }
 
         //DTO

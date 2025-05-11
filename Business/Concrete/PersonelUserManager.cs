@@ -87,9 +87,27 @@ namespace Business.Concrete
 
         }
 
+        [SecuredOperation("admin,user")]
+        public IDataResult<PersonelUser> GetByAdminId(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.CompanyListed);
+            }
+            else
+            {
+                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.CompanyListed);
+            }
+        }
 
-        public IDataResult<PersonelUser> GetById(int id) => new SuccessDataResult<PersonelUser>(_personelUserDal.Get(u => u.Id == id));
+        [SecuredOperation("admin,user")]
+        public IDataResult<PersonelUser> GetById(int id)
+        {
+            return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == id));
+
+        }
 
         //DTO
         [SecuredOperation("admin,user")]
@@ -107,12 +125,6 @@ namespace Business.Concrete
             }
 
         }
-
-        public PersonelUser GetByUserId(int id)
-        {
-            return _personelUserDal.Get(c => c.Id == id);
-        }
-
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)

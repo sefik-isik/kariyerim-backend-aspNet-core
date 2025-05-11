@@ -124,12 +124,12 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public UserDTO GetByIdDTO(int userId)
+        public UserDTO GetByIdForAdminDTO(int id)
         {
             using (var context = new KariyerimContext())
             {
                 var result = from users in context.Users
-                             where users.Id == userId 
+                             where users.Id == id
                              select new UserDTO
                              {
                                  Id = users.Id,
@@ -147,6 +147,28 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
+        public UserDTO GetByIdDTO(int userId, int id)
+        {
+            using (var context = new KariyerimContext())
+            {
+                var result = from users in context.Users
+                             where users.Id == userId && users.Id == id
+                             select new UserDTO
+                             {
+                                 Id = users.Id,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Email = users.Email,
+                                 Code = users.Code,
+                                 Status = users.Status,
+                                 CreatedDate = users.CreatedDate,
+                                 UpdatedDate = users.UpdatedDate,
+                                 DeletedDate = users.DeletedDate,
+                             };
+                return result.ToList()[0];
+            }
+        }
         public List<UserCodeDTO> GetCode(int userId)
         {
             using (var context = new KariyerimContext())

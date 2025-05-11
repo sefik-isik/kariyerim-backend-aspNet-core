@@ -69,7 +69,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.Id == userAdminDTO.Id), Messages.CompaniesListed);
             }
             else
             {
@@ -85,7 +85,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.Id == userAdminDTO.Id), Messages.CompaniesListed);
             }
             else
             {
@@ -94,14 +94,25 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUser> GetById(int id)
+        public IDataResult<CompanyUser> GetByAdminId(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == id), Messages.CompanyListed);
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.CompanyListed);
+            }
+            else
+            {
+                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.CompanyListed);
+            }
         }
 
-        public CompanyUser GetByUserId(int id)
+        [SecuredOperation("admin,user")]
+        public IDataResult<CompanyUser> GetById(int id)
         {
-            return _companyUserDal.Get(c => c.Id == id);
+            return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == id));
+
         }
 
         //DTO
@@ -112,7 +123,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.Id)), Messages.CompaniesListed);
             }
             else
             {
@@ -129,7 +140,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.Id == userAdminDTO.Id)), Messages.CompaniesListed);
             }
             else
             {
@@ -138,8 +149,6 @@ namespace Business.Concrete
 
 
         } 
-        
-        
 
 
         //Business Rules

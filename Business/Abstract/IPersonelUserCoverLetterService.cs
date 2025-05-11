@@ -16,7 +16,11 @@ namespace Business.Abstract
         IResult Delete(PersonelUserCoverLetter personelUserCoverLetter);
         IDataResult<List<PersonelUserCoverLetter>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCoverLetter>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserCoverLetter> GetById(int id);
-        
+        IDataResult<PersonelUserCoverLetter> GetById(UserAdminDTO userAdminDTO);
+
+        //DTO
+        IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
+
     }
 }
