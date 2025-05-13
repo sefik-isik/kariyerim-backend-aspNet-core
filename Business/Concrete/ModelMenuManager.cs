@@ -45,7 +45,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<ModelMenu>> GetDeletedAll()
         {
             return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll());

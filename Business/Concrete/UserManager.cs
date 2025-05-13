@@ -24,17 +24,18 @@ namespace Business.Concrete
         {
             _userDal = userDal;
         }
-        //[SecuredOperation("admin")]
+
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
-        //[SecuredOperation("admin,user")]
+
         public IResult Add(User user)
         {
             _userDal.Add(user);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Update(User user)
         {
@@ -49,13 +50,12 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        //[SecuredOperation("admin,user")]
         public IDataResult<User> GetByMail(string email)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = IsAdmin(userAdminDTO);
@@ -82,14 +82,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userAdminDTO.UserId));
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<User> IsAdmin(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Status == userAdminDTO.Status && u.Id == userAdminDTO.UserId && u.Email == userAdminDTO.Email));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Status == UserStatus.Admin && userAdminDTO.Status == UserStatus.Admin && u.Id == userAdminDTO.UserId && u.Email == userAdminDTO.Email));
         }
-        
 
-        [SecuredOperation("admin")]
+
+        [SecuredOperation("admin,user")]
         public IDataResult<List<UserDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = IsAdmin(userAdminDTO);
@@ -104,7 +104,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<UserDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = IsAdmin(userAdminDTO);
@@ -118,6 +118,7 @@ namespace Business.Concrete
             }
         }
 
+        [SecuredOperation("admin,user")]
         public IDataResult<List<UserDTO>> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = IsAdmin(userAdminDTO);
@@ -132,6 +133,7 @@ namespace Business.Concrete
             }
         }
 
+        [SecuredOperation("admin,user")]
         public IDataResult<List<UserDTO>> GetAllPersonelUserDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = IsAdmin(userAdminDTO);

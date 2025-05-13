@@ -3,10 +3,12 @@ using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,22 +29,33 @@ namespace Business.Concrete
             _userService = userService;
             _personelUserService = personelUserService;
         }
-        //[SecuredOperation("admin")]
+
+        [SecuredOperation("admin")]
         public IResult Add(UserOperationClaim userOperationClaim)
         {
             _userOperationClaimDal.Add(userOperationClaim);
+
+            MakeUserAdmin(userOperationClaim);
+
             return new SuccessResult();
         }
+
         [SecuredOperation("admin")]
         public IResult Update(UserOperationClaim userOperationClaim)
         {
             _userOperationClaimDal.Update(userOperationClaim);
+
+            MakeUserAdmin(userOperationClaim);
+
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(UserOperationClaim userOperationClaim)
         {
             _userOperationClaimDal.Delete(userOperationClaim);
+
+            MakeUserAdmin(userOperationClaim);
+
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -58,9 +71,9 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
             }
-           
+
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
@@ -119,6 +132,37 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO());
             }
+        }
+
+        private void MakeUserAdmin(UserOperationClaim userOperationClaim)
+        {
+            User currentUser = _userService.GetById(userOperationClaim.UserId);
+
+            var user = new User
+            {
+                Id = userOperationClaim.UserId,
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                PhoneNumber = currentUser.PhoneNumber,
+                Email = currentUser.Email,
+                Status = currentUser.Status,
+                Code = currentUser.Code,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = DateTime.Now,
+                DeletedDate = currentUser.DeletedDate,
+            };
+
+            if (userOperationClaim.OperationClaimId == 1 && userOperationClaim.DeletedDate == null)
+            {
+                user.Status = UserStatus.Admin;
+            }
+            else
+            {
+                user.Status = UserStatus.User;
+            }
+            _userService.Update(user);
         }
     }
 }

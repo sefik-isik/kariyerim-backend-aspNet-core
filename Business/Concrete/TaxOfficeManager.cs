@@ -44,7 +44,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<TaxOffice>>(_taxOfficeDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<TaxOffice>> GetDeletedAll()
         {
             return new SuccessDataResult<List<TaxOffice>>(_taxOfficeDal.GetDeletedAll());

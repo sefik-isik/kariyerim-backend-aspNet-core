@@ -17,13 +17,6 @@ namespace WebAPI.Controllers
             _userOperationClaimService = userOperationClaimService;
         }
 
-        [HttpPost("add")]
-        public IActionResult Add(UserOperationClaim userOperationClaim)
-        {
-            var result = _userOperationClaimService.Add(userOperationClaim);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
         [HttpPost("update")]
         public IActionResult Update(UserOperationClaim userOperationClaim)
         {

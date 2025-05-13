@@ -43,7 +43,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Region>>(_regionDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<Region>> GetDeletedAll()
         {
             return new SuccessDataResult<List<Region>>(_regionDal.GetDeletedAll());

@@ -77,7 +77,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUser>> GetDeletedAll(UserAdminDTO userAdminDTO)
 
         {

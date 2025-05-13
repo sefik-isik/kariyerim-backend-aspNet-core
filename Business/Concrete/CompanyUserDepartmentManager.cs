@@ -64,7 +64,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserDepartment>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);

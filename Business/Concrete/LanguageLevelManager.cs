@@ -42,7 +42,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<LanguageLevel>> GetDeletedAll()
         {
             return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll());

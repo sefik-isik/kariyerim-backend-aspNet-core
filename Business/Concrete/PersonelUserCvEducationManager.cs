@@ -65,7 +65,7 @@ namespace Business.Concrete
             }
             
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCvEducation>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
             var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
@@ -82,8 +82,8 @@ namespace Business.Concrete
             }
 
         }
-           
-        [SecuredOperation("admin")]
+
+        [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCvEducation>> GetPersonelUser(UserAdminDTO userAdminDTO)
         {
 

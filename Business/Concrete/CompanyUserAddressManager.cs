@@ -72,8 +72,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll());
             }
         }
-        
-        [SecuredOperation("admin")]
+
+        [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<CompanyUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {

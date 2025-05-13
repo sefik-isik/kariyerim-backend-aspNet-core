@@ -42,7 +42,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<LicenceDegree>> GetDeletedAll()
         {
             return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetDeletedAll());

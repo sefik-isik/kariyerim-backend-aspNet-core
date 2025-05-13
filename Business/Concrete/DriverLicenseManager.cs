@@ -43,7 +43,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll());
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<DriverLicence>> GetDeletedAll()
         {
             return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll());

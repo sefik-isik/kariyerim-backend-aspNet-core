@@ -14,13 +14,13 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(c => c.CvId).GreaterThan(0);
 
-            RuleFor(c => c.CVSummaryTitle).NotEmpty();
-            RuleFor(c => c.CVSummaryTitle).NotNull();
-            RuleFor(c => c.CVSummaryTitle).MinimumLength(2);
+            RuleFor(c => c.CvSummaryTitle).NotEmpty();
+            RuleFor(c => c.CvSummaryTitle).NotNull();
+            RuleFor(c => c.CvSummaryTitle).MinimumLength(2);
 
-            RuleFor(c => c.CVSummaryDescription).NotEmpty();
-            RuleFor(c => c.CVSummaryDescription).NotNull();
-            RuleFor(c => c.CVSummaryDescription).MinimumLength(20);
+            RuleFor(c => c.CvSummaryDescription).NotEmpty();
+            RuleFor(c => c.CvSummaryDescription).NotNull();
+            RuleFor(c => c.CvSummaryDescription).MinimumLength(20);
         }
     }
 }

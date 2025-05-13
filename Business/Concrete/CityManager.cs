@@ -64,7 +64,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<City>>(_cityDal.GetAll(), Messages.CitiesListed);
         }
 
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<City>> GetDeletedAll()
         {

@@ -45,7 +45,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetAll());
         }
-        [SecuredOperation("admin")]
+        [SecuredOperation("admin,user")]
         public IDataResult<List<OperationClaim>> GetDeletedAll()
         {
             return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetDeletedAll());
