@@ -22,10 +22,11 @@ namespace Business.Concrete
         IUserService _userService;
         IPersonelUserService _personelUserService;
 
-        public PersonelUserFileManager(IPersonelUserFileDal personelUserFileDal, IUserService userService)
+        public PersonelUserFileManager(IPersonelUserFileDal personelUserFileDal, IUserService userService, IPersonelUserService personelUserService)
         {
             _personelUserFileDal = personelUserFileDal;
             _userService = userService;
+            _personelUserService = personelUserService;
 
         }
         [SecuredOperation("admin,user")]
@@ -67,7 +68,6 @@ namespace Business.Concrete
         public IDataResult<List<PersonelUserFile>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
             var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
@@ -96,6 +96,8 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<PersonelUserFile>(_personelUserFileDal.Get(c => c.Id == userAdminDTO.Id));
             }
+
+            
         }
 
         //DTO
@@ -106,11 +108,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }
@@ -122,11 +124,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserFileDTO>>(_personelUserFileDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }

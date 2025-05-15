@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using Newtonsoft.Json;
 
 namespace Business.Constans
@@ -34,5 +35,7 @@ namespace Business.Constans
         public static string UserCodeAlreadyUpdated = JsonConvert.SerializeObject("Kullanıcı seçimi daha önce yapılmış");
 
         public static string PersonelUserAlreadyExist = JsonConvert.SerializeObject("Kullanıcı daha önce eklenmiş");
+
+        public static PersonelUserFile PersonelUserNotFound { get; internal set; }
     }
 }

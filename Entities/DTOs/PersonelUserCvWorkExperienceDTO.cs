@@ -24,7 +24,9 @@ namespace Entities.DTOs
         public int WorkingMethodId { get; set; }
         public string WorkingMethodName { get; set; }
         public int CountryId { get; set; }
-        public string Countryname { get; set; }
+        public string CountryName { get; set; }
+
+        public bool FoundJobInHere { get; set; }
         public int CityId { get; set; }
         public string CityName { get; set; }
         public int RegionId { get; set; }

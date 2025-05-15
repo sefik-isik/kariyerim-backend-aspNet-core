@@ -67,6 +67,19 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _personelUserImageService.GetAllDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _personelUserImageService.GetAllDeletedDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("uploadimage")]
         public IActionResult UploadImage(IFormFile image, int id)
         {

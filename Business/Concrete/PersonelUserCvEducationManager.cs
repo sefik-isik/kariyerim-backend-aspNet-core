@@ -130,11 +130,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }
@@ -146,11 +146,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDeletedDTO(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_cvEducationDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }

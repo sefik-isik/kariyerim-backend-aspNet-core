@@ -18,5 +18,9 @@ namespace Business.Abstract
         IDataResult<List<PersonelUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUserImage> GetById(UserAdminDTO userAdminDTO);
 
+        //DTO
+        IDataResult<List<PersonelUserImageDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserImageDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
+
     }
 }

@@ -40,13 +40,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<DriverLicence>> GetAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll());
+            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll().OrderBy(s => s.DriverLicenceName).ToList());
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<DriverLicence>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll());
+            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll().OrderBy(s => s.DriverLicenceName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<DriverLicence> GetById(int id)

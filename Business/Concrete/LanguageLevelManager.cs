@@ -40,12 +40,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<LanguageLevel>> GetAll()
         {
-            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetAll());
+            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetAll().OrderBy(s => s.LevelTitle).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<LanguageLevel>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll());
+            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll().OrderBy(s => s.LevelTitle).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<LanguageLevel> GetById(int id)

@@ -65,11 +65,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll().OrderBy(s => s.UserId).ToList());
             }
 
         }
@@ -80,11 +80,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll().OrderBy(s => s.UserId).ToList());
             }
         }
         [SecuredOperation("admin,user")]
@@ -110,11 +110,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO());
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().OrderBy(s => s.Email).ToList());
             }
 
         }
@@ -126,11 +126,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO());
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList());
             }
         }
 

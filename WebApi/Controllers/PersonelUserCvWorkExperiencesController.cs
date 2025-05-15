@@ -58,5 +58,19 @@ namespace WebAPI.Controllers
             var result = _cvWorkExperienceService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpPost("getalldto")]
+        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _cvWorkExperienceService.GetAllDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getalldeleteddto")]
+        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = _cvWorkExperienceService.GetAllDeletedDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

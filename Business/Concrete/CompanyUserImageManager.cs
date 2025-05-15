@@ -109,11 +109,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO());
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().OrderBy(s => s.Email).ToList());
             }
             
         }
@@ -125,11 +125,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO());
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList());
             }
 
         }

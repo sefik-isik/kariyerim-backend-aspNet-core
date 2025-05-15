@@ -40,12 +40,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<LicenceDegree>> GetAll()
         {
-            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetAll());
+            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetAll().OrderBy(s => s.LicenceDegreeName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<LicenceDegree>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetDeletedAll());
+            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetDeletedAll().OrderBy(s => s.LicenceDegreeName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<LicenceDegree> GetById(int id)

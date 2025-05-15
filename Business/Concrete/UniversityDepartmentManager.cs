@@ -62,13 +62,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<UniversityDepartmentDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDTO());
+            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDTO().OrderBy(s => s.UniversityName).ToList());
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<UniversityDepartmentDTO>> GetAllDeletedDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDeletedDTO());
+            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDeletedDTO().OrderBy(s => s.UniversityName).ToList());
         }
 
     }

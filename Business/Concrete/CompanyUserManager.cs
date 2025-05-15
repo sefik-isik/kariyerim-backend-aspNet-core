@@ -69,7 +69,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.Id == userAdminDTO.Id), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
             else
             {
@@ -85,7 +85,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.Id == userAdminDTO.Id), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
             else
             {
@@ -123,11 +123,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.Id)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             
 
@@ -140,11 +140,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.Id == userAdminDTO.Id)), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().FindAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
 
 

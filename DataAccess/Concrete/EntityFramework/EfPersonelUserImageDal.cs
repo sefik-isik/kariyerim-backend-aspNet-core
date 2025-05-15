@@ -1,6 +1,8 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +13,60 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserImageDal : EfEntityRepositoryBase<PersonelUserImage, KariyerimContext>, IPersonelUserImageDal
     {
+        public List<PersonelUserImageDTO> GetAllDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from personelUserImages in context.PersonelUserImages
+                             join personelUsers in context.PersonelUsers on personelUserImages.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
+
+                             where users.Code == UserCodes.PersonelUserCode &&
+                             personelUserImages.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null
+
+                             select new PersonelUserImageDTO
+                             {
+                                 Id = personelUserImages.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
+                                 ImageName = personelUserImages.ImageName,
+                                 ImagePath = personelUserImages.ImagePath,
+                                 CreatedDate = personelUserImages.CreatedDate,
+                                 UpdatedDate = personelUserImages.UpdatedDate,
+                                 DeletedDate = personelUserImages.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
+
+        public List<PersonelUserImageDTO> GetAllDeletedDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from personelUserImages in context.PersonelUserImages
+                             join personelUsers in context.PersonelUsers on personelUserImages.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
+
+                             where users.Code == UserCodes.PersonelUserCode &&
+                             personelUserImages.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null
+
+                             select new PersonelUserImageDTO
+                             {
+                                 Id = personelUserImages.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
+                                 ImageName = personelUserImages.ImageName,
+                                 ImagePath = personelUserImages.ImagePath,
+                                 CreatedDate = personelUserImages.CreatedDate,
+                                 UpdatedDate = personelUserImages.UpdatedDate,
+                                 DeletedDate = personelUserImages.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
     }
 }

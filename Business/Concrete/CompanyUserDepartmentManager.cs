@@ -56,11 +56,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id).OrderBy(s => s.DepartmentName).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll().OrderBy(s => s.DepartmentName).ToList());
             }
         }
 
@@ -73,11 +73,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id).OrderBy(s => s.DepartmentName).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll().OrderBy(s => s.DepartmentName).ToList());
             }
         }
 
@@ -107,11 +107,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO());
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().OrderBy(s => s.Email).ToList());
             }
             
         }
@@ -123,11 +123,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO());
+                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList());
             }
 
         }

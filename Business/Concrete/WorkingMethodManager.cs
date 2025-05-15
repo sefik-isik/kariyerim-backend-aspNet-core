@@ -40,12 +40,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkingMethod>> GetAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetAll());
+            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetAll().OrderBy(s => s.MethodName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkingMethod>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll());
+            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll().OrderBy(s => s.MethodName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<WorkingMethod> GetById(int id)

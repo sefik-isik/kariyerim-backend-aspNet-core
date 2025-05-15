@@ -61,14 +61,14 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<List<City>> GetAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetAll(), Messages.CitiesListed);
+            return new SuccessDataResult<List<City>>(_cityDal.GetAll().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<City>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll(), Messages.CitiesListed);
+            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
         }
 
         [SecuredOperation("admin,user")]
@@ -83,13 +83,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<CityDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<CityDTO>> GetAllDeletedDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDeletedDTO(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
         }
 
 

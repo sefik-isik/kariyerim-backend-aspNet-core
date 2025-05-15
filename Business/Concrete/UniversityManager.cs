@@ -40,13 +40,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<University>> GetAll()
         {
-            return new SuccessDataResult<List<University>>(_universityDal.GetAll());
+            return new SuccessDataResult<List<University>>(_universityDal.GetAll().OrderBy(s => s.UniversityName).ToList());
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<University>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<University>>(_universityDal.GetDeletedAll());
+            return new SuccessDataResult<List<University>>(_universityDal.GetDeletedAll().OrderBy(s => s.UniversityName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<University> GetById(int id)

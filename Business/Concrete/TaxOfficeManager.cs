@@ -57,11 +57,11 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<TaxOfficeDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO());
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO().OrderBy(s => s.CityName).ToList());
         }
         public IDataResult<List<TaxOfficeDTO>> GetAllDeletedDTO()
         {
-            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDeletedDTO());
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList());
         }
     }
 }

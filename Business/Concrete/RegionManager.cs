@@ -56,12 +56,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<RegionDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO());
+            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO().OrderBy(s => s.CityName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<RegionDTO>> GetAllDeletedDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDeletedDTO());
+            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList());
         }
     }
 }

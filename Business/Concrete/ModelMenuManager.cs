@@ -43,12 +43,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<ModelMenu>> GetAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll());
+            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll().OrderBy(s => s.ModelName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<ModelMenu>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll());
+            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll().OrderBy(s => s.ModelName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<ModelMenu> GetById(int id)

@@ -41,12 +41,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<Language>> GetAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetAll());
+            return new SuccessDataResult<List<Language>>(_languageDal.GetAll().OrderBy(s => s.LanguageName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Language>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll());
+            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll().OrderBy(s => s.LanguageName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<Language> GetById(int id)

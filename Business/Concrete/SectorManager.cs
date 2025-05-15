@@ -45,12 +45,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetAll()
         {
-            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetAll());
+            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetAll().OrderBy(s => s.SectorName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetDeletedAll());
+            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetDeletedAll().OrderBy(s => s.SectorName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<Sector> GetById(int id)

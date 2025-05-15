@@ -18,13 +18,13 @@ namespace Business.Concrete
 {
     public class CompanyUserFileManager : ICompanyUserFileService
     {
-        ICompanyUserFileDal _companyFileDal;
+        ICompanyUserFileDal _companyUserFileDal;
         IUserService _userService;
         ICompanyUserService _companyUserService;
 
         public CompanyUserFileManager(ICompanyUserFileDal companyUserFileDal, IUserService userService, ICompanyUserService companyUserService)
         {
-            _companyFileDal = companyUserFileDal;
+            _companyUserFileDal = companyUserFileDal;
             _userService = userService;
             _companyUserService = companyUserService;
 
@@ -32,19 +32,19 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IResult Add(CompanyUserFile companyUserFile)
         {
-            _companyFileDal.Add(companyUserFile);
+            _companyUserFileDal.Add(companyUserFile);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserFile companyUserFile)
         {
-            _companyFileDal.Update(companyUserFile);
+            _companyUserFileDal.Update(companyUserFile);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserFile companyUserFile)
         {
-            _companyFileDal.Delete(companyUserFile);
+            _companyUserFileDal.Delete(companyUserFile);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -56,11 +56,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetAll());
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetAll());
             }
         }
 
@@ -73,11 +73,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyFileDal.GetDeletedAll());
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetDeletedAll());
             }
         }
 
@@ -91,11 +91,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<CompanyUserFile>(_companyUserFileDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
             }
             else
             {
-                return new SuccessDataResult<CompanyUserFile>(_companyFileDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<CompanyUserFile>(_companyUserFileDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
@@ -108,11 +108,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyUserFileDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDTO());
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyUserFileDal.GetAllDTO().OrderBy(s => s.Email).ToList());
             }
             
         }
@@ -124,11 +124,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyUserFileDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyFileDal.GetAllDeletedDTO());
+                return new SuccessDataResult<List<CompanyUserFileDTO>>(_companyUserFileDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList());
             }
 
         }
