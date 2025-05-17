@@ -20,19 +20,19 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from countries in context.Countries
-                             join city in context.Cities on countries.Id equals city.CountryId
-                             where countries.DeletedDate == null 
+                             join cities in context.Cities on countries.Id equals cities.CountryId
+                             where cities.DeletedDate == null && countries.DeletedDate == null
 
                              select new CityDTO
                              {
-                                 Id = city.Id,
-                                 CityName = city.CityName,
+                                 Id = cities.Id,
+                                 CityName = cities.CityName,
                                  CountryIso = countries.CountryIso,
                                  CountryName = countries.CountryName,
-                                 CountryId = city.CountryId,
-                                 CreatedDate = city.CreatedDate,
-                                 UpdatedDate = city.UpdatedDate,
-                                 DeletedDate = city.DeletedDate,
+                                 CountryId = cities.CountryId,
+                                 CreatedDate = cities.CreatedDate,
+                                 UpdatedDate = cities.UpdatedDate,
+                                 DeletedDate = cities.DeletedDate,
                              };
                 return result.ToList();
             }
@@ -42,19 +42,19 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from countries in context.Countries
-                             join city in context.Cities on countries.Id equals city.CountryId
-                             where countries.DeletedDate != null
+                             join cities in context.Cities on countries.Id equals cities.CountryId
+                             where cities.DeletedDate != null && countries.DeletedDate == null
 
                              select new CityDTO
                              {
-                                 Id = city.Id,
-                                 CityName = city.CityName,
+                                 Id = cities.Id,
+                                 CityName = cities.CityName,
                                  CountryIso = countries.CountryIso,
                                  CountryName = countries.CountryName,
-                                 CountryId = city.CountryId,
-                                 CreatedDate = city.CreatedDate,
-                                 UpdatedDate = city.UpdatedDate,
-                                 DeletedDate = city.DeletedDate,
+                                 CountryId = cities.CountryId,
+                                 CreatedDate = cities.CreatedDate,
+                                 UpdatedDate = cities.UpdatedDate,
+                                 DeletedDate = cities.DeletedDate,
                              };
                 return result.ToList();
             }
