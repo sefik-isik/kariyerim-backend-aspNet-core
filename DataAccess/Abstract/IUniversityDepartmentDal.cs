@@ -12,6 +12,6 @@ namespace DataAccess.Abstract
     public interface IUniversityDepartmentDal : IEntityRepository<UniversityDepartment>
     {
         List<UniversityDepartmentDTO> GetAllDTO();
-        List<UniversityDepartmentDTO> GetAllDeletedDTO();
+        List<UniversityDepartmentDTO> GetDeletedAllDTO();
     }
 }

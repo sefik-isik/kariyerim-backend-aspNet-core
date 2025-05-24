@@ -116,17 +116,17 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImageDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        public IDataResult<List<PersonelUserImageDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDeletedDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDeletedDTO().OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
             }
 
         }

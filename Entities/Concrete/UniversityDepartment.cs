@@ -10,6 +10,7 @@ namespace Entities.Concrete
     public class UniversityDepartment : Entity, IEntity
     {
         public int UniversityId { get; set; }
-        public string DepartmentName { get; set; }
+        public int FacultyId { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

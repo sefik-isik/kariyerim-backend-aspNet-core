@@ -20,6 +20,6 @@ namespace Business.Abstract
 
         //DTO
         IDataResult<List<RegionDTO>> GetAllDTO();
-        IDataResult<List<RegionDTO>> GetAllDeletedDTO();
+        IDataResult<List<RegionDTO>> GetDeletedAllDTO();
     }
 }

@@ -66,9 +66,9 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDTO>> GetAllDeletedDTO()
+        public IDataResult<List<UniversityDepartmentDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetAllDeletedDTO().OrderBy(s => s.UniversityName).ToList());
+            return new SuccessDataResult<List<UniversityDepartmentDTO>>(_universityDepartmentDal.GetDeletedAllDTO().OrderBy(s => s.UniversityName).ToList());
         }
 
     }

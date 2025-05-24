@@ -59,9 +59,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO().OrderBy(s => s.CityName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<RegionDTO>> GetAllDeletedDTO()
+        public IDataResult<List<RegionDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList());
+            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList());
         }
     }
 }

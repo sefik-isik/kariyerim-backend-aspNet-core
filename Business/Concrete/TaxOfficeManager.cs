@@ -59,9 +59,9 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO().OrderBy(s => s.CityName).ToList());
         }
-        public IDataResult<List<TaxOfficeDTO>> GetAllDeletedDTO()
+        public IDataResult<List<TaxOfficeDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList());
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList());
         }
     }
 }

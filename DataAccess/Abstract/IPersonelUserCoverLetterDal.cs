@@ -13,6 +13,6 @@ namespace DataAccess.Abstract
     {
         List<PersonelUserCoverLetterDTO> GetAllDTO();
 
-        List<PersonelUserCoverLetterDTO> GetAllDeletedDTO();
+        List<PersonelUserCoverLetterDTO> GetDeletedAllDTO();
     }
 }

@@ -17,10 +17,9 @@ namespace Business.Abstract
         IDataResult<List<UniversityDepartment>> GetAll();
         IDataResult<List<UniversityDepartment>> GetDeletedAll();
         IDataResult<UniversityDepartment> GetById(int id);
-        
 
         //DTO
         IDataResult<List<UniversityDepartmentDTO>> GetAllDTO();
-        IDataResult<List<UniversityDepartmentDTO>> GetAllDeletedDTO();
+        IDataResult<List<UniversityDepartmentDTO>> GetDeletedAllDTO();
     }
 }

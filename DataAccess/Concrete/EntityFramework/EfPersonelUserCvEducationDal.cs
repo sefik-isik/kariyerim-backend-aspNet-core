@@ -21,9 +21,9 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUserCv in context.PersonelUserCvs on personelUserCvEducations.CvId equals personelUserCv.Id
                              join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
-                             join university in context.Universities on personelUserCvEducations.UniversityId equals university.Id
-                             join department in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals department.Id
-                             join faculty in context.Faculties on personelUserCvEducations.FacultyId equals faculty.Id
+                             join universities in context.Universities on personelUserCvEducations.UniversityId equals universities.Id
+                             join departments in context.Departments on personelUserCvEducations.DepartmentId equals departments.Id
+                             join faculties in context.Faculties on personelUserCvEducations.FacultyId equals faculties.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
                              personelUserCvEducations.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
@@ -42,14 +42,14 @@ namespace DataAccess.Concrete.EntityFramework
                                  CvName=personelUserCv.CvName,
                                  Abandonment = personelUserCvEducations.Abandonment,
                                  EducationInfo = personelUserCvEducations.EducationInfo,
-                                 UniversityId = university.Id,
-                                 UniversityName = university.UniversityName,
-                                 DepartmentId = department.Id,
-                                 DepartmentName = department.DepartmentName,
+                                 UniversityId = universities.Id,
+                                 UniversityName = universities.UniversityName,
+                                 DepartmentId = departments.Id,
+                                 DepartmentName = departments.DepartmentName,
                                  StartDate = personelUserCvEducations.StartDate,
                                  EndDate = personelUserCvEducations.EndDate,
-                                 FacultyId = faculty.Id,
-                                 FacultyName = faculty.FacultyName,
+                                 FacultyId = faculties.Id,
+                                 FacultyName = faculties.FacultyName,
                                  Detail = personelUserCvEducations.Detail,
                                  CreatedDate = personelUserCvEducations.CreatedDate,
                                  UpdatedDate = personelUserCvEducations.UpdatedDate,
@@ -59,7 +59,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<PersonelUserCvEducationDTO> GetAllDeletedDTO()
+        public List<PersonelUserCvEducationDTO> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -67,9 +67,9 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUserCv in context.PersonelUserCvs on personelUserCvEducations.CvId equals personelUserCv.Id
                              join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
-                             join university in context.Universities on personelUserCvEducations.UniversityId equals university.Id
-                             join department in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals department.Id
-                             join faculty in context.Faculties on personelUserCvEducations.FacultyId equals faculty.Id
+                             join universities in context.Universities on personelUserCvEducations.UniversityId equals universities.Id
+                             join departments in context.Departments on personelUserCvEducations.DepartmentId equals departments.Id
+                             join faculties in context.Faculties on personelUserCvEducations.FacultyId equals faculties.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
                              personelUserCvEducations.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
@@ -88,14 +88,14 @@ namespace DataAccess.Concrete.EntityFramework
                                  CvName = personelUserCv.CvName,
                                  Abandonment = personelUserCvEducations.Abandonment,
                                  EducationInfo = personelUserCvEducations.EducationInfo,
-                                 UniversityId = university.Id,
-                                 UniversityName = university.UniversityName,
-                                 DepartmentId = department.Id,
-                                 DepartmentName = department.DepartmentName,
+                                 UniversityId = universities.Id,
+                                 UniversityName = universities.UniversityName,
+                                 DepartmentId = departments.Id,
+                                 DepartmentName = departments.DepartmentName,
                                  StartDate = personelUserCvEducations.StartDate,
                                  EndDate = personelUserCvEducations.EndDate,
-                                 FacultyId = faculty.Id,
-                                 FacultyName = faculty.FacultyName,
+                                 FacultyId = faculties.Id,
+                                 FacultyName = faculties.FacultyName,
                                  Detail = personelUserCvEducations.Detail,
                                  CreatedDate = personelUserCvEducations.CreatedDate,
                                  UpdatedDate = personelUserCvEducations.UpdatedDate,

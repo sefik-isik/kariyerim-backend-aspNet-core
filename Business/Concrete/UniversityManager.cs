@@ -2,7 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,7 @@ namespace Business.Concrete
         {
             _universityDal = universityDal;
         }
+
         [SecuredOperation("admin")]
         public IResult Add(University university)
         {
@@ -53,7 +56,16 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<University>(_universityDal.Get(u=>u.Id == id));
         }
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UniversityDTO>> GetAllDTO()
+        {
+            return new SuccessDataResult<List<UniversityDTO>>(_universityDal.GetAllDTO().OrderBy(s => s.UniversityName).ToList());
+        }
+        [SecuredOperation("admin,user")]
+        public IDataResult<List<UniversityDTO>> GetDeletedAllDTO()
+        {
+            return new SuccessDataResult<List<UniversityDTO>>(_universityDal.GetDeletedAllDTO().OrderBy(s => s.UniversityName).ToList());
+        }
 
-        
     }
 }

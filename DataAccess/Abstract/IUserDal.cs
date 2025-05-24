@@ -15,7 +15,7 @@ namespace DataAccess.Abstract
         List<UserDTO> GetAllDTO();
         List<UserDTO> GetAllCompanyUserDTO();
         List<UserDTO> GetAllPersonelUserDTO();
-        List<UserDTO> GetAllDeletedDTO();
+        List<UserDTO> GetDeletedAllDTO();
 
         UserDTO GetByIdForAdminDTO(int id);
         UserDTO GetByIdDTO(int userId, int id);

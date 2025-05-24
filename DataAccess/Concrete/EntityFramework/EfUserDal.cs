@@ -100,7 +100,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<UserDTO> GetAllDeletedDTO()
+        public List<UserDTO> GetDeletedAllDTO()
         {
             using (var context = new KariyerimContext())
             {

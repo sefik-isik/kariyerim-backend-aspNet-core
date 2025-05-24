@@ -52,7 +52,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<PersonelUserAddressDTO> GetAllDeletedDTO()
+        public List<PersonelUserAddressDTO> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {

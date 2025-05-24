@@ -66,10 +66,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getalldeleteddto")]
-        public IActionResult GetAllDeletedDTO(UserAdminDTO userAdminDTO)
+        [HttpPost("GetDeletedAllDTO")]
+        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetAllDeletedDTO(userAdminDTO);
+            var result = _cvSummaryService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

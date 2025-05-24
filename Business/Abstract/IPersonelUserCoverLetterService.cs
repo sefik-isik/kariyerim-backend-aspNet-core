@@ -20,7 +20,7 @@ namespace Business.Abstract
 
         //DTO
         IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserCoverLetterDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserCoverLetterDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
 
     }
 }

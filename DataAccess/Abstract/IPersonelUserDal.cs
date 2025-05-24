@@ -12,6 +12,6 @@ namespace DataAccess.Abstract
     public interface IPersonelUserDal : IEntityRepository<PersonelUser>
     {
         List<PersonelUserDTO> GetAllDTO();
-        List<PersonelUserDTO> GetAllDeletedDTO();
+        List<PersonelUserDTO> GetDeletedAllDTO();
     }
 }

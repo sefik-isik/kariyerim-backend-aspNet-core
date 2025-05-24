@@ -20,7 +20,7 @@ namespace Business.Abstract
 
         //DTO
         IDataResult<List<TaxOfficeDTO>> GetAllDTO();
-        IDataResult<List<TaxOfficeDTO>> GetAllDeletedDTO();
+        IDataResult<List<TaxOfficeDTO>> GetDeletedAllDTO();
 
     }
 }

@@ -57,5 +57,19 @@ namespace WebAPI.Controllers
             var result = universityService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("getalldto")]
+        public IActionResult GetAllDTO()
+        {
+            var result = universityService.GetAllDTO();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getdeletedalldto")]
+        public IActionResult GetDeletedAllDTO()
+        {
+            var result = universityService.GetDeletedAllDTO();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

@@ -87,9 +87,9 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CityDTO>> GetAllDeletedDTO()
+        public IDataResult<List<CityDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDeletedDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
         }
 
 

@@ -20,6 +20,6 @@ namespace Business.Abstract
 
         //DTO
         IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

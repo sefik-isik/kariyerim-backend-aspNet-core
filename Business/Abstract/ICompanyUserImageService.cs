@@ -21,6 +21,6 @@ namespace Business.Abstract
 
         //DTO
         IDataResult<List<CompanyUserImageDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserImageDTO>> GetAllDeletedDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<CompanyUserImageDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }
