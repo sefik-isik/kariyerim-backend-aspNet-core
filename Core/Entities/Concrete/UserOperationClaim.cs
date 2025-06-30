@@ -4,6 +4,6 @@ namespace Core.Entities.Concrete
 {
     public class UserOperationClaim : BaseUser, IEntity
     {
-        public int OperationClaimId { get; set; }
+        public string OperationClaimId { get; set; }
     }
 }

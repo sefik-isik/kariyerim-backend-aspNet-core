@@ -21,43 +21,57 @@ namespace Business.Concrete
     {
         IPersonelUserAddressDal _personelUserAddressDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
 
-        public PersonelUserAddressManager(IPersonelUserAddressDal userAddressDal, IUserService userService, IPersonelUserService  personelUserService)
+        public PersonelUserAddressManager(IPersonelUserAddressDal userAddressDal, IUserService userService)
         {
             _personelUserAddressDal = userAddressDal;
             _userService = userService;
-            _personelUserService = personelUserService;
-
         }
+
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUserAddress personelUserAddress)
         {
-            _personelUserAddressDal.Add(personelUserAddress);
+            if (_userService.GetById(personelUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserAddressDal.AddAsync(personelUserAddress);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Update(PersonelUserAddress personelUserAddress)
         {
-            _personelUserAddressDal.Update(personelUserAddress);
+            if (_userService.GetById(personelUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserAddressDal.UpdateAsync(personelUserAddress);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(PersonelUserAddress personelUserAddress)
         {
+            if (_userService.GetById(personelUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _personelUserAddressDal.Delete(personelUserAddress);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUserAddress personelUserAddress)
+        {
+            _personelUserAddressDal.Terminate(personelUserAddress);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAddress>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserAddress>>(_personelUserAddressDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserAddress>>(_personelUserAddressDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -65,16 +79,15 @@ namespace Business.Concrete
             }
             
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserAddress>>(_personelUserAddressDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserAddress>>(_personelUserAddressDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -87,12 +100,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserAddress>(_personelUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<PersonelUserAddress>(_personelUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {

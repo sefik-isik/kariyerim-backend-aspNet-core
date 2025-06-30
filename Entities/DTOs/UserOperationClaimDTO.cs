@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class UserOperationClaimDTO : BaseDTOUser, IDto
+    public class UserOperationClaimDTO : BaseUserDTO, IDto
     {
-        public int OperationClaimId { get; set; }
+        public string OperationClaimId { get; set; }
         public string OperationClaimName { get; set; }
     }
 }

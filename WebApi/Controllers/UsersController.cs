@@ -24,13 +24,6 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getcode")]
-        public IActionResult GetCode(UserAdminDTO userAdminDTO)
-        {
-            var result = _userService.GetCode(userAdminDTO);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
         [HttpPost("update")]
         public IActionResult Update(User user)
         {
@@ -42,6 +35,13 @@ namespace WebAPI.Controllers
         public IActionResult Delete(User user)
         {
             var result = _userService.Delete(user);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("terminate")]
+        public IActionResult Terminate(User user)
+        {
+            var result = _userService.Terminate(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

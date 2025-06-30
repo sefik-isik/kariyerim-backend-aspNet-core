@@ -23,7 +23,6 @@ namespace Core.DependencyResolvers
             serviceCollection.AddSingleton<ICacheService, MemoryCacheManager>();
             serviceCollection.AddSingleton<Stopwatch>();
             serviceCollection.AddImageSharp();
-
         }
 
 

@@ -4,6 +4,7 @@ using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,15 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserCvDal : EfEntityRepositoryBase<PersonelUserCv, KariyerimContext>, IPersonelUserCvDal
     {
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var personelUserCvEducationsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCvEducations] WHERE [CvId] = {id}");
+                var personelUserCvSummariesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCvSummaries] WHERE [CvId] = {id}");
+                var personelUserCvWorkExperiencesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCvWorkExperiences] WHERE [CvId] = {id}");
+            }
+        }
         public List<PersonelUserCvDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())

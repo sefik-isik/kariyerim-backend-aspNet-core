@@ -10,6 +10,9 @@ namespace Entities.Concrete
     public class CompanyUserImage : BaseCompanyUser, IEntity
     {
         public string ImageName { get; set; }
+        public string ImageOwnName { get; set; }
         public string ImagePath { get; set; }
+        public bool IsMainImage { get; set; }
+        public bool IsLogo { get; set; }
     }
 }

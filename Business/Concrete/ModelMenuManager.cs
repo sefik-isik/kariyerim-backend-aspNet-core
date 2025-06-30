@@ -25,19 +25,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(ModelMenu modelMenu)
         {
-            _modelMenuDal.Add(modelMenu);
+            _modelMenuDal.AddAsync(modelMenu);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(ModelMenu modelMenu)
         {
-            _modelMenuDal.Update(modelMenu);
+            _modelMenuDal.UpdateAsync(modelMenu);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(ModelMenu modelMenu)
         {
             _modelMenuDal.Delete(modelMenu);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(ModelMenu modelMenu)
+        {
+            _modelMenuDal.Terminate(modelMenu);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -51,7 +57,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll().OrderBy(s => s.ModelName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<ModelMenu> GetById(int id)
+        public IDataResult<ModelMenu> GetById(string id)
         {
             return new SuccessDataResult<ModelMenu>(_modelMenuDal.Get(g => g.Id == id));
         }

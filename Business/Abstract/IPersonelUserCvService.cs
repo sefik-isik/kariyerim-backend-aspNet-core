@@ -11,13 +11,14 @@ namespace Business.Abstract
 {
     public interface IPersonelUserCvService
     {
-        IResult Add(PersonelUserCv cv);
-        IResult Update(PersonelUserCv cv);
-        IResult Delete(PersonelUserCv cv);
+        IResult Add(PersonelUserCv personelUserCv);
+        IResult Update(PersonelUserCv personelUserCv);
+        IResult Delete(PersonelUserCv personelUserCv);
+        IResult Terminate(PersonelUserCv personelUserCv);
         IDataResult<List<PersonelUserCv>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCv>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUserCv> GetById(UserAdminDTO userAdminDTO);
-        PersonelUserCv GetPersonelUserCv(int id);
+        PersonelUserCv GetPersonelUserCv(string id);
 
         //DTO
         IDataResult<List<PersonelUserCvDTO>> GetAllDTO(UserAdminDTO userAdminDTO);

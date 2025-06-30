@@ -9,10 +9,11 @@ namespace Entities.DTOs
 {
     public class TaxOfficeDTO : Dto, IDto
     {
-        public int CityId { get; set; }
+        public string CityId { get; set; }
+        public string CityCode { get; set; }
         public string CityName { get; set; }
         public string RegionName { get; set; }
-        public int TaxOfficeCode { get; set; }
+        public string TaxOfficeCode { get; set; }
         public string TaxOfficeName { get; set; }
     }
 }

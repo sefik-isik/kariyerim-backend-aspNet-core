@@ -12,9 +12,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public UniversityDepartmentValidator()
         {
-            RuleFor(c => c.UniversityId).GreaterThan(0);
-            RuleFor(c => c.DepartmentId).GreaterThan(0);
-            RuleFor(c => c.FacultyId).GreaterThan(0);
+
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Entities.Concrete
     public class PersonelUserImage : BasePersonelUser, IEntity
     {
         public string ImageName{ get; set; }
+        public string ImageOwnName { get; set; }
         public string ImagePath { get; set; }
+        public bool IsProfilImage { get; set; }
     }
 }

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class LicenceDegreeValidator : AbstractValidator<LicenceDegree>
+    public class LicenseDegreeValidator : AbstractValidator<LicenseDegree>
     {
-        public LicenceDegreeValidator()
+        public LicenseDegreeValidator()
         {
-            RuleFor(c => c.LicenceDegreeName).NotEmpty();
-            RuleFor(c => c.LicenceDegreeName).NotNull();
-            RuleFor(c => c.LicenceDegreeName).MinimumLength(2);
+            RuleFor(c => c.LicenseDegreeName).NotEmpty();
+            RuleFor(c => c.LicenseDegreeName).NotNull();
+            RuleFor(c => c.LicenseDegreeName).MinimumLength(2);
         }
     }
 }

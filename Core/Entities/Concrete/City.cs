@@ -9,7 +9,8 @@ namespace Core.Entities.Concrete
 {
     public class City : Entity, IEntity
     {
-        public int CountryId { get; set; }
+        public string CountryId { get; set; }
         public string CityName { get; set; }
+        public string CityCode { get; set; }
     }
 }

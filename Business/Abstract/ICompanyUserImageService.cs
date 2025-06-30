@@ -14,9 +14,11 @@ namespace Business.Abstract
         IResult Add(CompanyUserImage companyUserImage);
         IResult Update(CompanyUserImage companyUserImage);
         IResult Delete(CompanyUserImage companyUserImage);
+        IResult Terminate(CompanyUserImage companyUserImage);
         IDataResult<List<CompanyUserImage>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<CompanyUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<CompanyUserImage> GetById(UserAdminDTO userAdminDTO);
+        IResult DeleteImage(CompanyUserImage companyUserImage);
 
 
         //DTO

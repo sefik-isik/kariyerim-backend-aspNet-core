@@ -14,6 +14,7 @@ namespace Business.Abstract
         IResult Add(CompanyUserFile companyUserFile);
         IResult Update(CompanyUserFile companyUserFile);
         IResult Delete(CompanyUserFile companyUserFile);
+        IResult Terminate(CompanyUserFile companyUserFile);
         IDataResult<List<CompanyUserFile>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<CompanyUserFile>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<CompanyUserFile> GetById(UserAdminDTO userAdminDTO);

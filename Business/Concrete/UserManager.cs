@@ -8,6 +8,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
+
 
         public UserManager(IUserDal userDal)
         {
@@ -32,24 +34,68 @@ namespace Business.Concrete
 
         public IResult Add(User user)
         {
-            _userDal.Add(user);
+            _userDal.AddAsync(user);
             return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
         public IResult Update(User user)
         {
-            _userDal.Update(user);
+            User currentUser = GetById(user.Id);
+
+            var newUser = new User
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Status = currentUser.Status,
+                Code = currentUser.Code,
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = currentUser.UpdatedDate,
+                DeletedDate = currentUser.DeletedDate,
+
+            };
+
+            _userDal.UpdateAsync(newUser);
             return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
         public IResult Delete(User user)
         {
-            _userDal.Delete(user);
+            User currentUser = GetById(user.Id);
+
+            var newUser = new User
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Status = currentUser.Status,
+                Code = currentUser.Code,
+                PasswordHash = currentUser.PasswordHash,
+                PasswordSalt = currentUser.PasswordSalt,
+                CreatedDate = currentUser.CreatedDate,
+                UpdatedDate = currentUser.UpdatedDate,
+                DeletedDate = currentUser.DeletedDate,
+
+            };
+
+            _userDal.Delete(newUser);
             return new SuccessResult();
         }
-
+        [SecuredOperation("admin")]
+        public IResult Terminate(User user)
+        {
+            _userDal.TerminateSubDatas(user.Id);
+            _userDal.Terminate(user);
+            return new SuccessResult();
+        }
         public IDataResult<User> GetByMail(string email)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
@@ -70,16 +116,10 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin")]
-        public User GetById(int id)
+
+        public User GetById(string id)
         {
                 return _userDal.Get(u => u.Id == id);
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<UserCodeDTO>> GetCode(UserAdminDTO userAdminDTO)
-        {
-            return new SuccessDataResult<List<UserCodeDTO>>(_userDal.GetCode(userAdminDTO.UserId));
         }
 
         [SecuredOperation("admin,user")]

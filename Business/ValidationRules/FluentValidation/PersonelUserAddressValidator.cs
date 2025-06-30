@@ -12,10 +12,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public PersonelUserAddressValidator()
         {
-            RuleFor(c => c.CountryId).GreaterThan(0);
-            RuleFor(c => c.CityId).GreaterThan(0);
-            RuleFor(c => c.RegionId).GreaterThan(0);
-
             RuleFor(c => c.AddressDetail).NotEmpty();
             RuleFor(c => c.AddressDetail).NotNull();
             RuleFor(c => c.AddressDetail).MinimumLength(20);

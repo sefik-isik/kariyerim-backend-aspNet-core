@@ -65,33 +65,5 @@ namespace WebAPI.Controllers
 
             return Ok();
         }
-
-        [HttpPost("updatecode")]
-        public ActionResult UpdateCode(UserCodeDTO userCodeDTO)
-        {
-            var result = _authService.UpdateUserCode(userCodeDTO);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-        
-        [HttpPost("updateuser")]
-        public ActionResult UpdateUser(User user)
-        {
-            var result = _authService.UpdateUser(user);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost("deleteuser")]
-        public ActionResult DeleteUser(User user)
-        {
-            var result = _authService.DeleteUser(user);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost("undeleteuser")]
-        public ActionResult UnDeleteUser(User user)
-        {
-            var result = _authService.UnDeleteUser(user);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
     }
 }

@@ -21,21 +21,20 @@ namespace Business.Concrete
     {
         IUserOperationClaimDal _userOperationClaimDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
 
-        public UserOperationClaimManager(IUserOperationClaimDal userOperationClaimDal, IUserService userService, IPersonelUserService personelUserService)
+        public UserOperationClaimManager(IUserOperationClaimDal userOperationClaimDal, IUserService userService)
         {
             _userOperationClaimDal = userOperationClaimDal;
             _userService = userService;
-            _personelUserService = personelUserService;
         }
 
-        [SecuredOperation("admin")]
         public IResult Add(UserOperationClaim userOperationClaim)
         {
-            _userOperationClaimDal.Add(userOperationClaim);
-
-            MakeUserAdmin(userOperationClaim);
+            if (_userService.GetById(userOperationClaim.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _userOperationClaimDal.AddAsync(userOperationClaim);
 
             return new SuccessResult();
         }
@@ -43,21 +42,30 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Update(UserOperationClaim userOperationClaim)
         {
-            _userOperationClaimDal.Update(userOperationClaim);
+            if (_userService.GetById(userOperationClaim.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _userOperationClaimDal.UpdateAsync(userOperationClaim);
 
             MakeUserAdmin(userOperationClaim);
 
             return new SuccessResult();
         }
+
         [SecuredOperation("admin")]
         public IResult Delete(UserOperationClaim userOperationClaim)
         {
+            if (_userService.GetById(userOperationClaim.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _userOperationClaimDal.Delete(userOperationClaim);
-
-            MakeUserAdmin(userOperationClaim);
 
             return new SuccessResult();
         }
+
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO)
         {
@@ -73,6 +81,7 @@ namespace Business.Concrete
             }
 
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
@@ -147,22 +156,26 @@ namespace Business.Concrete
                 LastName = currentUser.LastName,
                 PhoneNumber = currentUser.PhoneNumber,
                 Email = currentUser.Email,
-                Status = currentUser.Status,
+                Status = GetAdminStatus(userOperationClaim),
                 Code = currentUser.Code,
                 CreatedDate = currentUser.CreatedDate,
                 UpdatedDate = DateTime.Now,
                 DeletedDate = currentUser.DeletedDate,
             };
 
-            if (userOperationClaim.OperationClaimId == 1 && userOperationClaim.DeletedDate == null)
+            _userService.Update(user);
+        }
+
+        private string GetAdminStatus(UserOperationClaim userOperationClaim)
+        {
+            if (userOperationClaim.OperationClaimId == "352f7ef8-3a76-4dd9-8458-267fa984c715" && userOperationClaim.DeletedDate == null)
             {
-                user.Status = UserStatus.Admin;
+                return UserStatus.Admin;
             }
             else
             {
-                user.Status = UserStatus.User;
+                return UserStatus.User;
             }
-            _userService.Update(user);
         }
     }
 }

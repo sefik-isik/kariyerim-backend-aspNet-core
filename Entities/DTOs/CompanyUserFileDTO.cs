@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CompanyUserFileDTO : BaseCompanyDTOUser, IDto
+    public class CompanyUserFileDTO : BaseCompanyUserDTO, IDto
     {
         public string FileName { get; set; }
+        public string FileOwnName { get; set; }
         public string FilePath { get; set; }
     }
 }

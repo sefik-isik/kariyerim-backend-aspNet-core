@@ -37,6 +37,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("terminate")]
+        public IActionResult Terminate(WorkingMethod workingMethod)
+        {
+            var result = _workingMethodService.Terminate(workingMethod);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -52,7 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
             var result = _workingMethodService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);

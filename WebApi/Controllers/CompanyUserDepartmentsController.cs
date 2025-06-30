@@ -38,6 +38,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("terminate")]
+        public IActionResult Terminate(CompanyUserDepartment companyUserDepartment)
+        {
+            var result = _companyUserDepartmentService.Terminate(companyUserDepartment);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getall")]
         public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {

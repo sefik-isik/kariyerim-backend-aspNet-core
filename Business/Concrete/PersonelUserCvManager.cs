@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -9,6 +10,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,66 +19,84 @@ namespace Business.Concrete
 {
     public class PersonelUserCvManager : IPersonelUserCvService
     {
-        IPersonelUserCvDal _cvDal;
+        IPersonelUserCvDal _personelUserCvDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
 
-        public PersonelUserCvManager(IPersonelUserCvDal cvDal, IUserService userService, IPersonelUserService personelUserService)
+        public PersonelUserCvManager(IPersonelUserCvDal cvDal, IUserService userService)
         {
-            _cvDal = cvDal;
+            _personelUserCvDal = cvDal;
             _userService = userService;
-            _personelUserService = personelUserService;
+        }
+        [SecuredOperation("admin,user")]
+        public IResult Add(PersonelUserCv personelUserCv)
+        {
+            if (_userService.GetById(personelUserCv.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvDal.AddAsync(personelUserCv);
+            return new SuccessResult();
+        }
 
-        }
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserCv cv)
+        public IResult Update(PersonelUserCv personelUserCv)
         {
-            _cvDal.Add(cv);
+            if (_userService.GetById(personelUserCv.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvDal.UpdateAsync(personelUserCv);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
-        public IResult Update(PersonelUserCv cv)
+        public IResult Delete(PersonelUserCv personelUserCv)
         {
-            _cvDal.Update(cv);
+            if (_userService.GetById(personelUserCv.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvDal.Delete(personelUserCv);
             return new SuccessResult();
         }
-        [SecuredOperation("admin,user")]
-        public IResult Delete(PersonelUserCv cv)
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUserCv personelUserCv)
         {
-            _cvDal.Delete(cv);
+            _personelUserCvDal.Terminate(personelUserCv);
+            _personelUserCvDal.TerminateSubDatas(personelUserCv.Id);
             return new SuccessResult();
         }
+
+        
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCv>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserCv>>(_personelUserCvDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetAll());
+                return new SuccessDataResult<List<PersonelUserCv>>(_personelUserCvDal.GetAll());
             }
             
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCv>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserCv>>(_personelUserCvDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCv>>(_cvDal.GetDeletedAll());
+                return new SuccessDataResult<List<PersonelUserCv>>(_personelUserCvDal.GetDeletedAll());
             }
 
         }
@@ -85,23 +105,20 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<PersonelUserCv>(_personelUserCvDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<PersonelUserCv>(_cvDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<PersonelUserCv>(_personelUserCvDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
         [SecuredOperation("admin")]
-        public PersonelUserCv GetPersonelUserCv(int cvId)
+        public PersonelUserCv GetPersonelUserCv(string cvId)
         {
-            return _cvDal.Get(c => c.Id == cvId);
+            return _personelUserCvDal.Get(c => c.Id == cvId);
         }
 
         [SecuredOperation("admin,user")]
@@ -111,11 +128,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_personelUserCvDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_personelUserCvDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }
@@ -127,11 +144,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_personelUserCvDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvDTO>>(_cvDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvDTO>>(_personelUserCvDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }

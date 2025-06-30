@@ -3,11 +3,61 @@ using Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.DTOs;
 using Core.Utilities.Business.Constans;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserDal : EfEntityRepositoryBase<CompanyUser, KariyerimContext>, ICompanyUserDal
     {
+        ICompanyUserAdvertDal _companyUserAdvertDal;
+
+        public EfCompanyUserDal(ICompanyUserAdvertDal companyUserAdvertDal)
+        {
+            _companyUserAdvertDal = companyUserAdvertDal;
+        }
+
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                
+
+                List<CompanyUserAdvert> adverts = GetAllAdvertCityUserId(id);
+                if (adverts != null && adverts.Count > 0)
+                {
+                    foreach (var advert in adverts)
+                    {
+                        _companyUserAdvertDal.TerminateSubDatas(advert.Id);
+                    }
+                }
+
+                var companyUserAddressesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAddresses] WHERE [CompanyUserId] = {id}");
+                var companyUserAdvertJobDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertJobDescriptions] WHERE [CompanyUserId] = {id}");
+                var companyUserDepartmentsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserDepartments] WHERE [CompanyUserId] = {id}");
+                var companyUserFilesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserFiles] WHERE [CompanyUserId] = {id}");
+                var companyUserImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserImages] WHERE [CompanyUserId] = {id}");
+                var advertApplicationsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [AdvertApplications] WHERE [CompanyUserId] = {id}");
+                var advertFollowsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [AdvertFollows] WHERE [CompanyUserId] = {id}");
+                var companyFollowsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyFollows] WHERE [CompanyUserId] = {id}");
+                var companyUserAdvertsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdverts] WHERE [CompanyUserId] = {id}");
+            }
+        }
+
+            private List<CompanyUserAdvert> GetAllAdvertCityUserId(string id)
+            {
+                using (KariyerimContext context = new KariyerimContext())
+                {
+                    var adverts = from companyUserAdverts in context.CompanyUserAdverts
+                              join companyUsers in context.CompanyUsers on companyUserAdverts.CompanyUserId equals companyUsers.Id
+                              where companyUserAdverts.CompanyUserId == id
+                              select new CompanyUserAdvert
+                              {
+                                  Id = companyUserAdverts.Id,
+                              };
+                    return adverts.ToList();
+                }
+            }
+        
         public List<CompanyUserDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
@@ -31,8 +81,12 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
-                                 CompanyUserId = companyUsers.UserId,
                                  CompanyUserName = companyUsers.CompanyUserName,
+                                 About = companyUsers.About,
+                                 Clarification = companyUsers.Clarification,
+                                 WorkerCount = companyUsers.WorkerCount,
+                                 YearOfEstablishment = companyUsers.YearOfEstablishment,
+                                 WebAddress = companyUsers.WebAddress,
                                  SectorId = sectors.Id,
                                  SectorName = sectors.SectorName,
                                  TaxCityId = cities.Id,
@@ -71,8 +125,12 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
-                                 CompanyUserId = companyUsers.UserId,
                                  CompanyUserName = companyUsers.CompanyUserName,
+                                 About = companyUsers.About,
+                                 Clarification = companyUsers.Clarification,
+                                 WorkerCount = companyUsers.WorkerCount,
+                                 YearOfEstablishment = companyUsers.YearOfEstablishment,
+                                 WebAddress = companyUsers.WebAddress,
                                  SectorId = sectors.Id,
                                  SectorName = sectors.SectorName,
                                  TaxCityId = cities.Id,

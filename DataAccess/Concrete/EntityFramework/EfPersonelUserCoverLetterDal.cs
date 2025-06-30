@@ -28,13 +28,13 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PersonelUserCoverLetterDTO
                              {
                                  Id = personelUserCoverLetters.Id,
-                                 PersonelUserId = personelUsers.Id,
                                  UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
                                  Title = personelUserCoverLetters.Title,
                                  Description = personelUserCoverLetters.Description,
                                  CreatedDate = personelUserCoverLetters.CreatedDate,
@@ -60,13 +60,13 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PersonelUserCoverLetterDTO
                              {
                                  Id = personelUserCoverLetters.Id,
-                                 PersonelUserId = personelUsers.Id,
                                  UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
                                  Title = personelUserCoverLetters.Title,
                                  Description = personelUserCoverLetters.Description,
                                  CreatedDate = personelUserCoverLetters.CreatedDate,

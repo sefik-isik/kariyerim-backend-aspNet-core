@@ -33,9 +33,10 @@ namespace Business.Constans
         public static string CompanyNameAlreadyExist = JsonConvert.SerializeObject("Bu şirket ismi daha önce eklenmiş");
         public static string TaxNumberAlreadyExist = JsonConvert.SerializeObject("Bu vergi numarası daha önce eklenmiş");
         public static string UserCodeAlreadyUpdated = JsonConvert.SerializeObject("Kullanıcı seçimi daha önce yapılmış");
-
         public static string PersonelUserAlreadyExist = JsonConvert.SerializeObject("Kullanıcı daha önce eklenmiş");
-
-        public static PersonelUserFile PersonelUserNotFound { get; internal set; }
+        public static string PersonelUserNotFound = JsonConvert.SerializeObject("Kullanıcı bulunamadı.");
+        public static string PermissionError = JsonConvert.SerializeObject("You do not have permission to view this data. Please contact your administrator.");
+        public static string PasswordExist = JsonConvert.SerializeObject("Şifre Bir Önceki Şifre İle Aynı Olamaz.");
+        public static string ImageNotFound = JsonConvert.SerializeObject("Resim Bulunamdı.");
     }
 }

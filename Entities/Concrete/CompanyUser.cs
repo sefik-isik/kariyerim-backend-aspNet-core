@@ -10,9 +10,14 @@ namespace Entities.Concrete
     public class CompanyUser : BaseUser, IEntity
     {
         public string CompanyUserName { get; set; }
-        public int SectorId { get; set; }
-        public int TaxCityId { get; set; }
-        public int TaxOfficeId { get; set; }
+        public string About { get; set; }
+        public string Clarification { get; set; }
+        public string WorkerCount { get; set; }
+        public DateTime YearOfEstablishment { get; set; }
+        public string WebAddress { get; set; }
+        public string SectorId { get; set; }
+        public string TaxCityId { get; set; }
+        public string TaxOfficeId { get; set; }
         public string TaxNumber { get; set; }
     }
 }

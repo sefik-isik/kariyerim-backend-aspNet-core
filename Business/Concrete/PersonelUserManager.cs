@@ -16,6 +16,7 @@ using Core.Utilities.Security.Status;
 using Core.Entities.Concrete;
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Business;
+using System.Diagnostics.Metrics;
 
 namespace Business.Concrete
 {
@@ -24,7 +25,8 @@ namespace Business.Concrete
         IPersonelUserDal _personelUserDal;
         IUserService _userService;
 
-        public PersonelUserManager(IPersonelUserDal personelUserDal, IUserService userService)
+        public PersonelUserManager(IPersonelUserDal personelUserDal, 
+            IUserService userService)
         {
             _personelUserDal = personelUserDal;
             _userService = userService;
@@ -40,19 +42,43 @@ namespace Business.Concrete
                 return result;
             }
 
-            _personelUserDal.Add(personelUser);
+            if (_userService.GetById(personelUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+
+            _personelUserDal.AddAsync(personelUser);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Update(PersonelUser personelUser)
         {
-            _personelUserDal.Update(personelUser);
+            if (_userService.GetById(personelUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserDal.UpdateAsync(personelUser);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Delete(PersonelUser personelUser)
         {
+            if (_userService.GetById(personelUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+
             _personelUserDal.Delete(personelUser);
+            return new SuccessResult();
+        }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUser personelUser)
+        {
+            _personelUserDal.TerminateSubDatas(personelUser.Id);
+            _personelUserDal.Terminate(personelUser);
             return new SuccessResult();
         }
 
@@ -103,7 +129,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUser> GetById(int id)
+        public IDataResult<PersonelUser> GetById(string id)
         {
             return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == id));
 
@@ -143,7 +169,7 @@ namespace Business.Concrete
         }
 
         //Business Rules
-        private IResult IsPersonelUserExist(int id)
+        private IResult IsPersonelUserExist(string id)
         {
             var result = _personelUserDal.GetAll(c => c.UserId == id).Any();
 

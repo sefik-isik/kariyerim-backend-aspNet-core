@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class PersonelUserDTO : BaseDTOUser, IDto
+    public class PersonelUserDTO : BaseUserDTO, IDto
     {
-        public required string IdentityNumber { get; set; }
+        public string IdentityNumber { get; set; }
         public bool Gender { get; set; }
-        public int LicenceDegreeId { get; set; }
-        public string LicenceDegreeName { get; set; }
-        public int BirthPlaceId { get; set; }
-        public required string BirthPlaceName { get; set; }
+        public string LicenseDegreeId { get; set; }
+        public string LicenseDegreeName { get; set; }
+        public string BirthPlaceId { get; set; }
+        public string BirthPlaceName { get; set; }
+        public string DriverLicenceId { get; set; }
+        public string DriverLicenceName { get; set; }
         public bool NationalStatus { get; set; }
         public bool MilitaryStatus { get; set; }
         public bool RetirementStatus { get; set; }
-        public int DriverLicenceId { get; set; }
-        public required string DriverLicenceName { get; set; }
         public DateTime DateOfBirth { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -22,19 +23,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(WorkingMethod workingMethod)
         {
-            _workingMethodDal.Add(workingMethod);
+            _workingMethodDal.AddAsync(workingMethod);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(WorkingMethod workingMethod)
         {
-            _workingMethodDal.Update(workingMethod);
+            _workingMethodDal.UpdateAsync(workingMethod);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(WorkingMethod workingMethod)
         {
             _workingMethodDal.Delete(workingMethod);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(WorkingMethod workingMethod)
+        {
+            _workingMethodDal.Terminate(workingMethod);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -48,7 +55,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll().OrderBy(s => s.MethodName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<WorkingMethod> GetById(int id)
+        public IDataResult<WorkingMethod> GetById(string id)
         {
             return new SuccessDataResult<WorkingMethod>(_workingMethodDal.Get(w=>w.Id == id));
         }

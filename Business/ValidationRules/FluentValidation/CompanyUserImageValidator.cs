@@ -12,7 +12,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CompanyUserImageValidator()
         {
-            RuleFor(c => c.CompanyUserId).GreaterThan(0);
 
             RuleFor(c => c.ImageName).NotEmpty();
             RuleFor(c => c.ImageName).NotNull();

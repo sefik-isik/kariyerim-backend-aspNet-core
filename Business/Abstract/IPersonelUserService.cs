@@ -15,10 +15,11 @@ namespace Business.Abstract
         IResult Add(PersonelUser personelUser);
         IResult Update(PersonelUser personelUser);
         IResult Delete(PersonelUser personelUser);
+        IResult Terminate(PersonelUser personelUser);
         IDataResult<List<PersonelUser>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUser>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUser> GetByAdminId(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUser> GetById(int id);
+        IDataResult<PersonelUser> GetById(string id);
 
         //DTO
         IDataResult<List<PersonelUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO);

@@ -24,19 +24,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(TaxOffice taxOffice)
         {
-            _taxOfficeDal.Add(taxOffice);
+            _taxOfficeDal.AddAsync(taxOffice);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(TaxOffice taxOffice)
         {
-            _taxOfficeDal.Update(taxOffice);
+            _taxOfficeDal.UpdateAsync(taxOffice);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(TaxOffice taxOffice)
         {
             _taxOfficeDal.Delete(taxOffice);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(TaxOffice taxOffice)
+        {
+            _taxOfficeDal.Terminate(taxOffice);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -50,7 +56,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<TaxOffice>>(_taxOfficeDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<TaxOffice> GetById(int id)
+        public IDataResult<TaxOffice> GetById(string id)
         {
             return new SuccessDataResult<TaxOffice>(_taxOfficeDal.Get(t=>t.Id == id));
         }

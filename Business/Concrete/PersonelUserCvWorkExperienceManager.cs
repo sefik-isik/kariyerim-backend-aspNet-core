@@ -17,69 +17,84 @@ namespace Business.Concrete
 {
     public class PersonelUserCvWorkExperienceManager : IPersonelUserCvWorkExperienceService
     {
-        IPersonelUserCvWorkExperienceDal _cvWorkExperienceDal;
+        IPersonelUserCvWorkExperienceDal _personelUserCvWorkExperienceDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
-        IPersonelUserCvService _personelUserCvService;
 
         public PersonelUserCvWorkExperienceManager(IPersonelUserCvWorkExperienceDal cvWorkExperienceDal, 
-            IUserService userService,IPersonelUserService personelUserService, IPersonelUserCvService personelUserCvService)
+            IUserService userService)
         {
-            _cvWorkExperienceDal = cvWorkExperienceDal;
+            _personelUserCvWorkExperienceDal = cvWorkExperienceDal;
             _userService = userService;
-            _personelUserService = personelUserService;
-            _personelUserCvService = personelUserCvService;
+        }
 
-        }
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserCvWorkExperience cvWorkExperience)
+        public IResult Add(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            _cvWorkExperienceDal.Add(cvWorkExperience); 
+            if (_userService.GetById(personelUserCvWorkExperience.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvWorkExperienceDal.AddAsync(personelUserCvWorkExperience); 
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
-        public IResult Update(PersonelUserCvWorkExperience cvWorkExperience)
+        public IResult Update(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            _cvWorkExperienceDal.Update(cvWorkExperience);
+            if (_userService.GetById(personelUserCvWorkExperience.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvWorkExperienceDal.UpdateAsync(personelUserCvWorkExperience);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
-        public IResult Delete(PersonelUserCvWorkExperience cvWorkExperience)
+        public IResult Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            _cvWorkExperienceDal.Delete(cvWorkExperience);
+            if (_userService.GetById(personelUserCvWorkExperience.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserCvWorkExperienceDal.Delete(personelUserCvWorkExperience);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience)
+        {
+            _personelUserCvWorkExperienceDal.Terminate(personelUserCvWorkExperience);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCvWorkExperience>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_personelUserCvWorkExperienceDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetAll());
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_personelUserCvWorkExperienceDal.GetAll());
             }
             
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_personelUserCvWorkExperienceDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_cvWorkExperienceDal.GetDeletedAll());
+                return new SuccessDataResult<List<PersonelUserCvWorkExperience>>(_personelUserCvWorkExperienceDal.GetDeletedAll());
             }
 
         }
@@ -88,18 +103,16 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserCvWorkExperience>(_cvWorkExperienceDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<PersonelUserCvWorkExperience>(_personelUserCvWorkExperienceDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<PersonelUserCvWorkExperience>(_cvWorkExperienceDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<PersonelUserCvWorkExperience>(_personelUserCvWorkExperienceDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
@@ -107,11 +120,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_personelUserCvWorkExperienceDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_personelUserCvWorkExperienceDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }
@@ -123,11 +136,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_personelUserCvWorkExperienceDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_cvWorkExperienceDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvWorkExperienceDTO>>(_personelUserCvWorkExperienceDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
         }

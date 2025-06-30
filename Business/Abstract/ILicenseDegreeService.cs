@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface ILicenceDegreeService
+    public interface ILicenseDegreeService
     {
-        IResult Add(LicenceDegree licenceDegreeId);
-        IResult Update(LicenceDegree licenceDegreeId);
-        IResult Delete(LicenceDegree licenceDegreeId);
-        IDataResult<List<LicenceDegree>> GetAll();
-        IDataResult<List<LicenceDegree>> GetDeletedAll();
-        IDataResult<LicenceDegree> GetById(int id);
+        IResult Add(LicenseDegree licenseDegree);
+        IResult Update(LicenseDegree licenseDegree);
+        IResult Delete(LicenseDegree licenseDegree);
+        IResult Terminate(LicenseDegree licenseDegree);
+        IDataResult<List<LicenseDegree>> GetAll();
+        IDataResult<List<LicenseDegree>> GetDeletedAll();
+        IDataResult<LicenseDegree> GetById(string id);
         
     }
 }

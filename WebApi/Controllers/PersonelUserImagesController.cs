@@ -46,6 +46,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("terminate")]
+        public IActionResult Terminate(PersonelUserImage personelUserImage)
+        {
+            var result = _personelUserImageService.Terminate(personelUserImage);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getall")]
         public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
@@ -81,17 +88,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("uploadimage")]
-        public IActionResult UploadImage(IFormFile image, int id)
+        public IActionResult UploadImage(IFormFile image, string id)
         {
             var personelUser = _personelUserService.GetById(id);
 
-            int userId = personelUser.Data.UserId;
+            string userId = personelUser.Data.UserId;
 
             if (image == null || image.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (userId <= 0)
+            if (userId == null)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -149,29 +156,7 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(PersonelUserImage personelUserImage)
         {
-            var personelUser = _personelUserService.GetById(personelUserImage.PersonelUserId);
-
-            int userId = personelUser.Data.UserId;
-
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\" + personelUserImage.ImageName;
-
-            if (System.IO.File.Exists(fullImagePath))
-            {
-                System.IO.File.Delete(fullImagePath);
-
-            }
-
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\thumbs\\" + personelUserImage.ImageName;
-
-            if (System.IO.File.Exists(fullThumbImagePath))
-            {
-                System.IO.File.Delete(fullThumbImagePath);
-
-            }
-
-            personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
-            personelUserImage.ImageName = "noImage.jpg";
-
+            _personelUserImageService.DeleteImage(personelUserImage);
             var result = _personelUserImageService.Update(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.Concrete;
 
 namespace Business.Abstract
 {
@@ -13,9 +14,10 @@ namespace Business.Abstract
         IResult Add(Language language);
         IResult Update(Language language);
         IResult Delete(Language language);
+        IResult Terminate(Language language);
         IDataResult<List<Language>> GetAll();
         IDataResult<List<Language>> GetDeletedAll();
-        IDataResult<Language> GetById(int id);
+        IDataResult<Language> GetById(string id);
         
     }
 }

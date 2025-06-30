@@ -43,6 +43,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("terminate")]
+        public IActionResult Terminate(PersonelUserFile personelUserFile)
+        {
+            var result = _personelUserFileService.Terminate(personelUserFile);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getall")]
         public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
@@ -79,17 +86,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("uploadfile")]
-        public IActionResult UploadFile(IFormFile file, int id)
+        public IActionResult UploadFile(IFormFile file, string id)
         {
             var personelUser = _personelUserService.GetById(id);
 
-            int userId = personelUser.Data.UserId;
+            string userId = personelUser.Data.UserId;
 
             if (file == null || file.Length == 0)
             {
                 return BadRequest("No file uploaded.");
             }
-            if (userId <= 0)
+            if (userId == null)
             {
                 return BadRequest("Invalid user ID.");
             }
@@ -129,7 +136,7 @@ namespace WebAPI.Controllers
 
             var personelUser = _personelUserService.GetById(personelUserFile.PersonelUserId);
 
-            int userId = personelUser.Data.UserId;
+            string userId = personelUser.Data.UserId;
 
             string fullFilePath = _environment.WebRootPath + "\\uploads\\files\\" + userId + "\\" + personelUserFile.FileName;
 

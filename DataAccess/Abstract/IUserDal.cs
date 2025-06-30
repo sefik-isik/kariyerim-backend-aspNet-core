@@ -11,15 +11,16 @@ namespace DataAccess.Abstract
 {
     public interface IUserDal : IEntityRepository<User>
     {
+        Task TerminateSubDatas(string id);
         List<OperationClaim> GetClaims(User user);
         List<UserDTO> GetAllDTO();
         List<UserDTO> GetAllCompanyUserDTO();
         List<UserDTO> GetAllPersonelUserDTO();
         List<UserDTO> GetDeletedAllDTO();
 
-        UserDTO GetByIdForAdminDTO(int id);
-        UserDTO GetByIdDTO(int userId, int id);
+        UserDTO GetByIdForAdminDTO(string id);
+        UserDTO GetByIdDTO(string userId, string id);
 
-        List<UserCodeDTO> GetCode(int userId);
+        List<UserCodeDTO> GetCode(string userId);
     }
 }

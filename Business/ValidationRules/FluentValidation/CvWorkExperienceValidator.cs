@@ -29,17 +29,9 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.EndDate).NotEmpty();
             RuleFor(c => c.EndDate).NotNull();
 
-            RuleFor(c => c.CompanySectorId).GreaterThan(0);
-            RuleFor(c => c.DepartmentId).GreaterThan(0);
 
             RuleFor(c => c.FoundJobInHere).NotEmpty();
             RuleFor(c => c.FoundJobInHere).NotNull();
-
-            RuleFor(c => c.WorkingMethodId).GreaterThan(0);
-
-            RuleFor(c => c.CountryId).GreaterThan(0);
-            RuleFor(c => c.CityId).GreaterThan(0);
-            RuleFor(c => c.RegionId).GreaterThan(0);
 
             RuleFor(c => c.Detail).NotEmpty();
             RuleFor(c => c.Detail).NotNull();

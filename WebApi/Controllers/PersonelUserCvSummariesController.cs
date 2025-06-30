@@ -10,66 +10,73 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PersonelUserCvSummariesController : ControllerBase
     {
-        IPersonelUserCvSummaryService _cvSummaryService;
+        IPersonelUserCvSummaryService _personelUserCvSummaryService;
 
-        public PersonelUserCvSummariesController(IPersonelUserCvSummaryService cvSummaryService)
+        public PersonelUserCvSummariesController(IPersonelUserCvSummaryService personelUserCvSummaryService)
         {
-            _cvSummaryService = cvSummaryService;
+            _personelUserCvSummaryService = personelUserCvSummaryService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCvSummary cvSummary)
+        public IActionResult Add(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _cvSummaryService.Add(cvSummary);
+            var result = _personelUserCvSummaryService.Add(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCvSummary cvSummary)
+        public IActionResult Update(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _cvSummaryService.Update(cvSummary);
+            var result = _personelUserCvSummaryService.Update(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCvSummary cvSummary)
+        public IActionResult Delete(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _cvSummaryService.Delete(cvSummary);
+            var result = _personelUserCvSummaryService.Delete(personelUserCvSummary);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("terminate")]
+        public IActionResult Terminate(PersonelUserCvSummary personelUserCvSummary)
+        {
+            var result = _personelUserCvSummaryService.Terminate(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
         public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetAll(userAdminDTO);
+            var result = _personelUserCvSummaryService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
         public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetDeletedAll(userAdminDTO);
+            var result = _personelUserCvSummaryService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
         public IActionResult GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetById(userAdminDTO);
+            var result = _personelUserCvSummaryService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
         public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetAllDTO(userAdminDTO);
+            var result = _personelUserCvSummaryService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
         public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _cvSummaryService.GetDeletedAllDTO(userAdminDTO);
+            var result = _personelUserCvSummaryService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

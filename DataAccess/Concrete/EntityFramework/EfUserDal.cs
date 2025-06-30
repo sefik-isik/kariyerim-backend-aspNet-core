@@ -4,11 +4,80 @@ using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
+    
     public class EfUserDal : EfEntityRepositoryBase<User, KariyerimContext>, IUserDal
     {
+        ICompanyUserDal _companyUserDal;
+        IPersonelUserDal _personelUserDal;
+
+        public EfUserDal(ICompanyUserDal companyUserDal, IPersonelUserDal personelUserDal)
+        {
+            _companyUserDal = companyUserDal;
+            _personelUserDal = personelUserDal;
+        }
+
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                List<CompanyUser> companyUserList = GetAllCompanyUserByUserId(id);
+                if (companyUserList != null && companyUserList.Count > 0)
+                {
+                    foreach (var companyUser in companyUserList)
+                    {
+                        _companyUserDal.TerminateSubDatas(companyUser.Id);
+                    }
+                }
+
+                List<PersonelUser> personelUserList = GetAllPersonelUserByUserId(id);
+                if (personelUserList != null && personelUserList.Count > 0)
+                {
+                    foreach (var personelUser in personelUserList)
+                    {
+                        _personelUserDal.TerminateSubDatas(personelUser.Id);
+                    }
+                }
+
+                var companyUsersDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUsers] WHERE [UserId] = {id}");
+                var personelUsersDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUsers] WHERE [UserId] = {id}");
+                var userOperationClaimsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UserOperationClaims] WHERE [UserId] = {id}");
+            }
+        }
+
+        private List<CompanyUser> GetAllCompanyUserByUserId(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var companyUserList = from companyUsers in context.CompanyUsers
+                              join users in context.Users on companyUsers.UserId equals users.Id
+                              where companyUsers.UserId == id
+                              select new CompanyUser
+                              {
+                                  Id = companyUsers.Id,
+                              };
+                return companyUserList.ToList();
+            }
+        }
+
+        private List<PersonelUser> GetAllPersonelUserByUserId(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var personelUserList = from personelUsers in context.PersonelUsers
+                                      join users in context.Users on personelUsers.UserId equals users.Id
+                                      where personelUsers.UserId == id
+                                      select new PersonelUser
+                                      {
+                                          Id = personelUsers.Id,
+                                      };
+                return personelUserList.ToList();
+            }
+        }
+
         public List<OperationClaim> GetClaims(User user)
         {
             using (var context = new KariyerimContext())
@@ -124,7 +193,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public UserDTO GetByIdForAdminDTO(int id)
+        public UserDTO GetByIdForAdminDTO(string id)
         {
             using (var context = new KariyerimContext())
             {
@@ -147,7 +216,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public UserDTO GetByIdDTO(int userId, int id)
+        public UserDTO GetByIdDTO(string userId, string id)
         {
             using (var context = new KariyerimContext())
             {
@@ -169,7 +238,7 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList()[0];
             }
         }
-        public List<UserCodeDTO> GetCode(int userId)
+        public List<UserCodeDTO> GetCode(string userId)
         {
             using (var context = new KariyerimContext())
             {

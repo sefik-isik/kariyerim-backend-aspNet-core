@@ -10,7 +10,7 @@ namespace Entities.DTOs
     public class UniversityDTO : Dto, IDto
     {
         public string UniversityName { get; set; }
-        public int SectorId { get; set; }
+        public string SectorId { get; set; }
         public string SectorName { get; set; }
         public DateTime YearOfEstablishment { get; set; }
         public string WorkerCount { get; set; }

@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class PersonelUserImageDTO : BasePersonelDTOUser, IDto
+    public class PersonelUserImageDTO : BasePersonelUserDTO, IDto
     {
         public string ImageName { get; set; }
+        public string ImageOwnName { get; set; }
         public string ImagePath { get; set; }
+        public bool IsProfilImage { get; set; }
     }
 }

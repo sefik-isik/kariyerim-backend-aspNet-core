@@ -11,6 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IPersonelUserDal : IEntityRepository<PersonelUser>
     {
+        Task TerminateSubDatas(string id);
         List<PersonelUserDTO> GetAllDTO();
         List<PersonelUserDTO> GetDeletedAllDTO();
     }

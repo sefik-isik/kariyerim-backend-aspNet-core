@@ -1,10 +1,12 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace Business.Concrete
     public class UniversityManager: IUniversityService
     {
         IUniversityDal _universityDal;
-
+       
         public UniversityManager(IUniversityDal universityDal)
         {
             _universityDal = universityDal;
@@ -25,13 +27,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(University university)
         {
-            _universityDal.Add(university);
+            _universityDal.AddAsync(university);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(University university)
         {
-            _universityDal.Update(university);
+            _universityDal.UpdateAsync(university);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
@@ -40,6 +42,14 @@ namespace Business.Concrete
             _universityDal.Delete(university);
             return new SuccessResult();
         }
+        [SecuredOperation("admin")]
+        public IResult Terminate(University university)
+        {
+            _universityDal.TerminateSubDatas(university.Id);
+            _universityDal.Terminate(university);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<University>> GetAll()
         {
@@ -52,7 +62,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<University>>(_universityDal.GetDeletedAll().OrderBy(s => s.UniversityName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<University> GetById(int id)
+        public IDataResult<University> GetById(string id)
         {
             return new SuccessDataResult<University>(_universityDal.Get(u=>u.Id == id));
         }

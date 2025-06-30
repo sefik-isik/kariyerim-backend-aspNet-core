@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserAddresses in context.CompanyUserAddresses
                              join companyUsers in context.CompanyUsers on companyUserAddresses.CompanyUserId equals companyUsers.Id
-                             join users in context.Users on companyUsers.UserId equals users.Id
+                             join users in context.Users on companyUserAddresses.UserId equals users.Id
                              join countries in context.Countries on companyUserAddresses.CountryId equals countries.Id
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
@@ -63,13 +63,15 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserAddresses in context.CompanyUserAddresses
                              join companyUsers in context.CompanyUsers on companyUserAddresses.CompanyUserId equals companyUsers.Id
-                             join users in context.Users on companyUsers.UserId equals users.Id
+                             join users in context.Users on companyUserAddresses.UserId equals users.Id
                              join countries in context.Countries on companyUserAddresses.CountryId equals countries.Id
                              join cities in context.Cities on companyUserAddresses.CityId equals cities.Id
                              join regions in context.Regions on companyUserAddresses.RegionId equals regions.Id
 
-                             where users.Code == UserCodes.CompanyUserCode && companyUserAddresses.DeletedDate != null && 
-                             users.DeletedDate == null && companyUsers.DeletedDate == null
+                             where users.Code == UserCodes.CompanyUserCode && 
+                             companyUserAddresses.DeletedDate != null && 
+                             users.DeletedDate == null && 
+                             companyUsers.DeletedDate == null
 
 
                              select new CompanyUserAddressDTO

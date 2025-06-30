@@ -13,41 +13,56 @@ namespace Core.DataAccess.EntityFramework
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
             using (TContext context = new TContext())
             {
                 var addedEntity = context.Entry(entity);
+                entity.Id = Guid.NewGuid().ToString(); // Assuming Id is a string and you want to generate a new GUID
                 entity.CreatedDate = DateTime.Now;
                 entity.UpdatedDate = null;
                 entity.DeletedDate = null;
                 addedEntity.State = EntityState.Added;
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void Update(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
+            //Terminate(entity);
+            //AddAsync(entity);
+
             using (TContext context = new TContext())
             {
                 var updatedEntity = context.Entry(entity);
                 entity.UpdatedDate = DateTime.Now;
                 entity.DeletedDate = null;
                 updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
 
         // Soft Delete
-        public void Delete(TEntity entity)
+        public  async Task Delete(TEntity entity)
         {
             using (TContext context = new TContext())
             {
                 var deletedEntity = context.Entry(entity);
                 entity.DeletedDate = DateTime.Now;
                 deletedEntity.State = EntityState.Modified;
-                context.SaveChanges();
+                await context.SaveChangesAsync();
+            }
+        }
+
+        // Real Delete
+        public async Task Terminate(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var terminatedEntity = context.Entry(entity);
+                terminatedEntity.State = EntityState.Deleted;
+                await context.SaveChangesAsync();
             }
         }
 

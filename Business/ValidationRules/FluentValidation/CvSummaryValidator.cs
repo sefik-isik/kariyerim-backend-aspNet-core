@@ -12,8 +12,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CvSummaryValidator()
         {
-            RuleFor(c => c.CvId).GreaterThan(0);
-
             RuleFor(c => c.CvSummaryTitle).NotEmpty();
             RuleFor(c => c.CvSummaryTitle).NotNull();
             RuleFor(c => c.CvSummaryTitle).MinimumLength(2);

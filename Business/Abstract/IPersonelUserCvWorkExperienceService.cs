@@ -11,9 +11,10 @@ namespace Business.Abstract
 {
     public interface IPersonelUserCvWorkExperienceService
     {
-        IResult Add(PersonelUserCvWorkExperience cvWorkExperience);
-        IResult Update(PersonelUserCvWorkExperience cvWorkExperience);
-        IResult Delete(PersonelUserCvWorkExperience cvWorkExperience);
+        IResult Add(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        IResult Update(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        IResult Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        IResult Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience);
         IDataResult<List<PersonelUserCvWorkExperience>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUserCvWorkExperience> GetById(UserAdminDTO userAdminDTO);

@@ -9,9 +9,9 @@ namespace Entities.Concrete
 {
     public class TaxOffice : Entity, IEntity
     {
-        public int CityId { get; set; }
+        public string CityId { get; set; }
         public string RegionName { get; set; }
-        public int TaxOfficeCode { get; set; }
+        public string TaxOfficeCode { get; set; }
         public string TaxOfficeName { get; set; }
     }
 }

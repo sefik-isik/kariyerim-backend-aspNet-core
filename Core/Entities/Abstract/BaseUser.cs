@@ -8,7 +8,7 @@ namespace Core.Entities.Abstract
 {
     public abstract class BaseUser : Entity, IEntity
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         
     }
 }

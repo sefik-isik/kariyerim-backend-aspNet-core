@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -22,19 +23,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(LanguageLevel languageLevel)
         {
-            _languageLevelDal.Add(languageLevel);
+            _languageLevelDal.AddAsync(languageLevel);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(LanguageLevel languageLevel)
         {
-            _languageLevelDal.Update(languageLevel);
+            _languageLevelDal.UpdateAsync(languageLevel);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(LanguageLevel languageLevel)
         {
             _languageLevelDal.Delete(languageLevel);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(LanguageLevel languageLevel)
+        {
+            _languageLevelDal.Terminate(languageLevel);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -48,7 +55,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll().OrderBy(s => s.LevelTitle).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<LanguageLevel> GetById(int id)
+        public IDataResult<LanguageLevel> GetById(string id)
         {
             return new SuccessDataResult<LanguageLevel>(_languageLevelDal.Get(l=>l.Id == id));
         }

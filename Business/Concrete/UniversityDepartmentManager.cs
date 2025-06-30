@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -24,19 +25,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(UniversityDepartment universityDepartment)
         {
-            _universityDepartmentDal.Add(universityDepartment);
+            _universityDepartmentDal.AddAsync(universityDepartment);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(UniversityDepartment universityDepartment)
         {
-            _universityDepartmentDal.Update(universityDepartment);
+            _universityDepartmentDal.UpdateAsync(universityDepartment);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(UniversityDepartment universityDepartment)
         {
             _universityDepartmentDal.Delete(universityDepartment);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(UniversityDepartment universityDepartment)
+        {
+            _universityDepartmentDal.Terminate(universityDepartment);
             return new SuccessResult();
         }
 
@@ -53,7 +60,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<UniversityDepartment> GetById(int id)
+        public IDataResult<UniversityDepartment> GetById(string id)
         {
             return new SuccessDataResult<UniversityDepartment>(_universityDepartmentDal.Get(u=>u.Id == id));
         }

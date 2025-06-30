@@ -5,23 +5,24 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
+using Core.Entities.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Entities.DTOs;
+using System.Diagnostics.Metrics;
 //[PerformanceAspect(5)] AspectInterceptorSelector da tanımlandı 
 namespace Business.Concrete
 {
     public class CityManager : ICityService
     {
         ICityDal _cityDal;
-        ICountryService _countryService;
-
-        public CityManager(ICityDal cityDal, ICountryService countryService)
+        public CityManager(ICityDal cityDal)
         {
             _cityDal = cityDal;
-            _countryService = countryService;
         }
 
         [SecuredOperation("admin")]
@@ -36,7 +37,7 @@ namespace Business.Concrete
                 return result;
             }
 
-            _cityDal.Add(city);
+            _cityDal.AddAsync(city);
             return new SuccessResult(Messages.SuccessCityAdded);
         }
 
@@ -45,7 +46,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CityValidator))]
         public IResult Update(City city)
         {
-            _cityDal.Update(city);
+            _cityDal.UpdateAsync(city);
             return new SuccessResult(Messages.SuccessCityUpdated);
         }
 
@@ -55,6 +56,14 @@ namespace Business.Concrete
         {
             _cityDal.Delete(city);
             return new SuccessResult(Messages.SuccessCityDeleted);
+        }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(City city)
+        {
+            _cityDal.TerminateSubDatas(city.Id);
+            _cityDal.Terminate(city);
+            return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
@@ -73,7 +82,7 @@ namespace Business.Concrete
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<City> GetById(int id)
+        public IDataResult<City> GetById(string id)
         {
             return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == id), Messages.CityListed);
         }
@@ -104,5 +113,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
+        
     }
 } 

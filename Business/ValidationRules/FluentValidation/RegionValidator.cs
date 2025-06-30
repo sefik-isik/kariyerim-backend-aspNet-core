@@ -12,8 +12,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public RegionValidator()
         {
-            RuleFor(c => c.CityId).GreaterThan(0);
-
             RuleFor(c => c.RegionName).NotEmpty();
             RuleFor(c => c.RegionName).NotNull();
             RuleFor(c => c.RegionName).MinimumLength(2);

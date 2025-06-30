@@ -23,6 +23,11 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<CompanyUserDepartment> CompanyUserDepartments { get; set; }
         public DbSet<CompanyUserFile> CompanyUserFiles { get; set; }
         public DbSet<CompanyUserImage> CompanyUserImages { get; set; }
+        public DbSet<CompanyUserAdvert> CompanyUserAdverts { get; set; }
+        public DbSet<CompanyUserAdvertCity> CompanyUserAdvertCities { get; set; }
+        public DbSet<CompanyUserAdvertJobDescription> CompanyUserAdvertJobDescriptions { get; set; }
+        public DbSet<AdvertApplication> AdvertApplications { get; set; }
+        public DbSet<CompanyFollow> CompanyFollows { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
@@ -33,20 +38,23 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
-        public DbSet<LicenceDegree> LicenceDegrees { get; set; }
+        public DbSet<LicenseDegree> LicenseDegrees { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<UniversityFaculty> UniversityFaculties { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public DbSet<DepartmentDetail> DepartmentDetails { get; set; }
+        public DbSet<DepartmentDescription> DepartmentDescriptions { get; set; }
         public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
+        public DbSet<UniversityImage> UniversityImages { get; set; }
         public DbSet<PersonelUser> PersonelUsers { get; set; }
         public DbSet<PersonelUserAddress> PersonelUserAddresses { get; set; }
         public DbSet<PersonelUserCoverLetter> PersonelUserCoverLetters { get; set; }
         public DbSet<PersonelUserFile> PersonelUserFiles { get; set; }
         public DbSet<PersonelUserImage> PersonelUserImages { get; set; }
         public DbSet<WorkingMethod> WorkingMethods { get; set; }
+        public DbSet<WorkArea> WorkAreas { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<ModelMenu> ModelMenus { get; set; }

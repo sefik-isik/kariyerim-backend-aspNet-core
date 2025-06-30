@@ -12,6 +12,7 @@ namespace DataAccess.Abstract
 {
     public interface ICompanyUserDal : IEntityRepository<CompanyUser>
     {
+        Task TerminateSubDatas(string id);
         List<CompanyUserDTO> GetAllDTO();
         List<CompanyUserDTO> GetDeletedAllDTO();
     }

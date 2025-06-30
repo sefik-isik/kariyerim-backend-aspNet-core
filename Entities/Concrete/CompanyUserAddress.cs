@@ -10,9 +10,9 @@ namespace Entities.Concrete
 {
     public class CompanyUserAddress : BaseCompanyUser, IEntity
     {
-        public int CountryId { get; set; }
-        public int CityId { get; set; }
-        public int RegionId { get; set; }
+        public string CountryId { get; set; }
+        public string CityId { get; set; }
+        public string RegionId { get; set; }
         public string AddressDetail { get; set; }
     }
 }

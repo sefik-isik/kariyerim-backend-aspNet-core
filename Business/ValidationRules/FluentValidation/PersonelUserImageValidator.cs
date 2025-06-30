@@ -12,8 +12,6 @@ namespace Business.ValidationRules.FluentValidation
     {
         public PersonelUserImageValidator()
         {
-            RuleFor(c => c.PersonelUserId).GreaterThan(0);
-
             RuleFor(c => c.ImageName).NotEmpty();
             RuleFor(c => c.ImageName).NotNull();
             RuleFor(c => c.ImageName).MinimumLength(2);

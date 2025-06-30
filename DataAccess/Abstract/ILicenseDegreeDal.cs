@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface ILicenceDegreeDal : IEntityRepository<LicenceDegree>
+    public interface ILicenseDegreeDal : IEntityRepository<LicenseDegree>
     {
 
     }

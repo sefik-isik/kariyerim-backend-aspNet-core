@@ -20,43 +20,61 @@ namespace Business.Concrete
     {
         IPersonelUserFileDal _personelUserFileDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
 
-        public PersonelUserFileManager(IPersonelUserFileDal personelUserFileDal, IUserService userService, IPersonelUserService personelUserService)
+        public PersonelUserFileManager(IPersonelUserFileDal personelUserFileDal, IUserService userService)
         {
             _personelUserFileDal = personelUserFileDal;
             _userService = userService;
-            _personelUserService = personelUserService;
-
         }
+
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUserFile personelUserFile)
         {
-            _personelUserFileDal.Add(personelUserFile);
+            if (_userService.GetById(personelUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserFileDal.AddAsync(personelUserFile);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Update(PersonelUserFile personelUserFile)
         {
-            _personelUserFileDal.Update(personelUserFile);
+            if (_userService.GetById(personelUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserFileDal.UpdateAsync(personelUserFile);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Delete(PersonelUserFile personelUserFile)
         {
+            if (_userService.GetById(personelUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _personelUserFileDal.Delete(personelUserFile);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUserFile personelUserFile)
+        {
+            _personelUserFileDal.Terminate(personelUserFile);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserFile>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -64,15 +82,15 @@ namespace Business.Concrete
             }
             
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserFile>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserFile>>(_personelUserFileDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -85,12 +103,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserFile>(_personelUserFileDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<PersonelUserFile>(_personelUserFileDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {

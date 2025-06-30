@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -15,47 +16,55 @@ namespace Business.Concrete
 {
     public class SectorManager : ISectorService
     {
-        ISectorDal _companyUserSectorDal;
+        ISectorDal _sectorDal;
         IUserService _userService;
 
-        public SectorManager(ISectorDal companyUserSector, IUserService userService)
+        public SectorManager(ISectorDal sectorDal, IUserService userService)
         {
-            _companyUserSectorDal = companyUserSector;
+            _sectorDal = sectorDal;
             _userService = userService;
 
         }
         [SecuredOperation("admin")]
         public IResult Add(Sector sector)
         {
-            _companyUserSectorDal.Add(sector);
+            _sectorDal.AddAsync(sector);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Sector sector)
         {
-            _companyUserSectorDal.Update(sector);
+            _sectorDal.UpdateAsync(sector);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(Sector sector)
         {
-            _companyUserSectorDal.Delete(sector);
+            _sectorDal.Delete(sector);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(Sector sector)
+        {
+            _sectorDal.Terminate(sector);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetAll()
         {
-            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetAll().OrderBy(s => s.SectorName).ToList());
+            return new SuccessDataResult<List<Sector>>(_sectorDal.GetAll().OrderBy(s => s.SectorName).ToList());
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Sector>>(_companyUserSectorDal.GetDeletedAll().OrderBy(s => s.SectorName).ToList());
+            return new SuccessDataResult<List<Sector>>(_sectorDal.GetDeletedAll().OrderBy(s => s.SectorName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Sector> GetById(int id)
+        public IDataResult<Sector> GetById(string id)
         {
-            return new SuccessDataResult<Sector>(_companyUserSectorDal.Get(c=> c.Id == id));
+            return new SuccessDataResult<Sector>(_sectorDal.Get(c=> c.Id == id));
         }
 
     }

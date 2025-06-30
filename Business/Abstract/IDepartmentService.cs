@@ -13,8 +13,9 @@ namespace Business.Abstract
         IResult Add(Department department);
         IResult Update(Department department);
         IResult Delete(Department department);
+        IResult Terminate(Department department);
         IDataResult<List<Department>> GetAll();
         IDataResult<List<Department>> GetDeletedAll();
-        IDataResult<Department> GetById(int id);
+        IDataResult<Department> GetById(string id);
     }
 }

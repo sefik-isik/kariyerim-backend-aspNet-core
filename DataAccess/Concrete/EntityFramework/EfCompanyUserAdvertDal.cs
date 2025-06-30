@@ -1,0 +1,124 @@
+﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Business.Constans;
+using DataAccess.Abstract;
+using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccess.Concrete.EntityFramework
+{
+    public class EfCompanyUserAdvertDal : EfEntityRepositoryBase<CompanyUserAdvert, KariyerimContext>, ICompanyUserAdvertDal
+    {
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var companyUserAdvertCitiesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertCities] WHERE [AdvertId] = {id}");
+            }
+        }
+        public List<CompanyUserAdvertDTO> GetAllDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUserAdvert in context.CompanyUserAdverts
+                             join companyUsers in context.CompanyUsers on companyUserAdvert.CompanyUserId equals companyUsers.Id
+                             join users in context.Users on companyUserAdvert.UserId equals users.Id
+                             join workAreas in context.WorkAreas on companyUserAdvert.WorkAreaId equals workAreas.Id
+                             join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
+                             join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
+                             join departments in context.Departments on companyUserAdvert.DepartmentId equals departments.Id
+                             join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
+                             
+                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate == null && users.DeletedDate == null  && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
+                             && workingMethods.DeletedDate == null && experiences.DeletedDate == null 
+                             && departments.DeletedDate == null && licenseDegrees.DeletedDate == null
+
+                             select new CompanyUserAdvertDTO
+                             {
+                                 Id = companyUserAdvert.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
+                                 CompanyUserId = companyUserAdvert.CompanyUserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 AdvertName = companyUserAdvert.AdvertName,
+                                 AdvertImageName = companyUserAdvert.AdvertImageName,
+                                 AdvertImagePath = companyUserAdvert.AdvertImagePath,
+                                 AdvertImageOwnName = companyUserAdvert.AdvertImageOwnName,
+                                 WorkAreaId = companyUserAdvert.WorkAreaId,
+                                 WorkAreaName = workAreas.AreaName,
+                                 WorkingMethodId = companyUserAdvert.WorkingMethodId,
+                                 WorkingMethodName = workingMethods.MethodName,
+                                 ExperienceId = companyUserAdvert.ExperienceId,
+                                 ExperienceName = experiences.ExperienceName,
+                                 DepartmentId = companyUserAdvert.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
+                                 LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
+                                 LicenseDegreeName = licenseDegrees.LicenseDegreeName,
+                                 CreatedDate = companyUserAdvert.CreatedDate,
+                                 UpdatedDate = companyUserAdvert.UpdatedDate,
+                                 DeletedDate = companyUserAdvert.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
+
+        public List<CompanyUserAdvertDTO> GetDeletedAllDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUserAdvert in context.CompanyUserAdverts
+                             join companyUsers in context.CompanyUsers on companyUserAdvert.CompanyUserId equals companyUsers.Id
+                             join users in context.Users on companyUserAdvert.UserId equals users.Id
+                             join workAreas in context.WorkAreas on companyUserAdvert.WorkAreaId equals workAreas.Id
+                             join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
+                             join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
+                             join departments in context.Departments on companyUserAdvert.DepartmentId equals departments.Id
+                             join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
+
+                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate != null && users.DeletedDate == null && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
+                             && workingMethods.DeletedDate == null && experiences.DeletedDate == null
+                             && departments.DeletedDate == null && licenseDegrees.DeletedDate == null
+
+                             select new CompanyUserAdvertDTO
+                             {
+                                 Id = companyUserAdvert.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
+                                 CompanyUserId = companyUserAdvert.CompanyUserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 AdvertName = companyUserAdvert.AdvertName,
+                                 AdvertImageName = companyUserAdvert.AdvertImageName,
+                                 AdvertImagePath = companyUserAdvert.AdvertImagePath,
+                                 AdvertImageOwnName = companyUserAdvert.AdvertImageOwnName,
+                                 WorkAreaId = companyUserAdvert.WorkAreaId,
+                                 WorkAreaName = workAreas.AreaName,
+                                 WorkingMethodId = companyUserAdvert.WorkingMethodId,
+                                 WorkingMethodName = workingMethods.MethodName,
+                                 ExperienceId = companyUserAdvert.ExperienceId,
+                                 ExperienceName = experiences.ExperienceName,
+                                 DepartmentId = companyUserAdvert.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
+                                 LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
+                                 LicenseDegreeName = licenseDegrees.LicenseDegreeName,
+                                 CreatedDate = companyUserAdvert.CreatedDate,
+                                 UpdatedDate = companyUserAdvert.UpdatedDate,
+                                 DeletedDate = companyUserAdvert.DeletedDate,
+                             };
+                return result.ToList();
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
@@ -20,43 +21,58 @@ namespace Business.Concrete
     {
         ICompanyUserFileDal _companyUserFileDal;
         IUserService _userService;
-        ICompanyUserService _companyUserService;
 
-        public CompanyUserFileManager(ICompanyUserFileDal companyUserFileDal, IUserService userService, ICompanyUserService companyUserService)
+        public CompanyUserFileManager(ICompanyUserFileDal companyUserFileDal, IUserService userService)
         {
             _companyUserFileDal = companyUserFileDal;
             _userService = userService;
-            _companyUserService = companyUserService;
-
         }
         [SecuredOperation("admin,user")]
         public IResult Add(CompanyUserFile companyUserFile)
         {
-            _companyUserFileDal.Add(companyUserFile);
+            if (_userService.GetById(companyUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserFileDal.AddAsync(companyUserFile);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserFile companyUserFile)
         {
-            _companyUserFileDal.Update(companyUserFile);
+            if (_userService.GetById(companyUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserFileDal.UpdateAsync(companyUserFile);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserFile companyUserFile)
         {
+            if (_userService.GetById(companyUserFile.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _companyUserFileDal.Delete(companyUserFile);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(CompanyUserFile companyUserFile)
+        {
+            _companyUserFileDal.Terminate(companyUserFile);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserFile>> GetAll(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -69,11 +85,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserFile>>(_companyUserFileDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -86,12 +100,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserFile>(_companyUserFileDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<CompanyUserFile>(_companyUserFileDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {

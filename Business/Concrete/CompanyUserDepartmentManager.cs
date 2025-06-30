@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
@@ -20,43 +21,59 @@ namespace Business.Concrete
     {
         ICompanyUserDepartmentDal _companyUserDepartmentDal;
         IUserService _userService;
-        ICompanyUserService _companyUserService;
 
-        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal, IUserService userService, ICompanyUserService companyUserService)
+        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal, IUserService userService)
         {
             _companyUserDepartmentDal = companyUserDepartmentDal;
             _userService = userService;
-            _companyUserService = companyUserService;
 
         }
         [SecuredOperation("admin,user")]
         public IResult Add(CompanyUserDepartment companyUserDepartment)
         {
-            _companyUserDepartmentDal.Add(companyUserDepartment);
+            if (_userService.GetById(companyUserDepartment.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserDepartmentDal.AddAsync(companyUserDepartment);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserDepartment companyUserDepartment)
         {
-            _companyUserDepartmentDal.Update(companyUserDepartment);
+            if (_userService.GetById(companyUserDepartment.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserDepartmentDal.UpdateAsync(companyUserDepartment);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserDepartment companyUserDepartment)
         {
+            if (_userService.GetById(companyUserDepartment.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _companyUserDepartmentDal.Delete(companyUserDepartment);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(CompanyUserDepartment companyUserDepartment)
+        {
+            _companyUserDepartmentDal.Terminate(companyUserDepartment);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserDepartment>> GetAll(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.CompanyUserId == companyUser.Data.Id).OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.DepartmentName).ToList());
             }
             else
             {
@@ -69,11 +86,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id).OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.DepartmentName).ToList());
             }
             else
             {
@@ -86,12 +101,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {

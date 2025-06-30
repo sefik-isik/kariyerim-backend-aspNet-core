@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class UniversityDepartment : Entity, IEntity
+    public class UniversityDepartment : BaseUniversity, IEntity
     {
-        public int UniversityId { get; set; }
-        public int FacultyId { get; set; }
-        public int DepartmentId { get; set; }
+        public string FacultyId { get; set; }
+        public string DepartmentId { get; set; }
     }
 }

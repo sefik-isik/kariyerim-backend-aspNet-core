@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,46 +12,52 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class LicenceDegreeManager : ILicenceDegreeService
+    public class LicenseDegreeManager : ILicenseDegreeService
     {
-        ILicenceDegreeDal _licenceDegreeDal;
+        ILicenseDegreeDal _licenseDegreeDal;
 
-        public LicenceDegreeManager(ILicenceDegreeDal licenceDegreeDal)
+        public LicenseDegreeManager(ILicenseDegreeDal licenseDegreeDal)
         {
-            _licenceDegreeDal = licenceDegreeDal;
+            _licenseDegreeDal = licenseDegreeDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(LicenceDegree LicenceDegree)
+        public IResult Add(LicenseDegree licenceDegree)
         {
-            _licenceDegreeDal.Add(LicenceDegree);
+            _licenseDegreeDal.AddAsync(licenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Update(LicenceDegree LicenceDegree)
+        public IResult Update(LicenseDegree licenceDegree)
         {
-            _licenceDegreeDal.Update(LicenceDegree);
+            _licenseDegreeDal.UpdateAsync(licenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
-        public IResult Delete(LicenceDegree LicenceDegree)
+        public IResult Delete(LicenseDegree licenceDegree)
         {
-            _licenceDegreeDal.Delete(LicenceDegree);
+            _licenseDegreeDal.Delete(licenceDegree);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(LicenseDegree licenceDegree)
+        {
+            _licenseDegreeDal.Terminate(licenceDegree);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<LicenceDegree>> GetAll()
+        public IDataResult<List<LicenseDegree>> GetAll()
         {
-            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetAll().OrderBy(s => s.LicenceDegreeName).ToList());
+            return new SuccessDataResult<List<LicenseDegree>>(_licenseDegreeDal.GetAll().OrderBy(s => s.LicenseDegreeName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<LicenceDegree>> GetDeletedAll()
+        public IDataResult<List<LicenseDegree>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<LicenceDegree>>(_licenceDegreeDal.GetDeletedAll().OrderBy(s => s.LicenceDegreeName).ToList());
+            return new SuccessDataResult<List<LicenseDegree>>(_licenseDegreeDal.GetDeletedAll().OrderBy(s => s.LicenseDegreeName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<LicenceDegree> GetById(int id)
+        public IDataResult<LicenseDegree> GetById(string id)
         {
-            return new SuccessDataResult<LicenceDegree>(_licenceDegreeDal.Get(l=>l.Id == id));
+            return new SuccessDataResult<LicenseDegree>(_licenseDegreeDal.Get(l=>l.Id == id));
         }
 
         

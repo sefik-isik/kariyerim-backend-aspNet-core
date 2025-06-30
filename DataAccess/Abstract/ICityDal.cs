@@ -11,6 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface ICityDal :IEntityRepository<City>
     {
+        Task TerminateSubDatas(string id);
         List<CityDTO> GetAllDTO();
         List<CityDTO> GetDeletedAllDTO();
     }

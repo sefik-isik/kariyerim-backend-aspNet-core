@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class PersonelUserCvEducation : BaseCv, IEntity
+    public class PersonelUserCvEducation : BasePersonelUserCv, IEntity
     {
         public string EducationInfo { get; set; }
-        public int UniversityId { get; set; }
-        public int DepartmentId { get; set; }
+        public string UniversityId { get; set; }
+        public string DepartmentId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Abandonment { get; set; }
-        public int FacultyId { get; set; }
+        public string FacultyId { get; set; }
         public string Detail { get; set; }
 
     }

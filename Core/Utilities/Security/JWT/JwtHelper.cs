@@ -39,6 +39,7 @@ namespace Core.Utilities.Security.JWT
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Status = user.Status,
+                Code = user.Code,
                 CreatedDate = user.CreatedDate,
                 UpdatedDate = user.UpdatedDate,
                 DeletedDate = user.DeletedDate

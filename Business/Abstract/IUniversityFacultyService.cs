@@ -14,9 +14,10 @@ namespace Business.Abstract
         IResult Add(UniversityFaculty universityFaculty);
         IResult Update(UniversityFaculty universityFaculty);
         IResult Delete(UniversityFaculty universityFaculty);
+        IResult Terminate(UniversityFaculty universityFaculty);
         IDataResult<List<UniversityFaculty>> GetAll();
         IDataResult<List<UniversityFaculty>> GetDeletedAll();
-        IDataResult<UniversityFaculty> GetById(int id);
+        IDataResult<UniversityFaculty> GetById(string id);
 
         //DTO
         IDataResult<List<UniversityFacultyDTO>> GetAllDTO();

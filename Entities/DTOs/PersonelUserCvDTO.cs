@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class PersonelUserCvDTO : BasePersonelDTOUser, IDto
+    public class PersonelUserCvDTO : BasePersonelUserCvDTO, IDto
     {
-        public int CvId { get; set; }
-        public string CvName { get; set; }
-        public int LanguageId { get; set; }
+        public string LanguageId { get; set; }
+        public string LanguageName { get; set; }
         public string IdentityNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string LanguageName { get; set; }
-        public int LanguageLevelId { get; set; }
+        
+        public string LanguageLevelId { get; set; }
         public int Level { get; set; }
         public string LevelTitle { get; set; }
         public string LevelDescription { get; set; }
-        public int LicenceId { get; set; }
-        public string LicenceName { get; set; }
-        public int BirthPlaceId { get; set; }
+        public string LicenseId { get; set; }
+        public string LicenseName { get; set; }
+        public string BirthPlaceId { get; set; }
         public string BirthPlaceName { get; set; }
         public bool IsPrivate { get; set; }
     }

@@ -1,11 +1,14 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -19,43 +22,64 @@ namespace Business.Concrete
     {
         IPersonelUserImageDal _personelUserImageDal;
         IUserService _userService;
-        IPersonelUserService _personelUserService;
+        private readonly IWebHostEnvironment _environment;
 
-        public PersonelUserImageManager(IPersonelUserImageDal personelUserImageDal, IUserService userService, IPersonelUserService personelUserService)
+        public PersonelUserImageManager(IPersonelUserImageDal personelUserImageDal, IUserService userService, IWebHostEnvironment environment)
         {
             _personelUserImageDal = personelUserImageDal;
             _userService = userService;
-            _personelUserService = personelUserService;
-
+            _environment = environment;
         }
+
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUserImage personelUserImage)
         {
-            _personelUserImageDal.Add(personelUserImage);
+            if (_userService.GetById(personelUserImage.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserImageDal.AddAsync(personelUserImage);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Update(PersonelUserImage personelUserImage)
         {
-            _personelUserImageDal.Update(personelUserImage);
+            if (_userService.GetById(personelUserImage.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _personelUserImageDal.UpdateAsync(personelUserImage);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Delete(PersonelUserImage personelUserImage)
         {
+            if (_userService.GetById(personelUserImage.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _personelUserImageDal.Delete(personelUserImage);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(PersonelUserImage personelUserImage)
+        {
+            DeleteImage(personelUserImage);
+            _personelUserImageDal.Terminate(personelUserImage);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserImage>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -63,16 +87,15 @@ namespace Business.Concrete
             }
             
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll(c => c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -85,12 +108,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var personelUser = _personelUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.PersonelUserId == personelUser.Data.Id));
+                return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -129,6 +149,34 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
             }
 
+        }
+
+        public IResult DeleteImage(PersonelUserImage personelUserImage)
+        {
+            if (personelUserImage == null)
+            {
+                return new ErrorDataResult<PersonelUserImage>(Messages.ImageNotFound);
+            }
+
+            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\" + personelUserImage.ImageName;
+
+            if (System.IO.File.Exists(fullImagePath))
+            {
+                System.IO.File.Delete(fullImagePath);
+            }
+
+            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\thumbs\\" + personelUserImage.ImageName;
+
+            if (System.IO.File.Exists(fullThumbImagePath))
+            {
+                System.IO.File.Delete(fullThumbImagePath);
+
+            }
+
+            personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
+            personelUserImage.ImageName = "noImage.jpg";
+
+            return new SuccessResult();
         }
 
     }

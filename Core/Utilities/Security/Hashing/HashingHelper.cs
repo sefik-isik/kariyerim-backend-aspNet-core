@@ -28,5 +28,22 @@ namespace Core.Utilities.Security.Hashing
                 return true;
             }
         }
+
+        public static bool PasswordHashExist(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF32.GetBytes(password));
+
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] == passwordHash[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
     }
 }

@@ -31,14 +31,17 @@ namespace Business.Concrete
         {
             _companyUserAddressDal = companyUserAddressDal;
             _userService = userService;
-            _companyUserService = companyUserService;
         }
         [SecuredOperation("admin,user")]
         [ValidationAspect(typeof(CompanyUserAddressValidator))]
         [CacheRemoveAspect()]
         public IResult Add(CompanyUserAddress companyUserAddress)
         {
-            _companyUserAddressDal.Add(companyUserAddress);
+            if (_userService.GetById(companyUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserAddressDal.AddAsync(companyUserAddress);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -46,26 +49,41 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Update(CompanyUserAddress companyUserAddress)
         {
-            _companyUserAddressDal.Update(companyUserAddress);
+            if (_userService.GetById(companyUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserAddressDal.UpdateAsync(companyUserAddress);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
         [CacheRemoveAspect()]
         public IResult Delete(CompanyUserAddress companyUserAddress)
         {
+            if (_userService.GetById(companyUserAddress.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _companyUserAddressDal.Delete(companyUserAddress);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(CompanyUserAddress companyUserAddress)
+        {
+            _companyUserAddressDal.Terminate(companyUserAddress);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<CompanyUserAddress>> GetAll(UserAdminDTO userAdminDTO)
         {
-            CompanyUser companyUser = (CompanyUser)_companyUserService.GetByAdminId(userAdminDTO);
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll(c => c.CompanyUserId == companyUser.Id));
+                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -79,11 +97,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
@@ -98,12 +114,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var companyUser = _companyUserService.GetByAdminId(userAdminDTO);
-
-
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.CompanyUserId == companyUser.Data.Id));
+                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {

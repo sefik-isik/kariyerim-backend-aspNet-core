@@ -15,6 +15,13 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCityDal : EfEntityRepositoryBase<City, KariyerimContext>, ICityDal
     {
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var regionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [Regions] WHERE [CityId] = {id}");
+            }
+        }
         public List<CityDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
@@ -26,6 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
                              select new CityDTO
                              {
                                  Id = cities.Id,
+                                 CityCode=cities.CityCode,
                                  CityName = cities.CityName,
                                  CountryIso = countries.CountryIso,
                                  CountryName = countries.CountryName,
@@ -48,6 +56,7 @@ namespace DataAccess.Concrete.EntityFramework
                              select new CityDTO
                              {
                                  Id = cities.Id,
+                                 CityCode = cities.CityCode,
                                  CityName = cities.CityName,
                                  CountryIso = countries.CountryIso,
                                  CountryName = countries.CountryName,
@@ -59,6 +68,8 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+
+        
     }
 }
 

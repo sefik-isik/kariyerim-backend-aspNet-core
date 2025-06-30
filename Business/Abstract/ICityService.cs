@@ -14,15 +14,13 @@ namespace Business.Abstract
         IResult Add(City city);
         IResult Update(City city);
         IResult Delete(City city);
+        IResult Terminate(City city);
         IDataResult<List<City>> GetAll();
-
         IDataResult<List<City>> GetDeletedAll();
-        IDataResult<City> GetById(int id);
+        IDataResult<City> GetById(string id);
         
-
         //DTO
         IDataResult<List<CityDTO>> GetAllDTO();
         IDataResult<List<CityDTO>> GetDeletedAllDTO();
-
     }
 }

@@ -3,6 +3,7 @@ using Business.BusinessAspects.Autofac;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -25,19 +26,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(OperationClaim operationClaim)
         {
-            _operationClaimDal.Add(operationClaim);
+            _operationClaimDal.AddAsync(operationClaim);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(OperationClaim operationClaim)
         {
-            _operationClaimDal.Update(operationClaim);
+            _operationClaimDal.UpdateAsync(operationClaim);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Delete(OperationClaim operationClaim)
         {
             _operationClaimDal.Delete(operationClaim);
+            return new SuccessResult();
+        }
+        [SecuredOperation("admin")]
+        public IResult Terminate(OperationClaim operationClaim)
+        {
+            _operationClaimDal.Terminate(operationClaim);
             return new SuccessResult();
         }
         [SecuredOperation("admin,user")]
@@ -51,7 +58,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<OperationClaim> GetById(int id)
+        public IDataResult<OperationClaim> GetById(string id)
         {
             return new SuccessDataResult<OperationClaim>(_operationClaimDal.Get(c => c.Id == id));
         }

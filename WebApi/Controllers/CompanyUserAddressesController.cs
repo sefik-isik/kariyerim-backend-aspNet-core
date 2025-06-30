@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,13 @@ namespace WebAPI.Controllers
         public IActionResult Delete(CompanyUserAddress companyUserAddress)
         {
             var result = _companyUserAddressService.Delete(companyUserAddress);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("terminate")]
+        public IActionResult Terminate(CompanyUserAddress companyUserAddress)
+        {
+            var result = _companyUserAddressService.Terminate(companyUserAddress);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

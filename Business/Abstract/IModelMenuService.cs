@@ -14,8 +14,9 @@ namespace Business.Abstract
         IResult Add(ModelMenu modelMenu);
         IResult Update(ModelMenu modelMenu);
         IResult Delete(ModelMenu modelMenu);
+        IResult Terminate(ModelMenu modelMenu);
         IDataResult<List<ModelMenu>> GetAll();
         IDataResult<List<ModelMenu>> GetDeletedAll();
-        IDataResult<ModelMenu> GetById(int id);
+        IDataResult<ModelMenu> GetById(string id);
     }
 }

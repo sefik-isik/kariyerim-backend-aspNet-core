@@ -14,12 +14,12 @@ namespace Business.ValidationRules.FluentValidation
 
         public CityValidator()
         {
-            RuleFor(c => c.CountryId).GreaterThan(0);
+
             RuleFor(c => c.CityName).NotEmpty();
             RuleFor(c => c.CityName).NotNull();
             RuleFor(c => c.CityName).MinimumLength(2);
-            RuleFor(c => c.CityName).Must(NotStartsWithThisCharacters).When(c=>c.CountryId==1).WithMessage("Şehir ismi bu karekterle başlayamaz");
-            RuleFor(c => c.CityName).Must(NotContainCharacters).When(c=>c.CountryId==1).WithMessage("Şehir ismi bu karekterleri içeremez");
+            RuleFor(c => c.CityName).Must(NotStartsWithThisCharacters).When(c=>c.CountryId=="1").WithMessage("Şehir ismi bu karekterle başlayamaz");
+            RuleFor(c => c.CityName).Must(NotContainCharacters).When(c=>c.CountryId=="1").WithMessage("Şehir ismi bu karekterleri içeremez");
         }
 
         private bool NotStartsWithThisCharacters(string arg)

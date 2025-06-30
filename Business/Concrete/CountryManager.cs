@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 
 namespace Business.Concrete
 {
@@ -15,20 +17,21 @@ namespace Business.Concrete
     {
         ICountryDal _countryDal;
 
-        public CountryManager(ICountryDal country)
+        public CountryManager(ICountryDal countryDal)
         {
-            _countryDal = country;
+            _countryDal = countryDal;
         }
+
         [SecuredOperation("admin")]
         public IResult Add(Country country)
         {
-            _countryDal.Add(country);
+            _countryDal.AddAsync(country);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Country country)
         {
-            _countryDal.Update(country);
+            _countryDal.UpdateAsync(country);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
@@ -37,6 +40,14 @@ namespace Business.Concrete
             _countryDal.Delete(country);
             return new SuccessResult();
         }
+        [SecuredOperation("admin")]
+        public IResult Terminate(Country country)
+        {
+            _countryDal.TerminateSubDatas(country.Id);
+            _countryDal.Terminate(country);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Country>> GetAll()
         {
@@ -48,9 +59,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Country>>(_countryDal.GetDeletedAll().OrderBy(s => s.CountryName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Country> GetById(int id)
+        public IDataResult<Country> GetById(string id)
         {
             return new SuccessDataResult<Country>(_countryDal.Get(c=> c.Id == id));
         }
+
+        
     }
 }

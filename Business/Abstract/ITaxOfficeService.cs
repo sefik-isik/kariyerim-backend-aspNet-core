@@ -14,9 +14,10 @@ namespace Business.Abstract
         IResult Add(TaxOffice taxOffice);
         IResult Update(TaxOffice taxOffice);
         IResult Delete(TaxOffice taxOffice);
+        IResult Terminate(TaxOffice taxOffice);
         IDataResult<List<TaxOffice>> GetAll();
         IDataResult<List<TaxOffice>> GetDeletedAll();
-        IDataResult<TaxOffice> GetById(int id);
+        IDataResult<TaxOffice> GetById(string id);
 
         //DTO
         IDataResult<List<TaxOfficeDTO>> GetAllDTO();

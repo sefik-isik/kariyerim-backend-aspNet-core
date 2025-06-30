@@ -37,8 +37,8 @@ namespace Core.Extensions
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            //string message = e.Message;
-            string message = "Sistem Hatası";
+            string message = e.Message;
+            //string message = "Sistem Hatası";
             string statusText = "Lütfen Yöneticinize Başvurun";
 
             IEnumerable<ValidationFailure> errors;

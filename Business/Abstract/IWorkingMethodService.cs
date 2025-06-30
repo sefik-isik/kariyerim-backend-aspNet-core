@@ -13,9 +13,10 @@ namespace Business.Abstract
         IResult Add(WorkingMethod workingMethod);
         IResult Update(WorkingMethod workingMethod);
         IResult Delete(WorkingMethod workingMethod);
+        IResult Terminate(WorkingMethod workingMethod);
         IDataResult<List<WorkingMethod>> GetAll();
         IDataResult<List<WorkingMethod>> GetDeletedAll();
-        IDataResult<WorkingMethod> GetById(int id);
+        IDataResult<WorkingMethod> GetById(string id);
         
     }
 }

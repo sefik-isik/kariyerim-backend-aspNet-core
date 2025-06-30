@@ -26,13 +26,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(UniversityFaculty universityFaculty)
         {
-            _universityFacultyDal.Add(universityFaculty);
+            _universityFacultyDal.AddAsync(universityFaculty);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(UniversityFaculty universityFaculty)
         {
-            _universityFacultyDal.Update(universityFaculty);
+            _universityFacultyDal.UpdateAsync(universityFaculty);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
@@ -41,18 +41,25 @@ namespace Business.Concrete
             _universityFacultyDal.Delete(universityFaculty);
             return new SuccessResult();
         }
+        [SecuredOperation("admin")]
+        public IResult Terminate(UniversityFaculty universityFaculty)
+        {
+            _universityFacultyDal.Terminate(universityFaculty);
+            return new SuccessResult();
+        }
         [SecuredOperation("admin,user")]
         public IDataResult<List<UniversityFaculty>> GetAll()
         {
             return new SuccessDataResult<List<UniversityFaculty>>(_universityFacultyDal.GetAll());
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<UniversityFaculty>> GetDeletedAll()
         {
             return new SuccessDataResult<List<UniversityFaculty>>(_universityFacultyDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<UniversityFaculty> GetById(int id)
+        public IDataResult<UniversityFaculty> GetById(string id)
         {
             return new SuccessDataResult<UniversityFaculty>(_universityFacultyDal.Get(r => r.Id == id));
         }

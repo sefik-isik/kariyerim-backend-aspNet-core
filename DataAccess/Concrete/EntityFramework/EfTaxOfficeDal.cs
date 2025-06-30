@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from taxOffices in context.TaxOffices
-                             join city in context.Cities on taxOffices.CityId equals city.Id
+                             join cities in context.Cities on taxOffices.CityId equals cities.Id
 
                              where taxOffices.DeletedDate == null 
 
@@ -28,8 +28,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  TaxOfficeName = taxOffices.TaxOfficeName,
                                  TaxOfficeCode=taxOffices.TaxOfficeCode,
                                  RegionName = taxOffices.RegionName,
-                                 CityId = taxOffices.CityId,
-                                 CityName = city.CityName,
+                                 CityId = cities.Id,
+                                 CityCode= cities.CityCode,
+                                 CityName = cities.CityName,
                                  CreatedDate = taxOffices.CreatedDate,
                                  UpdatedDate = taxOffices.UpdatedDate,
                                  DeletedDate = taxOffices.DeletedDate,
@@ -43,7 +44,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var result = from taxOffices in context.TaxOffices
-                             join city in context.Cities on taxOffices.CityId equals city.Id
+                             join cities in context.Cities on taxOffices.CityId equals cities.Id
 
                              where taxOffices.DeletedDate != null 
 
@@ -53,8 +54,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  TaxOfficeName = taxOffices.TaxOfficeName,
                                  TaxOfficeCode = taxOffices.TaxOfficeCode,
                                  RegionName = taxOffices.RegionName,
-                                 CityId = taxOffices.CityId,
-                                 CityName = city.CityName,
+                                 CityId = cities.Id,
+                                 CityCode = cities.CityCode,
+                                 CityName = cities.CityName,
                                  CreatedDate = taxOffices.CreatedDate,
                                  UpdatedDate = taxOffices.UpdatedDate,
                                  DeletedDate = taxOffices.DeletedDate,

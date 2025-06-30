@@ -14,6 +14,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,10 @@ namespace Business.Concrete
         ICompanyUserDal _companyUserDal;
         IUserService _userService;
 
-        public CompanyUserManager(ICompanyUserDal companyUserDal, IUserService userService) {
+        public CompanyUserManager(
+            ICompanyUserDal companyUserDal, 
+            IUserService userService
+            ) {
             _companyUserDal = companyUserDal; 
             _userService = userService;
         }
@@ -40,7 +44,11 @@ namespace Business.Concrete
             {
                 return result;
             }
-            _companyUserDal.Add(companyUser);
+            if (_userService.GetById(companyUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserDal.AddAsync(companyUser);
             return new SuccessResult(Messages.SuccessCompanyAdded);
         }
 
@@ -49,7 +57,11 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Update(CompanyUser companyUser)
         {
-            _companyUserDal.Update(companyUser);
+            if (_userService.GetById(companyUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            _companyUserDal.UpdateAsync(companyUser);
             return new SuccessResult(Messages.SuccessCompanyUpdated);
         }
 
@@ -57,8 +69,20 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Delete(CompanyUser companyUser)
         {
+            if (_userService.GetById(companyUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
             _companyUserDal.Delete(companyUser);
             return new SuccessResult(Messages.SuccessCompanyDeleted);
+        }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(CompanyUser companyUser)
+        {
+            _companyUserDal.TerminateSubDatas(companyUser.Id);
+            _companyUserDal.Terminate(companyUser);
+            return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
@@ -109,7 +133,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUser> GetById(int id)
+        public IDataResult<CompanyUser> GetById(string id)
         {
             return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == id));
 

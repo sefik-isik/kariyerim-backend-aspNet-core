@@ -10,6 +10,7 @@ namespace Entities.Concrete
     public class PersonelUserFile : BasePersonelUser, IEntity
     {
         public string FileName { get; set; }
+        public string FileOwnName { get; set; }
         public string FilePath { get; set; }
     }
 }

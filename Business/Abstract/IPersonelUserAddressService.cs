@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -14,6 +15,7 @@ namespace Business.Abstract
         IResult Add(PersonelUserAddress personelUserAddress);
         IResult Update(PersonelUserAddress personelUserAddress);
         IResult Delete(PersonelUserAddress personelUserAddress);
+        IResult Terminate(PersonelUserAddress personelUserAddress);
         IDataResult<List<PersonelUserAddress>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<List<PersonelUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUserAddress> GetById(UserAdminDTO userAdminDTO);

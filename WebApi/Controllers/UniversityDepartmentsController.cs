@@ -37,6 +37,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("terminate")]
+        public IActionResult Terminate(UniversityDepartment universityDepartment)
+        {
+            var result = _universityDepartmentService.Terminate(universityDepartment);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -52,7 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
             var result = _universityDepartmentService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);

@@ -24,11 +24,12 @@ namespace DataAccess.Concrete.EntityFramework
                              select new UserOperationClaimDTO
                              {
                                  Id = userOperationClaims.Id,
-                                 UserId = userOperationClaims.UserId,
+                                 UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
                                  OperationClaimId = userOperationClaims.OperationClaimId,
                                  OperationClaimName = operationClaims.Name,
                                  CreatedDate = userOperationClaims.CreatedDate,
@@ -52,11 +53,12 @@ namespace DataAccess.Concrete.EntityFramework
                              select new UserOperationClaimDTO
                              {
                                  Id = userOperationClaims.Id,
-                                 UserId = userOperationClaims.UserId,
+                                 UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
+                                 Code = users.Code,
                                  OperationClaimId = userOperationClaims.OperationClaimId,
                                  OperationClaimName = operationClaims.Name,
                                  CreatedDate = userOperationClaims.CreatedDate,

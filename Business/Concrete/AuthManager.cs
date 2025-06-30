@@ -5,7 +5,10 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
+using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Identity;
 
@@ -26,6 +29,8 @@ namespace Business.Concrete
 
         public IDataResult<User> Register(UserForRegisterDTO userForRegisterDto)
         {
+            string userCode = SelectUserCode(userForRegisterDto);
+
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out passwordHash, out passwordSalt);
             var user = new User
@@ -36,10 +41,8 @@ namespace Business.Concrete
                 PhoneNumber = userForRegisterDto.PhoneNumber,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Code= "VmaWsgScWeSUsiLCJhdWQiOiJzZWZpa2lzaWtAZ21haWwuY29tIn0.E53sJM4VSvSVE93feNe-XjwI5tmy2YntPeXTD_wavFn5mD6Vsk8",
-                Status = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9",
-
-
+                Code= userCode,
+                Status = UserStatus.User,
             };
             _userService.Add(user);
 
@@ -48,16 +51,22 @@ namespace Business.Concrete
             var userOperationClaim = new UserOperationClaim
             {
                 UserId = currentUser.Data.Id,
-                OperationClaimId = 2
+                OperationClaimId = "bb6f4813-5813-49ab-ab08-17c605121d5e"
             };
             _userOperationClaimService.Add(userOperationClaim);
 
             return new SuccessDataResult<User>(user, Messages.SuccessfulLogin);
         }
 
+        private string SelectUserCode(UserForRegisterDTO userForRegisterDto)
+        {
+           return userForRegisterDto.Code == "personel" ? UserCode.PersonelUser : UserCode.CompanyUser;
+        }
+
         public IDataResult<User> Login(UserForLoginDTO userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
+
             if (userToCheck.Data == null)
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
@@ -95,6 +104,11 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>((Messages.PasswordNotSame));
             }
 
+            if (!HashingHelper.PasswordHashExist(passwordDto.NewPassword, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
+            {
+                return new ErrorDataResult<User>((Messages.PasswordExist));
+            }
+
             User currentUser = _userService.GetById(passwordDto.Id);
 
             var user = new User
@@ -102,12 +116,12 @@ namespace Business.Concrete
                 Id = passwordDto.Id,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-
                 FirstName = currentUser.FirstName,
                 LastName = currentUser.LastName,
                 PhoneNumber = currentUser.PhoneNumber,
                 Email = currentUser.Email,
                 Status = currentUser.Status,
+                Code = currentUser.Code,
                 CreatedDate = currentUser.CreatedDate,
                 UpdatedDate = DateTime.Now,
                 DeletedDate = currentUser.DeletedDate,
@@ -115,132 +129,6 @@ namespace Business.Concrete
             };
             _userService.Update(user);
             return new SuccessDataResult<User>(user, Messages.SuccessPasswordChange);
-        }
-
-
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<User> UpdateUserCode(UserCodeDTO userCode)
-        {
-            var userToCheck = _userService.GetByMail(userCode.Email);
-
-            if (userToCheck.Data == null)
-            {
-                return new ErrorDataResult<User>(Messages.UserNotFound);
-            }
-
-            User currentUser = _userService.GetById(userCode.Id);
-
-            var user = new User
-            {
-                Id = userCode.Id,
-                Code = userCode.Code,
-
-                FirstName=currentUser.FirstName,
-                LastName=currentUser.LastName,
-                PhoneNumber = currentUser.PhoneNumber,
-                Email =currentUser.Email,
-                PasswordHash=currentUser.PasswordHash,
-                PasswordSalt=currentUser.PasswordSalt,
-                Status=currentUser.Status,
-                CreatedDate=currentUser.CreatedDate,
-                UpdatedDate = DateTime.Now,
-                DeletedDate=currentUser.DeletedDate,
-            };
-
-            _userService.Update(user);
-            return new SuccessDataResult<User>(user);
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<User> UpdateUser(User Updateduser)
-        {
-
-            User currentUser = _userService.GetById(Updateduser.Id);
-
-            var user = new User
-            {
-                PasswordHash = currentUser.PasswordHash,
-                PasswordSalt = currentUser.PasswordSalt,
-
-                Id = Updateduser.Id,
-                FirstName = Updateduser.FirstName,
-                LastName = Updateduser.LastName,
-                PhoneNumber = Updateduser.PhoneNumber,
-                Email = Updateduser.Email,
-                Code = currentUser.Code,
-                Status = Updateduser.Status,
-                CreatedDate = currentUser.CreatedDate,
-                UpdatedDate = DateTime.Now,
-                DeletedDate = null,
-            };
-
-            _userService.Update(user);
-            return new SuccessDataResult<User>(user);
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<User> DeleteUser(User deletedUser)
-        {
-            var userToCheck = _userService.GetByMail(deletedUser.Email);
-
-            if (userToCheck.Data == null)
-            {
-                return new ErrorDataResult<User>(Messages.UserNotFound);
-            }
-
-            User currentUser = _userService.GetById(deletedUser.Id);
-
-            var user = new User
-            {
-                Id = deletedUser.Id,
-                Code = currentUser.Code,
-                FirstName = currentUser.FirstName,
-                LastName = currentUser.LastName,
-                PhoneNumber = currentUser.PhoneNumber,
-                Email = currentUser.Email,
-                PasswordHash = currentUser.PasswordHash,
-                PasswordSalt = currentUser.PasswordSalt,
-                Status = currentUser.Status,
-                CreatedDate = currentUser.CreatedDate,
-                UpdatedDate = currentUser.DeletedDate,
-                DeletedDate = DateTime.Now,
-            };
-
-            _userService.Delete(user);
-            return new SuccessDataResult<User>(user);
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<User> UnDeleteUser(User deletedUser)
-        {
-            var userToCheck = _userService.GetByMail(deletedUser.Email);
-
-            if (userToCheck.Data == null)
-            {
-                return new ErrorDataResult<User>(Messages.UserNotFound);
-            }
-
-            User currentUser = _userService.GetById(deletedUser.Id);
-
-            var user = new User
-            {
-                Id = deletedUser.Id,
-                Code = currentUser.Code,
-                FirstName = currentUser.FirstName,
-                LastName = currentUser.LastName,
-                PhoneNumber = currentUser.PhoneNumber,
-                Email = currentUser.Email,
-                PasswordHash = currentUser.PasswordHash,
-                PasswordSalt = currentUser.PasswordSalt,
-                Status = currentUser.Status,
-                CreatedDate = currentUser.CreatedDate,
-                UpdatedDate = DateTime.Now,
-                DeletedDate = null,
-            };
-
-            _userService.Update(user);
-            return new SuccessDataResult<User>(user);
         }
 
         public IResult UserExists(string email)

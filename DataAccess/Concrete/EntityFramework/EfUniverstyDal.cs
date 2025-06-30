@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,15 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUniverstyDal : EfEntityRepositoryBase<University, KariyerimContext>,IUniversityDal
     {
+        public async Task TerminateSubDatas(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var universityDepartmentsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityDepartments] WHERE [UniversityId] = {id}");
+                var universityFacultiesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityFaculties] WHERE [UniversityId] = {id}");
+                var universityImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityImages] WHERE [UniversityId] = {id}");
+            }
+        }
         public List<UniversityDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())

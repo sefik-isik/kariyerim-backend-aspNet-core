@@ -30,13 +30,13 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PersonelUserAddressDTO
                              {
                                  Id = personelUserAddresses.Id,
-                                 PersonelUserId = personelUsers.Id,
                                  UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
                                  CountryId = counties.Id,
                                  CountryName = counties.CountryName,
                                  CityId = cities.Id,
@@ -69,13 +69,13 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PersonelUserAddressDTO
                              {
                                  Id = personelUserAddresses.Id,
-                                 PersonelUserId = personelUsers.Id,
                                  UserId = users.Id,
                                  Email = users.Email,
                                  FirstName = users.FirstName,
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
+                                 PersonelUserId = personelUsers.Id,
                                  CountryId = counties.Id,
                                  CountryName = counties.CountryName,
                                  CityId = cities.Id,

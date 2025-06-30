@@ -1,5 +1,6 @@
 ﻿using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,10 @@ namespace Business.Abstract
         IResult Add(OperationClaim operationClaim);
         IResult Update(OperationClaim operationClaim);
         IResult Delete(OperationClaim operationClaim);
+        IResult Terminate(OperationClaim operationClaim);
         IDataResult<List<OperationClaim>> GetAll();
         IDataResult<List<OperationClaim>> GetDeletedAll();
-        IDataResult<OperationClaim> GetById(int id);
+        IDataResult<OperationClaim> GetById(string id);
         
     }
 }

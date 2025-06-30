@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 
 namespace Business.Concrete
 {
@@ -23,13 +25,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Region region)
         {
-            _regionDal.Add(region);
+            _regionDal.AddAsync(region);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Region region)
         {
-            _regionDal.Update(region);
+            _regionDal.UpdateAsync(region);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
@@ -38,18 +40,27 @@ namespace Business.Concrete
             _regionDal.Delete(region);
             return new SuccessResult();
         }
+
+        [SecuredOperation("admin")]
+        public IResult Terminate(Region region)
+        {
+            _regionDal.Terminate(region);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Region>> GetAll()
         {
             return new SuccessDataResult<List<Region>>(_regionDal.GetAll());
         }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Region>> GetDeletedAll()
         {
             return new SuccessDataResult<List<Region>>(_regionDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Region> GetById(int id)
+        public IDataResult<Region> GetById(string id)
         {
             return new SuccessDataResult<Region>(_regionDal.Get(r=>r.Id == id));
         }

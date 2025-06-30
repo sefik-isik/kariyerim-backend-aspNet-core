@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class PersonelUserCvSummary : BaseCv, IEntity
+    public class PersonelUserCvSummary : BasePersonelUserCv, IEntity
     {
         public string CvSummaryTitle { get; set; }
         public string CvSummaryDescription { get; set; }

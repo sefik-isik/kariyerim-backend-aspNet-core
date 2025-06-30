@@ -1,11 +1,13 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +26,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Department department)
         {
-            _departmentDal.Add(department);
+            _departmentDal.AddAsync(department);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Department department)
         {
-            _departmentDal.Update(department);
+            _departmentDal.UpdateAsync(department);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
@@ -39,6 +41,14 @@ namespace Business.Concrete
             _departmentDal.Delete(department);
             return new SuccessResult();
         }
+        [SecuredOperation("admin")]
+        public IResult Terminate(Department department)
+        {
+            _departmentDal.TerminateSubDatas(department.Id);
+            _departmentDal.Terminate(department);
+            return new SuccessResult();
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Department>> GetAll()
         {
@@ -50,7 +60,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Department>>(_departmentDal.GetDeletedAll().OrderBy(s => s.DepartmentName).ToList());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Department> GetById(int id)
+        public IDataResult<Department> GetById(string id)
         {
             return new SuccessDataResult<Department>(_departmentDal.Get(f => f.Id == id));
         }
