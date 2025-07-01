@@ -8,74 +8,74 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdvertFollowsController : ControllerBase
+    public class PersonelUserAdvertFollowsController : ControllerBase
     {
-        IAdvertFollowService _advertFollowService;
-        public AdvertFollowsController(IAdvertFollowService advertFollowService)
+        IPersonelUserAdvertFollowService _personelUserAdvertFollowService;
+        public PersonelUserAdvertFollowsController(IPersonelUserAdvertFollowService advertFollowService)
         {
-            _advertFollowService = advertFollowService;
+            _personelUserAdvertFollowService = advertFollowService;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(AdvertFollow advertFollow)
+        public IActionResult Add(PersonelUserAdvertFollow advertFollow)
         {
-            var result = _advertFollowService.Add(advertFollow);
+            var result = _personelUserAdvertFollowService.Add(advertFollow);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(AdvertFollow advertFollow)
+        public IActionResult Terminate(PersonelUserAdvertFollow advertFollow)
         {
-            var result = _advertFollowService.Terminate(advertFollow);
+            var result = _personelUserAdvertFollowService.Terminate(advertFollow);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
         public IActionResult GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _advertFollowService.GetAll(userAdminDTO);
+            var result = _personelUserAdvertFollowService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
         public IActionResult GetById(string id)
         {
-            var result = _advertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbycompanyid")]
         public IActionResult GetAllByCompanyId(string id)
         {
-            var result = _advertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersonelid")]
         public IActionResult GetAllByPersonelId(string id)
         {
-            var result = _advertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
         public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _advertFollowService.GetAll(userAdminDTO);
+            var result = _personelUserAdvertFollowService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbycompanyiddto")]
         public IActionResult GetAllByCompanyIdDTO(string id)
         {
-            var result = _advertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
         public IActionResult GetAllByPersonelIdDTO(string id)
         {
-            var result = _advertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

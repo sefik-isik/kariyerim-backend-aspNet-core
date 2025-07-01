@@ -34,9 +34,9 @@ namespace DataAccess.Concrete.EntityFramework
                 var personelUserCoverLettersDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCoverLetters] WHERE [PersonelUserId] = {id}");
                 var personelUserFilesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserFiles] WHERE [PersonelUserId] = {id}");
                 var personelUserImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserImages] WHERE [PersonelUserId] = {id}");
-                var advertApplicationsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [AdvertApplications] WHERE [PersonelUserId] = {id}");
-                var advertFollowsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [AdvertFollows] WHERE [PersonelUserId] = {id}");
-                var companyFollowsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyFollows] WHERE [PersonelUserId] = {id}");
+                var personelUserAdvertApplicationsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserAdvertApplications] WHERE [PersonelUserId] = {id}");
+                var personelUserAdvertFollowsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserAdvertFollows] WHERE [PersonelUserId] = {id}");
+                var personelUserFollowCompanyUsersDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserFollowCompanyUsers] WHERE [PersonelUserId] = {id}");
                 var personelUserCvsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCvs] WHERE [PersonelUserId] = {id}");
             }
         }

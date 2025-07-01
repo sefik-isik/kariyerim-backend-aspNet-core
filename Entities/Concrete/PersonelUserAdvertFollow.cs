@@ -1,15 +1,17 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.DTOs
+namespace Entities.Concrete
 {
-    public class CompanyFollowDTO : Dto, IDto
+    public class PersonelUserAdvertFollow : BaseAdvert, IEntity
     {
-        public string PersonelUserId { get; set; }
         public string CompanyUserId { get; set; }
+        public string PersonelUserId { get; set; }
+        
     }
 }

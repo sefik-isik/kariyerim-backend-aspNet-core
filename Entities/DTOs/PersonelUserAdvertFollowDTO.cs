@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class AdvertFollow : BaseAdvert, IEntity
+    public class PersonelUserAdvertFollowDTO : BaseAdvertDTO, IDto
     {
         public string CompanyUserId { get; set; }
+        public string CompanyUserName { get; set; }
         public string PersonelUserId { get; set; }
-        
+        public string IdentityNumber { get; set; }
     }
 }

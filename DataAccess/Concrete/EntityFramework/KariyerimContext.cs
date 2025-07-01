@@ -26,8 +26,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<CompanyUserAdvert> CompanyUserAdverts { get; set; }
         public DbSet<CompanyUserAdvertCity> CompanyUserAdvertCities { get; set; }
         public DbSet<CompanyUserAdvertJobDescription> CompanyUserAdvertJobDescriptions { get; set; }
-        public DbSet<AdvertApplication> AdvertApplications { get; set; }
-        public DbSet<CompanyFollow> CompanyFollows { get; set; }
+        public DbSet<PersonelUserAdvertApplication> PersonelUserAdvertApplications { get; set; }
+        public DbSet<PersonelUserFollowCompanyUser> PersonelUserFollowCompanyUsers { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }

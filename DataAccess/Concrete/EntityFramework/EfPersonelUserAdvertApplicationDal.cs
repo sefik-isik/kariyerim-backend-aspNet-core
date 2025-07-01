@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfAdvertApplicationDal : EfEntityRepositoryBase<AdvertApplication, KariyerimContext>, IAdvertApplicationDal
+    public class EfPersonelUserAdvertApplicationDal : EfEntityRepositoryBase<PersonelUserAdvertApplication, KariyerimContext>, IPersonelUserAdvertApplicationDal
     {
-        public List<AdvertApplicationDTO> GetAllDTO()
+        public List<PersonelUserAdvertApplicationDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
+                var result = from advertApplication in context.PersonelUserAdvertApplications
                              join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
-                             select new AdvertApplicationDTO
+                             select new PersonelUserAdvertApplicationDTO
                              {
                                  Id = advertApplication.Id,
                                  AdvertId = advertApplication.AdvertId,
@@ -35,18 +35,18 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
-        public List<AdvertApplicationDTO> GetAllByCompanyIdDTO(string id)
+        public List<PersonelUserAdvertApplicationDTO> GetAllByCompanyIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
+                var result = from advertApplication in context.PersonelUserAdvertApplications
                              join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
                              where advertApplication.CompanyUserId == id
 
-                             select new AdvertApplicationDTO
+                             select new PersonelUserAdvertApplicationDTO
                              {
                                  Id = advertApplication.Id,
                                  AdvertId = advertApplication.AdvertId,
@@ -61,18 +61,18 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<AdvertApplicationDTO> GetAllByPersonelIdDTO(string id)
+        public List<PersonelUserAdvertApplicationDTO> GetAllByPersonelIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
+                var result = from advertApplication in context.PersonelUserAdvertApplications
                              join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
                              where advertApplication.PersonelUserId == id 
 
-                             select new AdvertApplicationDTO
+                             select new PersonelUserAdvertApplicationDTO
                              {
                                  Id = advertApplication.Id,
                                  AdvertId = advertApplication.AdvertId,

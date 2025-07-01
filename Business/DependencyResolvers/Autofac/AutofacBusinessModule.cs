@@ -55,9 +55,9 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<OperationClaimManager>().As<IOperationClaimService>().SingleInstance(); ;
             builderItem.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance(); ;
             builderItem.RegisterType<ModelMenuManager>().As<IModelMenuService>().SingleInstance(); ;
-            builderItem.RegisterType<AdvertApplicationManager>().As<IAdvertApplicationService>().SingleInstance(); ;
-            builderItem.RegisterType<AdvertFollowManager>().As<IAdvertFollowService>().SingleInstance(); ;
-            builderItem.RegisterType<CompanyFollowManager>().As<ICompanyFollowService>().SingleInstance(); ;
+            builderItem.RegisterType<PersonelUserAdvertApplicationManager>().As<IPersonelUserAdvertApplicationService>().SingleInstance(); ;
+            builderItem.RegisterType<PersonelUserAdvertFollowManager>().As<IPersonelUserAdvertFollowService>().SingleInstance(); ;
+            builderItem.RegisterType<PersonelUserFollowCompanyUserManager>().As<IPersonelUserFollowCompanyUserService>().SingleInstance(); ;
             builderItem.RegisterType<CompanyUserAdvertCityManager>().As<ICompanyUserAdvertCityService>().SingleInstance(); ;
             builderItem.RegisterType<CompanyUserAdvertJobDescriptionManager>().As<ICompanyUserAdvertJobDescriptionService>().SingleInstance(); ;
             builderItem.RegisterType<CompanyUserAdvertManager>().As<ICompanyUserAdvertService>().SingleInstance(); ;
@@ -100,9 +100,9 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfOperationClaim>().As<IOperationClaimDal>().SingleInstance(); ;
             builderItem.RegisterType<EfUserOperationClaim>().As<IUserOperationClaimDal>().SingleInstance(); ;
             builderItem.RegisterType<EfModelMenu>().As<IModelMenuDal>().SingleInstance(); ;
-            builderItem.RegisterType<EfAdvertApplicationDal>().As<IAdvertApplicationDal>().SingleInstance(); ;
-            builderItem.RegisterType<EfAdvertFollowDal>().As<IAdvertFollowDal>().SingleInstance(); ;
-            builderItem.RegisterType<EfCompanyFollowDal>().As<ICompanyFollowDal>().SingleInstance(); ;
+            builderItem.RegisterType<EfPersonelUserAdvertApplicationDal>().As<IPersonelUserAdvertApplicationDal>().SingleInstance(); ;
+            builderItem.RegisterType<EfPersonelUserAdvertFollowDal>().As<IPersonelUserAdvertFollowDal>().SingleInstance(); ;
+            builderItem.RegisterType<EfPersonelUserFollowCompanyUserDal>().As<IPersonelUserFollowCompanyUserDal>().SingleInstance(); ;
             builderItem.RegisterType<EfCompanyUserAdvertCityDal>().As<ICompanyUserAdvertCityDal>().SingleInstance(); ;
             builderItem.RegisterType<EfCompanyUserAdvertJobDescriptionDal>().As<ICompanyUserAdvertJobDescriptionDal>().SingleInstance(); ;
             builderItem.RegisterType<EfCompanyUserAdvertDal>().As<ICompanyUserAdvertDal>().SingleInstance(); ;

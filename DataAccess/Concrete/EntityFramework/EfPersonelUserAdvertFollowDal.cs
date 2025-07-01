@@ -1,6 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -9,22 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Concrete
+namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCompanyFollowDal : EfEntityRepositoryBase<CompanyFollow, KariyerimContext>, ICompanyFollowDal
+    public class EfPersonelUserAdvertFollowDal : EfEntityRepositoryBase<PersonelUserAdvertFollow, KariyerimContext>, IPersonelUserAdvertFollowDal
     {
-        public List<CompanyFollowDTO> GetAllDTO()
+        public List<PersonelUserAdvertFollowDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
-
+                var result = from advertApplication in context.PersonelUserAdvertApplications
+                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
-                             select new CompanyFollowDTO
+                             select new PersonelUserAdvertFollowDTO
                              {
                                  Id = advertApplication.Id,
+                                 AdvertId = advertApplication.AdvertId,
+                                 AdvertName = companyUserAdverts.AdvertName,
+                                 CompanyUserId = companyUserAdverts.CompanyUserId,
                                  PersonelUserId = advertApplication.PersonelUserId,
                                  CreatedDate = advertApplication.CreatedDate,
                                  UpdatedDate = advertApplication.UpdatedDate,
@@ -34,19 +36,22 @@ namespace DataAccess.Concrete
             }
         }
 
-        public List<CompanyFollowDTO> GetAllByCompanyIdDTO(string id)
+        public List<PersonelUserAdvertFollowDTO> GetAllByCompanyIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
+                var result = from advertApplication in context.PersonelUserAdvertApplications
+                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
                              where advertApplication.CompanyUserId == id
 
-                             select new CompanyFollowDTO
+                             select new PersonelUserAdvertFollowDTO
                              {
                                  Id = advertApplication.Id,
+                                 AdvertId = advertApplication.AdvertId,
+                                 AdvertName = companyUserAdverts.AdvertName,
                                  CompanyUserId = advertApplication.CompanyUserId,
                                  PersonelUserId = advertApplication.PersonelUserId,
                                  CreatedDate = advertApplication.CreatedDate,
@@ -57,19 +62,22 @@ namespace DataAccess.Concrete
             }
         }
 
-        public List<CompanyFollowDTO> GetAllByPersonelIdDTO(string id)
+        public List<PersonelUserAdvertFollowDTO> GetAllByPersonelIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.AdvertApplications
+                var result = from advertApplication in context.PersonelUserAdvertApplications
+                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
                              join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
 
                              where advertApplication.PersonelUserId == id
 
-                             select new CompanyFollowDTO
+                             select new PersonelUserAdvertFollowDTO
                              {
                                  Id = advertApplication.Id,
+                                 AdvertId = advertApplication.AdvertId,
+                                 AdvertName = companyUserAdverts.AdvertName,
                                  CompanyUserId = advertApplication.CompanyUserId,
                                  PersonelUserId = advertApplication.PersonelUserId,
                                  CreatedDate = advertApplication.CreatedDate,
@@ -79,9 +87,7 @@ namespace DataAccess.Concrete
                 return result.ToList();
             }
         }
+
+
     }
-
-
-
-
 }

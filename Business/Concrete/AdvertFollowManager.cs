@@ -14,64 +14,64 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class AdvertFollowManager : IAdvertFollowService
+    public class PersonelUserAdvertFollowManager : IPersonelUserAdvertFollowService
     {
-        IAdvertFollowDal _advertFollowDal;
+        IPersonelUserAdvertFollowDal _personelUserAdvertFollowDal;
         IUserService _userService;
 
-        public AdvertFollowManager(IAdvertFollowDal advertFollowDal, IUserService userService)
+        public PersonelUserAdvertFollowManager(IPersonelUserAdvertFollowDal personelUserAdvertFollowDal, IUserService userService)
         {
-            _advertFollowDal = advertFollowDal;
+            _personelUserAdvertFollowDal = personelUserAdvertFollowDal;
             _userService = userService;
 
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(AdvertFollow advertFollow)
+        public IResult Add(PersonelUserAdvertFollow personelUserAdvertFollow)
         {
-            _advertFollowDal.AddAsync(advertFollow);
+            _personelUserAdvertFollowDal.AddAsync(personelUserAdvertFollow);
             return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Terminate(AdvertFollow advertFollow)
+        public IResult Terminate(PersonelUserAdvertFollow personelUserAdvertFollow)
         {
-            _advertFollowDal.Terminate(advertFollow);
+            _personelUserAdvertFollowDal.Terminate(personelUserAdvertFollow);
             return new SuccessResult();
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollow>> GetAll(UserAdminDTO userAdminDTO)
+        public IDataResult<List<PersonelUserAdvertFollow>> GetAll(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new ErrorDataResult<List<AdvertFollow>>(Messages.PermissionError);
+                return new ErrorDataResult<List<PersonelUserAdvertFollow>>(Messages.PermissionError);
             }
             else
             {
-                return new SuccessDataResult<List<AdvertFollow>>(_advertFollowDal.GetAll().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll().OrderBy(s => s.AdvertId).ToList());
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<AdvertFollow> GetById(string id)
+        public IDataResult<PersonelUserAdvertFollow> GetById(string id)
         {
 
-            return new SuccessDataResult<AdvertFollow>(_advertFollowDal.Get(c => c.Id == id));
+            return new SuccessDataResult<PersonelUserAdvertFollow>(_personelUserAdvertFollowDal.Get(c => c.Id == id));
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollow>> GetAllByCompanyId(string id)
+        public IDataResult<List<PersonelUserAdvertFollow>> GetAllByCompanyId(string id)
         {
-            return new SuccessDataResult<List<AdvertFollow>>(_advertFollowDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollow>> GetAllByPersonelId(string id)
+        public IDataResult<List<PersonelUserAdvertFollow>> GetAllByPersonelId(string id)
         {
-            return new SuccessDataResult<List<AdvertFollow>>(_advertFollowDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList());
         }
 
 
@@ -79,32 +79,32 @@ namespace Business.Concrete
         //DTO Methods
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollowDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new ErrorDataResult<List<AdvertFollowDTO>>(Messages.PermissionError);
+                return new ErrorDataResult<List<PersonelUserAdvertFollowDTO>>(Messages.PermissionError);
             }
             else
             {
-                return new SuccessDataResult<List<AdvertFollowDTO>>(_advertFollowDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList());
             }
 
             
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollowDTO>> GetAllByCompanyIdDTO(string id)
+        public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByCompanyIdDTO(string id)
         {
-            return new SuccessDataResult<List<AdvertFollowDTO>>(_advertFollowDal.GetAllByCompanyIdDTO(id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByCompanyIdDTO(id).OrderBy(s => s.AdvertId).ToList());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<AdvertFollowDTO>> GetAllByPersonelIdDTO(string id)
+        public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelIdDTO(string id)
         {
-            return new SuccessDataResult<List<AdvertFollowDTO>>(_advertFollowDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertId).ToList());
         }
     }
 }
