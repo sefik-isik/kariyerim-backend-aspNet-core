@@ -41,6 +41,13 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
+            IResult result = BusinessRules.Run(IsNameExist(companyUserAddress.AddressDetail));
+
+            if (result != null)
+            {
+                return result;
+            }
             _companyUserAddressDal.AddAsync(companyUserAddress);
             return new SuccessResult();
         }
@@ -53,6 +60,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
             _companyUserAddressDal.UpdateAsync(companyUserAddress);
             return new SuccessResult();
         }
@@ -158,6 +166,18 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
             }
 
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _companyUserAddressDal.GetAll(c => c.AddressDetail == entityName).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

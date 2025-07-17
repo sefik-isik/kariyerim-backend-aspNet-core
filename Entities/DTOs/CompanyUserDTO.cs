@@ -15,7 +15,8 @@ namespace Entities.DTOs
         public string SectorName { get; set; }
         public string About { get; set; }
         public string Clarification { get; set; }
-        public string WorkerCount { get; set; }
+        public string WorkerCountId { get; set; }
+        public string WorkerCountValue { get; set; }
         public DateTime YearOfEstablishment { get; set; }
         public string WebAddress { get; set; }
         public string TaxCityId { get; set; }

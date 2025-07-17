@@ -16,47 +16,53 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
-                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                var result = from personelUserAdvertFollows in context.PersonelUserAdvertFollows
+                             join companyUserAdverts in context.CompanyUserAdverts on personelUserAdvertFollows.AdvertId equals companyUserAdverts.Id
+                             join companyUsers in context.CompanyUsers on personelUserAdvertFollows.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserAdvertFollows.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
                              select new PersonelUserAdvertFollowDTO
                              {
-                                 Id = advertApplication.Id,
-                                 AdvertId = advertApplication.AdvertId,
+                                 Id = personelUserAdvertFollows.Id,
+                                 AdvertId = personelUserAdvertFollows.AdvertId,
                                  AdvertName = companyUserAdverts.AdvertName,
-                                 CompanyUserId = companyUserAdverts.CompanyUserId,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 CompanyUserId = personelUserAdvertFollows.CompanyUserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserAdvertFollows.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserAdvertFollows.CreatedDate,
+                                 UpdatedDate = personelUserAdvertFollows.UpdatedDate,
+                                 DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
                 return result.ToList();
             }
         }
 
-        public List<PersonelUserAdvertFollowDTO> GetAllByCompanyIdDTO(string id)
+        public List<PersonelUserAdvertFollowDTO> GetAllByAdvertIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
-                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                var result = from personelUserAdvertFollows in context.PersonelUserAdvertFollows
+                             join companyUserAdverts in context.CompanyUserAdverts on personelUserAdvertFollows.AdvertId equals companyUserAdverts.Id
+                             join companyUsers in context.CompanyUsers on personelUserAdvertFollows.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserAdvertFollows.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where advertApplication.CompanyUserId == id
+                             where personelUserAdvertFollows.AdvertId == id
 
                              select new PersonelUserAdvertFollowDTO
                              {
-                                 Id = advertApplication.Id,
-                                 AdvertId = advertApplication.AdvertId,
+                                 Id = personelUserAdvertFollows.Id,
+                                 AdvertId = personelUserAdvertFollows.AdvertId,
                                  AdvertName = companyUserAdverts.AdvertName,
-                                 CompanyUserId = advertApplication.CompanyUserId,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 CompanyUserId = personelUserAdvertFollows.CompanyUserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserAdvertFollows.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserAdvertFollows.CreatedDate,
+                                 UpdatedDate = personelUserAdvertFollows.UpdatedDate,
+                                 DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
                 return result.ToList();
             }
@@ -66,23 +72,26 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
-                             join companyUserAdverts in context.CompanyUserAdverts on advertApplication.AdvertId equals companyUserAdverts.Id
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                var result = from personelUserAdvertFollows in context.PersonelUserAdvertFollows
+                             join companyUserAdverts in context.CompanyUserAdverts on personelUserAdvertFollows.AdvertId equals companyUserAdverts.Id
+                             join companyUsers in context.CompanyUsers on personelUserAdvertFollows.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserAdvertFollows.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where advertApplication.PersonelUserId == id
+                             where personelUserAdvertFollows.PersonelUserId == id
 
                              select new PersonelUserAdvertFollowDTO
                              {
-                                 Id = advertApplication.Id,
-                                 AdvertId = advertApplication.AdvertId,
+                                 Id = personelUserAdvertFollows.Id,
+                                 AdvertId = personelUserAdvertFollows.AdvertId,
                                  AdvertName = companyUserAdverts.AdvertName,
-                                 CompanyUserId = advertApplication.CompanyUserId,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 CompanyUserId = personelUserAdvertFollows.CompanyUserId,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserAdvertFollows.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserAdvertFollows.CreatedDate,
+                                 UpdatedDate = personelUserAdvertFollows.UpdatedDate,
+                                 DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
                 return result.ToList();
             }

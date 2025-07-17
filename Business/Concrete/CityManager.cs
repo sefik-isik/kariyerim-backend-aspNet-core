@@ -30,7 +30,7 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Add(City city)
         {
-            IResult result = BusinessRules.Run(IsCityNameExist(city.CityName));
+            IResult result = BusinessRules.Run(IsNameExist(city.CityName));
 
             if (result != null)
             {
@@ -46,6 +46,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CityValidator))]
         public IResult Update(City city)
         {
+            IResult result = BusinessRules.Run(IsNameExist(city.CityName));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             _cityDal.UpdateAsync(city);
             return new SuccessResult(Messages.SuccessCityUpdated);
         }
@@ -103,9 +110,9 @@ namespace Business.Concrete
 
 
         //Business Rules
-        private IResult IsCityNameExist(string cityName)
+        private IResult IsNameExist(string entityName)
         {
-            var result = _cityDal.GetAll(c => c.CityName.ToLower() == cityName.ToLower()).Any();
+            var result = _cityDal.GetAll(c => c.CityName.ToLower() == entityName.ToLower()).Any();
 
             if (result)
             {
@@ -114,6 +121,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        
+
     }
-} 
+}

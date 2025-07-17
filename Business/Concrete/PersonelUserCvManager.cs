@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -33,6 +34,12 @@ namespace Business.Concrete
             if (_userService.GetById(personelUserCv.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
+            }
+            IResult result = BusinessRules.Run(IsNameExist(personelUserCv.CvName));
+
+            if (result != null)
+            {
+                return result;
             }
             _personelUserCvDal.AddAsync(personelUserCv);
             return new SuccessResult();
@@ -151,6 +158,18 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<PersonelUserCvDTO>>(_personelUserCvDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
 
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _personelUserCvDal.GetAll(c => c.CvName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
 
     }

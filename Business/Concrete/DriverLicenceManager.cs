@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Core.Utilities.Business;
+using Business.Constans;
 
 namespace Business.Concrete
 {
@@ -24,6 +26,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(DriverLicence driverLicence)
         {
+            IResult result = BusinessRules.Run(IsNameExist(driverLicence.DriverLicenceName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _driverLicenceDal.AddAsync(driverLicence);
             return new SuccessResult();
         }
@@ -62,6 +70,17 @@ namespace Business.Concrete
             return new SuccessDataResult<DriverLicence>(_driverLicenceDal.Get(d=> d.Id == id));
         }
 
-        
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _driverLicenceDal.GetAll(c => c.DriverLicenceName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
     }
 }

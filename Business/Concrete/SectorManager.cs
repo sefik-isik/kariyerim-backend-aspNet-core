@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -28,6 +30,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Sector sector)
         {
+            IResult result = BusinessRules.Run(IsNameExist(sector.SectorName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _sectorDal.AddAsync(sector);
             return new SuccessResult();
         }
@@ -65,6 +73,18 @@ namespace Business.Concrete
         public IDataResult<Sector> GetById(string id)
         {
             return new SuccessDataResult<Sector>(_sectorDal.Get(c=> c.Id == id));
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _sectorDal.GetAll(c => c.SectorName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
 
     }

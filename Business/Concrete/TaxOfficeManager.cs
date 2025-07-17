@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -24,6 +27,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(TaxOffice taxOffice)
         {
+            IResult result = BusinessRules.Run(IsNameExist(taxOffice.TaxOfficeName),IsCodeExist(taxOffice.TaxOfficeName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _taxOfficeDal.AddAsync(taxOffice);
             return new SuccessResult();
         }
@@ -68,6 +77,29 @@ namespace Business.Concrete
         public IDataResult<List<TaxOfficeDTO>> GetDeletedAllDTO()
         {
             return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList());
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _taxOfficeDal.GetAll(c => c.TaxOfficeName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult IsCodeExist(string entityName)
+        {
+            var result = _taxOfficeDal.GetAll(c => c.TaxOfficeCode.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

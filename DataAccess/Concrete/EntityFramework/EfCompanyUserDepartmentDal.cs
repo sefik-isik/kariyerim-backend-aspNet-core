@@ -20,6 +20,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserDepartments in context.CompanyUserDepartments
                              join companyUsers in context.CompanyUsers on companyUserDepartments.CompanyUserId equals companyUsers.Id
+                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join users in context.Users on companyUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
@@ -37,7 +38,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Code = users.Code,
                                  CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
-                                 DepartmentName = companyUserDepartments.DepartmentName,
+                                 DepartmentId = companyUserDepartments.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
                                  CreatedDate = companyUserDepartments.CreatedDate,
                                  UpdatedDate = companyUserDepartments.UpdatedDate,
                                  DeletedDate = companyUserDepartments.DeletedDate,
@@ -52,6 +54,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from companyUserDepartments in context.CompanyUserDepartments
                              join companyUsers in context.CompanyUsers on companyUserDepartments.CompanyUserId equals companyUsers.Id
+                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join users in context.Users on companyUsers.UserId equals users.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
@@ -69,7 +72,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  Code = users.Code,
                                  CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
-                                 DepartmentName = companyUserDepartments.DepartmentName,
+                                 DepartmentId = companyUserDepartments.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
                                  CreatedDate = companyUserDepartments.CreatedDate,
                                  UpdatedDate = companyUserDepartments.UpdatedDate,
                                  DeletedDate = companyUserDepartments.DeletedDate,

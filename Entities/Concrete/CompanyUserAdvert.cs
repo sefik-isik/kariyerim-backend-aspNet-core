@@ -18,5 +18,11 @@ namespace Entities.Concrete
         public string ExperienceId { get; set; }
         public string DepartmentId { get; set; }
         public string LicenseDegreeId { get; set; }
+        public string PositionId { get; set; }
+        public string PositionLevelId { get; set; }
+        public bool MilitaryStatus { get; set; }
+        public string LanguageId { get; set; }
+        public string LanguageLevelId { get; set; }
+        public string DriverLicenceId { get; set; }
     }
 }

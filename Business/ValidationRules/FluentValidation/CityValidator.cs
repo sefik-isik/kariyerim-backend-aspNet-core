@@ -17,7 +17,7 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(c => c.CityName).NotEmpty();
             RuleFor(c => c.CityName).NotNull();
-            RuleFor(c => c.CityName).MinimumLength(2);
+            RuleFor(c => c.CityName).MinimumLength(3);
             RuleFor(c => c.CityName).Must(NotStartsWithThisCharacters).When(c=>c.CountryId=="1").WithMessage("Şehir ismi bu karekterle başlayamaz");
             RuleFor(c => c.CityName).Must(NotContainCharacters).When(c=>c.CountryId=="1").WithMessage("Şehir ismi bu karekterleri içeremez");
         }

@@ -23,8 +23,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join users in context.Users on companyUserAdvertCities.UserId equals users.Id
                              join cities in context.Cities on companyUserAdvertCities.WorkCityId equals cities.Id
 
-
-                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvertCities.DeletedDate == null && users.DeletedDate == null && companyUserAdverts.DeletedDate == null && companyUserAdverts.DeletedDate==null && cities.DeletedDate == null 
+                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvertCities.DeletedDate == null && users.DeletedDate == null && companyUserAdverts.DeletedDate == null && cities.DeletedDate == null 
 
                              select new CompanyUserAdvertCityDTO
                              {
@@ -39,7 +38,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  AdvertId = companyUserAdvertCities.AdvertId,
                                  AdvertName = companyUserAdverts.AdvertName,
-                                 WorkCityId = companyUserAdvertCities.AdvertId,
+                                 WorkCityId = companyUserAdvertCities.WorkCityId,
                                  WorkCityName = cities.CityName,
                                  CreatedDate = companyUserAdvertCities.CreatedDate,
                                  UpdatedDate = companyUserAdvertCities.UpdatedDate,
@@ -60,7 +59,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join cities in context.Cities on companyUserAdvertCities.WorkCityId equals cities.Id
 
 
-                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvertCities.DeletedDate != null && users.DeletedDate == null && companyUserAdverts.DeletedDate == null && companyUserAdverts.DeletedDate == null && cities.DeletedDate == null
+                             where users.Code == UserCodes.CompanyUserCode && companyUserAdvertCities.DeletedDate != null && users.DeletedDate == null && companyUserAdverts.DeletedDate == null && cities.DeletedDate == null
 
                              select new CompanyUserAdvertCityDTO
                              {
@@ -75,7 +74,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  AdvertId = companyUserAdvertCities.AdvertId,
                                  AdvertName = companyUserAdverts.AdvertName,
-                                 WorkCityId = companyUserAdvertCities.AdvertId,
+                                 WorkCityId = companyUserAdvertCities.WorkCityId,
                                  WorkCityName = cities.CityName,
                                  CreatedDate = companyUserAdvertCities.CreatedDate,
                                  UpdatedDate = companyUserAdvertCities.UpdatedDate,

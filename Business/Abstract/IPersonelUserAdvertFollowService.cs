@@ -15,12 +15,10 @@ namespace Business.Abstract
         IResult Terminate(PersonelUserAdvertFollow personelUserAdvertFollow);
         IDataResult<List<PersonelUserAdvertFollow>> GetAll(UserAdminDTO userAdminDTO);
         IDataResult<PersonelUserAdvertFollow> GetById(string id);
-        IDataResult<List<PersonelUserAdvertFollow>> GetAllByCompanyId(string id);
-        IDataResult<List<PersonelUserAdvertFollow>> GetAllByPersonelId(string id);
 
         //dto
-        IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByCompanyIdDTO(string id);
+        IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllDTO(string id);
+        IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByAdvertIdDTO(string id);
         IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelIdDTO(string id);
     }
 }

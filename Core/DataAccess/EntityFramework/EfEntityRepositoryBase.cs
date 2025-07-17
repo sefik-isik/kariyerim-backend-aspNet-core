@@ -29,9 +29,6 @@ namespace Core.DataAccess.EntityFramework
 
         public async Task UpdateAsync(TEntity entity)
         {
-            //Terminate(entity);
-            //AddAsync(entity);
-
             using (TContext context = new TContext())
             {
                 var updatedEntity = context.Entry(entity);

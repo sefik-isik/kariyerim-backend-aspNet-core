@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -23,6 +26,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(LanguageLevel languageLevel)
         {
+            IResult result = BusinessRules.Run(IsLevelExist(languageLevel.Level), IsLevelTitleExist(languageLevel.LevelTitle));
+
+            if (result != null)
+            {
+                return result;
+            }
             _languageLevelDal.AddAsync(languageLevel);
             return new SuccessResult();
         }
@@ -60,6 +69,29 @@ namespace Business.Concrete
             return new SuccessDataResult<LanguageLevel>(_languageLevelDal.Get(l=>l.Id == id));
         }
 
-        
+        //Business Rules
+        private IResult IsLevelExist(int entityName)
+        {
+            var result = _languageLevelDal.GetAll(c => c.Level == entityName).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult IsLevelTitleExist(string entityName)
+        {
+            var result = _languageLevelDal.GetAll(c => c.LevelTitle.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
+
     }
 }

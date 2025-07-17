@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -34,6 +35,12 @@ namespace Business.Concrete
 
         public IResult Add(User user)
         {
+            IResult result = BusinessRules.Run(IsNameExist(user.Email), IsTelephoneExist(user.PhoneNumber));
+
+            if (result != null)
+            {
+                return result;
+            }
             _userDal.AddAsync(user);
             return new SuccessResult();
         }
@@ -186,6 +193,28 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<UserDTO>>(_userDal.GetAllPersonelUserDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
             }
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _userDal.GetAll(c => c.Email.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+        private IResult IsTelephoneExist(string entityName)
+        {
+            var result = _userDal.GetAll(c => c.PhoneNumber == entityName).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

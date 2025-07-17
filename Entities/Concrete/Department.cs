@@ -10,5 +10,6 @@ namespace Entities.Concrete
     public class Department : Entity, IEntity
     {
         public string DepartmentName { get; set; }
+        public bool IsCompany { get; set; }
     }
 }

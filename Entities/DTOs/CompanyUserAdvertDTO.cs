@@ -23,5 +23,17 @@ namespace Entities.DTOs
         public string DepartmentName { get; set; }
         public string LicenseDegreeId { get; set; }
         public string LicenseDegreeName { get; set; }
+        public string PositionId { get; set; }
+        public string PositionName { get; set; }
+        public string PositionLevelId { get; set; }
+        public string PositionLevelName { get; set; }
+        public bool MilitaryStatus { get; set; }
+        public string LanguageId { get; set; }
+        public string LanguageName { get; set; }
+        public string LanguageLevelId { get; set; }
+        public string LanguageLevelName { get; set; }
+
+        public string DriverLicenceId { get; set; }
+        public string DriverLicenceName { get; set; }
     }
 }

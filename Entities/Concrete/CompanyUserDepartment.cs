@@ -10,6 +10,6 @@ namespace Entities.Concrete
 {
     public class CompanyUserDepartment : BaseCompanyUser, IEntity
     {
-        public string DepartmentName { get; set; }
+        public string DepartmentId { get; set; }
     }
 }

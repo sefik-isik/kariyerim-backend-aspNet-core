@@ -34,6 +34,16 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Update(UniversityImage universityImage)
         {
+            if (universityImage.isMainImage == true)
+            {
+                _universityImageDal.UpdateMainImage(universityImage.UniversityId);
+            }
+
+            if (universityImage.isLogo == true)
+            {
+                _universityImageDal.UpdateLogoImage(universityImage.UniversityId);
+            }
+
             _universityImageDal.UpdateAsync(universityImage);
             return new SuccessResult();
         }
@@ -94,6 +104,8 @@ namespace Business.Concrete
 
             universityImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             universityImage.ImageName = "noImage.jpg";
+
+            Update(universityImage);
 
             return new SuccessResult();
         }

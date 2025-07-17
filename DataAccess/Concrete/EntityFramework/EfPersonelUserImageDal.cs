@@ -3,6 +3,7 @@ using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserImageDal : EfEntityRepositoryBase<PersonelUserImage, KariyerimContext>, IPersonelUserImageDal
     {
+        public async Task UpdateProfilImage(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [isProfilImage]=false  WHERE [PersonelUserId] = {id}");
+            }
+        }
         public List<PersonelUserImageDTO> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())

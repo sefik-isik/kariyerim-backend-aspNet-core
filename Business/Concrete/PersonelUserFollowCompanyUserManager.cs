@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
@@ -19,15 +20,23 @@ namespace Business.Concrete
     {
         IPersonelUserFollowCompanyUserDal _personelUserFollowCompanyUserDal;
         IUserService _userService;
-        public PersonelUserFollowCompanyUserManager(IPersonelUserFollowCompanyUserDal personelUserFollowCompanyUserDal, IUserService userService)
+        ICompanyUserService _companyUserService;
+        public PersonelUserFollowCompanyUserManager(IPersonelUserFollowCompanyUserDal personelUserFollowCompanyUserDal, IUserService userService, ICompanyUserService companyUserService)
         {
             _personelUserFollowCompanyUserDal = personelUserFollowCompanyUserDal;
             _userService = userService;
+            _companyUserService = companyUserService;
         }
 
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUserFollowCompanyUser personelUserFollowCompanyUser)
         {
+            IResult result = BusinessRules.Run(IsNameExist(personelUserFollowCompanyUser.CompanyUserId, personelUserFollowCompanyUser.PersonelUserId));
+
+            if (result != null)
+            {
+                return result;
+            }
             _personelUserFollowCompanyUserDal.AddAsync(personelUserFollowCompanyUser);
             return new SuccessResult();
         }
@@ -64,6 +73,7 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserFollowCompanyUser>> GetAllByCompanyId(string id)
         {
+
             return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.CompanyUserId).ToList());
         }
 
@@ -82,7 +92,9 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            if (userIsAdmin.Data == null)
+            var user = _userService.GetById(userAdminDTO.UserId);
+
+            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
                 return new ErrorDataResult<List<PersonelUserFollowCompanyUserDTO>>(Messages.PermissionError);
             }
@@ -93,15 +105,49 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(string id)
+        public IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByCompanyIdDTO(id).OrderBy(s => s.CompanyUserId).ToList());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByCompanyIdDTO(userAdminDTO.Id).OrderBy(s => s.CompanyUserId).ToList());
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList());
+            }
+
+            
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(string id)
+        public IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.PersonelUserId).ToList());
+            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByPersonelIdDTO(userAdminDTO.Id).OrderBy(s => s.PersonelUserId).ToList());
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList());
+            }
+
+            
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string companyUserId, string personelUserId)
+        {
+            var result = _personelUserFollowCompanyUserDal.GetAll(c => c.CompanyUserId == companyUserId && c.PersonelUserId == personelUserId).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

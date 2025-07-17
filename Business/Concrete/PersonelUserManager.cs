@@ -35,18 +35,16 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUser personelUser)
         {
-            IResult result = BusinessRules.Run(IsPersonelUserExist(personelUser.UserId));
+            if (_userService.GetById(personelUser.UserId) == null)
+            {
+                return new ErrorResult(Messages.PermissionError);
+            }
+            IResult result = BusinessRules.Run(IsPersonelUserExist(personelUser.UserId), IsNameExist(personelUser.IdentityNumber));
 
             if (result != null)
             {
                 return result;
             }
-
-            if (_userService.GetById(personelUser.UserId) == null)
-            {
-                return new ErrorResult(Messages.PermissionError);
-            }
-
             _personelUserDal.AddAsync(personelUser);
             return new SuccessResult();
         }
@@ -176,6 +174,17 @@ namespace Business.Concrete
             if (result)
             {
                 return new ErrorResult(Messages.PersonelUserAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _personelUserDal.GetAll(c => c.IdentityNumber == entityName).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
             }
             return new SuccessResult();
         }

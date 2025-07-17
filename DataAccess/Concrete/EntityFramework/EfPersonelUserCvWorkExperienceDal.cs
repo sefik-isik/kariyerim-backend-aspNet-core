@@ -22,11 +22,13 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on personelUserCvWorkExperiences.CompanySectorId equals sectors.Id
-                             join companyDepartments in context.CompanyUserDepartments on personelUserCvWorkExperiences.DepartmentId equals companyDepartments.Id
+                             join departments in context.Departments on personelUserCvWorkExperiences.DepartmentId equals departments.Id
                              join workingMethods in context.WorkingMethods on personelUserCvWorkExperiences.WorkingMethodId equals workingMethods.Id
                              join countries in context.Countries on personelUserCvWorkExperiences.CountryId equals countries.Id
                              join cities in context.Cities on personelUserCvWorkExperiences.CityId equals cities.Id
                              join regions in context.Regions on personelUserCvWorkExperiences.RegionId equals regions.Id
+                             join positions in context.Positions on personelUserCvWorkExperiences.PositionId equals positions.Id
+                             join positionLevels in context.PositionLevels on personelUserCvWorkExperiences.PositionLevelId equals positionLevels.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
                              personelUserCvWorkExperiences.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
@@ -43,15 +45,18 @@ namespace DataAccess.Concrete.EntityFramework
                                  PersonelUserId = personelUsers.Id,
                                  CvId = personelUserCv.Id,
                                  CvName = personelUserCv.CvName,
-                                 Position = personelUserCvWorkExperiences.Position,
+                                 PositionId = personelUserCvWorkExperiences.PositionId,
+                                 PositionName = positions.PositionName,
+                                 PositionLevelId = personelUserCvWorkExperiences.PositionLevelId,
+                                 PositionLevelName = positionLevels.PositionLevelName,
                                  CompanyName = personelUserCvWorkExperiences.CompanyName,
                                  Working = personelUserCvWorkExperiences.Working,
                                  StartDate = personelUserCvWorkExperiences.StartDate,
                                  EndDate = personelUserCvWorkExperiences.EndDate,
                                  CompanySectorId = sectors.Id,
                                  CompanySectorName = sectors.SectorName,
-                                 DepartmentId = companyDepartments.Id,
-                                 DepartmentName = companyDepartments.DepartmentName,
+                                 DepartmentId = personelUserCvWorkExperiences.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
                                  WorkingMethodId = workingMethods.Id,
                                  WorkingMethodName = workingMethods.MethodName,
                                  CountryId = countries.Id,
@@ -80,11 +85,13 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on personelUserCvWorkExperiences.CompanySectorId equals sectors.Id
-                             join companyDepartments in context.CompanyUserDepartments on personelUserCvWorkExperiences.DepartmentId equals companyDepartments.Id
+                             join departments in context.Departments on personelUserCvWorkExperiences.DepartmentId equals departments.Id
                              join workingMethods in context.WorkingMethods on personelUserCvWorkExperiences.WorkingMethodId equals workingMethods.Id
                              join countries in context.Countries on personelUserCvWorkExperiences.CountryId equals countries.Id
                              join cities in context.Cities on personelUserCvWorkExperiences.CityId equals cities.Id
                              join regions in context.Regions on personelUserCvWorkExperiences.RegionId equals regions.Id
+                             join positions in context.Positions on personelUserCvWorkExperiences.PositionId equals positions.Id
+                             join positionLevels in context.PositionLevels on personelUserCvWorkExperiences.PositionLevelId equals positionLevels.Id
 
                              where users.Code == UserCodes.PersonelUserCode &&
                              personelUserCvWorkExperiences.DeletedDate != null && users.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCv.DeletedDate == null
@@ -101,15 +108,18 @@ namespace DataAccess.Concrete.EntityFramework
                                  PersonelUserId = personelUsers.Id,
                                  CvId = personelUserCv.Id,
                                  CvName = personelUserCv.CvName,
-                                 Position = personelUserCvWorkExperiences.Position,
+                                 PositionId = personelUserCvWorkExperiences.PositionId,
+                                 PositionName = positions.PositionName,
+                                 PositionLevelId = personelUserCvWorkExperiences.PositionLevelId,
+                                 PositionLevelName = positionLevels.PositionLevelName,
                                  CompanyName = personelUserCvWorkExperiences.CompanyName,
                                  Working = personelUserCvWorkExperiences.Working,
                                  StartDate = personelUserCvWorkExperiences.StartDate,
                                  EndDate = personelUserCvWorkExperiences.EndDate,
                                  CompanySectorId = sectors.Id,
                                  CompanySectorName = sectors.SectorName,
-                                 DepartmentId = companyDepartments.Id,
-                                 DepartmentName = companyDepartments.DepartmentName,
+                                 DepartmentId = personelUserCvWorkExperiences.DepartmentId,
+                                 DepartmentName = departments.DepartmentName,
                                  WorkingMethodId = workingMethods.Id,
                                  WorkingMethodName = workingMethods.MethodName,
                                  CountryId = countries.Id,

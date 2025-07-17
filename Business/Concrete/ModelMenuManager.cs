@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -25,6 +27,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(ModelMenu modelMenu)
         {
+            IResult result = BusinessRules.Run(IsNameExist(modelMenu.ModelName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _modelMenuDal.AddAsync(modelMenu);
             return new SuccessResult();
         }
@@ -60,6 +68,18 @@ namespace Business.Concrete
         public IDataResult<ModelMenu> GetById(string id)
         {
             return new SuccessDataResult<ModelMenu>(_modelMenuDal.Get(g => g.Id == id));
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _modelMenuDal.GetAll(c => c.ModelName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

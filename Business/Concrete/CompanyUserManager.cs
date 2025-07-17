@@ -39,7 +39,10 @@ namespace Business.Concrete
         [CacheRemoveAspect()]
         public IResult Add(CompanyUser companyUser)
         {
-            IResult result = BusinessRules.Run(IsCompanyNameExist(companyUser.CompanyUserName),IsTaxNumberExist(companyUser.TaxNumber));
+            IResult result = BusinessRules.Run(
+                IsCompanyNameExist(companyUser.CompanyUserName),
+                IsTaxNumberExist(companyUser.TaxNumber), 
+                IsWebAddressExist(companyUser.WebAddress));
             if (result != null)
             {
                 return result;
@@ -93,11 +96,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
         }
 
@@ -109,11 +112,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
             }
         }
 
@@ -145,16 +148,17 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            if (userIsAdmin.Data == null)
+            var user = _userService.GetById(userAdminDTO.UserId);
+
+            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             else
             {
                 return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             
-
         }
 
         [SecuredOperation("admin,user")]
@@ -162,9 +166,11 @@ namespace Business.Concrete
         {
             var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            if (userIsAdmin.Data == null)
+            var user = _userService.GetById(userAdminDTO.UserId);
+
+            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().FindAll(c => c.Id == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
             }
             else
             {
@@ -178,7 +184,7 @@ namespace Business.Concrete
         //Business Rules
         private IResult IsCompanyNameExist(string companyName)
         {
-            var result = _companyUserDal.GetAll(c => c.CompanyUserName.ToLower() == companyName.ToLower()).Any();
+            var result = _companyUserDal.GetAll(c => c.CompanyUserName.ToLower() == companyName.ToLower() && c.CompanyUserName  != "-").Any();
 
             if (result)
             {
@@ -189,7 +195,7 @@ namespace Business.Concrete
 
         private IResult IsTaxNumberExist(string taxNumber)
         {
-            var result = _companyUserDal.GetAll(c => c.TaxNumber.ToLower() == taxNumber.ToLower()).Any();
+            var result = _companyUserDal.GetAll(c => c.TaxNumber.ToLower() == taxNumber.ToLower() && c.TaxNumber != "-").Any();
 
             if (result)
             {
@@ -198,7 +204,16 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-       
+        private IResult IsWebAddressExist(string webAddress)
+        {
+            var result = _companyUserDal.GetAll(c => c.WebAddress.ToLower() == webAddress.ToLower() && c.WebAddress != "-").Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.TaxNumberAlreadyExist);
+            }
+            return new SuccessResult();
+        }
 
 
     }

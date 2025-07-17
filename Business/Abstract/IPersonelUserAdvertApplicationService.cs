@@ -17,8 +17,8 @@ namespace Business.Abstract
         IDataResult<PersonelUserAdvertApplication> GetById(string id);
 
         //dto
-        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByCompanyIdDTO(string id);
+        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(string id);
+        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id);
         IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id);
     }
 }

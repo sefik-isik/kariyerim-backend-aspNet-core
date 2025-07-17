@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -27,6 +29,12 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IResult Add(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
         {
+            IResult result = BusinessRules.Run(IsNameExist(personelUseradvertApplicationDTO.AdvertId, personelUseradvertApplicationDTO.PersonelUserId));
+
+            if (result != null)
+            {
+                return result;
+            }
             _personelUseradvertApplicationDal.AddAsync(personelUseradvertApplicationDTO);
             return new SuccessResult();
         }
@@ -77,32 +85,33 @@ namespace Business.Concrete
         //DTO Methods
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(string id)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new ErrorDataResult<List<PersonelUserAdvertApplicationDTO>>(Messages.PermissionError);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList());
-            }
-
-
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByCompanyIdDTO(string id)
+        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByCompanyIdDTO(id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList());
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList());
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string advertId, string personelUserId)
+        {
+            var result = _personelUseradvertApplicationDal.GetAll(c => c.AdvertId == advertId && c.PersonelUserId == personelUserId).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

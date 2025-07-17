@@ -146,8 +146,7 @@ namespace WebAPI.Controllers
         [HttpPost("deleteimage")]
         public IActionResult DeleteImage(UniversityImage universityImage)
         {
-            _universityImageService.DeleteImage(universityImage);
-            var result = _universityImageService.Update(universityImage);
+            var result = _universityImageService.DeleteImage(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

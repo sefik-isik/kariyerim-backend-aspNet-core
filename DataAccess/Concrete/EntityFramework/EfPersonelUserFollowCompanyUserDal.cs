@@ -17,19 +17,25 @@ namespace DataAccess.Concrete
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
+                var result = from personelUserFollowCompanyUsers in context.PersonelUserFollowCompanyUsers
+                             join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                             where users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
-                                 Id = advertApplication.Id,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 Id = personelUserFollowCompanyUsers.Id,
+                                 CompanyUserId = companyUsers.Id,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
+                                 UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
+                                 DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
+
                 return result.ToList();
             }
         }
@@ -38,20 +44,23 @@ namespace DataAccess.Concrete
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                var result = from personelUserFollowCompanyUsers in context.PersonelUserFollowCompanyUsers
+                             join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where advertApplication.CompanyUserId == id
+                             where companyUsers.UserId == id && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
-                                 Id = advertApplication.Id,
-                                 CompanyUserId = advertApplication.CompanyUserId,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 Id = personelUserFollowCompanyUsers.Id,
+                                 CompanyUserId = companyUsers.Id,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
+                                 UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
+                                 DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
                 return result.ToList();
             }
@@ -61,20 +70,23 @@ namespace DataAccess.Concrete
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var result = from advertApplication in context.PersonelUserAdvertApplications
-                             join companyUsers in context.CompanyUsers on advertApplication.CompanyUserId equals companyUsers.Id
-                             join personelUsers in context.PersonelUsers on advertApplication.PersonelUserId equals personelUsers.Id
+                var result = from personelUserFollowCompanyUsers in context.PersonelUserFollowCompanyUsers
+                             join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
+                             join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
 
-                             where advertApplication.PersonelUserId == id
+                             where personelUsers.UserId == id && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
-                                 Id = advertApplication.Id,
-                                 CompanyUserId = advertApplication.CompanyUserId,
-                                 PersonelUserId = advertApplication.PersonelUserId,
-                                 CreatedDate = advertApplication.CreatedDate,
-                                 UpdatedDate = advertApplication.UpdatedDate,
-                                 DeletedDate = advertApplication.DeletedDate,
+                                 Id = personelUserFollowCompanyUsers.Id,
+                                 CompanyUserId = companyUsers.Id,
+                                 CompanyUserName = companyUsers.CompanyUserName,
+                                 PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
+                                 PersonelUserMail = users.Email,
+                                 CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
+                                 UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
+                                 DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
                 return result.ToList();
             }

@@ -49,6 +49,12 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
+            if (personelUserImage.IsProfilImage == true)
+            {
+                _personelUserImageDal.UpdateProfilImage(personelUserImage.PersonelUserId);
+            }
+
             _personelUserImageDal.UpdateAsync(personelUserImage);
             return new SuccessResult();
         }
@@ -175,6 +181,8 @@ namespace Business.Concrete
 
             personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             personelUserImage.ImageName = "noImage.jpg";
+
+            Update(personelUserImage);
 
             return new SuccessResult();
         }

@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -74,6 +76,8 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<DepartmentDescriptionDTO>>(_departmentDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.DepartmentName).ToList());
         }
+
+
 
     }
 }

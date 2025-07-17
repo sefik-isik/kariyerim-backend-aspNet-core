@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -23,6 +26,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(WorkingMethod workingMethod)
         {
+            IResult result = BusinessRules.Run(IsNameExist(workingMethod.MethodName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _workingMethodDal.AddAsync(workingMethod);
             return new SuccessResult();
         }
@@ -60,6 +69,16 @@ namespace Business.Concrete
             return new SuccessDataResult<WorkingMethod>(_workingMethodDal.Get(w=>w.Id == id));
         }
 
-        
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _workingMethodDal.GetAll(c => c.MethodName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
     }
 }

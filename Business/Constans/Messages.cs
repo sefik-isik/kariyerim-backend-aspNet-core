@@ -19,7 +19,7 @@ namespace Business.Constans
         public static string SuccessCompanyDeleted = JsonConvert.SerializeObject("Şirket başarıyla silindi");
         public static string CompanyListed = JsonConvert.SerializeObject("Şirketler başarıyla listelendi");
         public static string CompaniesListed = JsonConvert.SerializeObject("Şirketler başarıyla listelendi");
-        public static string CityNameAlreadyExist = JsonConvert.SerializeObject("Bu şehir ismi daha önce eklenmiş");
+        public static string CityNameAlreadyExist = JsonConvert.SerializeObject("Bu daha önce eklenmiş");
         public static string IsCountryCountLimitInvalid = JsonConvert.SerializeObject("Ülke sayısı 10 dan büyük olamaz");
         public static string AuthorizationDenied = JsonConvert.SerializeObject("Bu işlemi yapmak için yetkiniz bulunmamaktadır");
         public static string UserRegistered = JsonConvert.SerializeObject("Kayıt oldu");

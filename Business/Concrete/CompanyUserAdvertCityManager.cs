@@ -116,7 +116,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetAllDTO().FindAll(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
             }
             else
             {
@@ -131,7 +131,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetDeletedAllDTO().FindAll(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
             }
             else
             {

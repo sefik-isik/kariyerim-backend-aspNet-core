@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Core.Utilities.Business;
+using Business.Constans;
 
 namespace Business.Concrete
 {
@@ -25,6 +27,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Language language)
         {
+            IResult result = BusinessRules.Run(IsNameExist(language.LanguageName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _languageDal.AddAsync(language);
             return new SuccessResult();
         }
@@ -61,7 +69,17 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Language>(_languageDal.Get(l => l.Id == id));
         }
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _languageDal.GetAll(c => c.LanguageName.ToLower() == entityName.ToLower()).Any();
 
-        
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
     }
 }

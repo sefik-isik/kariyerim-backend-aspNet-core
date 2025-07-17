@@ -12,9 +12,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CvWorkExperienceValidator()
         {
-            RuleFor(c => c.Position).NotEmpty();
-            RuleFor(c => c.Position).NotNull();
-            RuleFor(c => c.Position).MinimumLength(2);
+            RuleFor(c => c.PositionId).NotEmpty();
+            RuleFor(c => c.PositionId).NotNull();
+            RuleFor(c => c.PositionId).MinimumLength(2);
 
             RuleFor(c => c.CompanyName).NotEmpty();
             RuleFor(c => c.CompanyName).NotNull();

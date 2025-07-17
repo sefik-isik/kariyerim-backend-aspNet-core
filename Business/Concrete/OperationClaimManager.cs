@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -26,6 +28,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(OperationClaim operationClaim)
         {
+            IResult result = BusinessRules.Run(IsNameExist(operationClaim.Name));
+
+            if (result != null)
+            {
+                return result;
+            }
             _operationClaimDal.AddAsync(operationClaim);
             return new SuccessResult();
         }
@@ -62,6 +70,16 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<OperationClaim>(_operationClaimDal.Get(c => c.Id == id));
         }
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _operationClaimDal.GetAll(c => c.Name.ToLower() == entityName.ToLower()).Any();
 
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
     }
 }

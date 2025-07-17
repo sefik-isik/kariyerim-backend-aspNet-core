@@ -15,8 +15,8 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(c => c.CompanyUserName).NotEmpty();
             RuleFor(c => c.CompanyUserName).NotNull();
-            RuleFor(c => c.CompanyUserName).MinimumLength(2);
-            RuleFor(c => c.TaxNumber).Length(10);
+            RuleFor(c => c.CompanyUserName).MinimumLength(1);
+            RuleFor(c => c.TaxNumber).MaximumLength(10);
         }
     }
 }

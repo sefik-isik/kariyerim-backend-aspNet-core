@@ -10,7 +10,7 @@ namespace Entities.Concrete
 {
     public class PersonelUserCvWorkExperience : BasePersonelUserCv, IEntity
     {
-        public string Position { get; set; }
+        
         public string CompanyName { get; set; }
         public bool Working { get; set; }
         public DateTime StartDate { get; set; }
@@ -22,6 +22,8 @@ namespace Entities.Concrete
         public string CountryId { get; set; }
         public string CityId { get; set; }
         public string RegionId { get; set; }
+        public string PositionId { get; set; }
+        public string PositionLevelId { get; set; }
         public string Detail { get; set; } 
 
 

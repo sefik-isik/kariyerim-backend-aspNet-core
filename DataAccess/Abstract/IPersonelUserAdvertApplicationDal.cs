@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface IPersonelUserAdvertApplicationDal : IEntityRepository<PersonelUserAdvertApplication>
     {
         List<PersonelUserAdvertApplicationDTO> GetAllDTO();
-        List<PersonelUserAdvertApplicationDTO> GetAllByCompanyIdDTO(string id);
+        List<PersonelUserAdvertApplicationDTO> GetAllByAdvertIdDTO(string id);
         List<PersonelUserAdvertApplicationDTO> GetAllByPersonelIdDTO(string id);
     }
 }

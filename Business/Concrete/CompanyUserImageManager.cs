@@ -49,9 +49,21 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
+            if (companyUserImage.IsMainImage == true)
+            {
+                _companyUserImageDal.UpdateMainImage(companyUserImage.CompanyUserId);
+            }
+
+            if (companyUserImage.IsLogo == true)
+            {
+                _companyUserImageDal.UpdateLogoImage(companyUserImage.CompanyUserId);
+            }
+
             _companyUserImageDal.UpdateAsync(companyUserImage);
             return new SuccessResult();
         }
+
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserImage companyUserImage)
         {
@@ -155,7 +167,7 @@ namespace Business.Concrete
         {
             if (companyUserImage == null)
             {
-                return new ErrorDataResult<PersonelUserImage>(Messages.ImageNotFound);
+                return new ErrorDataResult<CompanyUserImage>(Messages.ImageNotFound);
             }
 
             string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\" + companyUserImage.ImageName;
@@ -175,6 +187,8 @@ namespace Business.Concrete
 
             companyUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             companyUserImage.ImageName = "noImage.jpg";
+
+            Update(companyUserImage);
 
             return new SuccessResult();
         }

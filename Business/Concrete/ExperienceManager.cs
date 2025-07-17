@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -24,6 +26,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Experience experience)
         {
+            IResult result = BusinessRules.Run(IsNameExist(experience.ExperienceName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _experienceDal.AddAsync(experience);
             return new SuccessResult();
         }
@@ -59,6 +67,18 @@ namespace Business.Concrete
         public IDataResult<Experience> GetById(string id)
         {
             return new SuccessDataResult<Experience>(_experienceDal.Get(f => f.Id == id));
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _experienceDal.GetAll(c => c.ExperienceName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

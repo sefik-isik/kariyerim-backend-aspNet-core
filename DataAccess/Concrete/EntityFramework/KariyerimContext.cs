@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=kariyerim;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=kariyerim;Trusted_Connection=true;");
         }
         public DbSet<City> Cities { get; set; }
         public DbSet<User> Users { get; set; }
@@ -26,9 +26,11 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<CompanyUserAdvert> CompanyUserAdverts { get; set; }
         public DbSet<CompanyUserAdvertCity> CompanyUserAdvertCities { get; set; }
         public DbSet<CompanyUserAdvertJobDescription> CompanyUserAdvertJobDescriptions { get; set; }
+        public DbSet<PersonelUserAdvertFollow> PersonelUserAdvertFollows { get; set; }
         public DbSet<PersonelUserAdvertApplication> PersonelUserAdvertApplications { get; set; }
         public DbSet<PersonelUserFollowCompanyUser> PersonelUserFollowCompanyUsers { get; set; }
         public DbSet<Sector> Sectors { get; set; }
+        public DbSet<Count> Counts { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
         public DbSet<PersonelUserCvEducation> PersonelUserCvEducations { get; set; }
@@ -42,7 +44,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Region> Regions { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<University> Universities { get; set; }
-        public DbSet<UniversityFaculty> UniversityFaculties { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepartmentDescription> DepartmentDescriptions { get; set; }
         public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
@@ -58,5 +59,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<ModelMenu> ModelMenus { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        public DbSet<PositionLevel> PositionLevels { get; set; }
     }
 }

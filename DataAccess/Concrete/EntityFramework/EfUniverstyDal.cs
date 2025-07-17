@@ -28,6 +28,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from universities in context.Universities
                              join sectors in context.Sectors on universities.SectorId equals sectors.Id
+                             join counts in context.Counts on universities.WorkerCountId equals counts.Id
 
 
                              where universities.DeletedDate == null && sectors.DeletedDate == null
@@ -39,7 +40,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  UniversityName = universities.UniversityName,
                                  SectorName = sectors.SectorName,
                                  YearOfEstablishment = universities.YearOfEstablishment,
-                                 WorkerCount = universities.WorkerCount,
+                                 WorkerCountId = universities.WorkerCountId,
+                                 WorkerCountValue=counts.CountValue,
                                  WebAddress = universities.WebAddress,
                                  WebNewsAddress = universities.WebNewsAddress,
                                  YouTubeEmbedAddress = universities.YouTubeEmbedAddress,
@@ -64,6 +66,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from universities in context.Universities
                              join sectors in context.Sectors on universities.SectorId equals sectors.Id
+                             join counts in context.Counts on universities.WorkerCountId equals counts.Id
 
 
                              where universities.DeletedDate != null && sectors.DeletedDate == null
@@ -75,7 +78,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  UniversityName = universities.UniversityName,
                                  SectorName = sectors.SectorName,
                                  YearOfEstablishment = universities.YearOfEstablishment,
-                                 WorkerCount = universities.WorkerCount,
+                                 WorkerCountId = universities.WorkerCountId,
+                                 WorkerCountValue = counts.CountValue,
                                  WebAddress = universities.WebAddress,
                                  WebNewsAddress = universities.WebNewsAddress,
                                  YouTubeEmbedAddress = universities.YouTubeEmbedAddress,

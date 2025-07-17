@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Core.Utilities.Business;
+using Business.Constans;
 
 namespace Business.Concrete
 {
@@ -25,12 +27,25 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Country country)
         {
+            IResult result = BusinessRules.Run(IsNameExist(country.CountryName));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             _countryDal.AddAsync(country);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Country country)
         {
+            IResult result = BusinessRules.Run(IsNameExist(country.CountryName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _countryDal.UpdateAsync(country);
             return new SuccessResult();
         }
@@ -64,6 +79,18 @@ namespace Business.Concrete
             return new SuccessDataResult<Country>(_countryDal.Get(c=> c.Id == id));
         }
 
-        
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _countryDal.GetAll(c => c.CountryName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
+
+
     }
 }

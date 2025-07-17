@@ -20,7 +20,7 @@ namespace Business.Abstract
 
         //dto
         IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(string id);
-        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(string id);
+        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO);
+        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO);
     }
 }

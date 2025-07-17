@@ -12,7 +12,24 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        decimal fiyat = 31.80m;
+        int tekrar = 600;
+        decimal ortalamaYuzde = 1m;
+        decimal sonuc = Hesapla(fiyat, tekrar, ortalamaYuzde);
 
+        Console.WriteLine("Sonuc : " + sonuc * 4000);
+        Console.ReadLine();
+    }
+
+    public static decimal Hesapla(decimal value, int tekrar, decimal ortalamaYuzde)
+    {
+        for (int i = 0; i <= tekrar; i++)
+        {
+            Console.WriteLine(i + ". value : " + value);
+            decimal yuzde = (value * ortalamaYuzde) / 100;
+            value = value + yuzde;
+        }
+        return value;
     }
 }
 

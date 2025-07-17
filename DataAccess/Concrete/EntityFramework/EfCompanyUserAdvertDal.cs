@@ -31,12 +31,18 @@ namespace DataAccess.Concrete.EntityFramework
                              join workAreas in context.WorkAreas on companyUserAdvert.WorkAreaId equals workAreas.Id
                              join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
                              join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
-                             join departments in context.Departments on companyUserAdvert.DepartmentId equals departments.Id
+                             join companyUserDepartments in context.CompanyUserDepartments on companyUserAdvert.DepartmentId equals companyUserDepartments.Id
+                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
-                             
+                             join positions in context.Positions on companyUserAdvert.PositionId equals positions.Id
+                             join positionLevels in context.PositionLevels on companyUserAdvert.PositionLevelId equals positionLevels.Id
+                             join languages in context.Languages on companyUserAdvert.LanguageId equals languages.Id
+                             join languageLevels in context.LanguageLevels on companyUserAdvert.LanguageLevelId equals languageLevels.Id
+                             join driverLicences in context.DriverLicences on companyUserAdvert.DriverLicenceId equals driverLicences.Id
+
                              where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate == null && users.DeletedDate == null  && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
                              && workingMethods.DeletedDate == null && experiences.DeletedDate == null 
-                             && departments.DeletedDate == null && licenseDegrees.DeletedDate == null
+                             && companyUserDepartments.DeletedDate == null && licenseDegrees.DeletedDate == null
 
                              select new CompanyUserAdvertDTO
                              {
@@ -63,6 +69,17 @@ namespace DataAccess.Concrete.EntityFramework
                                  DepartmentName = departments.DepartmentName,
                                  LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
                                  LicenseDegreeName = licenseDegrees.LicenseDegreeName,
+                                 PositionId = companyUserAdvert.PositionId,
+                                 PositionName = positions.PositionName,
+                                 PositionLevelId = companyUserAdvert.PositionLevelId,
+                                 PositionLevelName = positionLevels.PositionLevelName,
+                                 MilitaryStatus = companyUserAdvert.MilitaryStatus,
+                                 LanguageId = companyUserAdvert.LanguageId,
+                                 LanguageName = languages.LanguageName,
+                                 LanguageLevelId = companyUserAdvert.LanguageLevelId,
+                                 LanguageLevelName = languageLevels.LevelTitle,
+                                 DriverLicenceId = companyUserAdvert.DriverLicenceId,
+                                 DriverLicenceName = driverLicences.DriverLicenceName,
                                  CreatedDate = companyUserAdvert.CreatedDate,
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,
@@ -81,12 +98,18 @@ namespace DataAccess.Concrete.EntityFramework
                              join workAreas in context.WorkAreas on companyUserAdvert.WorkAreaId equals workAreas.Id
                              join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
                              join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
-                             join departments in context.Departments on companyUserAdvert.DepartmentId equals departments.Id
+                             join companyUserDepartments in context.CompanyUserDepartments on companyUserAdvert.DepartmentId equals companyUserDepartments.Id
+                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
+                             join positions in context.Positions on companyUserAdvert.PositionId equals positions.Id
+                             join positionLevels in context.PositionLevels on companyUserAdvert.PositionLevelId equals positionLevels.Id
+                             join languages in context.Languages on companyUserAdvert.LanguageId equals languages.Id
+                             join languageLevels in context.LanguageLevels on companyUserAdvert.LanguageLevelId equals languageLevels.Id
+                             join driverLicences in context.DriverLicences on companyUserAdvert.DriverLicenceId equals driverLicences.Id
 
                              where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate != null && users.DeletedDate == null && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
                              && workingMethods.DeletedDate == null && experiences.DeletedDate == null
-                             && departments.DeletedDate == null && licenseDegrees.DeletedDate == null
+                             && companyUserDepartments.DeletedDate == null && licenseDegrees.DeletedDate == null
 
                              select new CompanyUserAdvertDTO
                              {
@@ -113,6 +136,17 @@ namespace DataAccess.Concrete.EntityFramework
                                  DepartmentName = departments.DepartmentName,
                                  LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
                                  LicenseDegreeName = licenseDegrees.LicenseDegreeName,
+                                 PositionId = companyUserAdvert.PositionId,
+                                 PositionName = positions.PositionName,
+                                 PositionLevelId = companyUserAdvert.PositionLevelId,
+                                 PositionLevelName = positionLevels.PositionLevelName,
+                                 MilitaryStatus = companyUserAdvert.MilitaryStatus,
+                                 LanguageId = companyUserAdvert.LanguageId,
+                                 LanguageName = languages.LanguageName,
+                                 LanguageLevelId = companyUserAdvert.LanguageLevelId,
+                                 LanguageLevelName = languageLevels.LevelTitle,
+                                 DriverLicenceId = companyUserAdvert.DriverLicenceId,
+                                 DriverLicenceName = driverLicences.DriverLicenceName,
                                  CreatedDate = companyUserAdvert.CreatedDate,
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,

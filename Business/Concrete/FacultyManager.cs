@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -23,12 +26,24 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Faculty faculty)
         {
+            IResult result = BusinessRules.Run(IsNameExist(faculty.FacultyName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _facultyDal.AddAsync(faculty);
             return new SuccessResult();
         }
         [SecuredOperation("admin")]
         public IResult Update(Faculty faculty)
         {
+            IResult result = BusinessRules.Run(IsNameExist(faculty.FacultyName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _facultyDal.UpdateAsync(faculty);
             return new SuccessResult();
         }
@@ -59,7 +74,17 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Faculty>(_facultyDal.Get(f => f.Id == id));
         }
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _facultyDal.GetAll(c => c.FacultyName.ToLower() == entityName.ToLower()).Any();
 
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
+        }
 
     }
 }

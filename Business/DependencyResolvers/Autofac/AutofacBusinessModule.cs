@@ -36,7 +36,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<TaxOfficeManager>().As<ITaxOfficeService>().SingleInstance();
             builderItem.RegisterType<UniversityManager>().As<IUniversityService>().SingleInstance();
             builderItem.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
-            builderItem.RegisterType<UniversityFacultyManager>().As<IUniversityFacultyService>().SingleInstance();
             builderItem.RegisterType<UniversityDepartmentManager>().As<IUniversityDepartmentService>().SingleInstance();
             builderItem.RegisterType<UniversityImageManager>().As<IUniversityImageService>().SingleInstance();
             builderItem.RegisterType<DepartmentManager>().As<IDepartmentService>().SingleInstance();
@@ -60,7 +59,10 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<PersonelUserFollowCompanyUserManager>().As<IPersonelUserFollowCompanyUserService>().SingleInstance(); ;
             builderItem.RegisterType<CompanyUserAdvertCityManager>().As<ICompanyUserAdvertCityService>().SingleInstance(); ;
             builderItem.RegisterType<CompanyUserAdvertJobDescriptionManager>().As<ICompanyUserAdvertJobDescriptionService>().SingleInstance(); ;
-            builderItem.RegisterType<CompanyUserAdvertManager>().As<ICompanyUserAdvertService>().SingleInstance(); ;
+            builderItem.RegisterType<CompanyUserAdvertManager>().As<ICompanyUserAdvertService>().SingleInstance();
+            builderItem.RegisterType<CountManager>().As<ICountService>().SingleInstance();
+            builderItem.RegisterType<PositionManager>().As<IPositionService>().SingleInstance();
+            builderItem.RegisterType<PositionLevelManager>().As<IPositionLevelService>().SingleInstance();
 
 
             builderItem.RegisterType<EfCityDal>().As<ICityDal>().SingleInstance();
@@ -81,7 +83,6 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfTaxOfficeDal>().As<ITaxOfficeDal>().SingleInstance();
             builderItem.RegisterType<EfUniverstyDal>().As<IUniversityDal>().SingleInstance();
             builderItem.RegisterType<EfFacultyDal>().As<IFacultyDal>().SingleInstance();
-            builderItem.RegisterType<EfUniversityFacultyDal>().As<IUniversityFacultyDal>().SingleInstance();
             builderItem.RegisterType<EfUniversityDepartmentDal>().As<IUniversityDepartmentDal>().SingleInstance();
             builderItem.RegisterType<EfUniversityImageDal>().As<IUniversityImageDal>().SingleInstance();
             builderItem.RegisterType<EfDepartmentDal>().As<IDepartmentDal>().SingleInstance();
@@ -106,9 +107,11 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfCompanyUserAdvertCityDal>().As<ICompanyUserAdvertCityDal>().SingleInstance(); ;
             builderItem.RegisterType<EfCompanyUserAdvertJobDescriptionDal>().As<ICompanyUserAdvertJobDescriptionDal>().SingleInstance(); ;
             builderItem.RegisterType<EfCompanyUserAdvertDal>().As<ICompanyUserAdvertDal>().SingleInstance(); ;
-            builderItem.RegisterType<EfExperienceDal>().As<IExperienceDal>().SingleInstance(); ;
+            builderItem.RegisterType<EfExperienceDal>().As<IExperienceDal>().SingleInstance();
+            builderItem.RegisterType<EfCountDal>().As<ICountDal>().SingleInstance();
+            builderItem.RegisterType<EfPositionDal>().As<IPositionDal>().SingleInstance();
+            builderItem.RegisterType<EfPositionLevelDal>().As<IPositionLevelDal>().SingleInstance();
 
-            
             builderItem.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

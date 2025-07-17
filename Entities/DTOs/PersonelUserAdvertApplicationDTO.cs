@@ -13,7 +13,7 @@ namespace Entities.DTOs
         public string CompanyUserId { get; set; }
         public string CompanyUserName { get; set; }
         public string PersonelUserId { get; set; }
-        public string IdentityNumber { get; set; }
+        public string PersonelUserMail { get; set; }
 
     }
 }

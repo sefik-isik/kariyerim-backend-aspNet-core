@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface IPersonelUserAdvertFollowDal : IEntityRepository<PersonelUserAdvertFollow>
     {
         List<PersonelUserAdvertFollowDTO> GetAllDTO();
-        List<PersonelUserAdvertFollowDTO> GetAllByCompanyIdDTO(string id);
+        List<PersonelUserAdvertFollowDTO> GetAllByAdvertIdDTO(string id);
         List<PersonelUserAdvertFollowDTO> GetAllByPersonelIdDTO(string id);
     }
 }

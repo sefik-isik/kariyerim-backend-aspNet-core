@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Business.BusinessAspects.Autofac;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Core.Utilities.Business;
+using Business.Constans;
 
 namespace Business.Concrete
 {
@@ -25,6 +27,12 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IResult Add(Region region)
         {
+            IResult result = BusinessRules.Run(IsNameExist(region.RegionName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _regionDal.AddAsync(region);
             return new SuccessResult();
         }
@@ -73,6 +81,18 @@ namespace Business.Concrete
         public IDataResult<List<RegionDTO>> GetDeletedAllDTO()
         {
             return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList());
+        }
+
+        //Business Rules
+        private IResult IsNameExist(string entityName)
+        {
+            var result = _regionDal.GetAll(c => c.RegionName.ToLower() == entityName.ToLower()).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.CityNameAlreadyExist);
+            }
+            return new SuccessResult();
         }
     }
 }

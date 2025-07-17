@@ -9,7 +9,10 @@ namespace Entities.DTOs
 {
     public class PersonelUserFollowCompanyUserDTO : Dto, IDto
     {
-        public string PersonelUserId { get; set; }
         public string CompanyUserId { get; set; }
+        public string CompanyUserName { get; set; }
+        public string PersonelUserId { get; set; }
+        public string PersonelUserMail { get; set; }
+
     }
 }

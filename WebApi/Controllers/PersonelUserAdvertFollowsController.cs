@@ -61,21 +61,21 @@ namespace WebAPI.Controllers
         [HttpPost("getalldto")]
         public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetAll(userAdminDTO);
+            var result = _personelUserAdvertFollowService.GetAllDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getallbycompanyiddto")]
-        public IActionResult GetAllByCompanyIdDTO(string id)
+        [HttpPost("getallbyadvertiddto")]
+        public IActionResult GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetAllByAdvertIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
-        public IActionResult GetAllByPersonelIdDTO(string id)
+        public IActionResult GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetById(id);
+            var result = _personelUserAdvertFollowService.GetAllByPersonelIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

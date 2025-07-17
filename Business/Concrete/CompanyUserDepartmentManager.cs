@@ -73,11 +73,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.UserId == userAdminDTO.UserId).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll().OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll().ToList());
             }
         }
 
@@ -88,11 +88,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).ToList());
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll().OrderBy(s => s.DepartmentName).ToList());
+                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll().ToList());
             }
         }
 

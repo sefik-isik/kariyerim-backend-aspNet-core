@@ -10,5 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface IUniversityImageDal : IEntityRepository<UniversityImage>
     {
+        Task UpdateMainImage(string id);
+        Task UpdateLogoImage(string id);
     }
 }

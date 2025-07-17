@@ -20,8 +20,6 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                
-
                 List<CompanyUserAdvert> adverts = GetAllAdvertCityUserId(id);
                 if (adverts != null && adverts.Count > 0)
                 {
@@ -67,6 +65,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join sectors in context.Sectors on companyUsers.SectorId equals sectors.Id
                              join cities in context.Cities on companyUsers.TaxCityId equals cities.Id
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
+                             join counts in context.Counts on companyUsers.WorkerCountId equals counts.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
                                     companyUsers.DeletedDate == null &&
@@ -84,7 +83,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  About = companyUsers.About,
                                  Clarification = companyUsers.Clarification,
-                                 WorkerCount = companyUsers.WorkerCount,
+                                 WorkerCountId = companyUsers.WorkerCountId,
+                                 WorkerCountValue = counts.CountValue,
                                  YearOfEstablishment = companyUsers.YearOfEstablishment,
                                  WebAddress = companyUsers.WebAddress,
                                  SectorId = sectors.Id,
@@ -112,6 +112,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join sectors in context.Sectors on companyUsers.SectorId equals sectors.Id
                              join cities in context.Cities on companyUsers.TaxCityId equals cities.Id
                              join taxOffices in context.TaxOffices on companyUsers.TaxOfficeId equals taxOffices.Id
+                             join counts in context.Counts on companyUsers.WorkerCountId equals counts.Id
 
                              where users.Code == UserCodes.CompanyUserCode &&
                                     companyUsers.DeletedDate != null && users.DeletedDate == null
@@ -128,7 +129,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  About = companyUsers.About,
                                  Clarification = companyUsers.Clarification,
-                                 WorkerCount = companyUsers.WorkerCount,
+                                 WorkerCountId = companyUsers.WorkerCountId,
+                                 WorkerCountValue = counts.CountValue,
                                  YearOfEstablishment = companyUsers.YearOfEstablishment,
                                  WebAddress = companyUsers.WebAddress,
                                  SectorId = sectors.Id,
