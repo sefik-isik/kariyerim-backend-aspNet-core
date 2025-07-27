@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on personelUserCvWorkExperiences.CompanySectorId equals sectors.Id
-                             join departments in context.Departments on personelUserCvWorkExperiences.DepartmentId equals departments.Id
+                             join companyUserDepartments in context.CompanyUserDepartments on personelUserCvWorkExperiences.DepartmentId equals companyUserDepartments.Id
                              join workingMethods in context.WorkingMethods on personelUserCvWorkExperiences.WorkingMethodId equals workingMethods.Id
                              join countries in context.Countries on personelUserCvWorkExperiences.CountryId equals countries.Id
                              join cities in context.Cities on personelUserCvWorkExperiences.CityId equals cities.Id
@@ -56,7 +56,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanySectorId = sectors.Id,
                                  CompanySectorName = sectors.SectorName,
                                  DepartmentId = personelUserCvWorkExperiences.DepartmentId,
-                                 DepartmentName = departments.DepartmentName,
+                                 DepartmentName = companyUserDepartments.DepartmentName,
                                  WorkingMethodId = workingMethods.Id,
                                  WorkingMethodName = workingMethods.MethodName,
                                  CountryId = countries.Id,
@@ -85,7 +85,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCv.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join sectors in context.Sectors on personelUserCvWorkExperiences.CompanySectorId equals sectors.Id
-                             join departments in context.Departments on personelUserCvWorkExperiences.DepartmentId equals departments.Id
+                             join companyUserDepartments in context.CompanyUserDepartments on personelUserCvWorkExperiences.DepartmentId equals companyUserDepartments.Id
                              join workingMethods in context.WorkingMethods on personelUserCvWorkExperiences.WorkingMethodId equals workingMethods.Id
                              join countries in context.Countries on personelUserCvWorkExperiences.CountryId equals countries.Id
                              join cities in context.Cities on personelUserCvWorkExperiences.CityId equals cities.Id
@@ -119,7 +119,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanySectorId = sectors.Id,
                                  CompanySectorName = sectors.SectorName,
                                  DepartmentId = personelUserCvWorkExperiences.DepartmentId,
-                                 DepartmentName = departments.DepartmentName,
+                                 DepartmentName = companyUserDepartments.DepartmentName,
                                  WorkingMethodId = workingMethods.Id,
                                  WorkingMethodName = workingMethods.MethodName,
                                  CountryId = countries.Id,

@@ -32,35 +32,35 @@ namespace Business.Concrete
                 return result;
             }
             _positionLevelDal.AddAsync(positionLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(PositionLevel positionLevel)
         {
             _positionLevelDal.UpdateAsync(positionLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(PositionLevel positionLevel)
         {
             _positionLevelDal.Delete(positionLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(PositionLevel positionLevel)
         {
             _positionLevelDal.Terminate(positionLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<PositionLevel>> GetAll()
         {
-            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetAll().OrderBy(s => s.PositionLevelName).ToList());
+            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetAll().OrderBy(s => s.PositionLevelName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<PositionLevel>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetDeletedAll().OrderBy(s => s.PositionLevelName).ToList());
+            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetDeletedAll().OrderBy(s => s.PositionLevelName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<PositionLevel> GetById(string id)
@@ -74,7 +74,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

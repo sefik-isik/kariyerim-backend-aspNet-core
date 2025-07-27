@@ -36,7 +36,7 @@ namespace Business.Concrete
             }
             _userOperationClaimDal.AddAsync(userOperationClaim);
 
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin")]
@@ -50,7 +50,7 @@ namespace Business.Concrete
 
             MakeUserAdmin(userOperationClaim);
 
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin")]
@@ -62,7 +62,7 @@ namespace Business.Concrete
             }
             _userOperationClaimDal.Delete(userOperationClaim);
 
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
 
@@ -73,11 +73,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll().OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -89,11 +89,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll().OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
         }
         [SecuredOperation("admin,user")]
@@ -119,11 +119,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -135,11 +135,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
         }
 

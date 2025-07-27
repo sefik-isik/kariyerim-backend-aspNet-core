@@ -35,7 +35,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserCvSummaryDal.AddAsync(personelUserCvSummary);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
         public IResult Update(PersonelUserCvSummary personelUserCvSummary)
@@ -45,7 +45,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserCvSummaryDal.UpdateAsync(personelUserCvSummary);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(PersonelUserCvSummary personelUserCvSummary)
@@ -55,14 +55,14 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserCvSummaryDal.Delete(personelUserCvSummary);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
         public IResult Terminate(PersonelUserCvSummary personelUserCvSummary)
         {
             _personelUserCvSummaryDal.Terminate(personelUserCvSummary);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -118,11 +118,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -134,11 +134,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(_personelUserCvSummaryDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }

@@ -38,7 +38,7 @@ namespace Business.Concrete
             }
 
             _cityDal.AddAsync(city);
-            return new SuccessResult(Messages.SuccessCityAdded);
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin")]
@@ -54,7 +54,7 @@ namespace Business.Concrete
             }
 
             _cityDal.UpdateAsync(city);
-            return new SuccessResult(Messages.SuccessCityUpdated);
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin")]
@@ -62,7 +62,7 @@ namespace Business.Concrete
         public IResult Delete(City city)
         {
             _cityDal.Delete(city);
-            return new SuccessResult(Messages.SuccessCityDeleted);
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
@@ -70,42 +70,42 @@ namespace Business.Concrete
         {
             _cityDal.TerminateSubDatas(city.Id);
             _cityDal.Terminate(city);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<City>> GetAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetAll().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
+            return new SuccessDataResult<List<City>>(_cityDal.GetAll().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<List<City>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
+            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public IDataResult<City> GetById(string id)
         {
-            return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == id), Messages.CityListed);
+            return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == id), Messages.SuccessListed);
         }
 
 
         //DTO
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<CityDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<CityDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.CitiesListed);
+            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
 
 
@@ -116,7 +116,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

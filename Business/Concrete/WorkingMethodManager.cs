@@ -33,35 +33,35 @@ namespace Business.Concrete
                 return result;
             }
             _workingMethodDal.AddAsync(workingMethod);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(WorkingMethod workingMethod)
         {
             _workingMethodDal.UpdateAsync(workingMethod);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(WorkingMethod workingMethod)
         {
             _workingMethodDal.Delete(workingMethod);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(WorkingMethod workingMethod)
         {
             _workingMethodDal.Terminate(workingMethod);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkingMethod>> GetAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetAll().OrderBy(s => s.MethodName).ToList());
+            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetAll().OrderBy(s => s.MethodName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkingMethod>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll().OrderBy(s => s.MethodName).ToList());
+            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll().OrderBy(s => s.MethodName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<WorkingMethod> GetById(string id)
@@ -76,7 +76,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

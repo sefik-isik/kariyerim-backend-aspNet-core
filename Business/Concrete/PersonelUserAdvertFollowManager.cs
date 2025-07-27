@@ -37,14 +37,14 @@ namespace Business.Concrete
                 return result;
             }
             _personelUserAdvertFollowDal.AddAsync(personelUserAdvertFollow);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
         public IResult Terminate(PersonelUserAdvertFollow personelUserAdvertFollow)
         {
             _personelUserAdvertFollowDal.Terminate(personelUserAdvertFollow);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -58,7 +58,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -72,13 +72,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertFollow>> GetAllByCompanyId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertFollow>> GetAllByPersonelId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollow>>(_personelUserAdvertFollowDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
         }
 
 
@@ -88,7 +88,7 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
 
 
         }
@@ -96,13 +96,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByAdvertIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(_personelUserAdvertFollowDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
         }
 
         //Business Rules
@@ -112,7 +112,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

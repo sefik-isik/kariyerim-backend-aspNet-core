@@ -32,8 +32,8 @@ namespace Entities.DTOs
         public string LanguageName { get; set; }
         public string LanguageLevelId { get; set; }
         public string LanguageLevelName { get; set; }
-
         public string DriverLicenceId { get; set; }
         public string DriverLicenceName { get; set; }
+
     }
 }

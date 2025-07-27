@@ -13,6 +13,8 @@ using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Core.Utilities.Business;
 using Business.Constans;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -24,7 +26,9 @@ namespace Business.Concrete
         {
             _languageDal = languageDal;
         }
+
         [SecuredOperation("admin")]
+        [ValidationAspect(typeof(LanguageValidator))]
         public IResult Add(Language language)
         {
             IResult result = BusinessRules.Run(IsNameExist(language.LanguageName));
@@ -34,35 +38,35 @@ namespace Business.Concrete
                 return result;
             }
             _languageDal.AddAsync(language);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(Language language)
         {
             _languageDal.UpdateAsync(language);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(Language language)
         {  
             _languageDal.Delete(language);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(Language language)
         {
             _languageDal.Terminate(language);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Language>> GetAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetAll().OrderBy(s => s.LanguageName).ToList());
+            return new SuccessDataResult<List<Language>>(_languageDal.GetAll().OrderBy(s => s.LanguageName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Language>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll().OrderBy(s => s.LanguageName).ToList());
+            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll().OrderBy(s => s.LanguageName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<Language> GetById(string id)
@@ -76,7 +80,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -32,7 +32,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
                              join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
                              join companyUserDepartments in context.CompanyUserDepartments on companyUserAdvert.DepartmentId equals companyUserDepartments.Id
-                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
                              join positions in context.Positions on companyUserAdvert.PositionId equals positions.Id
                              join positionLevels in context.PositionLevels on companyUserAdvert.PositionLevelId equals positionLevels.Id
@@ -66,7 +65,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ExperienceId = companyUserAdvert.ExperienceId,
                                  ExperienceName = experiences.ExperienceName,
                                  DepartmentId = companyUserAdvert.DepartmentId,
-                                 DepartmentName = departments.DepartmentName,
+                                 DepartmentName = companyUserDepartments.DepartmentName,
                                  LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
                                  LicenseDegreeName = licenseDegrees.LicenseDegreeName,
                                  PositionId = companyUserAdvert.PositionId,
@@ -99,7 +98,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join workingMethods in context.WorkingMethods on companyUserAdvert.WorkingMethodId equals workingMethods.Id
                              join experiences in context.Experiences on companyUserAdvert.ExperienceId equals experiences.Id
                              join companyUserDepartments in context.CompanyUserDepartments on companyUserAdvert.DepartmentId equals companyUserDepartments.Id
-                             join departments in context.Departments on companyUserDepartments.DepartmentId equals departments.Id
                              join licenseDegrees in context.LicenseDegrees on companyUserAdvert.LicenseDegreeId equals licenseDegrees.Id
                              join positions in context.Positions on companyUserAdvert.PositionId equals positions.Id
                              join positionLevels in context.PositionLevels on companyUserAdvert.PositionLevelId equals positionLevels.Id
@@ -133,7 +131,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ExperienceId = companyUserAdvert.ExperienceId,
                                  ExperienceName = experiences.ExperienceName,
                                  DepartmentId = companyUserAdvert.DepartmentId,
-                                 DepartmentName = departments.DepartmentName,
+                                 DepartmentName = companyUserDepartments.DepartmentName,
                                  LicenseDegreeId = companyUserAdvert.LicenseDegreeId,
                                  LicenseDegreeName = licenseDegrees.LicenseDegreeName,
                                  PositionId = companyUserAdvert.PositionId,

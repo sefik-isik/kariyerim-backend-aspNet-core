@@ -33,35 +33,35 @@ namespace Business.Concrete
                 return result;
             }
             _languageLevelDal.AddAsync(languageLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(LanguageLevel languageLevel)
         {
             _languageLevelDal.UpdateAsync(languageLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(LanguageLevel languageLevel)
         {
             _languageLevelDal.Delete(languageLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(LanguageLevel languageLevel)
         {
             _languageLevelDal.Terminate(languageLevel);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<LanguageLevel>> GetAll()
         {
-            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetAll().OrderBy(s => s.LevelTitle).ToList());
+            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetAll().OrderBy(s => s.LevelTitle).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<LanguageLevel>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll().OrderBy(s => s.LevelTitle).ToList());
+            return new SuccessDataResult<List<LanguageLevel>>(_languageLevelDal.GetDeletedAll().OrderBy(s => s.LevelTitle).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<LanguageLevel> GetById(string id)
@@ -76,7 +76,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
@@ -87,7 +87,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

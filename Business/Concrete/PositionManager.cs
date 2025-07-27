@@ -34,37 +34,37 @@ namespace Business.Concrete
                 return result;
             }
             _positionDal.AddAsync(position);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(Position position)
         {
             _positionDal.UpdateAsync(position);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(Position position)
         {
             _positionDal.Delete(position);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(Position position)
         {
             _positionDal.Terminate(position);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<Position>> GetAll()
         {
-            return new SuccessDataResult<List<Position>>(_positionDal.GetAll().OrderBy(s => s.PositionName).ToList());
+            return new SuccessDataResult<List<Position>>(_positionDal.GetAll().OrderBy(s => s.PositionName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Position>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Position>>(_positionDal.GetDeletedAll().OrderBy(s => s.PositionName).ToList());
+            return new SuccessDataResult<List<Position>>(_positionDal.GetDeletedAll().OrderBy(s => s.PositionName).ToList(), Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<Position> GetById(string id)
         {
             return new SuccessDataResult<Position>(_positionDal.Get(l => l.Id == id));
@@ -76,7 +76,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

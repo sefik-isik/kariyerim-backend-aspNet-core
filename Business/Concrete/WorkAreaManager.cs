@@ -33,36 +33,36 @@ namespace Business.Concrete
                 return result;
             }
             _workAreaDal.AddAsync(workArea);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(WorkArea workArea)
         {
             _workAreaDal.UpdateAsync(workArea);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(WorkArea workArea)
         {
             _workAreaDal.Delete(workArea);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(WorkArea workArea)
         {
             _workAreaDal.Terminate(workArea);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkArea>> GetAll()
         {
-            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetAll().OrderBy(s => s.AreaName).ToList());
+            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetAll().OrderBy(s => s.AreaName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<WorkArea>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetDeletedAll().OrderBy(s => s.AreaName).ToList());
+            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetDeletedAll().OrderBy(s => s.AreaName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<WorkArea> GetById(string id)
@@ -77,7 +77,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

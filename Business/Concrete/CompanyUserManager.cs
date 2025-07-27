@@ -52,7 +52,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserDal.AddAsync(companyUser);
-            return new SuccessResult(Messages.SuccessCompanyAdded);
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
@@ -65,7 +65,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserDal.UpdateAsync(companyUser);
-            return new SuccessResult(Messages.SuccessCompanyUpdated);
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
@@ -77,7 +77,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserDal.Delete(companyUser);
-            return new SuccessResult(Messages.SuccessCompanyDeleted);
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
@@ -85,7 +85,7 @@ namespace Business.Concrete
         {
             _companyUserDal.TerminateSubDatas(companyUser.Id);
             _companyUserDal.Terminate(companyUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -96,11 +96,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -112,11 +112,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUser>>(_companyUserDal.GetDeletedAll().OrderBy(s => s.CompanyUserName).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -127,11 +127,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.CompanyListed);
+                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.CompanyListed);
+                return new SuccessDataResult<CompanyUser>(_companyUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.SuccessListed);
             }
         }
 
@@ -152,11 +152,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetAllDTO().OrderBy(s => s.Email).ToList()), Messages.SuccessListed);
             }
             
         }
@@ -170,11 +170,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id).OrderBy(s => s.Email).ToList()), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList()), Messages.CompaniesListed);
+                return new SuccessDataResult<List<CompanyUserDTO>>((_companyUserDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList()), Messages.SuccessListed);
             }
 
 
@@ -188,7 +188,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CompanyNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
@@ -199,7 +199,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.TaxNumberAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
@@ -210,7 +210,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.TaxNumberAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -1,6 +1,5 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
-using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +17,5 @@ namespace Business.Abstract
         IDataResult<List<UniversityDepartment>> GetAll();
         IDataResult<List<UniversityDepartment>> GetDeletedAll();
         IDataResult<UniversityDepartment> GetById(string id);
-
-        //DTO
-        IDataResult<List<UniversityDepartmentDTO>> GetAllDTO();
-        IDataResult<List<UniversityDepartmentDTO>> GetDeletedAllDTO();
     }
 }

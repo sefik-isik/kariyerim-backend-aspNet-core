@@ -33,7 +33,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserAdvertJobDescriptionDal.AddAsync(companyUserAdvertJobDescription);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserAdvertJobDescription companyUserAdvertJobDescription)
@@ -43,7 +43,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserAdvertJobDescriptionDal.UpdateAsync(companyUserAdvertJobDescription);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserAdvertJobDescription companyUserAdvertJobDescription)
@@ -53,14 +53,14 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserAdvertJobDescriptionDal.Delete(companyUserAdvertJobDescription);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
         public IResult Terminate(CompanyUserAdvertJobDescription companyUserAdvertJobDescription)
         {
             _companyUserAdvertJobDescriptionDal.Terminate(companyUserAdvertJobDescription);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -70,11 +70,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetAll().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -85,11 +85,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetDeletedAll().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescription>>(_companyUserAdvertJobDescriptionDal.GetDeletedAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -116,11 +116,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -131,11 +131,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(_companyUserAdvertJobDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
 
         }

@@ -39,7 +39,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserImageDal.AddAsync(personelUserImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
@@ -56,7 +56,7 @@ namespace Business.Concrete
             }
 
             _personelUserImageDal.UpdateAsync(personelUserImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
@@ -67,7 +67,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserImageDal.Delete(personelUserImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
@@ -75,7 +75,7 @@ namespace Business.Concrete
         {
             DeleteImage(personelUserImage);
             _personelUserImageDal.Terminate(personelUserImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -132,11 +132,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -148,11 +148,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }

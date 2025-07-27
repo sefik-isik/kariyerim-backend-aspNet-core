@@ -38,14 +38,14 @@ namespace Business.Concrete
                 return result;
             }
             _personelUserFollowCompanyUserDal.AddAsync(personelUserFollowCompanyUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
         public IResult Terminate(PersonelUserFollowCompanyUser personelUserFollowCompanyUser)
         {
             _personelUserFollowCompanyUserDal.Terminate(personelUserFollowCompanyUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -59,7 +59,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll().OrderBy(s => s.Id).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll().OrderBy(s => s.Id).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -74,13 +74,13 @@ namespace Business.Concrete
         public IDataResult<List<PersonelUserFollowCompanyUser>> GetAllByCompanyId(string id)
         {
 
-            return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.CompanyUserId).ToList());
+            return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.CompanyUserId).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserFollowCompanyUser>> GetAllByPersonelId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.PersonelUserId).ToList());
+            return new SuccessDataResult<List<PersonelUserFollowCompanyUser>>(_personelUserFollowCompanyUserDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.PersonelUserId).ToList(), Messages.SuccessListed);
         }
 
 
@@ -100,7 +100,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.Id).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.Id).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -111,11 +111,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByCompanyIdDTO(userAdminDTO.Id).OrderBy(s => s.CompanyUserId).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByCompanyIdDTO(userAdminDTO.Id).OrderBy(s => s.CompanyUserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList(), Messages.SuccessListed);
             }
 
             
@@ -128,11 +128,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByPersonelIdDTO(userAdminDTO.Id).OrderBy(s => s.PersonelUserId).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllByPersonelIdDTO(userAdminDTO.Id).OrderBy(s => s.PersonelUserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList());
+                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(_personelUserFollowCompanyUserDal.GetAllDTO().OrderBy(s => s.CompanyUserId).ToList(), Messages.SuccessListed);
             }
 
             
@@ -145,7 +145,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

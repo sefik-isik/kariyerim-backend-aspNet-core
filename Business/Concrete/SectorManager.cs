@@ -19,13 +19,11 @@ namespace Business.Concrete
     public class SectorManager : ISectorService
     {
         ISectorDal _sectorDal;
-        IUserService _userService;
 
-        public SectorManager(ISectorDal sectorDal, IUserService userService)
+
+        public SectorManager(ISectorDal sectorDal)
         {
             _sectorDal = sectorDal;
-            _userService = userService;
-
         }
         [SecuredOperation("admin")]
         public IResult Add(Sector sector)
@@ -37,37 +35,37 @@ namespace Business.Concrete
                 return result;
             }
             _sectorDal.AddAsync(sector);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(Sector sector)
         {
             _sectorDal.UpdateAsync(sector);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(Sector sector)
         {
             _sectorDal.Delete(sector);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
         public IResult Terminate(Sector sector)
         {
             _sectorDal.Terminate(sector);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetAll()
         {
-            return new SuccessDataResult<List<Sector>>(_sectorDal.GetAll().OrderBy(s => s.SectorName).ToList());
+            return new SuccessDataResult<List<Sector>>(_sectorDal.GetAll().OrderBy(s => s.SectorName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Sector>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Sector>>(_sectorDal.GetDeletedAll().OrderBy(s => s.SectorName).ToList());
+            return new SuccessDataResult<List<Sector>>(_sectorDal.GetDeletedAll().OrderBy(s => s.SectorName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<Sector> GetById(string id)
@@ -82,7 +80,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -35,25 +35,25 @@ namespace Business.Concrete
                 return result;
             }
             _operationClaimDal.AddAsync(operationClaim);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(OperationClaim operationClaim)
         {
             _operationClaimDal.UpdateAsync(operationClaim);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(OperationClaim operationClaim)
         {
             _operationClaimDal.Delete(operationClaim);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(OperationClaim operationClaim)
         {
             _operationClaimDal.Terminate(operationClaim);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<OperationClaim>> GetAll()
@@ -77,7 +77,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -45,7 +45,7 @@ namespace Business.Concrete
                 return result;
             }
             _companyUserAdvertDal.AddAsync(companyUserAdvert);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserAdvert companyUserAdvert)
@@ -55,7 +55,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserAdvertDal.UpdateAsync(companyUserAdvert);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserAdvert companyUserAdvert)
@@ -65,7 +65,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _companyUserAdvertDal.Delete(companyUserAdvert);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin,user")]
@@ -74,7 +74,7 @@ namespace Business.Concrete
             DeleteImage(companyUserAdvert);
             _companyUserAdvertDal.TerminateSubDatas(companyUserAdvert.Id);
             _companyUserAdvertDal.Terminate(companyUserAdvert);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -84,11 +84,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll().OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -99,11 +99,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll().OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -124,21 +124,23 @@ namespace Business.Concrete
         }
 
         //DTO
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public IDataResult<List<CompanyUserAdvertDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            //var userIsAdmin = _userService.IsAdmin(userAdminDTO);
 
-            var user = _userService.GetById(userAdminDTO.UserId);
+            //var user = _userService.GetById(userAdminDTO.UserId);
 
-            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
-            {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList());
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList());
-            }
+            //if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
+            //{
+            //    return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+            //}
+            //else
+            //{
+            //    return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+            //}
+
+            return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
 
         }
         [SecuredOperation("admin,user")]
@@ -150,11 +152,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().OrderBy(s => s.AdvertName).ToList());
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -196,7 +198,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -44,7 +44,7 @@ namespace Business.Concrete
                 return result;
             }
             _personelUserCoverLetterDal.AddAsync(personelUserCoverLetter);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
@@ -55,7 +55,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserCoverLetterDal.UpdateAsync(personelUserCoverLetter);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
@@ -66,14 +66,14 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserCoverLetterDal.Delete(personelUserCoverLetter);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
         public IResult Terminate(PersonelUserCoverLetter personelUserCoverLetter)
         {
             _personelUserCoverLetterDal.Terminate(personelUserCoverLetter);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -131,11 +131,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -147,11 +147,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(_personelUserCoverLetterDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -162,7 +162,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -46,7 +46,7 @@ namespace Business.Concrete
                 return result;
             }
             _personelUserDal.AddAsync(personelUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
@@ -57,7 +57,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.PermissionError);
             }
             _personelUserDal.UpdateAsync(personelUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
@@ -77,7 +77,7 @@ namespace Business.Concrete
         {
             _personelUserDal.TerminateSubDatas(personelUser.Id);
             _personelUserDal.Terminate(personelUser);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -87,11 +87,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll().OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -102,11 +102,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll().OrderBy(s => s.UserId).ToList());
+                return new SuccessDataResult<List<PersonelUser>>(_personelUserDal.GetDeletedAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -118,11 +118,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.CompanyListed);
+                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.CompanyListed);
+                return new SuccessDataResult<PersonelUser>(_personelUserDal.Get(c => c.Id == userAdminDTO.Id), Messages.SuccessListed);
             }
         }
 
@@ -141,11 +141,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -157,11 +157,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.CompaniesListed);
+                return new SuccessDataResult<List<PersonelUserDTO>>(_personelUserDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
@@ -173,18 +173,18 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.PersonelUserAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
 
         private IResult IsNameExist(string entityName)
         {
-            var result = _personelUserDal.GetAll(c => c.IdentityNumber == entityName).Any();
+            var result = _personelUserDal.GetAll(c => c.IdentityNumber == entityName && c.IdentityNumber != "-").Any();
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

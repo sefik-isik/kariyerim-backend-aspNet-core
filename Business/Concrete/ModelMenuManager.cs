@@ -34,35 +34,35 @@ namespace Business.Concrete
                 return result;
             }
             _modelMenuDal.AddAsync(modelMenu);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(ModelMenu modelMenu)
         {
             _modelMenuDal.UpdateAsync(modelMenu);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(ModelMenu modelMenu)
         {
             _modelMenuDal.Delete(modelMenu);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(ModelMenu modelMenu)
         {
             _modelMenuDal.Terminate(modelMenu);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<ModelMenu>> GetAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll().OrderBy(s => s.ModelName).ToList());
+            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll().OrderBy(s => s.ModelName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<ModelMenu>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll().OrderBy(s => s.ModelName).ToList());
+            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll().OrderBy(s => s.ModelName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<ModelMenu> GetById(string id)
@@ -77,7 +77,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

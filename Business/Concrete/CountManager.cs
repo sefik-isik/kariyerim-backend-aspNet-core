@@ -34,35 +34,35 @@ namespace Business.Concrete
                 return result;
             }
             _countDal.AddAsync(count);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(Count count)
         {
             _countDal.UpdateAsync(count);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(Count count)
         {
             _countDal.Delete(count);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(Count count)
         {
             _countDal.Terminate(count);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Count>> GetAll()
         {
-            return new SuccessDataResult<List<Count>>(_countDal.GetAll().OrderBy(s => s.CountValue).ToList());
+            return new SuccessDataResult<List<Count>>(_countDal.GetAll().OrderBy(s => s.CountValue).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<Count>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Count>>(_countDal.GetDeletedAll().OrderBy(s => s.CountValue).ToList());
+            return new SuccessDataResult<List<Count>>(_countDal.GetDeletedAll().OrderBy(s => s.CountValue).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<Count> GetById(string id)
@@ -77,7 +77,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

@@ -34,25 +34,25 @@ namespace Business.Concrete
                 return result;
             }
             _taxOfficeDal.AddAsync(taxOffice);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(TaxOffice taxOffice)
         {
             _taxOfficeDal.UpdateAsync(taxOffice);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(TaxOffice taxOffice)
         {
             _taxOfficeDal.Delete(taxOffice);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(TaxOffice taxOffice)
         {
             _taxOfficeDal.Terminate(taxOffice);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<TaxOffice>> GetAll()
@@ -72,11 +72,11 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<TaxOfficeDTO>> GetAllDTO()
         {
-            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO().OrderBy(s => s.CityName).ToList());
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
         public IDataResult<List<TaxOfficeDTO>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList());
+            return new SuccessDataResult<List<TaxOfficeDTO>>(_taxOfficeDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
         }
 
         //Business Rules
@@ -86,7 +86,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
@@ -97,7 +97,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

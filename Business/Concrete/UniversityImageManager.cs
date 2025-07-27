@@ -29,7 +29,7 @@ namespace Business.Concrete
         public IResult Add(UniversityImage universityImage)
         {
             _universityImageDal.AddAsync(universityImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(UniversityImage universityImage)
@@ -45,20 +45,20 @@ namespace Business.Concrete
             }
 
             _universityImageDal.UpdateAsync(universityImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(UniversityImage universityImage)
         {
             _universityImageDal.Delete(universityImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(UniversityImage universityImage)
         {
             DeleteImage(universityImage);
             _universityImageDal.Terminate(universityImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<UniversityImage>> GetAll()

@@ -45,40 +45,25 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
-            var result = _companyUserDepartmentService.GetAll(userAdminDTO);
+            var result = _companyUserDepartmentService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        [HttpGet("getdeletedall")]
+        public IActionResult GetDeletedAll()
         {
-            var result = _companyUserDepartmentService.GetDeletedAll(userAdminDTO);
+            var result = _companyUserDepartmentService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        [HttpGet("getbyid")]
+        public IActionResult GetById(string id)
         {
-            var result = _companyUserDepartmentService.GetById(userAdminDTO);
+            var result = _companyUserDepartmentService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
-
-        [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var result = _companyUserDepartmentService.GetAllDTO(userAdminDTO);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var result = _companyUserDepartmentService.GetDeletedAllDTO(userAdminDTO);
-            return result.IsSuccess ? Ok(result) : BadRequest(result);
-        }
-
     }
 }

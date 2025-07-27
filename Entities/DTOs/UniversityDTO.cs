@@ -23,7 +23,5 @@ namespace Entities.DTOs
         public string InstagramAddress { get; set; }
         public string XAddress { get; set; }
         public string YouTubeAddress { get; set; }
-        public string Description { get; set; }
-        public string SubDescription { get; set; }
     }
 }

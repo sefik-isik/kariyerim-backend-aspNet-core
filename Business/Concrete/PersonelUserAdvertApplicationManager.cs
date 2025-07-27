@@ -36,14 +36,14 @@ namespace Business.Concrete
                 return result;
             }
             _personelUseradvertApplicationDal.AddAsync(personelUseradvertApplicationDTO);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
         public IResult Terminate(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
         {
             _personelUseradvertApplicationDal.Terminate(personelUseradvertApplicationDTO);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
@@ -57,7 +57,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll().OrderBy(s => s.AdvertId).ToList());
+                return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
             }
         }
 
@@ -71,13 +71,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplication>> GetAllByCompanyId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplication>> GetAllByPersonelId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
         }
 
 
@@ -87,19 +87,19 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList());
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
         }
 
         //Business Rules
@@ -109,7 +109,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

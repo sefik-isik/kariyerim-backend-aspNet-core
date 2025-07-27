@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class UniversityDepartmentValidator : AbstractValidator<UniversityDepartment>
+    public class UniversityDepartmentValidator : AbstractValidator<UniversityDescription>
     {
         public UniversityDepartmentValidator()
         {

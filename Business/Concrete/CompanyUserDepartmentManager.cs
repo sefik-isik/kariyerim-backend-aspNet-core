@@ -20,128 +20,54 @@ namespace Business.Concrete
     public class CompanyUserDepartmentManager : ICompanyUserDepartmentService
     {
         ICompanyUserDepartmentDal _companyUserDepartmentDal;
-        IUserService _userService;
 
-        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal, IUserService userService)
+        public CompanyUserDepartmentManager(ICompanyUserDepartmentDal companyUserDepartmentDal)
         {
             _companyUserDepartmentDal = companyUserDepartmentDal;
-            _userService = userService;
 
         }
         [SecuredOperation("admin,user")]
         public IResult Add(CompanyUserDepartment companyUserDepartment)
         {
-            if (_userService.GetById(companyUserDepartment.UserId) == null)
-            {
-                return new ErrorResult(Messages.PermissionError);
-            }
             _companyUserDepartmentDal.AddAsync(companyUserDepartment);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
         public IResult Update(CompanyUserDepartment companyUserDepartment)
         {
-            if (_userService.GetById(companyUserDepartment.UserId) == null)
-            {
-                return new ErrorResult(Messages.PermissionError);
-            }
             _companyUserDepartmentDal.UpdateAsync(companyUserDepartment);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
         public IResult Delete(CompanyUserDepartment companyUserDepartment)
         {
-            if (_userService.GetById(companyUserDepartment.UserId) == null)
-            {
-                return new ErrorResult(Messages.PermissionError);
-            }
             _companyUserDepartmentDal.Delete(companyUserDepartment);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
         public IResult Terminate(CompanyUserDepartment companyUserDepartment)
         {
             _companyUserDepartmentDal.Terminate(companyUserDepartment);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
+        }
+
+        //[SecuredOperation("admin,user")]
+        public IDataResult<List<CompanyUserDepartment>> GetAll()
+        {
+            return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll().ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartment>> GetAll(UserAdminDTO userAdminDTO)
+        public IDataResult<List<CompanyUserDepartment>> GetDeletedAll()
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll(c => c.UserId == userAdminDTO.UserId).ToList());
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetAll().ToList());
-            }
+            return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll().ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartment>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public IDataResult<CompanyUserDepartment> GetById(string id)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).ToList());
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserDepartment>>(_companyUserDepartmentDal.GetDeletedAll().ToList());
-            }
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserDepartment> GetById(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
-            }
-            else
-            {
-                return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c => c.Id == userAdminDTO.Id));
-            }
-        }
-
-        //DTO
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartmentDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetAllDTO().OrderBy(s => s.Email).ToList());
-            }
-            
-        }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserDepartmentDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
-        {
-
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList());
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserDepartmentDTO>>(_companyUserDepartmentDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList());
-            }
-
+            return new SuccessDataResult<CompanyUserDepartment>(_companyUserDepartmentDal.Get(c => c.Id == id));
         }
     }
 }

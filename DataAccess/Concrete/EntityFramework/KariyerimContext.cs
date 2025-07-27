@@ -30,6 +30,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<PersonelUserAdvertApplication> PersonelUserAdvertApplications { get; set; }
         public DbSet<PersonelUserFollowCompanyUser> PersonelUserFollowCompanyUsers { get; set; }
         public DbSet<Sector> Sectors { get; set; }
+        public DbSet<SectorDescription> SectorDescriptions { get; set; }
         public DbSet<Count> Counts { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<PersonelUserCv> PersonelUserCvs { get; set; }
@@ -37,16 +38,15 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<PersonelUserCvSummary> PersonelUserCvSummaries { get; set; }
         public DbSet<PersonelUserCvWorkExperience> PersonelUserCvWorkExperiences { get; set; }
         public DbSet<DriverLicence> DriverLicences { get; set; }
-        public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
         public DbSet<LicenseDegree> LicenseDegrees { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<University> Universities { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<DepartmentDescription> DepartmentDescriptions { get; set; }
         public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
+        public DbSet<UniversityDepartmentDescription> UniversityDepartmentDescriptions { get; set; }
+        public DbSet<UniversityDescription> UniversityDescriptions { get; set; }
         public DbSet<UniversityImage> UniversityImages { get; set; }
         public DbSet<PersonelUser> PersonelUsers { get; set; }
         public DbSet<PersonelUserAddress> PersonelUserAddresses { get; set; }
@@ -60,6 +60,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<ModelMenu> ModelMenus { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<PositionDescription> PositionDescriptions { get; set; }
         public DbSet<PositionLevel> PositionLevels { get; set; }
     }
 }

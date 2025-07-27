@@ -33,36 +33,36 @@ namespace Business.Concrete
                 return result;
             }
             _driverLicenceDal.AddAsync(driverLicence);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
         public IResult Update(DriverLicence driverLicence)
         {
             _driverLicenceDal.UpdateAsync(driverLicence);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
         public IResult Delete(DriverLicence driverLicence)
         {
             _driverLicenceDal.Delete(driverLicence);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
         public IResult Terminate(DriverLicence driverLicence)
         {
             _driverLicenceDal.Terminate(driverLicence);
-            return new SuccessResult();
+            return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<List<DriverLicence>> GetAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll().OrderBy(s => s.DriverLicenceName).ToList());
+            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll().OrderBy(s => s.DriverLicenceName).ToList(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         public IDataResult<List<DriverLicence>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll().OrderBy(s => s.DriverLicenceName).ToList());
+            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll().OrderBy(s => s.DriverLicenceName).ToList(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
         public IDataResult<DriverLicence> GetById(string id)
@@ -77,7 +77,7 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.CityNameAlreadyExist);
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }

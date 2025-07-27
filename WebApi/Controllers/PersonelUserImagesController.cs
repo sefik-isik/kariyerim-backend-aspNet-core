@@ -104,9 +104,9 @@ namespace WebAPI.Controllers
             }
             try
             {
-                var uploadImageHandler = new WebAPI.PublicClasses.CreateFileNameHelper();
+                var uploadImageHandler = new WebAPI.PublicClasses.CreateImageNameHelper();
 
-                string fullImageName = uploadImageHandler.CreateFileName(image);
+                string fullImageName = uploadImageHandler.CreateImageName(image);
 
                 string uploadsFolder = _environment.WebRootPath + "\\uploads\\images\\" + userId + "\\";
 
