@@ -50,6 +50,14 @@ namespace WebAPI.Controllers
             var result = _positionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("getallbypage")]
+        public IActionResult GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
+        {
+            var result = _positionService.GetAllByPage(pageIndex, pageSize, sortColumn, sortOrder);
+            return Ok(result);
+        }
+
         [HttpGet("getdeletedall")]
         public IActionResult GetDeletedAll()
         {

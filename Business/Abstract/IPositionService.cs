@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace Business.Abstract
         IDataResult<List<Position>> GetAll();
         IDataResult<List<Position>> GetDeletedAll();
         IDataResult<Position> GetById(string id);
+
+        PageDTO GetAllByPage(int pageIndex, int pageSize, string? sortColumn, string? sortOrder);
     }
 }

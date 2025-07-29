@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,41 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Position>>(_positionDal.GetAll().OrderBy(s => s.PositionName).ToList(), Messages.SuccessListed);
         }
+
+        //[SecuredOperation("admin,user")]
+        public PageDTO GetAllByPage(int pageIndex, int pageSize, string? sortColumn, string? sortOrder)
+        {
+            var query = _positionDal.GetAll().Select(contacts => contacts);
+
+
+            switch (sortColumn)
+            {
+                case "PositionName":
+                    query = sortOrder == "desc" ? query.OrderByDescending(c => c.PositionName) : query.OrderBy(c => c.PositionName);
+                    break;
+                default:
+                    query = query.OrderBy(c => c.PositionName);
+                    break;
+            }
+
+            var onePageContactQuery = query.Skip(pageSize * pageIndex).Take(pageSize).ToList();
+            var pageContactResult = onePageContactQuery.ToList();
+            var totalCount = query.Count();
+
+            // Use object initializer and only declare positionPageDTO once
+            var positionPageDTO = new PageDTO
+            {
+                ContactTotalCount = totalCount,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                SortColumn = sortColumn ?? string.Empty,
+                SortOrder = sortOrder ?? string.Empty,
+                PageContacts = pageContactResult,
+            };
+
+            return positionPageDTO;
+        }
+
         [SecuredOperation("admin,user")]
         public IDataResult<List<Position>> GetDeletedAll()
         {
