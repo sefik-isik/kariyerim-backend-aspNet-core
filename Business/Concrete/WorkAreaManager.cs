@@ -24,58 +24,63 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(WorkArea workArea)
+        public async Task<IResult> Add(WorkArea workArea)
         {
-            IResult result = BusinessRules.Run(IsNameExist(workArea.AreaName));
+            IResult result = await BusinessRules.Run(IsNameExist(workArea.AreaName));
 
             if (result != null)
             {
                 return result;
             }
-            _workAreaDal.AddAsync(workArea);
+            await _workAreaDal.AddAsync(workArea);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(WorkArea workArea)
+        public async Task<IResult> Update(WorkArea workArea)
         {
-            _workAreaDal.UpdateAsync(workArea);
+            await _workAreaDal.UpdateAsync(workArea);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(WorkArea workArea)
+        public async Task<IResult> Delete(WorkArea workArea)
         {
-            _workAreaDal.Delete(workArea);
+            await _workAreaDal.Delete(workArea);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(WorkArea workArea)
+        public async Task<IResult> Terminate(WorkArea workArea)
         {
-            _workAreaDal.Terminate(workArea);
+            await _workAreaDal.Terminate(workArea);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<WorkArea>> GetAll()
+        public async Task<IDataResult<List<WorkArea>>> GetAll()
         {
-            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetAll().OrderBy(s => s.AreaName).ToList(), Messages.SuccessListed);
+            var result = await _workAreaDal.GetAll();
+            result = result.OrderBy(x => x.AreaName).ToList();
+            return new SuccessDataResult<List<WorkArea>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<WorkArea>> GetDeletedAll()
+        public async Task<IDataResult<List<WorkArea>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<WorkArea>>(_workAreaDal.GetDeletedAll().OrderBy(s => s.AreaName).ToList(), Messages.SuccessListed);
+            var result = await _workAreaDal.GetDeletedAll();
+            result = result.OrderBy(x => x.AreaName).ToList();
+            return new SuccessDataResult<List<WorkArea>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<WorkArea> GetById(string id)
+        public async Task<IDataResult<WorkArea?>> GetById(string id)
         {
-            return new SuccessDataResult<WorkArea>(_workAreaDal.Get(f => f.Id == id));
+            return new SuccessDataResult<WorkArea?>(await _workAreaDal.Get(f => f.Id == id));
         }
-
+        
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _workAreaDal.GetAll(c => c.AreaName.ToLower() == entityName.ToLower()).Any();
 
-            if (result)
+            var result = await _workAreaDal.GetAll(c => c.AreaName.ToLower() == entityName.ToLower());
+
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

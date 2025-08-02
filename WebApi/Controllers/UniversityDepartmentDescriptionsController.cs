@@ -19,72 +19,72 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<ActionResult> Add(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            var result = _universityDepartmentDescriptionService.Add(universitydepartmentDescription);
+            var result = await _universityDepartmentDescriptionService.Add(universitydepartmentDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<ActionResult> Update(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            var result = _universityDepartmentDescriptionService.Update(universitydepartmentDescription);
+            var result = await _universityDepartmentDescriptionService.Update(universitydepartmentDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<ActionResult> Delete(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            var result = _universityDepartmentDescriptionService.Delete(universitydepartmentDescription);
+            var result = await _universityDepartmentDescriptionService.Delete(universitydepartmentDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<ActionResult> Terminate(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            var result = _universityDepartmentDescriptionService.Terminate(universitydepartmentDescription);
+            var result = await _universityDepartmentDescriptionService.Terminate(universitydepartmentDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _universityDepartmentDescriptionService.GetAll();
+            var result = await _universityDepartmentDescriptionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _universityDepartmentDescriptionService.GetDeletedAll();
+            var result = await _universityDepartmentDescriptionService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _universityDepartmentDescriptionService.GetById(id);
+            var result = await _universityDepartmentDescriptionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO()
+        public async Task<ActionResult> GetAllDTO()
         {
-            var result = _universityDepartmentDescriptionService.GetAllDTO();
+            var result = await _universityDepartmentDescriptionService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedalldto")]
-        public IActionResult GetDeletedAllDTO()
+        public async Task<ActionResult> GetDeletedAllDTO()
         {
-            var result = _universityDepartmentDescriptionService.GetDeletedAllDTO();
+            var result = await _universityDepartmentDescriptionService.GetDeletedAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldepartmentiddto")]
-        public IActionResult GetAllByDeparttmetIdDTO(string id)
+        public async Task<ActionResult> GetAllByDeparttmetIdDTO(string id)
         {
-            var result = _universityDepartmentDescriptionService.GetAllByUniversityDeparttmetIdDTO(id);
+            var result = await _universityDepartmentDescriptionService.GetAllByUniversityDeparttmetIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

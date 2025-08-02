@@ -11,13 +11,13 @@ namespace Business.Abstract
 {
     public interface ISectorService
     {
-        IResult Add(Sector sector);
-        IResult Update(Sector sector);
-        IResult Delete(Sector sector);
-        IResult Terminate(Sector sector);
-        IDataResult<List<Sector>> GetAll();
-        IDataResult<List<Sector>> GetDeletedAll();
-        IDataResult<Sector> GetById(string id);
+        Task<IResult> Add(Sector sector);
+        Task<IResult> Update(Sector sector);
+        Task<IResult> Delete(Sector sector);
+        Task<IResult> Terminate(Sector sector);
+        Task<IDataResult<List<Sector>>> GetAll();
+        Task<IDataResult<List<Sector>>> GetDeletedAll();
+        Task<IDataResult<Sector>> GetById(string id);
         
     }
 }

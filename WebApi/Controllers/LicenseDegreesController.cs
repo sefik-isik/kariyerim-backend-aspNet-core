@@ -17,49 +17,49 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(LicenseDegree licenseDegree)
+        public async Task<ActionResult> Add(LicenseDegree licenseDegree)
         {
-            var result = _licenseDegreeService.Add(licenseDegree);
+            var result = await _licenseDegreeService.Add(licenseDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(LicenseDegree licenseDegree)
+        public async Task<ActionResult> Update(LicenseDegree licenseDegree)
         {
-            var result = _licenseDegreeService.Update(licenseDegree);
+            var result = await _licenseDegreeService.Update(licenseDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(LicenseDegree licenseDegree)
+        public async Task<ActionResult> Delete(LicenseDegree licenseDegree)
         {
-            var result = _licenseDegreeService.Delete(licenseDegree);
+            var result = await _licenseDegreeService.Delete(licenseDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(LicenseDegree licenseDegree)
+        public async Task<ActionResult> Terminate(LicenseDegree licenseDegree)
         {
-            var result = _licenseDegreeService.Terminate(licenseDegree);
+            var result = await _licenseDegreeService.Terminate(licenseDegree);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _licenseDegreeService.GetAll();
+            var result = await _licenseDegreeService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _licenseDegreeService.GetDeletedAll();
+            var result = await _licenseDegreeService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _licenseDegreeService.GetById(id);
+            var result = await _licenseDegreeService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

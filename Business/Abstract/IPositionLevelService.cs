@@ -10,12 +10,12 @@ namespace Business.Abstract
 {
     public interface IPositionLevelService
     {
-        IResult Add(PositionLevel positionLevel);
-        IResult Update(PositionLevel positionLevel);
-        IResult Delete(PositionLevel positionLevel);
-        IResult Terminate(PositionLevel positionLevel);
-        IDataResult<List<PositionLevel>> GetAll();
-        IDataResult<List<PositionLevel>> GetDeletedAll();
-        IDataResult<PositionLevel> GetById(string id);
+        Task<IResult> Add(PositionLevel positionLevel);
+        Task<IResult> Update(PositionLevel positionLevel);
+        Task<IResult> Delete(PositionLevel positionLevel);
+        Task<IResult> Terminate(PositionLevel positionLevel);
+        Task<IDataResult<List<PositionLevel>>> GetAll();
+        Task<IDataResult<List<PositionLevel>>> GetDeletedAll();
+        Task<IDataResult<PositionLevel>> GetById(string id);
     }
 }

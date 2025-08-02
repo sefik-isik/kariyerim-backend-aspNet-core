@@ -24,61 +24,61 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(SectorDescription sectorDescription)
+        public async Task<IResult> Add(SectorDescription sectorDescription)
         {
-            _sectorDescriptionDal.AddAsync(sectorDescription);
+            await _sectorDescriptionDal.AddAsync(sectorDescription);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(SectorDescription sectorDescription)
+        public async Task<IResult> Update(SectorDescription sectorDescription)
         {
-            _sectorDescriptionDal.UpdateAsync(sectorDescription);
+            await _sectorDescriptionDal.UpdateAsync(sectorDescription);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(SectorDescription sectorDescription)
+        public async Task<IResult> Delete(SectorDescription sectorDescription)
         {
-            _sectorDescriptionDal.Delete(sectorDescription);
+            await _sectorDescriptionDal.Delete(sectorDescription);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(SectorDescription sectorDescription)
+        public async Task<IResult> Terminate(SectorDescription sectorDescription)
         {
-            _sectorDescriptionDal.Terminate(sectorDescription);
+            await _sectorDescriptionDal.Terminate(sectorDescription);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<SectorDescription>> GetAll()
+        public async Task<IDataResult<List<SectorDescription>>> GetAll()
         {
-            return new SuccessDataResult<List<SectorDescription>>(_sectorDescriptionDal.GetAll());
+            return new SuccessDataResult<List<SectorDescription>>(await _sectorDescriptionDal.GetAll());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<SectorDescription>> GetDeletedAll()
+        public async Task<IDataResult<List<SectorDescription>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<SectorDescription>>(_sectorDescriptionDal.GetDeletedAll());
+            return new SuccessDataResult<List<SectorDescription>>(await _sectorDescriptionDal.GetDeletedAll());
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<SectorDescription> GetById(string id)
+        public async Task<IDataResult<SectorDescription?>> GetById(string id)
         {
-            return new SuccessDataResult<SectorDescription>(_sectorDescriptionDal.Get(r => r.Id == id));
+            return new SuccessDataResult<SectorDescription?>(await _sectorDescriptionDal.Get(r => r.Id == id));
         }
 
 
 
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<SectorDescriptionDTO>> GetAllDTO()
+        public async Task<IDataResult<List<SectorDescriptionDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<SectorDescriptionDTO>>(_sectorDescriptionDal.GetAllDTO().OrderBy(s => s.SectorName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<SectorDescriptionDTO>>(await _sectorDescriptionDal.GetAllDTO(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<SectorDescriptionDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<SectorDescriptionDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<SectorDescriptionDTO>>(_sectorDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.SectorName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<SectorDescriptionDTO>>(await _sectorDescriptionDal.GetDeletedAllDTO(), Messages.SuccessListed);
         }
-        public IDataResult<List<SectorDescriptionDTO>> GetAllBySectorIdDTO(string id)
+        public async Task<IDataResult<List<SectorDescriptionDTO>>> GetAllBySectorIdDTO(string id)
         {
-            return new SuccessDataResult<List<SectorDescriptionDTO>>(_sectorDescriptionDal.GetAllBySectorIdDTO(id));
+            return new SuccessDataResult<List<SectorDescriptionDTO>>(await _sectorDescriptionDal.GetAllBySectorIdDTO(id));
         }
     }
 }

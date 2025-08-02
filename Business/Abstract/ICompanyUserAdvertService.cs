@@ -13,18 +13,19 @@ namespace Business.Abstract
     public interface ICompanyUserAdvertService
     {
 
-        IResult Add(CompanyUserAdvert companyUserAdvert);
-        IResult Update(CompanyUserAdvert companyUserAdvert);
-        IResult Delete(CompanyUserAdvert companyUserAdvert);
-        IResult Terminate(CompanyUserAdvert companyUserAdvert);
-        IDataResult<List<CompanyUserAdvert>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAdvert>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<CompanyUserAdvert> GetById(UserAdminDTO userAdminDTO);
+        Task<IResult> Add(CompanyUserAdvert companyUserAdvert);
+        Task<IResult> Update(CompanyUserAdvert companyUserAdvert);
+        Task<IResult> Delete(CompanyUserAdvert companyUserAdvert);
+        Task<IResult> Terminate(CompanyUserAdvert companyUserAdvert);
+        Task<IResult> DeleteImage(CompanyUserAdvert companyUserAdvert);
+        Task<IDataResult<List<CompanyUserAdvert>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvert>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<CompanyUserAdvert>> GetById(UserAdminDTO userAdminDTO);
 
-        IResult DeleteImage(CompanyUserAdvert companyUserAdvert);
+
 
         //DTO
-        IDataResult<List<CompanyUserAdvertDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAdvertDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

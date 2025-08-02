@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,65 +19,80 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUser personelUser)
+        public async Task<ActionResult> Add(PersonelUser personelUser)
         {
-            var result = _personelUserService.Add(personelUser);
+            var result = await _personelUserService.Add(personelUser);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUser personelUser)
+        public async Task<ActionResult> Update(PersonelUser personelUser)
         {
-            var result = _personelUserService.Update(personelUser);
+            var result = await _personelUserService.Update(personelUser);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUser personelUser)
+        public async Task<ActionResult> Delete(PersonelUser personelUser)
         {
-            var result = _personelUserService.Delete(personelUser);
+            var result = await _personelUserService.Delete(personelUser);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUser personelUser)
+        public async Task<ActionResult> Terminate(PersonelUser personelUser)
         {
-            var result = _personelUserService.Terminate(personelUser);
+            var result = await _personelUserService.Terminate(personelUser);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserService.GetAll(userAdminDTO);
+            var result = await _personelUserService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserService.GetDeletedAll(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
+        {
+            PersonelUserPageModel positionPageModel = new PersonelUserPageModel
+            {
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _personelUserService.GetAllByPage(positionPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserService.GetByAdminId(userAdminDTO);
+            var result = await _personelUserService.GetByAdminId(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

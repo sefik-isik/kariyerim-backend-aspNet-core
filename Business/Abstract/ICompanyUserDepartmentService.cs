@@ -11,12 +11,12 @@ namespace Business.Abstract
 {
     public interface ICompanyUserDepartmentService
     {
-        IResult Add(CompanyUserDepartment companyUserDepartment);
-        IResult Update(CompanyUserDepartment companyUserDepartment);
-        IResult Delete(CompanyUserDepartment companyUserDepartment);
-        IResult Terminate(CompanyUserDepartment companyUserDepartment);
-        IDataResult<List<CompanyUserDepartment>> GetAll();
-        IDataResult<List<CompanyUserDepartment>> GetDeletedAll();
-        IDataResult<CompanyUserDepartment> GetById(string id);
+        Task<IResult> Add(CompanyUserDepartment companyUserDepartment);
+        Task<IResult> Update(CompanyUserDepartment companyUserDepartment);
+        Task<IResult> Delete(CompanyUserDepartment companyUserDepartment);
+        Task<IResult> Terminate(CompanyUserDepartment companyUserDepartment);
+        Task<IDataResult<List<CompanyUserDepartment>>> GetAll();
+        Task<IDataResult<List<CompanyUserDepartment>>> GetDeletedAll();
+        Task<IDataResult<CompanyUserDepartment>> GetById(string id);
     }
 }

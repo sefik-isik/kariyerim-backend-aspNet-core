@@ -24,73 +24,73 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CompanyUserFile companyUserFile)
+        public async Task<ActionResult> Add(CompanyUserFile companyUserFile)
         {
-            var result = _companyUserFileService.Add(companyUserFile);
+            var result = await _companyUserFileService.Add(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CompanyUserFile companyUserFile)
+        public async Task<ActionResult> Update(CompanyUserFile companyUserFile)
         {
-            var result = _companyUserFileService.Update(companyUserFile);
+            var result = await _companyUserFileService.Update(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CompanyUserFile companyUserFile)
+        public async Task<ActionResult> Delete(CompanyUserFile companyUserFile)
         {
-            var result = _companyUserFileService.Delete(companyUserFile);
+            var result = await _companyUserFileService.Delete(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(CompanyUserFile companyUserFile)
+        public async Task<ActionResult> Terminate(CompanyUserFile companyUserFile)
         {
-            var result = _companyUserFileService.Terminate(companyUserFile);
+            var result = await _companyUserFileService.Terminate(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetAll(userAdminDTO);
+            var result = await _companyUserFileService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetDeletedAll(userAdminDTO);
+            var result = await _companyUserFileService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetById(userAdminDTO);
+            var result = await _companyUserFileService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetAllDTO(userAdminDTO);
+            var result = await _companyUserFileService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserFileService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _companyUserFileService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
 
         [HttpPost("uploadfile")]
-        public IActionResult UploadFile(IFormFile file, string id)
+        public async Task<ActionResult> UploadFile(IFormFile file, string id)
         {
-            var companyUser = _companyUserService.GetById(id);
+            var companyUser = await _companyUserService.GetById(id);
 
             string userId = companyUser.Data.UserId;
 
@@ -133,10 +133,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deletefile")]
-        public IActionResult DeleteFile(CompanyUserFile companyUserFile)
+        public async Task<ActionResult> DeleteFile(CompanyUserFile companyUserFile)
         {
 
-            var companyUser = _companyUserService.GetById(companyUserFile.CompanyUserId);
+            var companyUser = await _companyUserService.GetById(companyUserFile.CompanyUserId);
 
             string userId = companyUser.Data.UserId;
 
@@ -151,7 +151,7 @@ namespace WebAPI.Controllers
             companyUserFile.FilePath = "noPath";
             companyUserFile.FileName = "noFile";
 
-            var result = _companyUserFileService.Update(companyUserFile);
+            var result = await _companyUserFileService.Update(companyUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

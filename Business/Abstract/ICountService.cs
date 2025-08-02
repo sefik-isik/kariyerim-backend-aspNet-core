@@ -10,12 +10,12 @@ namespace Business.Abstract
 {
     public interface ICountService
     {
-        IResult Add(Count count);
-        IResult Update(Count count);
-        IResult Delete(Count count);
-        IResult Terminate(Count count);
-        IDataResult<List<Count>> GetAll();
-        IDataResult<List<Count>> GetDeletedAll();
-        IDataResult<Count> GetById(string id);
+        Task<IResult> Add(Count count);
+        Task<IResult> Update(Count count);
+        Task<IResult> Delete(Count count);
+        Task<IResult> Terminate(Count count);
+        Task<IDataResult<List<Count>>> GetAll();
+        Task<IDataResult<List<Count>>> GetDeletedAll();
+        Task<IDataResult<Count>> GetById(string id);
     }
 }

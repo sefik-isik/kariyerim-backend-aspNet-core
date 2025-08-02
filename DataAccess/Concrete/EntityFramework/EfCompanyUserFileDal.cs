@@ -3,6 +3,7 @@ using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserFileDal : EfEntityRepositoryBase<CompanyUserFile, KariyerimContext>, ICompanyUserFileDal
     {
-        public List<CompanyUserFileDTO> GetAllDTO()
+        public async Task<List<CompanyUserFileDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -42,11 +43,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserFiles.UpdatedDate,
                                  DeletedDate = companyUserFiles.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserFileDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserFileDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -75,7 +76,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserFiles.UpdatedDate,
                                  DeletedDate = companyUserFiles.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 

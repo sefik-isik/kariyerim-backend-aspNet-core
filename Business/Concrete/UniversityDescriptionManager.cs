@@ -24,64 +24,64 @@ namespace Business.Concrete
             _universityDescriptionDal = universityDescriptionDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(UniversityDescription universityDescription)
+        public async Task<IResult> Add(UniversityDescription universityDescription)
         {
-            _universityDescriptionDal.AddAsync(universityDescription);
+            await _universityDescriptionDal.AddAsync(universityDescription);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(UniversityDescription universityDescription)
+        public async Task<IResult> Update(UniversityDescription universityDescription)
         {
-            _universityDescriptionDal.UpdateAsync(universityDescription);
+            await _universityDescriptionDal.UpdateAsync(universityDescription);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(UniversityDescription universityDescription)
+        public async Task<IResult> Delete(UniversityDescription universityDescription)
         {
-            _universityDescriptionDal.Delete(universityDescription);
+            await _universityDescriptionDal.Delete(universityDescription);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(UniversityDescription universityDescription)
+        public async Task<IResult> Terminate(UniversityDescription universityDescription)
         {
-            _universityDescriptionDal.Terminate(universityDescription);
+            await _universityDescriptionDal.Terminate(universityDescription);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDescription>> GetAll()
+        public async Task<IDataResult<List<UniversityDescription>>> GetAll()
         {
-            return new SuccessDataResult<List<UniversityDescription>>(_universityDescriptionDal.GetAll());
+            return new SuccessDataResult<List<UniversityDescription>>(await _universityDescriptionDal.GetAll());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDescription>> GetDeletedAll()
+        public async Task<IDataResult<List<UniversityDescription>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<UniversityDescription>>(_universityDescriptionDal.GetDeletedAll());
+            return new SuccessDataResult<List<UniversityDescription>>(await _universityDescriptionDal.GetDeletedAll());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<UniversityDescription> GetById(string id)
+        public async Task<IDataResult<UniversityDescription?>> GetById(string id)
         {
-            return new SuccessDataResult<UniversityDescription>(_universityDescriptionDal.Get(u=>u.Id == id));
+            return new SuccessDataResult<UniversityDescription?>(await _universityDescriptionDal.Get(u=>u.Id == id));
         }
 
         //DTO
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDescriptionDTO>> GetAllDTO()
+        public async Task<IDataResult<List<UniversityDescriptionDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDescriptionDTO>>(_universityDescriptionDal.GetAllDTO().OrderBy(s => s.UniversityName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<UniversityDescriptionDTO>>(await _universityDescriptionDal.GetAllDTO(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDescriptionDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<UniversityDescriptionDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDescriptionDTO>>(_universityDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.UniversityName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<UniversityDescriptionDTO>>(await _universityDescriptionDal.GetDeletedAllDTO(), Messages.SuccessListed);
         }
 
-        public IDataResult<List<UniversityDescriptionDTO>> GetAllByUniversityIdDTO(string id)
+        public async Task<IDataResult<List<UniversityDescriptionDTO>>> GetAllByUniversityIdDTO(string id)
         {
-            return new SuccessDataResult<List<UniversityDescriptionDTO>>(_universityDescriptionDal.GetAllByUniversityIdDTO(id));
+            return new SuccessDataResult<List<UniversityDescriptionDTO>>(await _universityDescriptionDal.GetAllByUniversityIdDTO(id));
         }
     }
 }

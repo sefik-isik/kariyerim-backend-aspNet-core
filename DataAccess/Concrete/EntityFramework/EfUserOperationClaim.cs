@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserOperationClaim : EfEntityRepositoryBase<UserOperationClaim, KariyerimContext>, IUserOperationClaimDal
     {
-        public List<UserOperationClaimDTO> GetAllDTO()
+        public async Task<List<UserOperationClaimDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -36,11 +37,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = userOperationClaims.UpdatedDate,
                                  DeletedDate = userOperationClaims.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UserOperationClaimDTO> GetDeletedAllDTO()
+        public async Task<List<UserOperationClaimDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -65,7 +66,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = userOperationClaims.UpdatedDate,
                                  DeletedDate = userOperationClaims.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

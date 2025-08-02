@@ -24,61 +24,60 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(PositionDescription positionDescription)
+        public async Task<IResult> Add(PositionDescription positionDescription)
         {
-            _positionDescriptionDal.AddAsync(positionDescription);
+            await _positionDescriptionDal.AddAsync(positionDescription);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(PositionDescription positionDescription)
+        public async Task<IResult> Update(PositionDescription positionDescription)
         {
-            _positionDescriptionDal.UpdateAsync(positionDescription);
+            await _positionDescriptionDal.UpdateAsync(positionDescription);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(PositionDescription positionDescription)
+        public async Task<IResult> Delete(PositionDescription positionDescription)
         {
-            _positionDescriptionDal.Delete(positionDescription);
+            await _positionDescriptionDal.Delete(positionDescription);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(PositionDescription positionDescription)
+        public async Task<IResult> Terminate(PositionDescription positionDescription)
         {
-            _positionDescriptionDal.Terminate(positionDescription);
+            await _positionDescriptionDal.Terminate(positionDescription);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PositionDescription>> GetAll()
+        public async Task<IDataResult<List<PositionDescription>>> GetAll()
         {
-            return new SuccessDataResult<List<PositionDescription>>(_positionDescriptionDal.GetAll());
+            return new SuccessDataResult<List<PositionDescription>>(await _positionDescriptionDal.GetAll());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PositionDescription>> GetDeletedAll()
+        public async Task<IDataResult<List<PositionDescription>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<PositionDescription>>(_positionDescriptionDal.GetDeletedAll());
+            return new SuccessDataResult<List<PositionDescription>>(await _positionDescriptionDal.GetDeletedAll());
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<PositionDescription> GetById(string id)
+        public async Task<IDataResult<PositionDescription?>> GetById(string id)
         {
-            return new SuccessDataResult<PositionDescription>(_positionDescriptionDal.Get(r => r.Id == id));
+            return new SuccessDataResult<PositionDescription?>(await _positionDescriptionDal.Get(c => c.Id == id));
         }
 
 
-
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<PositionDescriptionDTO>> GetAllDTO()
+        public async Task<IDataResult<List<PositionDescriptionDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<PositionDescriptionDTO>>(_positionDescriptionDal.GetAllDTO().OrderBy(s => s.PositionName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PositionDescriptionDTO>>(await _positionDescriptionDal.GetAllDTO(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PositionDescriptionDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<PositionDescriptionDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<PositionDescriptionDTO>>(_positionDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.PositionName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PositionDescriptionDTO>>(await _positionDescriptionDal.GetDeletedAllDTO(), Messages.SuccessListed);
         }
-        public IDataResult<List<PositionDescriptionDTO>> GetAllByPositionIdDTO(string id)
+        public async Task<IDataResult<List<PositionDescriptionDTO>>> GetAllByPositionIdDTO(string id)
         {
-            return new SuccessDataResult<List<PositionDescriptionDTO>>(_positionDescriptionDal.GetAllByPositionIdDTO(id));
+            return new SuccessDataResult<List<PositionDescriptionDTO>>(await _positionDescriptionDal.GetAllByPositionIdDTO(id));
         }
     }
 }

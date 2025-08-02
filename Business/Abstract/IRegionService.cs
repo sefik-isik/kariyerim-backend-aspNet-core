@@ -12,16 +12,16 @@ namespace Business.Abstract
 {
     public interface IRegionService
     {
-        IResult Add(Region region);
-        IResult Update(Region region);
-        IResult Delete(Region region);
-        IResult Terminate(Region region);
-        IDataResult<List<Region>> GetAll();
-        IDataResult<List<Region>> GetDeletedAll();
-        IDataResult<Region> GetById(string id);
+        Task<IResult> Add(Region region);
+        Task<IResult> Update(Region region);
+        Task<IResult> Delete(Region region);
+        Task<IResult> Terminate(Region region);
+        Task<IDataResult<List<Region>>> GetAll();
+        Task<IDataResult<List<Region>>> GetDeletedAll();
+        Task<IDataResult<Region>> GetById(string id);
 
         //DTO
-        IDataResult<List<RegionDTO>> GetAllDTO();
-        IDataResult<List<RegionDTO>> GetDeletedAllDTO();
+        Task<IDataResult<List<RegionDTO>>> GetAllDTO();
+        Task<IDataResult<List<RegionDTO>>> GetDeletedAllDTO();
     }
 }

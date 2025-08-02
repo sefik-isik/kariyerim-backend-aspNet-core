@@ -18,65 +18,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCvSummary personelUserCvSummary)
+        public async Task<ActionResult> Add(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _personelUserCvSummaryService.Add(personelUserCvSummary);
+            var result = await _personelUserCvSummaryService.Add(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCvSummary personelUserCvSummary)
+        public async Task<ActionResult> Update(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _personelUserCvSummaryService.Update(personelUserCvSummary);
+            var result = await _personelUserCvSummaryService.Update(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCvSummary personelUserCvSummary)
+        public async Task<ActionResult> Delete(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _personelUserCvSummaryService.Delete(personelUserCvSummary);
+            var result = await _personelUserCvSummaryService.Delete(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserCvSummary personelUserCvSummary)
+        public async Task<ActionResult> Terminate(PersonelUserCvSummary personelUserCvSummary)
         {
-            var result = _personelUserCvSummaryService.Terminate(personelUserCvSummary);
+            var result = await _personelUserCvSummaryService.Terminate(personelUserCvSummary);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvSummaryService.GetAll(userAdminDTO);
+            var result = await _personelUserCvSummaryService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvSummaryService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserCvSummaryService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvSummaryService.GetById(userAdminDTO);
+            var result = await _personelUserCvSummaryService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvSummaryService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserCvSummaryService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvSummaryService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserCvSummaryService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

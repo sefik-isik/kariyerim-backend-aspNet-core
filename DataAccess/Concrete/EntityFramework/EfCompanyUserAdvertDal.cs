@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var companyUserAdvertCitiesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertCities] WHERE [AdvertId] = {id}");
             }
         }
-        public List<CompanyUserAdvertDTO> GetAllDTO()
+        public async Task<List<CompanyUserAdvertDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -83,11 +83,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserAdvertDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserAdvertDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -149,7 +149,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

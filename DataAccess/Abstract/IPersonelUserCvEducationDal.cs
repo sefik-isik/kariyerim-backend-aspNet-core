@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
 {
     public interface IPersonelUserCvEducationDal : IEntityRepository<PersonelUserCvEducation>
     {
-        List<PersonelUserCvEducationDTO> GetAllDTO();
-        List<PersonelUserCvEducationDTO> GetDeletedAllDTO();
+        Task<List<PersonelUserCvEducationDTO>> GetAllDTO();
+        Task<List<PersonelUserCvEducationDTO>> GetDeletedAllDTO();
     }
 }

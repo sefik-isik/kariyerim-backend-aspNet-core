@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,57 +18,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Position position)
+        public async Task<ActionResult> Add(Position position)
         {
-            var result = _positionService.Add(position);
+            var result = await _positionService.Add(position);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Position position)
+        public async Task<ActionResult> Update(Position position)
         {
-            var result = _positionService.Update(position);
+            var result = await _positionService.Update(position);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Position position)
+        public async Task<ActionResult> Delete(Position position)
         {
-            var result = _positionService.Delete(position);
+            var result = await _positionService.Delete(position);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(Position position)
+        public async Task<ActionResult> Terminate(Position position)
         {
-            var result = _positionService.Terminate(position);
+            var result = await _positionService.Terminate(position);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _positionService.GetAll();
+            var result = await _positionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getallbypage")]
-        public IActionResult GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
+        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
         {
-            var result = _positionService.GetAllByPage(pageIndex, pageSize, sortColumn, sortOrder);
-            return Ok(result);
+            PositionPageModel positionPageModel = new PositionPageModel
+            {
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _positionService.GetAllByPage(positionPageModel);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _positionService.GetDeletedAll();
+            var result = await _positionService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _positionService.GetById(id);
+            var result = await _positionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

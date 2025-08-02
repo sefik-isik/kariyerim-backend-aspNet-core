@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var universityImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityImages] WHERE [UniversityId] = {id}");
             }
         }
-        public List<UniversityDTO> GetAllDTO()
+        public async Task<List<UniversityDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -54,11 +54,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universities.UpdatedDate,
                                  DeletedDate = universities.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UniversityDTO> GetDeletedAllDTO()
+        public async Task<List<UniversityDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -90,7 +90,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universities.UpdatedDate,
                                  DeletedDate = universities.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

@@ -17,64 +17,64 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<ActionResult> Add(CompanyUserAdvertCity companyUserAdvertCity)
         {
-            var result = _companyUserAdvertCityService.Add(companyUserAdvertCity);
+            var result = await _companyUserAdvertCityService.Add(companyUserAdvertCity);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<ActionResult> Update(CompanyUserAdvertCity companyUserAdvertCity)
         {
-            var result = _companyUserAdvertCityService.Update(companyUserAdvertCity);
+            var result = await _companyUserAdvertCityService.Update(companyUserAdvertCity);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<ActionResult> Delete(CompanyUserAdvertCity companyUserAdvertCity)
         {
-            var result = _companyUserAdvertCityService.Delete(companyUserAdvertCity);
+            var result = await _companyUserAdvertCityService.Delete(companyUserAdvertCity);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<ActionResult> Terminate(CompanyUserAdvertCity companyUserAdvertCity)
         {
-            var result = _companyUserAdvertCityService.Terminate(companyUserAdvertCity);
+            var result = await _companyUserAdvertCityService.Terminate(companyUserAdvertCity);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserAdvertCityService.GetAll(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserAdvertCityService.GetDeletedAll(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserAdvertCityService.GetById(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserAdvertCityService.GetAllDTO(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserAdvertCityService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

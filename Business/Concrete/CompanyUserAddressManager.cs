@@ -35,100 +35,101 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         [ValidationAspect(typeof(CompanyUserAddressValidator))]
         [CacheRemoveAspect()]
-        public IResult Add(CompanyUserAddress companyUserAddress)
+        public async Task<IResult> Add(CompanyUserAddress companyUserAddress)
         {
             if (_userService.GetById(companyUserAddress.UserId) == null)
             {
-                return new ErrorResult(Messages.PermissionError);
+
+                return  new ErrorResult(Messages.PermissionError);
             }
 
-            IResult result = BusinessRules.Run(IsNameExist(companyUserAddress.AddressDetail));
+            IResult result = await BusinessRules.Run(IsNameExist(companyUserAddress.AddressDetail));
 
             if (result != null)
             {
                 return result;
             }
-            _companyUserAddressDal.AddAsync(companyUserAddress);
+            await _companyUserAddressDal.AddAsync(companyUserAddress);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
         [ValidationAspect(typeof(CompanyUserAddressValidator))]
         [CacheRemoveAspect()]
-        public IResult Update(CompanyUserAddress companyUserAddress)
+        public async Task<IResult> Update(CompanyUserAddress companyUserAddress)
         {
             if (_userService.GetById(companyUserAddress.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
 
-            _companyUserAddressDal.UpdateAsync(companyUserAddress);
+            await _companyUserAddressDal.UpdateAsync(companyUserAddress);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
         [CacheRemoveAspect()]
-        public IResult Delete(CompanyUserAddress companyUserAddress)
+        public async Task<IResult> Delete(CompanyUserAddress companyUserAddress)
         {
             if (_userService.GetById(companyUserAddress.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAddressDal.Delete(companyUserAddress);
+            await _companyUserAddressDal.Delete(companyUserAddress);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(CompanyUserAddress companyUserAddress)
+        public async Task<IResult> Terminate(CompanyUserAddress companyUserAddress)
         {
-            _companyUserAddressDal.Terminate(companyUserAddress);
+            await _companyUserAddressDal.Terminate(companyUserAddress);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<List<CompanyUserAddress>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAddress>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserAddress>>(await _companyUserAddressDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetAll());
+                return new SuccessDataResult<List<CompanyUserAddress>>(await _companyUserAddressDal.GetAll());
             }
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<List<CompanyUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAddress>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<CompanyUserAddress>>(await _companyUserAddressDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAddress>>(_companyUserAddressDal.GetDeletedAll());
+                return new SuccessDataResult<List<CompanyUserAddress>>(await _companyUserAddressDal.GetDeletedAll());
             }
         }
 
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<CompanyUserAddress> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<CompanyUserAddress?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<CompanyUserAddress?>(await _companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<CompanyUserAddress>(_companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<CompanyUserAddress?>(await _companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id));
             }
 
             
@@ -136,44 +137,45 @@ namespace Business.Concrete
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAddressDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAddressDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _companyUserAddressDal.GetAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDTO().FindAll(c=>c.UserId== userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o=>o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().ToList(), Messages.SuccessListed);
             }
-            
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAddressDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAddressDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+
+            var allDtos = await _companyUserAddressDal.GetDeletedAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(_companyUserAddressDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
-
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _companyUserAddressDal.GetAll(c => c.AddressDetail == entityName).Any();
+            var result = await _companyUserAddressDal.GetAll(c => c.AddressDetail == entityName);
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

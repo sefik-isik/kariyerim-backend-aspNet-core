@@ -18,51 +18,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Sector sector)
+        public async Task<ActionResult> Add(Sector sector)
         {
-            var result = _sectorService.Add(sector);
+            var result = await _sectorService.Add(sector);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Sector sector)
+        public async Task<ActionResult> Update(Sector sector)
         {
-            var result = _sectorService.Update(sector);
+            var result = await _sectorService.Update(sector);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Sector sector)
+        public async Task<ActionResult> Delete(Sector sector)
         {
-            var result = _sectorService.Delete(sector);
+            var result = await _sectorService.Delete(sector);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(Sector sector)
+        public async Task<ActionResult> Terminate(Sector sector)
         {
-            var result = _sectorService.Terminate(sector);
+            var result = await _sectorService.Terminate(sector);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _sectorService.GetAll();
+            var result = await _sectorService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _sectorService.GetDeletedAll();
+            var result = await _sectorService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _sectorService.GetById(id);
+            var result = await _sectorService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

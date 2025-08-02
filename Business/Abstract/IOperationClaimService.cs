@@ -12,13 +12,13 @@ namespace Business.Abstract
 {
     public interface IOperationClaimService
     {
-        IResult Add(OperationClaim operationClaim);
-        IResult Update(OperationClaim operationClaim);
-        IResult Delete(OperationClaim operationClaim);
-        IResult Terminate(OperationClaim operationClaim);
-        IDataResult<List<OperationClaim>> GetAll();
-        IDataResult<List<OperationClaim>> GetDeletedAll();
-        IDataResult<OperationClaim> GetById(string id);
+        Task<IResult> Add(OperationClaim operationClaim);
+        Task<IResult> Update(OperationClaim operationClaim);
+        Task<IResult> Delete(OperationClaim operationClaim);
+        Task<IResult> Terminate(OperationClaim operationClaim);
+        Task<IDataResult<List<OperationClaim>>> GetAll();
+        Task<IDataResult<List<OperationClaim>>> GetDeletedAll();
+        Task<IDataResult<OperationClaim>> GetById(string id);
         
     }
 }

@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPositionDescriptionDal : EfEntityRepositoryBase<PositionDescription, KariyerimContext>, IPositionDescriptionDal
     {
-        public List<PositionDescriptionDTO> GetAllDTO()
+        public async Task<List<PositionDescriptionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -32,10 +33,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = positionDescriptions.UpdatedDate,
                                  DeletedDate = positionDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
-        public List<PositionDescriptionDTO> GetDeletedAllDTO()
+        public async Task<List<PositionDescriptionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -55,10 +56,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = positionDescriptions.UpdatedDate,
                                  DeletedDate = positionDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
-        public List<PositionDescriptionDTO> GetAllByPositionIdDTO(string id)
+        public async Task<List<PositionDescriptionDTO>> GetAllByPositionIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -78,7 +79,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = positionDescriptions.UpdatedDate,
                                  DeletedDate = positionDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

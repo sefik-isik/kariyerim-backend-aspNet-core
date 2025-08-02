@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserAdvertApplicationDal : EfEntityRepositoryBase<PersonelUserAdvertApplication, KariyerimContext>, IPersonelUserAdvertApplicationDal
     {
-        public List<PersonelUserAdvertApplicationDTO> GetAllDTO()
+        public async Task<List<PersonelUserAdvertApplicationDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -35,10 +36,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertApplications.UpdatedDate,
                                  DeletedDate = personelUserAdvertApplications.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
-        public List<PersonelUserAdvertApplicationDTO> GetAllByAdvertIdDTO(string id)
+        public async Task<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -63,11 +64,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertApplications.UpdatedDate,
                                  DeletedDate = personelUserAdvertApplications.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserAdvertApplicationDTO> GetAllByPersonelIdDTO(string id)
+        public async Task<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -92,7 +93,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertApplications.UpdatedDate,
                                  DeletedDate = personelUserAdvertApplications.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

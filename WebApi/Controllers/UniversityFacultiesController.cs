@@ -17,51 +17,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(UniversityFaculty universityFaculty)
+        public async Task<ActionResult> Add(UniversityFaculty universityFaculty)
         {
-            var result = _universityFacultyService.Add(universityFaculty);
+            var result = await _universityFacultyService.Add(universityFaculty);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(UniversityFaculty universityFaculty)
+        public async Task<ActionResult> Update(UniversityFaculty universityFaculty)
         {
-            var result = _universityFacultyService.Update(universityFaculty);
+            var result = await _universityFacultyService.Update(universityFaculty);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(UniversityFaculty universityFaculty)
+        public async Task<ActionResult> Delete(UniversityFaculty universityFaculty)
         {
-            var result = _universityFacultyService.Delete(universityFaculty);
+            var result = await _universityFacultyService.Delete(universityFaculty);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(UniversityFaculty universityFaculty)
+        public async Task<ActionResult> Terminate(UniversityFaculty universityFaculty)
         {
-            var result = _universityFacultyService.Terminate(universityFaculty);
+            var result = await _universityFacultyService.Terminate(universityFaculty);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _universityFacultyService.GetAll();
+            var result = await _universityFacultyService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _universityFacultyService.GetDeletedAll();
+            var result = await _universityFacultyService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _universityFacultyService.GetById(id);
+            var result = await _universityFacultyService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

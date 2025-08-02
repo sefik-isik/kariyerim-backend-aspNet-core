@@ -1,6 +1,7 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,18 @@ namespace Business.Abstract
 {
     public interface ITaxOfficeService
     {
-        IResult Add(TaxOffice taxOffice);
-        IResult Update(TaxOffice taxOffice);
-        IResult Delete(TaxOffice taxOffice);
-        IResult Terminate(TaxOffice taxOffice);
-        IDataResult<List<TaxOffice>> GetAll();
-        IDataResult<List<TaxOffice>> GetDeletedAll();
-        IDataResult<TaxOffice> GetById(string id);
+        Task<IResult> Add(TaxOffice taxOffice);
+        Task<IResult> Update(TaxOffice taxOffice);
+        Task<IResult> Delete(TaxOffice taxOffice);
+        Task<IResult> Terminate(TaxOffice taxOffice);
+        Task<IDataResult<List<TaxOffice>>> GetAll();
+        Task<IDataResult<List<TaxOffice>>> GetDeletedAll();
+        Task<IDataResult<TaxOffice>> GetById(string id);
+        Task<IDataResult<TaxOfficePageModel>> GetAllByPage(TaxOfficePageModel pageModel);
 
         //DTO
-        IDataResult<List<TaxOfficeDTO>> GetAllDTO();
-        IDataResult<List<TaxOfficeDTO>> GetDeletedAllDTO();
+        Task<IDataResult<List<TaxOfficeDTO>>> GetAllDTO();
+        Task<IDataResult<List<TaxOfficeDTO>>> GetDeletedAllDTO();
 
     }
 }

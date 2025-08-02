@@ -26,61 +26,61 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<IResult> Add(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            _universityDepartmentDescriptionDal.AddAsync(universitydepartmentDescription);
+            await _universityDepartmentDescriptionDal.AddAsync(universitydepartmentDescription);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<IResult> Update(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            _universityDepartmentDescriptionDal.UpdateAsync(universitydepartmentDescription);
+            await _universityDepartmentDescriptionDal.UpdateAsync(universitydepartmentDescription);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<IResult> Delete(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            _universityDepartmentDescriptionDal.Delete(universitydepartmentDescription);
+            await _universityDepartmentDescriptionDal.Delete(universitydepartmentDescription);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(UniversityDepartmentDescription universitydepartmentDescription)
+        public async Task<IResult> Terminate(UniversityDepartmentDescription universitydepartmentDescription)
         {
-            _universityDepartmentDescriptionDal.Terminate(universitydepartmentDescription);
+            await _universityDepartmentDescriptionDal.Terminate(universitydepartmentDescription);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDescription>> GetAll()
+        public async Task<IDataResult<List<UniversityDepartmentDescription>>> GetAll()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDescription>>(_universityDepartmentDescriptionDal.GetAll());
+            return new SuccessDataResult<List<UniversityDepartmentDescription>>(await _universityDepartmentDescriptionDal.GetAll());
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDescription>> GetDeletedAll()
+        public async Task<IDataResult<List<UniversityDepartmentDescription>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDescription>>(_universityDepartmentDescriptionDal.GetDeletedAll());
+            return new SuccessDataResult<List<UniversityDepartmentDescription>>(await _universityDepartmentDescriptionDal.GetDeletedAll());
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<UniversityDepartmentDescription> GetById(string id)
+        public async Task<IDataResult<UniversityDepartmentDescription?>> GetById(string id)
         {
-            return new SuccessDataResult<UniversityDepartmentDescription>(_universityDepartmentDescriptionDal.Get(r => r.Id == id));
+            return new SuccessDataResult<UniversityDepartmentDescription?>(await _universityDepartmentDescriptionDal.Get(r => r.Id == id));
         }
 
-       
+
 
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDescriptionDTO>> GetAllDTO()
+        public async Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(_universityDepartmentDescriptionDal.GetAllDTO().OrderBy(s => s.DepartmentName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(await _universityDepartmentDescriptionDal.GetAllDTO(), Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityDepartmentDescriptionDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(_universityDepartmentDescriptionDal.GetDeletedAllDTO().OrderBy(s => s.DepartmentName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(await _universityDepartmentDescriptionDal.GetDeletedAllDTO(), Messages.SuccessListed);
         }
-        public IDataResult<List<UniversityDepartmentDescriptionDTO>> GetAllByUniversityDeparttmetIdDTO(string id)
+        public async Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetAllByUniversityDeparttmetIdDTO(string id)
         {
-            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(_universityDepartmentDescriptionDal.GetAllByUniversityDepartmentIdDTO(id));
+            return new SuccessDataResult<List<UniversityDepartmentDescriptionDTO>>(await _universityDepartmentDescriptionDal.GetAllByUniversityDepartmentIdDTO(id));
         }
 
     }

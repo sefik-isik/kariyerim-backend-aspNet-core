@@ -25,57 +25,61 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(Count count)
+        public async Task<IResult> Add(Count count)
         {
-            IResult result = BusinessRules.Run(IsNameExist(count.CountValue));
+            IResult result = await BusinessRules.Run(IsNameExist(count.CountValue));
 
             if (result != null)
             {
                 return result;
             }
-            _countDal.AddAsync(count);
+            await _countDal.AddAsync(count);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(Count count)
+        public async Task<IResult> Update(Count count)
         {
-            _countDal.UpdateAsync(count);
+            await _countDal.UpdateAsync(count);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(Count count)
+        public async Task<IResult> Delete(Count count)
         {
-            _countDal.Delete(count);
+            await _countDal.Delete(count);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(Count count)
+        public async Task<IResult> Terminate(Count count)
         {
-            _countDal.Terminate(count);
+            await _countDal.Terminate(count);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Count>> GetAll()
+        public async Task<IDataResult<List<Count>>> GetAll()
         {
-            return new SuccessDataResult<List<Count>>(_countDal.GetAll().OrderBy(s => s.CountValue).ToList(), Messages.SuccessListed);
+            var result = await _countDal.GetAll();
+            result = result.OrderBy(x => x.Order).ToList();
+            return new SuccessDataResult<List<Count>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Count>> GetDeletedAll()
+        public async Task<IDataResult<List<Count>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Count>>(_countDal.GetDeletedAll().OrderBy(s => s.CountValue).ToList(), Messages.SuccessListed);
+            var result = await _countDal.GetDeletedAll();
+            result = result.OrderBy(x => x.Order).ToList();
+            return new SuccessDataResult<List<Count>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Count> GetById(string id)
+        public async Task<IDataResult<Count?>> GetById(string id)
         {
-            return new SuccessDataResult<Count>(_countDal.Get(l => l.Id == id));
+            return new SuccessDataResult<Count?>(await _countDal.Get(l => l.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _countDal.GetAll(c => c.CountValue.ToLower() == entityName.ToLower()).Any();
+            var result = await _countDal.GetAll(c => c.CountValue.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

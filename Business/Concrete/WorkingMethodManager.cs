@@ -24,57 +24,61 @@ namespace Business.Concrete
             _workingMethodDal = workingMethodDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(WorkingMethod workingMethod)
+        public async Task<IResult> Add(WorkingMethod workingMethod)
         {
-            IResult result = BusinessRules.Run(IsNameExist(workingMethod.MethodName));
+            IResult result = await BusinessRules.Run(IsNameExist(workingMethod.MethodName));
 
             if (result != null)
             {
                 return result;
             }
-            _workingMethodDal.AddAsync(workingMethod);
+            await _workingMethodDal.AddAsync(workingMethod);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(WorkingMethod workingMethod)
+        public async Task<IResult> Update(WorkingMethod workingMethod)
         {
-            _workingMethodDal.UpdateAsync(workingMethod);
+            await _workingMethodDal.UpdateAsync(workingMethod);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(WorkingMethod workingMethod)
+        public async Task<IResult> Delete(WorkingMethod workingMethod)
         {
-            _workingMethodDal.Delete(workingMethod);
+            await _workingMethodDal.Delete(workingMethod);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(WorkingMethod workingMethod)
+        public async Task<IResult> Terminate(WorkingMethod workingMethod)
         {
-            _workingMethodDal.Terminate(workingMethod);
+            await _workingMethodDal.Terminate(workingMethod);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<WorkingMethod>> GetAll()
+        public async Task<IDataResult<List<WorkingMethod>>> GetAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetAll().OrderBy(s => s.MethodName).ToList(), Messages.SuccessListed);
+            var result = await _workingMethodDal.GetAll();
+            result = result.OrderBy(x => x.MethodName).ToList();
+            return new SuccessDataResult<List<WorkingMethod>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<WorkingMethod>> GetDeletedAll()
+        public async Task<IDataResult<List<WorkingMethod>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<WorkingMethod>>(_workingMethodDal.GetDeletedAll().OrderBy(s => s.MethodName).ToList(), Messages.SuccessListed);
+            var result = await _workingMethodDal.GetDeletedAll();
+            result = result.OrderBy(x => x.MethodName).ToList();
+            return new SuccessDataResult<List<WorkingMethod>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<WorkingMethod> GetById(string id)
+        public async Task<IDataResult<WorkingMethod?>> GetById(string id)
         {
-            return new SuccessDataResult<WorkingMethod>(_workingMethodDal.Get(w=>w.Id == id));
+            return new SuccessDataResult<WorkingMethod?>(await _workingMethodDal.Get(w=>w.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _workingMethodDal.GetAll(c => c.MethodName.ToLower() == entityName.ToLower()).Any();
+            var result = await _workingMethodDal.GetAll(c => c.MethodName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

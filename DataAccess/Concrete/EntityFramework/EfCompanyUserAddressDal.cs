@@ -1,21 +1,22 @@
 ﻿using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
+using Core.Utilities.Business.Constans;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Utilities.Business.Constans;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserAddressDal : EfEntityRepositoryBase<CompanyUserAddress,KariyerimContext>, ICompanyUserAddressDal
     {
-        public List<CompanyUserAddressDTO> GetAllDTO()
+        public async Task<List<CompanyUserAddressDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -53,11 +54,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAddresses.UpdatedDate,
                                  DeletedDate = companyUserAddresses.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserAddressDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserAddressDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -96,7 +97,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAddresses.UpdatedDate,
                                  DeletedDate = companyUserAddresses.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

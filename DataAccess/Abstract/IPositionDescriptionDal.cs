@@ -11,8 +11,8 @@ namespace DataAccess.Abstract
 {
     public interface IPositionDescriptionDal : IEntityRepository<PositionDescription>
     {
-        List<PositionDescriptionDTO> GetAllDTO();
-        List<PositionDescriptionDTO> GetDeletedAllDTO();
-        List<PositionDescriptionDTO> GetAllByPositionIdDTO(string id);
+        Task<List<PositionDescriptionDTO>> GetAllDTO();
+        Task<List<PositionDescriptionDTO>> GetDeletedAllDTO();
+        Task<List<PositionDescriptionDTO>> GetAllByPositionIdDTO(string id);
     }
 }

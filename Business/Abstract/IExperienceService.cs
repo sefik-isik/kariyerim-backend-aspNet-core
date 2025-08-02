@@ -11,12 +11,12 @@ namespace Business.Abstract
 {
     public interface IExperienceService
     {
-        IResult Add(Experience experience);
-        IResult Update(Experience experience);
-        IResult Delete(Experience experience);
-        IResult Terminate(Experience experience);
-        IDataResult<List<Experience>> GetAll();
-        IDataResult<List<Experience>> GetDeletedAll();
-        IDataResult<Experience> GetById(string id);
+        Task<IResult> Add(Experience experience);
+        Task<IResult> Update(Experience experience);
+        Task<IResult> Delete(Experience experience);
+        Task<IResult> Terminate(Experience experience);
+        Task<IDataResult<List<Experience>>> GetAll();
+        Task<IDataResult<List<Experience>>> GetDeletedAll();
+        Task<IDataResult<Experience>> GetById(string id);
     }
 }

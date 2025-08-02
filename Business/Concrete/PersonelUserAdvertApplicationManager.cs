@@ -27,29 +27,29 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
+        public async Task<IResult> Add(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
         {
-            IResult result = BusinessRules.Run(IsNameExist(personelUseradvertApplicationDTO.AdvertId, personelUseradvertApplicationDTO.PersonelUserId));
+            IResult result = await BusinessRules.Run(IsNameExist(personelUseradvertApplicationDTO.AdvertId, personelUseradvertApplicationDTO.PersonelUserId));
 
             if (result != null)
             {
                 return result;
             }
-            _personelUseradvertApplicationDal.AddAsync(personelUseradvertApplicationDTO);
+            await _personelUseradvertApplicationDal.AddAsync(personelUseradvertApplicationDTO);
             return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Terminate(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
+        public async Task<IResult> Terminate(PersonelUserAdvertApplication personelUseradvertApplicationDTO)
         {
-            _personelUseradvertApplicationDal.Terminate(personelUseradvertApplicationDTO);
+            await _personelUseradvertApplicationDal.Terminate(personelUseradvertApplicationDTO);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplication>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
@@ -57,27 +57,27 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserAdvertApplication>>(await _personelUseradvertApplicationDal.GetAll(), Messages.SuccessListed);
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserAdvertApplication> GetById(string id)
+        public async Task<IDataResult<PersonelUserAdvertApplication?>> GetById(string id)
         {
 
-            return new SuccessDataResult<PersonelUserAdvertApplication>(_personelUseradvertApplicationDal.Get(c => c.Id == id));
+            return new SuccessDataResult<PersonelUserAdvertApplication?>(await _personelUseradvertApplicationDal.Get(c => c.Id == id));
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplication>> GetAllByCompanyId(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAllByCompanyId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(c => c.CompanyUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(await _personelUseradvertApplicationDal.GetAll(c => c.CompanyUserId == id), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplication>> GetAllByPersonelId(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAllByPersonelId(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(_personelUseradvertApplicationDal.GetAll(p => p.PersonelUserId == id).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplication>>(await _personelUseradvertApplicationDal.GetAll(p => p.PersonelUserId == id), Messages.SuccessListed);
         }
 
 
@@ -85,29 +85,29 @@ namespace Business.Concrete
         //DTO Methods
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllDTO(), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelIdDTO(string id)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(_personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id), Messages.SuccessListed);
         }
 
         //Business Rules
-        private IResult IsNameExist(string advertId, string personelUserId)
+        private async Task<IResult> IsNameExist(string advertId, string personelUserId)
         {
-            var result = _personelUseradvertApplicationDal.GetAll(c => c.AdvertId == advertId && c.PersonelUserId == personelUserId).Any();
+            var result = await _personelUseradvertApplicationDal.GetAll(c => c.AdvertId == advertId && c.PersonelUserId == personelUserId);
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

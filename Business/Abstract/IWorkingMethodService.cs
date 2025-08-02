@@ -10,13 +10,13 @@ namespace Business.Abstract
 {
     public interface IWorkingMethodService
     {
-        IResult Add(WorkingMethod workingMethod);
-        IResult Update(WorkingMethod workingMethod);
-        IResult Delete(WorkingMethod workingMethod);
-        IResult Terminate(WorkingMethod workingMethod);
-        IDataResult<List<WorkingMethod>> GetAll();
-        IDataResult<List<WorkingMethod>> GetDeletedAll();
-        IDataResult<WorkingMethod> GetById(string id);
+        Task<IResult> Add(WorkingMethod workingMethod);
+        Task<IResult> Update(WorkingMethod workingMethod);
+        Task<IResult> Delete(WorkingMethod workingMethod);
+        Task<IResult> Terminate(WorkingMethod workingMethod);
+        Task<IDataResult<List<WorkingMethod>>> GetAll();
+        Task<IDataResult<List<WorkingMethod>>> GetDeletedAll();
+        Task<IDataResult<WorkingMethod>> GetById(string id);
         
     }
 }

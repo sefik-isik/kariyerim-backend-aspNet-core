@@ -11,8 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IPersonelUserCoverLetterDal : IEntityRepository<PersonelUserCoverLetter>
     {
-        List<PersonelUserCoverLetterDTO> GetAllDTO();
-
-        List<PersonelUserCoverLetterDTO> GetDeletedAllDTO();
+        Task<List<PersonelUserCoverLetterDTO>> GetAllDTO();
+        Task<List<PersonelUserCoverLetterDTO>> GetDeletedAllDTO();
     }
 }

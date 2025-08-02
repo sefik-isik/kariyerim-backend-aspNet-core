@@ -3,6 +3,7 @@ using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUniversityDescriptionDal : EfEntityRepositoryBase<UniversityDescription, KariyerimContext>, IUniversityDescriptionDal
     {
-        public List<UniversityDescriptionDTO> GetAllDTO()
+        public async Task<List<UniversityDescriptionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -33,11 +34,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDescriptions.UpdatedDate,
                                  DeletedDate = universityDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UniversityDescriptionDTO> GetDeletedAllDTO()
+        public async Task<List<UniversityDescriptionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -57,11 +58,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDescriptions.UpdatedDate,
                                  DeletedDate = universityDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UniversityDescriptionDTO> GetAllByUniversityIdDTO(string id)
+        public async Task<List<UniversityDescriptionDTO>> GetAllByUniversityIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -81,7 +82,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDescriptions.UpdatedDate,
                                  DeletedDate = universityDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

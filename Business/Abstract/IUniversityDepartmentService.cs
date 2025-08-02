@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,13 @@ namespace Business.Abstract
 {
     public interface IUniversityDepartmentService
     {
-        IResult Add(UniversityDepartment universityDepartment);
-        IResult Update(UniversityDepartment universityDepartment);
-        IResult Delete(UniversityDepartment universityDepartment);
-        IResult Terminate(UniversityDepartment universityDepartment);
-        IDataResult<List<UniversityDepartment>> GetAll();
-        IDataResult<List<UniversityDepartment>> GetDeletedAll();
-        IDataResult<UniversityDepartment> GetById(string id);
+        Task<IResult> Add(UniversityDepartment universityDepartment);
+        Task<IResult> Update(UniversityDepartment universityDepartment);
+        Task<IResult> Delete(UniversityDepartment universityDepartment);
+        Task<IResult> Terminate(UniversityDepartment universityDepartment);
+        Task<IDataResult<List<UniversityDepartment>>> GetAll();
+        Task<IDataResult<List<UniversityDepartment>>> GetDeletedAll();
+        Task<IDataResult<UniversityDepartment>> GetById(string id);
+        Task<IDataResult<UniversityDepartmentPageModel>> GetAllByPage(UniversityDepartmentPageModel pageModel);
     }
 }

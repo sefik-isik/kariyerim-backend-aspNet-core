@@ -24,58 +24,69 @@ namespace Business.Concrete
         {
             _modelMenuDal = modelMenuDal;
         }
+
         [SecuredOperation("admin")]
-        public IResult Add(ModelMenu modelMenu)
+        public async Task<IResult> Add(ModelMenu modelMenu)
         {
-            IResult result = BusinessRules.Run(IsNameExist(modelMenu.ModelName));
+            IResult result = await BusinessRules.Run(IsNameExist(modelMenu.ModelName));
 
             if (result != null)
             {
                 return result;
             }
-            _modelMenuDal.AddAsync(modelMenu);
+            await _modelMenuDal.AddAsync(modelMenu);
             return new SuccessResult(Messages.SuccessAdded);
         }
+
         [SecuredOperation("admin")]
-        public IResult Update(ModelMenu modelMenu)
+        public async Task<IResult> Update(ModelMenu modelMenu)
         {
-            _modelMenuDal.UpdateAsync(modelMenu);
+            await _modelMenuDal.UpdateAsync(modelMenu);
             return new SuccessResult(Messages.SuccessUpdated);
         }
+
         [SecuredOperation("admin")]
-        public IResult Delete(ModelMenu modelMenu)
+        public async Task<IResult> Delete(ModelMenu modelMenu)
         {
-            _modelMenuDal.Delete(modelMenu);
+            await _modelMenuDal.Delete(modelMenu);
             return new SuccessResult(Messages.SuccessDeleted);
         }
+
         [SecuredOperation("admin")]
-        public IResult Terminate(ModelMenu modelMenu)
+        public async Task<IResult> Terminate(ModelMenu modelMenu)
         {
-            _modelMenuDal.Terminate(modelMenu);
+            await _modelMenuDal.Terminate(modelMenu);
             return new SuccessResult(Messages.SuccessTerminate);
         }
+
         [SecuredOperation("admin,user")]
-        public IDataResult<List<ModelMenu>> GetAll()
+        public async Task<IDataResult<List<ModelMenu>>> GetAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetAll().OrderBy(s => s.ModelName).ToList(), Messages.SuccessListed);
+            var result = await _modelMenuDal.GetAll();
+            result = result.OrderBy(x => x.ModelName).ToList();
+            return new SuccessDataResult<List<ModelMenu>>(result, Messages.SuccessListed);
         }
+
         [SecuredOperation("admin,user")]
-        public IDataResult<List<ModelMenu>> GetDeletedAll()
+        public async Task<IDataResult<List<ModelMenu>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<ModelMenu>>(_modelMenuDal.GetDeletedAll().OrderBy(s => s.ModelName).ToList(), Messages.SuccessListed);
+            var result = await _modelMenuDal.GetDeletedAll();
+            result = result.OrderBy(x => x.ModelName).ToList();
+            return new SuccessDataResult<List<ModelMenu>>(result, Messages.SuccessListed);
         }
+
         [SecuredOperation("admin,user")]
-        public IDataResult<ModelMenu> GetById(string id)
+        public async Task<IDataResult<ModelMenu?>> GetById(string id)
         {
-            return new SuccessDataResult<ModelMenu>(_modelMenuDal.Get(g => g.Id == id));
+            return new SuccessDataResult<ModelMenu?>(await _modelMenuDal.Get(g => g.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _modelMenuDal.GetAll(c => c.ModelName.ToLower() == entityName.ToLower()).Any();
+            var result = await _modelMenuDal.GetAll(c => c.ModelName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

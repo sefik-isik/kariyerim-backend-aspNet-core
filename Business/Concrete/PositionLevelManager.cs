@@ -23,56 +23,60 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(PositionLevel positionLevel)
+        public async Task<IResult> Add(PositionLevel positionLevel)
         {
-            IResult result = BusinessRules.Run(IsNameExist(positionLevel.PositionLevelName));
+            IResult result = await BusinessRules.Run(IsNameExist(positionLevel.PositionLevelName));
 
             if (result != null)
             {
                 return result;
             }
-            _positionLevelDal.AddAsync(positionLevel);
+            await _positionLevelDal.AddAsync(positionLevel);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(PositionLevel positionLevel)
+        public async Task<IResult> Update(PositionLevel positionLevel)
         {
-            _positionLevelDal.UpdateAsync(positionLevel);
+            await _positionLevelDal.UpdateAsync(positionLevel);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(PositionLevel positionLevel)
+        public async Task<IResult> Delete(PositionLevel positionLevel)
         {
-            _positionLevelDal.Delete(positionLevel);
+            await _positionLevelDal.Delete(positionLevel);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(PositionLevel positionLevel)
+        public async Task<IResult> Terminate(PositionLevel positionLevel)
         {
-            _positionLevelDal.Terminate(positionLevel);
+            await _positionLevelDal.Terminate(positionLevel);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PositionLevel>> GetAll()
+        public async Task<IDataResult<List<PositionLevel>>> GetAll()
         {
-            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetAll().OrderBy(s => s.PositionLevelName).ToList(), Messages.SuccessListed);
+            var result = await _positionLevelDal.GetAll();
+            result = result.OrderBy(x => x.PositionLevelName).ToList();
+            return new SuccessDataResult<List<PositionLevel>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PositionLevel>> GetDeletedAll()
+        public async Task<IDataResult<List<PositionLevel>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<PositionLevel>>(_positionLevelDal.GetDeletedAll().OrderBy(s => s.PositionLevelName).ToList(), Messages.SuccessListed);
+            var result = await _positionLevelDal.GetDeletedAll();
+            result = result.OrderBy(x => x.PositionLevelName).ToList();
+            return new SuccessDataResult<List<PositionLevel>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PositionLevel> GetById(string id)
+        public async Task<IDataResult<PositionLevel?>> GetById(string id)
         {
-            return new SuccessDataResult<PositionLevel>(_positionLevelDal.Get(l => l.Id == id));
+            return new SuccessDataResult<PositionLevel?>(await _positionLevelDal.Get(l => l.Id == id));
         }
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _positionLevelDal.GetAll(c => c.PositionLevelName.ToLower() == entityName.ToLower()).Any();
+            var result = await _positionLevelDal.GetAll(c => c.PositionLevelName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

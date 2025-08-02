@@ -11,16 +11,16 @@ namespace Business.Abstract
 {
     public interface ICompanyUserAdvertCityService
     {
-        IResult Add(CompanyUserAdvertCity companyUserAdvertCity);
-        IResult Update(CompanyUserAdvertCity companyUserAdvertCity);
-        IResult Delete(CompanyUserAdvertCity companyUserAdvertCity);
-        IResult Terminate(CompanyUserAdvertCity companyUserAdvertCity);
-        IDataResult<List<CompanyUserAdvertCity>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAdvertCity>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<CompanyUserAdvertCity> GetById(UserAdminDTO userAdminDTO);
+        Task<IResult> Add(CompanyUserAdvertCity companyUserAdvertCity);
+        Task<IResult> Update(CompanyUserAdvertCity companyUserAdvertCity);
+        Task<IResult> Delete(CompanyUserAdvertCity companyUserAdvertCity);
+        Task<IResult> Terminate(CompanyUserAdvertCity companyUserAdvertCity);
+        Task<IDataResult<List<CompanyUserAdvertCity>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertCity>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<CompanyUserAdvertCity>> GetById(UserAdminDTO userAdminDTO);
 
         //DTO
-        IDataResult<List<CompanyUserAdvertCityDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAdvertCityDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertCityDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertCityDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

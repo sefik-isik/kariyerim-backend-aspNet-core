@@ -11,16 +11,16 @@ namespace Business.Abstract
 {
     public interface IPersonelUserCvWorkExperienceService
     {
-        IResult Add(PersonelUserCvWorkExperience personelUserCvWorkExperience);
-        IResult Update(PersonelUserCvWorkExperience personelUserCvWorkExperience);
-        IResult Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience);
-        IResult Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience);
-        IDataResult<List<PersonelUserCvWorkExperience>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserCvWorkExperience>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserCvWorkExperience> GetById(UserAdminDTO userAdminDTO);
+        Task<IResult> Add(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        Task<IResult> Update(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        Task<IResult> Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        Task<IResult> Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience);
+        Task<IDataResult<List<PersonelUserCvWorkExperience>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserCvWorkExperience>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<PersonelUserCvWorkExperience>> GetById(UserAdminDTO userAdminDTO);
 
         //DTO
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserCvWorkExperienceDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserCvWorkExperienceDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserCvWorkExperienceDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

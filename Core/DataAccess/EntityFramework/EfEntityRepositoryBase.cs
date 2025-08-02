@@ -63,33 +63,31 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        public async Task<TEntity?> Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter);
-
-                //return  context.Set<TEntity>().Where(x => x.DeletedDate == null).SingleOrDefault(filter);
+                return await context.Set<TEntity>().SingleOrDefaultAsync(filter);
             }
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {
-                //return filter == null? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
-
-                return filter == null ? context.Set<TEntity>().Where(x => x.DeletedDate == null).ToList() : context.Set<TEntity>().Where(x => x.DeletedDate == null).Where(filter).ToList();
+                return filter == null
+                    ? await context.Set<TEntity>().Where(x => x.DeletedDate == null).ToListAsync()
+                    : await context.Set<TEntity>().Where(x => x.DeletedDate == null).Where(filter).ToListAsync();
             }
         }
 
-        public List<TEntity> GetDeletedAll(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<List<TEntity>> GetDeletedAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {
-                //return filter == null? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
-
-                return filter == null ? context.Set<TEntity>().Where(x => x.DeletedDate != null).ToList() : context.Set<TEntity>().Where(x => x.DeletedDate != null).Where(filter).ToList();
+                return filter == null 
+                    ? await context.Set<TEntity>().Where(x => x.DeletedDate != null).ToListAsync() 
+                    : await context.Set<TEntity>().Where(x => x.DeletedDate != null).Where(filter).ToListAsync();
             }
         }
     }

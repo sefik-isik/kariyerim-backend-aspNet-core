@@ -18,51 +18,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Language language)
+        public async Task<ActionResult> Add(Language language)
         {
-            var result = _languageService.Add(language);
+            var result = await _languageService.Add(language);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Language language)
+        public async Task<ActionResult> Update(Language language)
         {
-            var result = _languageService.Update(language);
+            var result = await _languageService.Update(language);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Language language)
+        public async Task<ActionResult> Delete(Language language)
         {
-            var result = _languageService.Delete(language);
+            var result = await _languageService.Delete(language);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(Language language)
+        public async Task<ActionResult> Terminate(Language language)
         {
-            var result = _languageService.Terminate(language);
+            var result = await _languageService.Terminate(language);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _languageService.GetAll();
+            var result = await _languageService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _languageService.GetDeletedAll();
+            var result = await _languageService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _languageService.GetById(id);
+            var result = await _languageService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

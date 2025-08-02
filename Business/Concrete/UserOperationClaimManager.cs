@@ -28,25 +28,25 @@ namespace Business.Concrete
             _userService = userService;
         }
 
-        public IResult Add(UserOperationClaim userOperationClaim)
+        public async Task<IResult> Add(UserOperationClaim userOperationClaim)
         {
             if (_userService.GetById(userOperationClaim.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _userOperationClaimDal.AddAsync(userOperationClaim);
+            await _userOperationClaimDal.AddAsync(userOperationClaim);
 
             return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin")]
-        public IResult Update(UserOperationClaim userOperationClaim)
+        public async Task<IResult> Update(UserOperationClaim userOperationClaim)
         {
             if (_userService.GetById(userOperationClaim.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _userOperationClaimDal.UpdateAsync(userOperationClaim);
+            await _userOperationClaimDal.UpdateAsync(userOperationClaim);
 
             MakeUserAdmin(userOperationClaim);
 
@@ -54,98 +54,100 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Delete(UserOperationClaim userOperationClaim)
+        public async Task<IResult> Delete(UserOperationClaim userOperationClaim)
         {
             if (_userService.GetById(userOperationClaim.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _userOperationClaimDal.Delete(userOperationClaim);
+            await _userOperationClaimDal.Delete(userOperationClaim);
 
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<UserOperationClaim>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaim>>(await _userOperationClaimDal.GetAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaim>>(await _userOperationClaimDal.GetAll(), Messages.SuccessListed);
             }
 
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<UserOperationClaim>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaim>>(await _userOperationClaimDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaim>>(_userOperationClaimDal.GetDeletedAll().OrderBy(s => s.UserId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaim>>(await _userOperationClaimDal.GetDeletedAll(), Messages.SuccessListed);
             }
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<UserOperationClaim> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<UserOperationClaim?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<UserOperationClaim?>(await _userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<UserOperationClaim?>(await _userOperationClaimDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaimDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<UserOperationClaimDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _userOperationClaimDal.GetAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(allDtos.FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(allDtos.OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
             }
 
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UserOperationClaimDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<UserOperationClaimDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _userOperationClaimDal.GetDeletedAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(allDtos.FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<UserOperationClaimDTO>>(_userOperationClaimDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<UserOperationClaimDTO>>(allDtos, Messages.SuccessListed);
             }
         }
 
-        private void MakeUserAdmin(UserOperationClaim userOperationClaim)
+        public async Task<IResult> MakeUserAdmin(UserOperationClaim userOperationClaim)
         {
-            User currentUser = _userService.GetById(userOperationClaim.UserId);
+            User currentUser = await _userService.GetById(userOperationClaim.UserId);
 
             var user = new User
             {
@@ -156,25 +158,26 @@ namespace Business.Concrete
                 LastName = currentUser.LastName,
                 PhoneNumber = currentUser.PhoneNumber,
                 Email = currentUser.Email,
-                Status = GetAdminStatus(userOperationClaim),
+                Status = await GetAdminStatus(userOperationClaim),
                 Code = currentUser.Code,
                 CreatedDate = currentUser.CreatedDate,
                 UpdatedDate = DateTime.Now,
                 DeletedDate = currentUser.DeletedDate,
             };
 
-            _userService.Update(user);
+            await _userService.Update(user);
+            return new SuccessResult(Messages.SuccessUpdated);
         }
 
-        private string GetAdminStatus(UserOperationClaim userOperationClaim)
+        private Task<string> GetAdminStatus(UserOperationClaim userOperationClaim)
         {
             if (userOperationClaim.OperationClaimId == "352f7ef8-3a76-4dd9-8458-267fa984c715" && userOperationClaim.DeletedDate == null)
             {
-                return UserStatus.Admin;
+                return Task.FromResult(UserStatus.Admin);
             }
             else
             {
-                return UserStatus.User;
+                return Task.FromResult(UserStatus.User);
             }
         }
     }

@@ -1,28 +1,30 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Entities.Abstract;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Entities.Abstract;
 
 namespace Business.Abstract
 {
     public interface IPersonelUserService
     {
-        IResult Add(PersonelUser personelUser);
-        IResult Update(PersonelUser personelUser);
-        IResult Delete(PersonelUser personelUser);
-        IResult Terminate(PersonelUser personelUser);
-        IDataResult<List<PersonelUser>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUser>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUser> GetByAdminId(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUser> GetById(string id);
+        Task<IResult> Add(PersonelUser personelUser);
+        Task<IResult> Update(PersonelUser personelUser);
+        Task<IResult> Delete(PersonelUser personelUser);
+        Task<IResult> Terminate(PersonelUser personelUser);
+        Task<IDataResult<List<PersonelUser>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUser>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<PersonelUser>> GetByAdminId(UserAdminDTO userAdminDTO);
+        Task<IDataResult<PersonelUser>> GetById(string id);
+        Task<IDataResult<PersonelUserPageModel>> GetAllByPage(PersonelUserPageModel pageModel);
 
         //DTO
-        IDataResult<List<PersonelUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

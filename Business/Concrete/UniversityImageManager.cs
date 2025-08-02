@@ -26,62 +26,66 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(UniversityImage universityImage)
+        public async Task<IResult> Add(UniversityImage universityImage)
         {
-            _universityImageDal.AddAsync(universityImage);
+            await _universityImageDal.AddAsync(universityImage);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(UniversityImage universityImage)
+        public async Task<IResult> Update(UniversityImage universityImage)
         {
             if (universityImage.isMainImage == true)
             {
-                _universityImageDal.UpdateMainImage(universityImage.UniversityId);
+                await _universityImageDal.UpdateMainImage(universityImage.UniversityId);
             }
 
             if (universityImage.isLogo == true)
             {
-                _universityImageDal.UpdateLogoImage(universityImage.UniversityId);
+                await _universityImageDal.UpdateLogoImage(universityImage.UniversityId);
             }
 
-            _universityImageDal.UpdateAsync(universityImage);
+            await _universityImageDal.UpdateAsync(universityImage);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(UniversityImage universityImage)
+        public async Task<IResult> Delete(UniversityImage universityImage)
         {
-            _universityImageDal.Delete(universityImage);
+            await _universityImageDal.Delete(universityImage);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(UniversityImage universityImage)
+        public async Task<IResult> Terminate(UniversityImage universityImage)
         {
-            DeleteImage(universityImage);
-            _universityImageDal.Terminate(universityImage);
+            await DeleteImage(universityImage);
+            await _universityImageDal.Terminate(universityImage);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityImage>> GetAll()
+        public async Task<IDataResult<List<UniversityImage>>> GetAll()
         {
-            return new SuccessDataResult<List<UniversityImage>>(_universityImageDal.GetAll());
+            var result = await _universityImageDal.GetAll();
+            result = result.OrderBy(x => x.ImageOwnName).ToList();
+            return new SuccessDataResult<List<UniversityImage>>(result);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityImage>> GetDeletedAll()
+        public async Task<IDataResult<List<UniversityImage>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<UniversityImage>>(_universityImageDal.GetDeletedAll());
+            var result = await _universityImageDal.GetDeletedAll();
+            result = result.OrderBy(x => x.ImageOwnName).ToList();
+            return new SuccessDataResult<List<UniversityImage>>(result);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<UniversityImage> GetById(string id)
+        public async Task<IDataResult<UniversityImage?>> GetById(string id)
         {
-            return new SuccessDataResult<UniversityImage>(_universityImageDal.Get(r => r.Id == id));
+            return new SuccessDataResult<UniversityImage?>(await _universityImageDal.Get(r => r.Id == id));
         }
-        public IDataResult<List<UniversityImage>> GetAllById(string id)
+        public async Task<IDataResult<List<UniversityImage>>> GetAllById(string id)
         {
-            return new SuccessDataResult<List<UniversityImage>>(_universityImageDal.GetAll(i=>i.UniversityId==id));
+            return new SuccessDataResult<List<UniversityImage>>(await _universityImageDal.GetAll(i=>i.UniversityId==id));
         }
 
-        public IResult DeleteImage(UniversityImage universityImage)
+        public async Task<IResult> DeleteImage(UniversityImage universityImage)
         {
             if(universityImage == null)
             {
@@ -105,7 +109,7 @@ namespace Business.Concrete
             universityImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             universityImage.ImageName = "noImage.jpg";
 
-            Update(universityImage);
+            await Update(universityImage);
 
             return new SuccessResult();
         }

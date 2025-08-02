@@ -11,16 +11,16 @@ namespace Business.Abstract
 {
     public interface IPersonelUserFollowCompanyUserService
     {
-        IResult Add(PersonelUserFollowCompanyUser personelUserFollowCompanyUser);
-        IResult Terminate(PersonelUserFollowCompanyUser personelUserFollowCompanyUser);
-        IDataResult<List<PersonelUserFollowCompanyUser>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserFollowCompanyUser> GetById(string id);
-        IDataResult<List<PersonelUserFollowCompanyUser>> GetAllByCompanyId(string id);
-        IDataResult<List<PersonelUserFollowCompanyUser>> GetAllByPersonelId(string id);
+        Task<IResult> Add(PersonelUserFollowCompanyUser personelUserFollowCompanyUser);
+        Task<IResult> Terminate(PersonelUserFollowCompanyUser personelUserFollowCompanyUser);
+        Task<IDataResult<List<PersonelUserFollowCompanyUser>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<PersonelUserFollowCompanyUser>> GetById(string id);
+        Task<IDataResult<List<PersonelUserFollowCompanyUser>>> GetAllByCompanyId(string id);
+        Task<IDataResult<List<PersonelUserFollowCompanyUser>>> GetAllByPersonelId(string id);
 
         //dto
-        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO);
     }
 }

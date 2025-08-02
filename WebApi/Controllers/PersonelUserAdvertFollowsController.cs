@@ -17,65 +17,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserAdvertFollow advertFollow)
+        public async Task<ActionResult> Add(PersonelUserAdvertFollow advertFollow)
         {
-            var result = _personelUserAdvertFollowService.Add(advertFollow);
+            var result = await _personelUserAdvertFollowService.Add(advertFollow);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserAdvertFollow advertFollow)
+        public async Task<ActionResult> Terminate(PersonelUserAdvertFollow advertFollow)
         {
-            var result = _personelUserAdvertFollowService.Terminate(advertFollow);
+            var result = await _personelUserAdvertFollowService.Terminate(advertFollow);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetAll(userAdminDTO);
+            var result = await _personelUserAdvertFollowService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _personelUserAdvertFollowService.GetById(id);
+            var result = await _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbycompanyid")]
-        public IActionResult GetAllByCompanyId(string id)
+        public async Task<ActionResult> GetAllByCompanyId(string id)
         {
-            var result = _personelUserAdvertFollowService.GetById(id);
+            var result = await _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersonelid")]
-        public IActionResult GetAllByPersonelId(string id)
+        public async Task<ActionResult> GetAllByPersonelId(string id)
         {
-            var result = _personelUserAdvertFollowService.GetById(id);
+            var result = await _personelUserAdvertFollowService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetAllDTO(userAdminDTO.Id);
+            var result = await _personelUserAdvertFollowService.GetAllDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbyadvertiddto")]
-        public IActionResult GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetAllByAdvertIdDTO(userAdminDTO.Id);
+            var result = await _personelUserAdvertFollowService.GetAllByAdvertIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
-        public IActionResult GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAdvertFollowService.GetAllByPersonelIdDTO(userAdminDTO.Id);
+            var result = await _personelUserAdvertFollowService.GetAllByPersonelIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

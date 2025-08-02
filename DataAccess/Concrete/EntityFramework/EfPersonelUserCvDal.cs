@@ -24,7 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var personelUserCvWorkExperiencesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserCvWorkExperiences] WHERE [CvId] = {id}");
             }
         }
-        public List<PersonelUserCvDTO> GetAllDTO()
+        public async Task<List<PersonelUserCvDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -66,11 +66,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserCvs.UpdatedDate,
                                  DeletedDate = personelUserCvs.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserCvDTO> GetDeletedAllDTO()
+        public async Task<List<PersonelUserCvDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -112,7 +112,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserCvs.UpdatedDate,
                                  DeletedDate = personelUserCvs.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 

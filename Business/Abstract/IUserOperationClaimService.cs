@@ -12,16 +12,17 @@ namespace Business.Abstract
 {
     public interface IUserOperationClaimService
     {
-        IResult Add(UserOperationClaim userOperationClaim);
-        IResult Update(UserOperationClaim userOperationClaim);
-        IResult Delete(UserOperationClaim userOperationClaim);
-        IDataResult<List<UserOperationClaim>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserOperationClaim>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<UserOperationClaim> GetById(UserAdminDTO userAdminDTO);
+        Task<IResult> Add(UserOperationClaim userOperationClaim);
+        Task<IResult> Update(UserOperationClaim userOperationClaim);
+        Task<IResult> Delete(UserOperationClaim userOperationClaim);
+        Task<IDataResult<List<UserOperationClaim>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserOperationClaim>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<UserOperationClaim>> GetById(UserAdminDTO userAdminDTO);
 
         //DTO
-        IDataResult<List<UserOperationClaimDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserOperationClaimDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserOperationClaimDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserOperationClaimDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IResult> MakeUserAdmin(UserOperationClaim userOperationClaim);
 
     }
 }

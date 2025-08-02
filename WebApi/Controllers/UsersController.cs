@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,58 +19,73 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("getbyiddto")]
-        public IActionResult GetByIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetByIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetByIdDTO(userAdminDTO);
+            var result = await _userService.GetByIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(User user)
+        public async Task<ActionResult> Update(User user)
         {
-            var result = _userService.Update(user);
+            var result = await _userService.Update(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(User user)
+        public async Task<ActionResult> Delete(User user)
         {
-            var result = _userService.Delete(user);
+            var result = await _userService.Delete(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(User user)
+        public async Task<ActionResult> Terminate(User user)
         {
-            var result = _userService.Terminate(user);
+            var result = await _userService.Terminate(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetAllDTO(userAdminDTO);
+            var result = await _userService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallcompanyuserdto")]
-        public IActionResult GetAllCompanyUserDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetAllCompanyUserDTO(userAdminDTO);
+            var result = await _userService.GetAllCompanyUserDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallpersoneluserdto")]
-        public IActionResult GetAllPersonelUserDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllPersonelUserDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetAllPersonelUserDTO(userAdminDTO);
+            var result = await _userService.GetAllPersonelUserDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
+        {
+            UserPageModel positionPageModel = new UserPageModel
+            {
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _userService.GetAllByPage(positionPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _userService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

@@ -11,17 +11,17 @@ namespace Business.Abstract
 {
     public interface ISectorDescriptionService
     {
-        IResult Add(SectorDescription sectorDescription);
-        IResult Update(SectorDescription sectorDescription);
-        IResult Delete(SectorDescription sectorDescription);
-        IResult Terminate(SectorDescription sectorDescription);
-        IDataResult<List<SectorDescription>> GetAll();
-        IDataResult<List<SectorDescription>> GetDeletedAll();
-        IDataResult<SectorDescription> GetById(string id);
+        Task<IResult> Add(SectorDescription sectorDescription);
+        Task<IResult> Update(SectorDescription sectorDescription);
+        Task<IResult> Delete(SectorDescription sectorDescription);
+        Task<IResult> Terminate(SectorDescription sectorDescription);
+        Task<IDataResult<List<SectorDescription>>> GetAll();
+        Task<IDataResult<List<SectorDescription>>> GetDeletedAll();
+        Task<IDataResult<SectorDescription>> GetById(string id);
 
         //DTO
-        IDataResult<List<SectorDescriptionDTO>> GetAllDTO();
-        IDataResult<List<SectorDescriptionDTO>> GetDeletedAllDTO();
-        IDataResult<List<SectorDescriptionDTO>> GetAllBySectorIdDTO(string id);
+        Task<IDataResult<List<SectorDescriptionDTO>>> GetAllDTO();
+        Task<IDataResult<List<SectorDescriptionDTO>>> GetDeletedAllDTO();
+        Task<IDataResult<List<SectorDescriptionDTO>>> GetAllBySectorIdDTO(string id);
     }
 }

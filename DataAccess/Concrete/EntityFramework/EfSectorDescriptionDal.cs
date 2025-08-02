@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfSectorDescriptionDal : EfEntityRepositoryBase<SectorDescription, KariyerimContext>, ISectorDescriptionDal
     {
-        public List<SectorDescriptionDTO> GetAllDTO()
+        public async Task<List<SectorDescriptionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -32,11 +33,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = sectorDescriptions.UpdatedDate,
                                  DeletedDate = sectorDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<SectorDescriptionDTO> GetDeletedAllDTO()
+        public async Task<List<SectorDescriptionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -56,11 +57,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = sectorDescriptions.UpdatedDate,
                                  DeletedDate = sectorDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<SectorDescriptionDTO> GetAllBySectorIdDTO(string id)
+        public async Task<List<SectorDescriptionDTO>> GetAllBySectorIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -80,7 +81,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = sectorDescriptions.UpdatedDate,
                                  DeletedDate = sectorDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

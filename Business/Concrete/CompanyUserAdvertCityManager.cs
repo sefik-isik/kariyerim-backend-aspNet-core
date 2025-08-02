@@ -26,116 +26,118 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<IResult> Add(CompanyUserAdvertCity companyUserAdvertCity)
         {
             if (_userService.GetById(companyUserAdvertCity.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAdvertCityDal.AddAsync(companyUserAdvertCity);
+            await _companyUserAdvertCityDal.AddAsync(companyUserAdvertCity);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
-        public IResult Update(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<IResult> Update(CompanyUserAdvertCity companyUserAdvertCity)
         {
             if (_userService.GetById(companyUserAdvertCity.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAdvertCityDal.UpdateAsync(companyUserAdvertCity);
+            await _companyUserAdvertCityDal.UpdateAsync(companyUserAdvertCity);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
-        public IResult Delete(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<IResult> Delete(CompanyUserAdvertCity companyUserAdvertCity)
         {
             if (_userService.GetById(companyUserAdvertCity.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAdvertCityDal.Delete(companyUserAdvertCity);
+            await _companyUserAdvertCityDal.Delete(companyUserAdvertCity);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(CompanyUserAdvertCity companyUserAdvertCity)
+        public async Task<IResult> Terminate(CompanyUserAdvertCity companyUserAdvertCity)
         {
-            _companyUserAdvertCityDal.Terminate(companyUserAdvertCity);
+            await _companyUserAdvertCityDal.Terminate(companyUserAdvertCity);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertCity>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvertCity>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCity>>(_companyUserAdvertCityDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCity>>(await _companyUserAdvertCityDal.GetAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCity>>(_companyUserAdvertCityDal.GetAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCity>>(await _companyUserAdvertCityDal.GetAll(), Messages.SuccessListed);
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertCity>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvertCity>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCity>>(_companyUserAdvertCityDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCity>>(await _companyUserAdvertCityDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCity>>(_companyUserAdvertCityDal.GetDeletedAll().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCity>>(await _companyUserAdvertCityDal.GetDeletedAll(), Messages.SuccessListed);
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserAdvertCity> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<CompanyUserAdvertCity?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserAdvertCity>(_companyUserAdvertCityDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<CompanyUserAdvertCity?>(await _companyUserAdvertCityDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<CompanyUserAdvertCity>(_companyUserAdvertCityDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<CompanyUserAdvertCity?>(await _companyUserAdvertCityDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertCityDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvertCityDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _companyUserAdvertCityDal.GetAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetAllDTO().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertCityDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvertCityDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _companyUserAdvertCityDal.GetDeletedAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().FindAll(c => c.UserId == userAdminDTO.Id && c.UserId == userAdminDTO.UserId).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(_companyUserAdvertCityDal.GetDeletedAllDTO().OrderBy(s => s.AdvertId).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
 
         }

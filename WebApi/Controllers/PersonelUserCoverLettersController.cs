@@ -18,65 +18,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCoverLetter personelUserCoverLetter)
+        public async Task<ActionResult> Add(PersonelUserCoverLetter personelUserCoverLetter)
         {
-            var result = _personelUserCoverLetterService.Add(personelUserCoverLetter);
+            var result = await _personelUserCoverLetterService.Add(personelUserCoverLetter);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCoverLetter personelUserCoverLetter)
+        public async Task<ActionResult> Update(PersonelUserCoverLetter personelUserCoverLetter)
         {
-            var result = _personelUserCoverLetterService.Update(personelUserCoverLetter);
+            var result = await _personelUserCoverLetterService.Update(personelUserCoverLetter);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCoverLetter personelUserCoverLetter)
+        public async Task<ActionResult> Delete(PersonelUserCoverLetter personelUserCoverLetter)
         {
-            var result = _personelUserCoverLetterService.Delete(personelUserCoverLetter);
+            var result = await _personelUserCoverLetterService.Delete(personelUserCoverLetter);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserCoverLetter personelUserCoverLetter)
+        public async Task<ActionResult> Terminate(PersonelUserCoverLetter personelUserCoverLetter)
         {
-            var result = _personelUserCoverLetterService.Terminate(personelUserCoverLetter);
+            var result = await _personelUserCoverLetterService.Terminate(personelUserCoverLetter);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetAll(userAdminDTO);
+            var result = await _personelUserCoverLetterService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserCoverLetterService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetById(userAdminDTO);
+            var result = await _personelUserCoverLetterService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserCoverLetterService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCoverLetterService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserCoverLetterService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

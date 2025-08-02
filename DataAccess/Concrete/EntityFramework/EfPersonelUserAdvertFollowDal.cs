@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserAdvertFollowDal : EfEntityRepositoryBase<PersonelUserAdvertFollow, KariyerimContext>, IPersonelUserAdvertFollowDal
     {
-        public List<PersonelUserAdvertFollowDTO> GetAllDTO()
+        public async Task<List<PersonelUserAdvertFollowDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -35,11 +36,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertFollows.UpdatedDate,
                                  DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserAdvertFollowDTO> GetAllByAdvertIdDTO(string id)
+        public async Task<List<PersonelUserAdvertFollowDTO>> GetAllByAdvertIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -64,11 +65,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertFollows.UpdatedDate,
                                  DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserAdvertFollowDTO> GetAllByPersonelIdDTO(string id)
+        public async Task<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -93,7 +94,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserAdvertFollows.UpdatedDate,
                                  DeletedDate = personelUserAdvertFollows.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 

@@ -24,58 +24,62 @@ namespace Business.Concrete
             _driverLicenceDal = driverLicenceDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(DriverLicence driverLicence)
+        public async Task<IResult> Add(DriverLicence driverLicence)
         {
-            IResult result = BusinessRules.Run(IsNameExist(driverLicence.DriverLicenceName));
+            IResult result = await BusinessRules.Run(IsNameExist(driverLicence.DriverLicenceName));
 
             if (result != null)
             {
                 return result;
             }
-            _driverLicenceDal.AddAsync(driverLicence);
+           await _driverLicenceDal.AddAsync(driverLicence);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(DriverLicence driverLicence)
+        public async Task<IResult> Update(DriverLicence driverLicence)
         {
-            _driverLicenceDal.UpdateAsync(driverLicence);
+           await _driverLicenceDal.UpdateAsync(driverLicence);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(DriverLicence driverLicence)
+        public async Task<IResult> Delete(DriverLicence driverLicence)
         {
-            _driverLicenceDal.Delete(driverLicence);
+           await _driverLicenceDal.Delete(driverLicence);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(DriverLicence driverLicence)
+        public async Task<IResult> Terminate(DriverLicence driverLicence)
         {
-            _driverLicenceDal.Terminate(driverLicence);
+            await _driverLicenceDal.Terminate(driverLicence);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<DriverLicence>> GetAll()
+        public async Task<IDataResult<List<DriverLicence>>> GetAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetAll().OrderBy(s => s.DriverLicenceName).ToList(), Messages.SuccessListed);
+            var result = await _driverLicenceDal.GetAll();
+            result = result.OrderBy(x => x.DriverLicenceName).ToList();
+            return new SuccessDataResult<List<DriverLicence>>(result, Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<DriverLicence>> GetDeletedAll()
+        public async Task<IDataResult<List<DriverLicence>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<DriverLicence>>(_driverLicenceDal.GetDeletedAll().OrderBy(s => s.DriverLicenceName).ToList(), Messages.SuccessListed);
+            var result = await _driverLicenceDal.GetDeletedAll();
+            result = result.OrderBy(x => x.DriverLicenceName).ToList();
+            return new SuccessDataResult<List<DriverLicence>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<DriverLicence> GetById(string id)
+        public async Task<IDataResult<DriverLicence?>> GetById(string id)
         {
-            return new SuccessDataResult<DriverLicence>(_driverLicenceDal.Get(d=> d.Id == id));
+            return new SuccessDataResult<DriverLicence?>(await _driverLicenceDal.Get(d=> d.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _driverLicenceDal.GetAll(c => c.DriverLicenceName.ToLower() == entityName.ToLower()).Any();
+            var result = await _driverLicenceDal.GetAll(c => c.DriverLicenceName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface ICompanyUserAdvertJobDescriptionDal : IEntityRepository<CompanyUserAdvertJobDescription>
     {
-        List<CompanyUserAdvertJobDescriptionDTO> GetAllDTO();
-        List<CompanyUserAdvertJobDescriptionDTO> GetDeletedAllDTO();
+        Task<List<CompanyUserAdvertJobDescriptionDTO>> GetAllDTO();
+        Task<List<CompanyUserAdvertJobDescriptionDTO>> GetDeletedAllDTO();
     }
 }

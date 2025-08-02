@@ -9,7 +9,7 @@ namespace Core.Utilities.Business
 {
     public class BusinessRules
     {
-        public static IResult Run(params IResult[] results)
+        public static async Task<IResult> Run(Task<IResult> task, params IResult[] results)
         {
             foreach (var result in results)
             {

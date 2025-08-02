@@ -17,65 +17,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserAdvertApplication advertApplication)
+        public async Task<ActionResult> Add(PersonelUserAdvertApplication advertApplication)
         {
-            var result = _personelUseradvertApplicationService.Add(advertApplication);
+            var result = await _personelUseradvertApplicationService.Add(advertApplication);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserAdvertApplication advertApplication)
+        public async Task<ActionResult> Terminate(PersonelUserAdvertApplication advertApplication)
         {
-            var result = _personelUseradvertApplicationService.Terminate(advertApplication);
+            var result = await _personelUseradvertApplicationService.Terminate(advertApplication);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUseradvertApplicationService.GetAll(userAdminDTO);
+            var result = await _personelUseradvertApplicationService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _personelUseradvertApplicationService.GetById(id);
+            var result = await _personelUseradvertApplicationService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbycompanyid")]
-        public IActionResult GetAllByCompanyId(string id)
+        public async Task<ActionResult> GetAllByCompanyId(string id)
         {
-            var result = _personelUseradvertApplicationService.GetById(id);
+            var result = await _personelUseradvertApplicationService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersonelid")]
-        public IActionResult GetAllByPersonelId(string id)
+        public async Task<ActionResult> GetAllByPersonelId(string id)
         {
-            var result = _personelUseradvertApplicationService.GetById(id);
+            var result = await _personelUseradvertApplicationService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUseradvertApplicationService.GetAllDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbyadvertiddto")]
-        public IActionResult GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUseradvertApplicationService.GetAllByAdvertIdDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllByAdvertIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
-        public IActionResult GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUseradvertApplicationService.GetAllByPersonelIdDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllByPersonelIdDTO(userAdminDTO.Id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

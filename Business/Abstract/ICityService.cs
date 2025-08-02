@@ -11,16 +11,16 @@ namespace Business.Abstract
 {
     public interface ICityService
     {
-        IResult Add(City city);
-        IResult Update(City city);
-        IResult Delete(City city);
-        IResult Terminate(City city);
-        IDataResult<List<City>> GetAll();
-        IDataResult<List<City>> GetDeletedAll();
-        IDataResult<City> GetById(string id);
-        
+        Task<IResult> Add(City city);
+        Task<IResult> Update(City city);
+        Task<IResult> Delete(City city);
+        Task<IResult> Terminate(City city);
+        Task<IDataResult<List<City>>> GetAll();
+        Task<IDataResult<List<City>>> GetDeletedAll();
+        Task<IDataResult<City?>> GetById(string id);
+
         //DTO
-        IDataResult<List<CityDTO>> GetAllDTO();
-        IDataResult<List<CityDTO>> GetDeletedAllDTO();
+        Task<IDataResult<List<CityDTO>>> GetAllDTO();
+        Task<IDataResult<List<CityDTO>>> GetDeletedAllDTO();
     }
 }

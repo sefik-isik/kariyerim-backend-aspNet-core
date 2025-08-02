@@ -24,71 +24,71 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CompanyUserImage companyUserImage)
+        public async Task<ActionResult> Add(CompanyUserImage companyUserImage)
         {
-            var result = _companyUserImageService.Add(companyUserImage);
+            var result = await _companyUserImageService.Add(companyUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CompanyUserImage companyUserImage)
+        public async Task<ActionResult> Update(CompanyUserImage companyUserImage)
         {
-            var result = _companyUserImageService.Update(companyUserImage);
+            var result = await _companyUserImageService.Update(companyUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CompanyUserImage companyUserImage)
+        public async Task<ActionResult> Delete(CompanyUserImage companyUserImage)
         {
-            var result = _companyUserImageService.Delete(companyUserImage);
+            var result = await _companyUserImageService.Delete(companyUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(CompanyUserImage companyUserImage)
+        public async Task<ActionResult> Terminate(CompanyUserImage companyUserImage)
         {
-            var result = _companyUserImageService.Terminate(companyUserImage);
+            var result = await _companyUserImageService.Terminate(companyUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetAll(userAdminDTO);
+            var result = await _companyUserImageService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetDeletedAll(userAdminDTO);
+            var result = await _companyUserImageService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetById(userAdminDTO);
+            var result = await _companyUserImageService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetAllDTO(userAdminDTO);
+            var result = await _companyUserImageService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _companyUserImageService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _companyUserImageService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadimage")]
-        public IActionResult UploadImage(IFormFile image, string id)
+        public async Task<ActionResult> UploadImage(IFormFile image, string id)
         {
-            var companyUser = _companyUserService.GetById(id);
+            var companyUser = await _companyUserService.GetById(id);
 
             string userId = companyUser.Data.UserId;
 
@@ -152,9 +152,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deleteimage")]
-        public IActionResult DeleteImage(CompanyUserImage companyUserImage)
+        public async Task<ActionResult> DeleteImage(CompanyUserImage companyUserImage)
         {
-            var result = _companyUserImageService.DeleteImage(companyUserImage);
+            var result = await _companyUserImageService.DeleteImage(companyUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

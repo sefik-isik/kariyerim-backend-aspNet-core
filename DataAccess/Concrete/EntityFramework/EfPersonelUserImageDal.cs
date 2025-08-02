@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [isProfilImage]=false  WHERE [PersonelUserId] = {id}");
             }
         }
-        public List<PersonelUserImageDTO> GetAllDTO()
+        public async Task<List<PersonelUserImageDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -50,11 +50,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserImages.UpdatedDate,
                                  DeletedDate = personelUserImages.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserImageDTO> GetDeletedAllDTO()
+        public async Task<List<PersonelUserImageDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -83,7 +83,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = personelUserImages.UpdatedDate,
                                  DeletedDate = personelUserImages.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

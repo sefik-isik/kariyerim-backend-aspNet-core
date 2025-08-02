@@ -16,7 +16,13 @@ namespace Core.Extensions
                 throw new ArgumentNullException(nameof(httpContextAccessor));
             }
 
-            var request = httpContextAccessor.HttpContext.Request;
+            var httpContext = httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
+            }
+
+            var request = httpContext.Request;
             return string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
         }
 
@@ -27,7 +33,13 @@ namespace Core.Extensions
                 throw new ArgumentNullException(nameof(httpContextAccessor));
             }
 
-            return httpContextAccessor.HttpContext.Request.Path.Value;
+            var httpContext = httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
+            }
+
+            return httpContext.Request.Path.Value;
         }
     }
 }

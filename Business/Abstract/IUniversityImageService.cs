@@ -11,14 +11,15 @@ namespace Business.Abstract
 {
     public interface IUniversityImageService
     {
-        IResult Add(UniversityImage universityImage);
-        IResult Update(UniversityImage universityImage);
-        IResult Delete(UniversityImage universityImage);
-        IResult Terminate(UniversityImage universityImage);
-        IDataResult<List<UniversityImage>> GetAll();
-        IDataResult<List<UniversityImage>> GetDeletedAll();
-        IDataResult<List<UniversityImage>> GetAllById(string id);
-        IDataResult<UniversityImage> GetById(string id);
-        IResult DeleteImage(UniversityImage universityImage);
+        Task<IResult> Add(UniversityImage universityImage);
+        Task<IResult> Update(UniversityImage universityImage);
+        Task<IResult> Delete(UniversityImage universityImage);
+        Task<IResult> Terminate(UniversityImage universityImage);
+        Task<IResult> DeleteImage(UniversityImage universityImage);
+        Task<IDataResult<List<UniversityImage>>> GetAll();
+        Task<IDataResult<List<UniversityImage>>> GetDeletedAll();
+        Task<IDataResult<List<UniversityImage>>> GetAllById(string id);
+        Task<IDataResult<UniversityImage>> GetById(string id);
+        
     }
 }

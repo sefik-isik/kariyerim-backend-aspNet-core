@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var regionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [Regions] WHERE [CityId] = {id}");
             }
         }
-        public List<CityDTO> GetAllDTO()
+        public async Task<List<CityDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -42,10 +42,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = cities.UpdatedDate,
                                  DeletedDate = cities.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
-        public List<CityDTO> GetDeletedAllDTO()
+        public async Task<List<CityDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -65,7 +65,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = cities.UpdatedDate,
                                  DeletedDate = cities.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 

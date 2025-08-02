@@ -9,6 +9,7 @@ namespace Entities.Concrete
 {
     public class Count : Entity, IEntity
     {
+        public int Order { get; set; }
         public string CountValue { get; set; }
     }
 }

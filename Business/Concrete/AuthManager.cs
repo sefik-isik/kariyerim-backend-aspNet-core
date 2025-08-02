@@ -27,7 +27,7 @@ namespace Business.Concrete
             _userOperationClaimService = userOperationClaimService;
         }
 
-        public IDataResult<User> Register(UserForRegisterDTO userForRegisterDto)
+        public async Task<IDataResult<User>> Register(UserForRegisterDTO userForRegisterDto)
         {
             string userCode = SelectUserCode(userForRegisterDto);
 
@@ -44,16 +44,16 @@ namespace Business.Concrete
                 Code= userCode,
                 Status = UserStatus.User,
             };
-            _userService.Add(user);
+            await _userService.Add(user);
 
-            var currentUser = _userService.GetByMail(userForRegisterDto.Email);
+            var currentUser = await _userService.GetByMail(userForRegisterDto.Email);
 
             var userOperationClaim = new UserOperationClaim
             {
                 UserId = currentUser.Data.Id,
                 OperationClaimId = "bb6f4813-5813-49ab-ab08-17c605121d5e"
             };
-            _userOperationClaimService.Add(userOperationClaim);
+            await _userOperationClaimService.Add(userOperationClaim);
 
             return new SuccessDataResult<User>(user, Messages.SuccessfulLogin);
         }
@@ -63,9 +63,9 @@ namespace Business.Concrete
            return userForRegisterDto.Code == "personel" ? UserCode.PersonelUser : UserCode.CompanyUser;
         }
 
-        public IDataResult<User> Login(UserForLoginDTO userForLoginDto)
+        public async Task<IDataResult<User>> Login(UserForLoginDTO userForLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userForLoginDto.Email);
+            var userToCheck = await _userService.GetByMail(userForLoginDto.Email);
 
             if (userToCheck.Data == null)
             {
@@ -82,12 +82,12 @@ namespace Business.Concrete
 
 
         [SecuredOperation("admin,user")]
-        public IDataResult<User> UpdatePassword(PasswordDTO passwordDto)
+        public async Task<IDataResult<User>> UpdatePassword(PasswordDTO passwordDto)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(passwordDto.Password, out passwordHash, out passwordSalt);
 
-            var userToCheck = _userService.GetByMail(passwordDto.Email);
+            var userToCheck = await _userService.GetByMail(passwordDto.Email);
 
             if (userToCheck.Data == null)
             {
@@ -109,7 +109,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>((Messages.PasswordExist));
             }
 
-            User currentUser = _userService.GetById(passwordDto.Id);
+            User currentUser = await _userService.GetById(passwordDto.Id);
 
             var user = new User
             {
@@ -127,23 +127,25 @@ namespace Business.Concrete
                 DeletedDate = currentUser.DeletedDate,
 
             };
-            _userService.Update(user);
+            await _userService.Update(user);
             return new SuccessDataResult<User>(user, Messages.SuccessPasswordChange);
         }
 
-        public IResult UserExists(string email)
+        public async Task<IResult> UserExists(string email)
         {
-            if (_userService.GetByMail(email).Data != null)
+            var userResult = await _userService.GetByMail(email);
+
+            if (userResult.Data != null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
             return new SuccessResult();
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(User user)
+        public async Task<IDataResult<AccessToken>> CreateAccessToken(User user)
         {
-            var claims = _userService.GetClaims(user);
-            var accessToken = _tokenHelper.CreateToken(user, claims.Data);
+            var claims = await _userService.GetClaims(user);
+            var accessToken = await _tokenHelper.CreateToken(user, claims.Data);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }

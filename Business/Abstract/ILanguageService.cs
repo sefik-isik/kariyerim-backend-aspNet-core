@@ -11,13 +11,13 @@ namespace Business.Abstract
 {
     public interface ILanguageService
     {
-        IResult Add(Language language);
-        IResult Update(Language language);
-        IResult Delete(Language language);
-        IResult Terminate(Language language);
-        IDataResult<List<Language>> GetAll();
-        IDataResult<List<Language>> GetDeletedAll();
-        IDataResult<Language> GetById(string id);
+        Task<IResult> Add(Language language);
+        Task<IResult> Update(Language language);
+        Task<IResult> Delete(Language language);
+        Task<IResult> Terminate(Language language);
+        Task<IDataResult<List<Language>>> GetAll();
+        Task<IDataResult<List<Language>>> GetDeletedAll();
+        Task<IDataResult<Language>> GetById(string id);
         
     }
 }

@@ -11,17 +11,17 @@ namespace Business.Abstract
 {
     public interface IPositionDescriptionService
     {
-        IResult Add(PositionDescription positionDescription);
-        IResult Update(PositionDescription positionDescription);
-        IResult Delete(PositionDescription positionDescription);
-        IResult Terminate(PositionDescription positionDescription);
-        IDataResult<List<PositionDescription>> GetAll();
-        IDataResult<List<PositionDescription>> GetDeletedAll();
-        IDataResult<PositionDescription> GetById(string id);
+        Task<IResult> Add(PositionDescription positionDescription);
+        Task<IResult> Update(PositionDescription positionDescription);
+        Task<IResult> Delete(PositionDescription positionDescription);
+        Task<IResult> Terminate(PositionDescription positionDescription);
+        Task<IDataResult<List<PositionDescription>>> GetAll();
+        Task<IDataResult<List<PositionDescription>>> GetDeletedAll();
+        Task<IDataResult<PositionDescription>> GetById(string id);
 
         //DTO
-        IDataResult<List<PositionDescriptionDTO>> GetAllDTO();
-        IDataResult<List<PositionDescriptionDTO>> GetDeletedAllDTO();
-        IDataResult<List<PositionDescriptionDTO>> GetAllByPositionIdDTO(string id);
+        Task<IDataResult<List<PositionDescriptionDTO>>> GetAllDTO();
+        Task<IDataResult<List<PositionDescriptionDTO>>> GetDeletedAllDTO();
+        Task<IDataResult<List<PositionDescriptionDTO>>> GetAllByPositionIdDTO(string id);
     }
 }

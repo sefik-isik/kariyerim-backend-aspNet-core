@@ -24,57 +24,61 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(Experience experience)
+        public async Task<IResult> Add(Experience experience)
         {
-            IResult result = BusinessRules.Run(IsNameExist(experience.ExperienceName));
+            IResult result = await BusinessRules.Run(IsNameExist(experience.ExperienceName));
 
             if (result != null)
             {
                 return result;
             }
-            _experienceDal.AddAsync(experience);
+            await _experienceDal.AddAsync(experience);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(Experience experience)
+        public async Task<IResult> Update(Experience experience)
         {
-            _experienceDal.UpdateAsync(experience);
+            await _experienceDal.UpdateAsync(experience);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(Experience experience)
+        public async Task<IResult> Delete(Experience experience)
         {
-            _experienceDal.Delete(experience);
+            await _experienceDal.Delete(experience);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(Experience experience)
+        public async Task<IResult> Terminate(Experience experience)
         {
-            _experienceDal.Terminate(experience);
+            await _experienceDal.Terminate(experience);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Experience>> GetAll()
+        public async Task<IDataResult<List<Experience>>> GetAll()
         {
-            return new SuccessDataResult<List<Experience>>(_experienceDal.GetAll().OrderBy(s => s.ExperienceName).ToList(), Messages.SuccessListed);
+            var result = await _experienceDal.GetAll();
+            result = result.OrderBy(x => x.ExperienceName).ToList();
+            return new SuccessDataResult<List<Experience>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Experience>> GetDeletedAll()
+        public async Task<IDataResult<List<Experience>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Experience>>(_experienceDal.GetDeletedAll().OrderBy(s => s.ExperienceName).ToList(), Messages.SuccessListed);
+            var result = await _experienceDal.GetDeletedAll();
+            result = result.OrderBy(x => x.ExperienceName).ToList();
+            return new SuccessDataResult<List<Experience>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Experience> GetById(string id)
+        public async Task<IDataResult<Experience?>> GetById(string id)
         {
-            return new SuccessDataResult<Experience>(_experienceDal.Get(f => f.Id == id));
+            return new SuccessDataResult<Experience?>(await _experienceDal.Get(f => f.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _experienceDal.GetAll(c => c.ExperienceName.ToLower() == entityName.ToLower()).Any();
+            var result = await _experienceDal.GetAll(c => c.ExperienceName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

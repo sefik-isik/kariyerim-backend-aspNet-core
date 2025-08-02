@@ -28,99 +28,104 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         [ValidationAspect(typeof(CityValidator))]
         [CacheRemoveAspect()]
-        public IResult Add(City city)
+        public async Task<IResult> Add(City city)
         {
-            IResult result = BusinessRules.Run(IsNameExist(city.CityName));
+            IResult result = await BusinessRules.Run(IsNameExist(city.CityName));
 
             if (result != null)
             {
                 return result;
             }
 
-            _cityDal.AddAsync(city);
+            await _cityDal.AddAsync(city);
             return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin")]
         [CacheRemoveAspect()]
         [ValidationAspect(typeof(CityValidator))]
-        public IResult Update(City city)
+        public async Task<IResult> Update(City city)
         {
-            IResult result = BusinessRules.Run(IsNameExist(city.CityName));
+            IResult result = await BusinessRules.Run(IsNameExist(city.CityName));
 
             if (result != null)
             {
                 return result;
             }
 
-            _cityDal.UpdateAsync(city);
+            await _cityDal.UpdateAsync(city);
             return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin")]
         [CacheRemoveAspect()]
-        public IResult Delete(City city)
+        public async Task<IResult> Delete(City city)
         {
-            _cityDal.Delete(city);
+             await _cityDal.Delete(city);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(City city)
+        public async Task<IResult> Terminate(City city)
         {
-            _cityDal.TerminateSubDatas(city.Id);
-            _cityDal.Terminate(city);
+            await _cityDal.TerminateSubDatas(city.Id);
+            await _cityDal.Terminate(city);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<List<City>> GetAll()
+        public async Task<IDataResult<List<City>>> GetAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetAll().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var result = await _cityDal.GetAll();
+            result = result.OrderBy(x => x.CityName).ToList();
+            return new SuccessDataResult<List<City>>(result, Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<List<City>> GetDeletedAll()
+        public async Task<IDataResult<List<City>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<City>>(_cityDal.GetDeletedAll().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var result = await _cityDal.GetDeletedAll();
+            result = result.OrderBy(x => x.CityName).ToList();
+            return new SuccessDataResult<List<City>>(result, Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
         //[CacheAspect]
-        public IDataResult<City> GetById(string id)
+        public async Task<IDataResult<City?>> GetById(string id)
         {
-            return new SuccessDataResult<City>(_cityDal.Get(c => c.Id == id), Messages.SuccessListed);
+            var city = await _cityDal.Get(c => c.Id == id);
+            return new SuccessDataResult<City?>(city, Messages.SuccessListed);
         }
 
 
         //DTO
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<CityDTO>> GetAllDTO()
+        public async Task<IDataResult<List<CityDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var cities = await _cityDal.GetAllDTO();
+            return new SuccessDataResult<List<CityDTO>>(cities, Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CityDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<CityDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<CityDTO>>(_cityDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var cities = await _cityDal.GetDeletedAllDTO();
+            return new SuccessDataResult<List<CityDTO>>(cities, Messages.SuccessListed);
         }
 
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _cityDal.GetAll(c => c.CityName.ToLower() == entityName.ToLower()).Any();
+            var result = await _cityDal.GetAll(c => c.CityName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
             return new SuccessResult();
         }
-
-
     }
 }

@@ -11,8 +11,8 @@ namespace DataAccess.Abstract
 {
     public interface ISectorDescriptionDal : IEntityRepository<SectorDescription>
     {
-        List<SectorDescriptionDTO> GetAllDTO();
-        List<SectorDescriptionDTO> GetDeletedAllDTO();
-        List<SectorDescriptionDTO> GetAllBySectorIdDTO(string id);
+        Task<List<SectorDescriptionDTO>> GetAllDTO();
+        Task<List<SectorDescriptionDTO>> GetDeletedAllDTO();
+        Task<List<SectorDescriptionDTO>> GetAllBySectorIdDTO(string id);
     }
 }

@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                List<PersonelUserCv> cvs = GetAllCvByPersonelUserId(id);
+                List<PersonelUserCv> cvs = await GetAllCvByPersonelUserId(id);
                 if (cvs != null && cvs.Count>0)
                 {
                     foreach (var cv in cvs)
@@ -41,7 +41,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        private List<PersonelUserCv> GetAllCvByPersonelUserId(string id)
+        private async Task<List<PersonelUserCv>> GetAllCvByPersonelUserId(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -52,11 +52,11 @@ namespace DataAccess.Concrete.EntityFramework
                           {
                               Id = personelUserCvs.Id,
                           };
-                return cvs.ToList();
+                return await cvs.ToListAsync();
             }
         }
 
-        public List<PersonelUserDTO> GetAllDTO()
+        public async Task<List<PersonelUserDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -95,11 +95,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  DeletedDate = personelUsers.DeletedDate,
                                  
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-       public List<PersonelUserDTO> GetDeletedAllDTO()
+       public async Task<List<PersonelUserDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -138,7 +138,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  DeletedDate = personelUsers.DeletedDate,
 
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

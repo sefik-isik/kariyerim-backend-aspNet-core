@@ -23,65 +23,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(UniversityImage universityImage)
+        public async Task<ActionResult> Add(UniversityImage universityImage)
         {
-            var result = _universityImageService.Add(universityImage);
+            var result = await _universityImageService.Add(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(UniversityImage universityImage)
+        public async Task<ActionResult> Update(UniversityImage universityImage)
         {
-            var result = _universityImageService.Update(universityImage);
+            var result = await _universityImageService.Update(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(UniversityImage universityImage)
+        public async Task<ActionResult> Delete(UniversityImage universityImage)
         {
-            var result = _universityImageService.Delete(universityImage);
+            var result = await _universityImageService.Delete(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(UniversityImage universityImage)
+        public async Task<ActionResult> Terminate(UniversityImage universityImage)
         {
-            var result = _universityImageService.Terminate(universityImage);
+            var result = await _universityImageService.Terminate(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _universityImageService.GetAll();
+            var result = await _universityImageService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _universityImageService.GetDeletedAll();
+            var result = await _universityImageService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getallbyid")]
-        public IActionResult GetAllById(string id)
+        public async Task<ActionResult> GetAllById(string id)
         {
-            var result = _universityImageService.GetAllById(id);
+            var result = await _universityImageService.GetAllById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _universityImageService.GetById(id);
+            var result = await _universityImageService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadimage")]
-        public IActionResult UploadImage(IFormFile image, string id)
+        public async Task<ActionResult> UploadImage(IFormFile image, string id)
         {
-            var university = _universityService.GetById(id);
+            var university = await _universityService.GetById(id);
             string universityId = university.Data.Id;
 
             if (image == null || image.Length == 0)
@@ -144,9 +144,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deleteimage")]
-        public IActionResult DeleteImage(UniversityImage universityImage)
+        public async Task<ActionResult> DeleteImage(UniversityImage universityImage)
         {
-            var result = _universityImageService.DeleteImage(universityImage);
+            var result = await _universityImageService.DeleteImage(universityImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

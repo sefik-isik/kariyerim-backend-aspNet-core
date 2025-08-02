@@ -17,51 +17,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(WorkingMethod workingMethod)
+        public async Task<ActionResult> Add(WorkingMethod workingMethod)
         {
-            var result = _workingMethodService.Add(workingMethod);
+            var result = await _workingMethodService.Add(workingMethod);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(WorkingMethod workingMethod)
+        public async Task<ActionResult> Update(WorkingMethod workingMethod)
         {
-            var result = _workingMethodService.Update(workingMethod);
+            var result = await _workingMethodService.Update(workingMethod);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(WorkingMethod workingMethod)
+        public async Task<ActionResult> Delete(WorkingMethod workingMethod)
         {
-            var result = _workingMethodService.Delete(workingMethod);
+            var result = await _workingMethodService.Delete(workingMethod);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(WorkingMethod workingMethod)
+        public async Task<ActionResult> Terminate(WorkingMethod workingMethod)
         {
-            var result = _workingMethodService.Terminate(workingMethod);
+            var result = await _workingMethodService.Terminate(workingMethod);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _workingMethodService.GetAll();
+            var result = await _workingMethodService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _workingMethodService.GetDeletedAll();
+            var result = await _workingMethodService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _workingMethodService.GetById(id);
+            var result = await _workingMethodService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

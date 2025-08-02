@@ -11,14 +11,14 @@ namespace Business.Abstract
 {
     public interface IPersonelUserAdvertApplicationService
     {
-        IResult Add(PersonelUserAdvertApplication personelUserAdvertApplication);
-        IResult Terminate(PersonelUserAdvertApplication personelUserAdvertApplication);
-        IDataResult<List<PersonelUserAdvertApplication>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<PersonelUserAdvertApplication> GetById(string id);
+        Task<IResult> Add(PersonelUserAdvertApplication personelUserAdvertApplication);
+        Task<IResult> Terminate(PersonelUserAdvertApplication personelUserAdvertApplication);
+        Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<PersonelUserAdvertApplication>> GetById(string id);
 
         //dto
-        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllDTO(string id);
-        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByAdvertIdDTO(string id);
-        IDataResult<List<PersonelUserAdvertApplicationDTO>> GetAllByPersonelIdDTO(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelIdDTO(string id);
     }
 }

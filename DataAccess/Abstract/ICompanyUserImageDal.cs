@@ -11,8 +11,8 @@ namespace DataAccess.Abstract
 {
     public interface ICompanyUserImageDal : IEntityRepository<CompanyUserImage>
     {
-        List<CompanyUserImageDTO> GetAllDTO();
-        List<CompanyUserImageDTO> GetDeletedAllDTO();
+        Task<List<CompanyUserImageDTO>> GetAllDTO();
+        Task<List<CompanyUserImageDTO>> GetDeletedAllDTO();
         Task UpdateMainImage(string companyUserId);
         Task UpdateLogoImage(string companyUserId);
     }

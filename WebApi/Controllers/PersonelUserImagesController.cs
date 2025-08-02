@@ -17,7 +17,8 @@ namespace WebAPI.Controllers
         private readonly IWebHostEnvironment _environment;
         private IPersonelUserService _personelUserService;
 
-        public PersonelUserImagesController(IPersonelUserImageService personelUserImageService, IWebHostEnvironment webHostEnvironment, IPersonelUserService personelUserService)
+        public PersonelUserImagesController(IPersonelUserImageService personelUserImageService, 
+            IWebHostEnvironment webHostEnvironment, IPersonelUserService personelUserService)
         {
             _personelUserImageService = personelUserImageService;
             _environment = webHostEnvironment;
@@ -26,71 +27,71 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserImage personelUserImage)
+        public async Task<ActionResult> Add(PersonelUserImage personelUserImage)
         {
-            var result = _personelUserImageService.Add(personelUserImage);
+            var result = await _personelUserImageService.Add(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserImage personelUserImage)
+        public async Task<ActionResult> Update(PersonelUserImage personelUserImage)
         {
-            var result = _personelUserImageService.Update(personelUserImage);
+            var result = await _personelUserImageService.Update(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserImage personelUserImage)
+        public async Task<ActionResult> Delete(PersonelUserImage personelUserImage)
         {
-            var result = _personelUserImageService.Delete(personelUserImage);
+            var result = await _personelUserImageService.Delete(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserImage personelUserImage)
+        public async Task<ActionResult> Terminate(PersonelUserImage personelUserImage)
         {
-            var result = _personelUserImageService.Terminate(personelUserImage);
+            var result = await _personelUserImageService.Terminate(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetAll(userAdminDTO);
+            var result = await _personelUserImageService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserImageService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetById(userAdminDTO);
+            var result = await _personelUserImageService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserImageService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserImageService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserImageService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadimage")]
-        public IActionResult UploadImage(IFormFile image, string id)
+        public async Task<ActionResult> UploadImage(IFormFile image, string id)
         {
-            var personelUser = _personelUserService.GetById(id);
+            var personelUser = await _personelUserService.GetById(id);
 
             string userId = personelUser.Data.UserId;
 
@@ -154,9 +155,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deleteimage")]
-        public IActionResult DeleteImage(PersonelUserImage personelUserImage)
+        public async Task<ActionResult> DeleteImage(PersonelUserImage personelUserImage)
         {
-            var result = _personelUserImageService.DeleteImage(personelUserImage);
+            var result = await _personelUserImageService.DeleteImage(personelUserImage);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

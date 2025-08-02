@@ -3,6 +3,7 @@ using Core.Utilities.Business.Constans;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCompanyUserAdvertJobDescriptionDal : EfEntityRepositoryBase<CompanyUserAdvertJobDescription, KariyerimContext>, ICompanyUserAdvertJobDescriptionDal
     {
-        public List<CompanyUserAdvertJobDescriptionDTO> GetAllDTO()
+        public async Task<List<CompanyUserAdvertJobDescriptionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -43,11 +44,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAdvertJobDescription.UpdatedDate,
                                  DeletedDate = companyUserAdvertJobDescription.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserAdvertJobDescriptionDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserAdvertJobDescriptionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -77,7 +78,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserAdvertJobDescription.UpdatedDate,
                                  DeletedDate = companyUserAdvertJobDescription.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

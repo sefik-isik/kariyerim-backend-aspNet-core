@@ -18,65 +18,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<ActionResult> Add(PersonelUserCvEducation personelUserCvEducation)
         {
-            var result = _personelUserCvEducationService.Add(personelUserCvEducation);
+            var result = await _personelUserCvEducationService.Add(personelUserCvEducation);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<ActionResult> Update(PersonelUserCvEducation personelUserCvEducation)
         {
-            var result = _personelUserCvEducationService.Update(personelUserCvEducation);
+            var result = await _personelUserCvEducationService.Update(personelUserCvEducation);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<ActionResult> Delete(PersonelUserCvEducation personelUserCvEducation)
         {
-            var result = _personelUserCvEducationService.Delete(personelUserCvEducation);
+            var result = await _personelUserCvEducationService.Delete(personelUserCvEducation);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<ActionResult> Terminate(PersonelUserCvEducation personelUserCvEducation)
         {
-            var result = _personelUserCvEducationService.Terminate(personelUserCvEducation);
+            var result = await _personelUserCvEducationService.Terminate(personelUserCvEducation);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvEducationService.GetAll(userAdminDTO);
+            var result = await _personelUserCvEducationService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvEducationService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserCvEducationService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvEducationService.GetById(userAdminDTO);
+            var result = await _personelUserCvEducationService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvEducationService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserCvEducationService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvEducationService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserCvEducationService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

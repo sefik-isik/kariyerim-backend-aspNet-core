@@ -17,51 +17,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(LanguageLevel languageLevel)
+        public async Task<ActionResult> Add(LanguageLevel languageLevel)
         {
-            var result = _languageLevelService.Add(languageLevel);
+            var result = await _languageLevelService.Add(languageLevel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(LanguageLevel languageLevel)
+        public async Task<ActionResult> Update(LanguageLevel languageLevel)
         {
-            var result = _languageLevelService.Update(languageLevel);
+            var result = await _languageLevelService.Update(languageLevel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(LanguageLevel languageLevel)
+        public async Task<ActionResult> Delete(LanguageLevel languageLevel)
         {
-            var result = _languageLevelService.Delete(languageLevel);
+            var result = await _languageLevelService.Delete(languageLevel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(LanguageLevel languageLevel)
+        public async Task<ActionResult> Terminate(LanguageLevel languageLevel)
         {
-            var result = _languageLevelService.Terminate(languageLevel);
+            var result = await _languageLevelService.Terminate(languageLevel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _languageLevelService.GetAll();
+            var result = await _languageLevelService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _languageLevelService.GetDeletedAll();
+            var result = await _languageLevelService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _languageLevelService.GetById(id);
+            var result = await _languageLevelService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

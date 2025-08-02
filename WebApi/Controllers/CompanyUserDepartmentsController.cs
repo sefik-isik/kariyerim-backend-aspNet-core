@@ -18,51 +18,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CompanyUserDepartment companyUserDepartment)
+        public async Task<ActionResult> Add(CompanyUserDepartment companyUserDepartment)
         {
-            var result = _companyUserDepartmentService.Add(companyUserDepartment);
+            var result = await _companyUserDepartmentService.Add(companyUserDepartment);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CompanyUserDepartment companyUserDepartment)
+        public async Task<ActionResult> Update(CompanyUserDepartment companyUserDepartment)
         {
-            var result = _companyUserDepartmentService.Update(companyUserDepartment);
+            var result = await _companyUserDepartmentService.Update(companyUserDepartment);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(CompanyUserDepartment companyUserDepartment)
+        public async Task<ActionResult> Delete(CompanyUserDepartment companyUserDepartment)
         {
-            var result = _companyUserDepartmentService.Delete(companyUserDepartment);
+            var result = await _companyUserDepartmentService.Delete(companyUserDepartment);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(CompanyUserDepartment companyUserDepartment)
+        public async Task<ActionResult> Terminate(CompanyUserDepartment companyUserDepartment)
         {
-            var result = _companyUserDepartmentService.Terminate(companyUserDepartment);
+            var result = await _companyUserDepartmentService.Terminate(companyUserDepartment);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _companyUserDepartmentService.GetAll();
+            var result = await _companyUserDepartmentService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _companyUserDepartmentService.GetDeletedAll();
+            var result = await _companyUserDepartmentService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _companyUserDepartmentService.GetById(id);
+            var result = await _companyUserDepartmentService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

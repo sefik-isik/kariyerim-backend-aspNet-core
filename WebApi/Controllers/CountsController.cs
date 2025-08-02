@@ -17,49 +17,49 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Count count)
+        public async Task<ActionResult> Add(Count count)
         {
-            var result = _countService.Add(count);
+            var result = await _countService.Add(count);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Count count)
+        public async Task<ActionResult> Update(Count count)
         {
-            var result = _countService.Update(count);
+            var result = await _countService.Update(count);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Count count)
+        public async Task<ActionResult> Delete(Count count)
         {
-            var result = _countService.Delete(count);
+            var result = await _countService.Delete(count);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(Count count)
+        public async Task<ActionResult> Terminate(Count count)
         {
-            var result = _countService.Terminate(count);
+            var result = await _countService.Terminate(count);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _countService.GetAll();
+            var result = await _countService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _countService.GetDeletedAll();
+            var result = await _countService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _countService.GetById(id);
+            var result = await _countService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

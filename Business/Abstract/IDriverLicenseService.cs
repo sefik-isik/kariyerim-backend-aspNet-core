@@ -11,13 +11,13 @@ namespace Business.Abstract
 {
     public interface IDriverLicenceService
     {
-        IResult Add(DriverLicence driverLicence);
-        IResult Update(DriverLicence driverLicence);
-        IResult Delete(DriverLicence driverLicence);
-        IResult Terminate(DriverLicence driverLicence);
-        IDataResult<List<DriverLicence>> GetAll();
-        IDataResult<List<DriverLicence>> GetDeletedAll();
-        IDataResult<DriverLicence> GetById(string id);
+        Task<IResult> Add(DriverLicence driverLicence);
+        Task<IResult> Update(DriverLicence driverLicence);
+        Task<IResult> Delete(DriverLicence driverLicence);
+        Task<IResult> Terminate(DriverLicence driverLicence);
+        Task<IDataResult<List<DriverLicence>>> GetAll();
+        Task<IDataResult<List<DriverLicence>>> GetDeletedAll();
+        Task<IDataResult<DriverLicence>> GetById(string id);
         
     }
 }

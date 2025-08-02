@@ -11,13 +11,13 @@ namespace Business.Abstract
 {
     public interface ICountryService
     {
-        IResult Add(Country country);
-        IResult Update(Country country);
-        IResult Delete(Country country);
-        IResult Terminate(Country country);
-        IDataResult<List<Country>> GetAll();
-        IDataResult<List<Country>> GetDeletedAll();
-        IDataResult<Country> GetById(string id);
+        Task<IResult> Add(Country country);
+        Task<IResult> Update(Country country);
+        Task<IResult> Delete(Country country);
+        Task<IResult> Terminate(Country country);
+        Task<IDataResult<List<Country>>> GetAll();
+        Task<IDataResult<List<Country>>> GetDeletedAll();
+        Task<IDataResult<Country>> GetById(string id);
         
     }
 }

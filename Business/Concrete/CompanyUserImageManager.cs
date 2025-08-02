@@ -31,19 +31,20 @@ namespace Business.Concrete
             _userService = userService;
             _environment = environment;
         }
-        
+
         [SecuredOperation("admin,user")]
-        public IResult Add(CompanyUserImage companyUserImage)
+        public async Task<IResult> Add(CompanyUserImage companyUserImage)
         {
             if (_userService.GetById(companyUserImage.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserImageDal.AddAsync(companyUserImage);
+            await _companyUserImageDal.AddAsync(companyUserImage);
             return new SuccessResult(Messages.SuccessAdded);
         }
+
         [SecuredOperation("admin,user")]
-        public IResult Update(CompanyUserImage companyUserImage)
+        public async Task<IResult> Update(CompanyUserImage companyUserImage)
         {
             if (_userService.GetById(companyUserImage.UserId) == null)
             {
@@ -52,118 +53,38 @@ namespace Business.Concrete
 
             if (companyUserImage.IsMainImage == true)
             {
-                _companyUserImageDal.UpdateMainImage(companyUserImage.CompanyUserId);
+                await _companyUserImageDal.UpdateMainImage(companyUserImage.CompanyUserId);
             }
 
             if (companyUserImage.IsLogo == true)
             {
-                _companyUserImageDal.UpdateLogoImage(companyUserImage.CompanyUserId);
+                await _companyUserImageDal.UpdateLogoImage(companyUserImage.CompanyUserId);
             }
 
-            _companyUserImageDal.UpdateAsync(companyUserImage);
+            await _companyUserImageDal.UpdateAsync(companyUserImage);
             return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Delete(CompanyUserImage companyUserImage)
+        public async Task<IResult> Delete(CompanyUserImage companyUserImage)
         {
             if (_userService.GetById(companyUserImage.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserImageDal.Delete(companyUserImage);
+            await _companyUserImageDal.Delete(companyUserImage);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(CompanyUserImage companyUserImage)
+        public async Task<IResult> Terminate(CompanyUserImage companyUserImage)
         {
-            DeleteImage(companyUserImage);
-            _companyUserImageDal.Terminate(companyUserImage);
+            await DeleteImage(companyUserImage);
+            await _companyUserImageDal.Terminate(companyUserImage);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImage>> GetAll(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetAll(c => c.UserId == userAdminDTO.UserId));
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetAll());
-            }
-            
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserImage>>(_companyUserImageDal.GetDeletedAll());
-            }
-
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserImage> GetById(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<CompanyUserImage>(_companyUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
-            }
-            else
-            {
-                return new SuccessDataResult<CompanyUserImage>(_companyUserImageDal.Get(c => c.Id == userAdminDTO.Id));
-            }
-        }
-
-        //DTO
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImageDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
-            }
-            
-        }
-
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserImageDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<CompanyUserImageDTO>>(_companyUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
-            }
-
-        }
-
-        public IResult DeleteImage(CompanyUserImage companyUserImage)
+        public async Task<IResult> DeleteImage(CompanyUserImage companyUserImage)
         {
             if (companyUserImage == null)
             {
@@ -188,9 +109,92 @@ namespace Business.Concrete
             companyUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             companyUserImage.ImageName = "noImage.jpg";
 
-            Update(companyUserImage);
+            await Update(companyUserImage);
 
             return new SuccessResult();
         }
-    }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImage>>> GetAll(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetAll());
+            }
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImage>>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetDeletedAll());
+            }
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<CompanyUserImage?>> GetById(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<CompanyUserImage?>(await _companyUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+            }
+            else
+            {
+                return new SuccessDataResult<CompanyUserImage?>(await _companyUserImageDal.Get(c => c.Id == userAdminDTO.Id));
+            }
+        }
+
+        //DTO
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImageDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var alldto = await _companyUserImageDal.GetAllDTO();
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId).ToList(), Messages.SuccessListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+            }
+
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImageDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var alldto = await _companyUserImageDal.GetDeletedAllDTO();
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId).ToList(), Messages.SuccessListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserImageDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList().ToList(), Messages.SuccessListed);
+            }
+
+        }
+
+    }   
 }

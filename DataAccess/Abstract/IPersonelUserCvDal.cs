@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface IPersonelUserCvDal : IEntityRepository<PersonelUserCv>
     {
         Task TerminateSubDatas(string id);
-        List<PersonelUserCvDTO> GetAllDTO();
-        List<PersonelUserCvDTO> GetDeletedAllDTO();
+        Task<List<PersonelUserCvDTO>> GetAllDTO();
+        Task<List<PersonelUserCvDTO>> GetDeletedAllDTO();
     }
 }

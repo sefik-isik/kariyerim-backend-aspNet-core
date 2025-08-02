@@ -17,72 +17,72 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(UniversityDescription universityDescription)
+        public async Task<ActionResult> Add(UniversityDescription universityDescription)
         {
-            var result = _universityDescriptionService.Add(universityDescription);
+            var result = await _universityDescriptionService.Add(universityDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(UniversityDescription universityDescription)
+        public async Task<ActionResult> Update(UniversityDescription universityDescription)
         {
-            var result = _universityDescriptionService.Update(universityDescription);
+            var result = await _universityDescriptionService.Update(universityDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(UniversityDescription universityDescription)
+        public async Task<ActionResult> Delete(UniversityDescription universityDescription)
         {
-            var result = _universityDescriptionService.Delete(universityDescription);
+            var result = await _universityDescriptionService.Delete(universityDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(UniversityDescription universityDescription)
+        public async Task<ActionResult> Terminate(UniversityDescription universityDescription)
         {
-            var result = _universityDescriptionService.Terminate(universityDescription);
+            var result = await _universityDescriptionService.Terminate(universityDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _universityDescriptionService.GetAll();
+            var result = await _universityDescriptionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _universityDescriptionService.GetDeletedAll();
+            var result = await _universityDescriptionService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _universityDescriptionService.GetById(id);
+            var result = await _universityDescriptionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO()
+        public async Task<ActionResult> GetAllDTO()
         {
-            var result = _universityDescriptionService.GetAllDTO();
+            var result = await _universityDescriptionService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedalldto")]
-        public IActionResult GetDeletedAllDTO()
+        public async Task<ActionResult> GetDeletedAllDTO()
         {
-            var result = _universityDescriptionService.GetDeletedAllDTO();
+            var result = await _universityDescriptionService.GetDeletedAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalluniversityiddto")]
-        public IActionResult GetAllByUniversityIdDTO(string id)
+        public async Task<ActionResult> GetAllByUniversityIdDTO(string id)
         {
-            var result = _universityDescriptionService.GetAllByUniversityIdDTO(id);
+            var result = await _universityDescriptionService.GetAllByUniversityIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRegionDal : EfEntityRepositoryBase<Region, KariyerimContext>,IRegionDal
     {
-        public List<RegionDTO> GetAllDTO()
+        public async Task<List<RegionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -35,10 +36,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = regions.UpdatedDate,
                                  DeletedDate = regions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
-       public List<RegionDTO> GetDeletedAllDTO()
+       public async Task<List<RegionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -61,7 +62,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = regions.UpdatedDate,
                                  DeletedDate = regions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

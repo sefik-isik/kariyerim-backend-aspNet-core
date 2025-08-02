@@ -14,7 +14,8 @@ namespace WebAPI.Controllers
         private readonly IWebHostEnvironment _environment;
         private IPersonelUserService _personelUserService;
 
-        public PersonelUserFilesController(IPersonelUserFileService personelUserFileService, IWebHostEnvironment environment, IPersonelUserService personelUserService)
+        public PersonelUserFilesController(IPersonelUserFileService personelUserFileService, 
+            IWebHostEnvironment environment, IPersonelUserService personelUserService)
         {
             _personelUserFileService = personelUserFileService;
             _environment = environment;
@@ -23,72 +24,72 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserFile personelUserFile)
+        public async Task<ActionResult> Add(PersonelUserFile personelUserFile)
         {
-            var result = _personelUserFileService.Add(personelUserFile);
+            var result = await _personelUserFileService.Add(personelUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserFile personelUserFile)
+        public async Task<ActionResult> Update(PersonelUserFile personelUserFile)
         {
-            var result = _personelUserFileService.Update(personelUserFile);
+            var result = await _personelUserFileService.Update(personelUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserFile personelUserFile)
+        public async Task<ActionResult> Delete(PersonelUserFile personelUserFile)
         {
-            var result = _personelUserFileService.Delete(personelUserFile);
+            var result = await _personelUserFileService.Delete(personelUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserFile personelUserFile)
+        public async Task<ActionResult> Terminate(PersonelUserFile personelUserFile)
         {
-            var result = _personelUserFileService.Terminate(personelUserFile);
+            var result = await _personelUserFileService.Terminate(personelUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetAll(userAdminDTO);
+            var result = await _personelUserFileService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserFileService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetById(userAdminDTO);
+            var result = await _personelUserFileService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserFileService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserFileService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserFileService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("uploadfile")]
-        public IActionResult UploadFile(IFormFile file, string id)
+        public async Task<ActionResult> UploadFile(IFormFile file, string id)
         {
-            var personelUser = _personelUserService.GetById(id);
+            var personelUser = await _personelUserService.GetById(id);
 
             string userId = personelUser.Data.UserId;
 
@@ -131,10 +132,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deletefile")]
-        public IActionResult DeleteFile(PersonelUserFile personelUserFile)
+        public async Task<ActionResult> DeleteFile(PersonelUserFile personelUserFile)
         {
 
-            var personelUser = _personelUserService.GetById(personelUserFile.PersonelUserId);
+            var personelUser = await _personelUserService.GetById(personelUserFile.PersonelUserId);
 
             string userId = personelUser.Data.UserId;
 
@@ -149,7 +150,7 @@ namespace WebAPI.Controllers
             personelUserFile.FilePath = "noPath";
             personelUserFile.FileName = "noFile";
 
-            var result = _personelUserFileService.Update(personelUserFile);
+            var result = await _personelUserFileService.Update(personelUserFile);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

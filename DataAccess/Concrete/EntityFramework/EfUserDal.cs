@@ -24,7 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                List<CompanyUser> companyUserList = GetAllCompanyUserByUserId(id);
+                List<CompanyUser> companyUserList = await GetAllCompanyUserByUserId(id);
                 if (companyUserList != null && companyUserList.Count > 0)
                 {
                     foreach (var companyUser in companyUserList)
@@ -33,7 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
                     }
                 }
 
-                List<PersonelUser> personelUserList = GetAllPersonelUserByUserId(id);
+                List<PersonelUser> personelUserList = await GetAllPersonelUserByUserId(id);
                 if (personelUserList != null && personelUserList.Count > 0)
                 {
                     foreach (var personelUser in personelUserList)
@@ -48,7 +48,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        private List<CompanyUser> GetAllCompanyUserByUserId(string id)
+        private async Task<List<CompanyUser>> GetAllCompanyUserByUserId(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -59,11 +59,11 @@ namespace DataAccess.Concrete.EntityFramework
                               {
                                   Id = companyUsers.Id,
                               };
-                return companyUserList.ToList();
+                return await companyUserList.ToListAsync();
             }
         }
 
-        private List<PersonelUser> GetAllPersonelUserByUserId(string id)
+        private async Task<List<PersonelUser>> GetAllPersonelUserByUserId(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -74,11 +74,11 @@ namespace DataAccess.Concrete.EntityFramework
                                       {
                                           Id = personelUsers.Id,
                                       };
-                return personelUserList.ToList();
+                return await personelUserList.ToListAsync();
             }
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public async Task<List<OperationClaim>> GetClaims(User user)
         {
             using (var context = new KariyerimContext())
             {
@@ -90,12 +90,12 @@ namespace DataAccess.Concrete.EntityFramework
                              where userOperationClaims.UserId == user.Id 
 
                              select new OperationClaim { Id = operationClaims.Id, Name = operationClaims.Name };
-                return result.ToList();
+                return await result.ToListAsync();
 
             }
         }
 
-        public List<UserDTO> GetAllDTO()
+        public async Task<List<UserDTO>> GetAllDTO()
         {
             using (var context = new KariyerimContext())
             {
@@ -115,11 +115,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate= users.UpdatedDate,
                                  DeletedDate= users.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UserDTO> GetAllCompanyUserDTO()
+        public async Task<List<UserDTO>> GetAllCompanyUserDTO()
         {
             using (var context = new KariyerimContext())
             {
@@ -140,11 +140,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = users.UpdatedDate,
                                  DeletedDate = users.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UserDTO> GetAllPersonelUserDTO()
+        public async Task<List<UserDTO>> GetAllPersonelUserDTO()
         {
             using (var context = new KariyerimContext())
             {
@@ -165,11 +165,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = users.UpdatedDate,
                                  DeletedDate = users.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UserDTO> GetDeletedAllDTO()
+        public async Task<List<UserDTO>> GetDeletedAllDTO()
         {
             using (var context = new KariyerimContext())
             {
@@ -189,11 +189,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate= users.UpdatedDate,
                                  DeletedDate= users.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public UserDTO GetByIdForAdminDTO(string id)
+        public async Task<UserDTO> GetByIdForAdminDTO(string id)
         {
             using (var context = new KariyerimContext())
             {
@@ -212,11 +212,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = users.UpdatedDate,
                                  DeletedDate = users.DeletedDate,
                              };
-                return result.ToList()[0];
+                return await result.FirstOrDefaultAsync();
             }
         }
 
-        public UserDTO GetByIdDTO(string userId, string id)
+        public async Task<UserDTO> GetByIdDTO(string userId, string id)
         {
             using (var context = new KariyerimContext())
             {
@@ -235,10 +235,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = users.UpdatedDate,
                                  DeletedDate = users.DeletedDate,
                              };
-                return result.ToList()[0];
+                return await result.FirstOrDefaultAsync();
             }
         }
-        public List<UserCodeDTO> GetCode(string userId)
+        public async Task<List<UserCodeDTO>> GetCode(string userId)
         {
             using (var context = new KariyerimContext())
             {
@@ -250,7 +250,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Id = users.Id,
                                  Code = users.Code,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

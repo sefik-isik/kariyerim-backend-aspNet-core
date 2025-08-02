@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IUserOperationClaimDal : IEntityRepository<UserOperationClaim>
     {
-        List<UserOperationClaimDTO> GetAllDTO(); 
-        List<UserOperationClaimDTO> GetDeletedAllDTO();
+        Task<List<UserOperationClaimDTO>> GetAllDTO();
+        Task<List<UserOperationClaimDTO>> GetDeletedAllDTO();
     }
 }

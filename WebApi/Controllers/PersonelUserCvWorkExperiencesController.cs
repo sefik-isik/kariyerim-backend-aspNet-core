@@ -18,65 +18,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserCvWorkExperience personelUserCvWorkExperience)
+        public async Task<ActionResult> Add(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            var result = _personelUserCvWorkExperienceService.Add(personelUserCvWorkExperience);
+            var result = await _personelUserCvWorkExperienceService.Add(personelUserCvWorkExperience);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserCvWorkExperience personelUserCvWorkExperience)
+        public async Task<ActionResult> Update(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            var result = _personelUserCvWorkExperienceService.Update(personelUserCvWorkExperience);
+            var result = await _personelUserCvWorkExperienceService.Update(personelUserCvWorkExperience);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience)
+        public async Task<ActionResult> Delete(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            var result = _personelUserCvWorkExperienceService.Delete(personelUserCvWorkExperience);
+            var result = await _personelUserCvWorkExperienceService.Delete(personelUserCvWorkExperience);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience)
+        public async Task<ActionResult> Terminate(PersonelUserCvWorkExperience personelUserCvWorkExperience)
         {
-            var result = _personelUserCvWorkExperienceService.Terminate(personelUserCvWorkExperience);
+            var result = await _personelUserCvWorkExperienceService.Terminate(personelUserCvWorkExperience);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvWorkExperienceService.GetAll(userAdminDTO);
+            var result = await _personelUserCvWorkExperienceService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvWorkExperienceService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserCvWorkExperienceService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvWorkExperienceService.GetById(userAdminDTO);
+            var result = await _personelUserCvWorkExperienceService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvWorkExperienceService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserCvWorkExperienceService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserCvWorkExperienceService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserCvWorkExperienceService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

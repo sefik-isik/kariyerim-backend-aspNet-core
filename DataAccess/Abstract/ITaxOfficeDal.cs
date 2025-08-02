@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface ITaxOfficeDal : IEntityRepository<TaxOffice>
     {
-        List<TaxOfficeDTO> GetAllDTO();
-        List<TaxOfficeDTO> GetDeletedAllDTO();
+        Task<List<TaxOfficeDTO>> GetAllDTO();
+        Task<List<TaxOfficeDTO>> GetDeletedAllDTO();
     }
 }

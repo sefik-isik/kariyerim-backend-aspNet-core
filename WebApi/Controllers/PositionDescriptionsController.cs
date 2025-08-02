@@ -17,72 +17,72 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PositionDescription positionDescription)
+        public async Task<ActionResult> Add(PositionDescription positionDescription)
         {
-            var result = _positionDescriptionService.Add(positionDescription);
+            var result = await _positionDescriptionService.Add(positionDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PositionDescription positionDescription)
+        public async Task<ActionResult> Update(PositionDescription positionDescription)
         {
-            var result = _positionDescriptionService.Update(positionDescription);
+            var result = await _positionDescriptionService.Update(positionDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PositionDescription positionDescription)
+        public async Task<ActionResult> Delete(PositionDescription positionDescription)
         {
-            var result = _positionDescriptionService.Delete(positionDescription);
+            var result = await _positionDescriptionService.Delete(positionDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PositionDescription positionDescription)
+        public async Task<ActionResult> Terminate(PositionDescription positionDescription)
         {
-            var result = _positionDescriptionService.Terminate(positionDescription);
+            var result = await _positionDescriptionService.Terminate(positionDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _positionDescriptionService.GetAll();
+            var result = await _positionDescriptionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _positionDescriptionService.GetDeletedAll();
+            var result = await _positionDescriptionService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _positionDescriptionService.GetById(id);
+            var result = await _positionDescriptionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO()
+        public async Task<ActionResult> GetAllDTO()
         {
-            var result = _positionDescriptionService.GetAllDTO();
+            var result = await _positionDescriptionService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedalldto")]
-        public IActionResult GetDeletedAllDTO()
+        public async Task<ActionResult> GetDeletedAllDTO()
         {
-            var result = _positionDescriptionService.GetDeletedAllDTO();
+            var result = await _positionDescriptionService.GetDeletedAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getallpositioniddto")]
-        public IActionResult GetAllByDeparttmetIdDTO(string id)
+        public async Task<ActionResult> GetAllByDeparttmetIdDTO(string id)
         {
-            var result = _positionDescriptionService.GetAllByPositionIdDTO(id);
+            var result = await _positionDescriptionService.GetAllByPositionIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

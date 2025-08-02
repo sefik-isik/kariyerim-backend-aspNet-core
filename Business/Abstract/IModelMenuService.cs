@@ -11,12 +11,12 @@ namespace Business.Abstract
 {
     public interface IModelMenuService
     {
-        IResult Add(ModelMenu modelMenu);
-        IResult Update(ModelMenu modelMenu);
-        IResult Delete(ModelMenu modelMenu);
-        IResult Terminate(ModelMenu modelMenu);
-        IDataResult<List<ModelMenu>> GetAll();
-        IDataResult<List<ModelMenu>> GetDeletedAll();
-        IDataResult<ModelMenu> GetById(string id);
+        Task<IResult> Add(ModelMenu modelMenu);
+        Task<IResult> Update(ModelMenu modelMenu);
+        Task<IResult> Delete(ModelMenu modelMenu);
+        Task<IResult> Terminate(ModelMenu modelMenu);
+        Task<IDataResult<List<ModelMenu>>> GetAll();
+        Task<IDataResult<List<ModelMenu>>> GetDeletedAll();
+        Task<IDataResult<ModelMenu>> GetById(string id);
     }
 }

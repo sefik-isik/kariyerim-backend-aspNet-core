@@ -27,139 +27,141 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<IResult> Add(PersonelUserCvEducation personelUserCvEducation)
         {
             if (_userService.GetById(personelUserCvEducation.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _personelUserCvEducationDal.AddAsync(personelUserCvEducation);
+            await _personelUserCvEducationDal.AddAsync(personelUserCvEducation);
             return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Update(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<IResult> Update(PersonelUserCvEducation personelUserCvEducation)
         {
             if (_userService.GetById(personelUserCvEducation.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _personelUserCvEducationDal.UpdateAsync(personelUserCvEducation);
+            await _personelUserCvEducationDal.UpdateAsync(personelUserCvEducation);
             return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Delete(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<IResult> Delete(PersonelUserCvEducation personelUserCvEducation)
         {
             if (_userService.GetById(personelUserCvEducation.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _personelUserCvEducationDal.Delete(personelUserCvEducation);
+            await _personelUserCvEducationDal.Delete(personelUserCvEducation);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(PersonelUserCvEducation personelUserCvEducation)
+        public async Task<IResult> Terminate(PersonelUserCvEducation personelUserCvEducation)
         {
-            _personelUserCvEducationDal.Terminate(personelUserCvEducation);
+            await _personelUserCvEducationDal.Terminate(personelUserCvEducation);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvEducation>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserCvEducation>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetAll());
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetAll());
             }
             
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvEducation>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserCvEducation>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetDeletedAll());
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetDeletedAll());
             }
 
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvEducation>> GetPersonelUser(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserCvEducation>>> GetPersonelUser(UserAdminDTO userAdminDTO)
         {
 
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducation>>(_personelUserCvEducationDal.GetDeletedAll());
+                return new SuccessDataResult<List<PersonelUserCvEducation>>(await _personelUserCvEducationDal.GetDeletedAll());
             }
 
         }
 
 
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserCvEducation> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<PersonelUserCvEducation?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserCvEducation>(_personelUserCvEducationDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<PersonelUserCvEducation?>(await _personelUserCvEducationDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<PersonelUserCvEducation>(_personelUserCvEducationDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<PersonelUserCvEducation?>(await _personelUserCvEducationDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvEducationDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserCvEducationDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var alldto = await _personelUserCvEducationDal.GetAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_personelUserCvEducationDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_personelUserCvEducationDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
             }
 
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserCvEducationDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserCvEducationDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var alldto = await _personelUserCvEducationDal.GetDeletedAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_personelUserCvEducationDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(_personelUserCvEducationDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCvEducationDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
             }
 
         }

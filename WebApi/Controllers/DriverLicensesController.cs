@@ -18,51 +18,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(DriverLicence driverLicence)
+        public async Task<ActionResult> Add(DriverLicence driverLicence)
         {
-            var result = _driverLicenceService.Add(driverLicence);
+            var result = await _driverLicenceService.Add(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(DriverLicence driverLicence)
+        public async Task<ActionResult> Update(DriverLicence driverLicence)
         {
-            var result = _driverLicenceService.Update(driverLicence);
+            var result = await _driverLicenceService.Update(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(DriverLicence driverLicence)
+        public async Task<ActionResult> Delete(DriverLicence driverLicence)
         {
-            var result = _driverLicenceService.Delete(driverLicence);
+            var result = await _driverLicenceService.Delete(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(DriverLicence driverLicence)
+        public async Task<ActionResult> Terminate(DriverLicence driverLicence)
         {
-            var result = _driverLicenceService.Terminate(driverLicence);
+            var result = await _driverLicenceService.Terminate(driverLicence);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _driverLicenceService.GetAll();
+            var result = await _driverLicenceService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _driverLicenceService.GetDeletedAll();
+            var result = await _driverLicenceService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _driverLicenceService.GetById(id);
+            var result = await _driverLicenceService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

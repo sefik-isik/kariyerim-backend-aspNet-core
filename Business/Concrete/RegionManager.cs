@@ -25,70 +25,78 @@ namespace Business.Concrete
             _regionDal = regionDal;
         }
         [SecuredOperation("admin")]
-        public IResult Add(Region region)
+        public async Task<IResult> Add(Region region)
         {
-            IResult result = BusinessRules.Run(IsNameExist(region.RegionName));
+            IResult result = await BusinessRules.Run(IsNameExist(region.RegionName));
 
             if (result != null)
             {
                 return result;
             }
-            _regionDal.AddAsync(region);
+            await _regionDal.AddAsync(region);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(Region region)
+        public async Task<IResult> Update(Region region)
         {
-            _regionDal.UpdateAsync(region);
+            await _regionDal.UpdateAsync(region);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(Region region)
+        public async Task<IResult> Delete(Region region)
         {
-            _regionDal.Delete(region);
+            await _regionDal.Delete(region);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(Region region)
+        public async Task<IResult> Terminate(Region region)
         {
-            _regionDal.Terminate(region);
+            await _regionDal.Terminate(region);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Region>> GetAll()
+        public async Task<IDataResult<List<Region>>> GetAll()
         {
-            return new SuccessDataResult<List<Region>>(_regionDal.GetAll());
+            var result = await _regionDal.GetAll();
+            result = result.OrderBy(x => x.RegionName).ToList();
+            return new SuccessDataResult<List<Region>>(result);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Region>> GetDeletedAll()
+        public async Task<IDataResult<List<Region>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Region>>(_regionDal.GetDeletedAll());
+            var result = await _regionDal.GetDeletedAll();
+            result = result.OrderBy(x => x.RegionName).ToList();
+            return new SuccessDataResult<List<Region>>(result);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Region> GetById(string id)
+        public async Task<IDataResult<Region?>> GetById(string id)
         {
-            return new SuccessDataResult<Region>(_regionDal.Get(r=>r.Id == id));
+            return new SuccessDataResult<Region?>(await _regionDal.Get(r=>r.Id == id));
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<RegionDTO>> GetAllDTO()
+        public async Task<IDataResult<List<RegionDTO>>> GetAllDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var result = await _regionDal.GetAllDTO();
+            result = result.OrderBy(x => x.RegionName).ToList();
+            return new SuccessDataResult<List<RegionDTO>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<RegionDTO>> GetDeletedAllDTO()
+        public async Task<IDataResult<List<RegionDTO>>> GetDeletedAllDTO()
         {
-            return new SuccessDataResult<List<RegionDTO>>(_regionDal.GetDeletedAllDTO().OrderBy(s => s.CityName).ToList(), Messages.SuccessListed);
+            var result = await _regionDal.GetDeletedAllDTO();
+            result = result.OrderBy(x => x.RegionName).ToList();
+            return new SuccessDataResult<List<RegionDTO>>(result, Messages.SuccessListed);
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _regionDal.GetAll(c => c.RegionName.ToLower() == entityName.ToLower()).Any();
+            var result = await _regionDal.GetAll(c => c.RegionName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

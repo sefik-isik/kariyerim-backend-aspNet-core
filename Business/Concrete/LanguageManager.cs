@@ -29,56 +29,60 @@ namespace Business.Concrete
 
         [SecuredOperation("admin")]
         [ValidationAspect(typeof(LanguageValidator))]
-        public IResult Add(Language language)
+        public async Task<IResult> Add(Language language)
         {
-            IResult result = BusinessRules.Run(IsNameExist(language.LanguageName));
+            IResult result = await BusinessRules.Run(IsNameExist(language.LanguageName));
 
             if (result != null)
             {
                 return result;
             }
-            _languageDal.AddAsync(language);
+            await _languageDal.AddAsync(language);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(Language language)
+        public async Task<IResult> Update(Language language)
         {
-            _languageDal.UpdateAsync(language);
+            await _languageDal.UpdateAsync(language);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(Language language)
-        {  
-            _languageDal.Delete(language);
+        public async Task<IResult> Delete(Language language)
+        {
+            await _languageDal.Delete(language);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(Language language)
+        public async Task<IResult> Terminate(Language language)
         {
-            _languageDal.Terminate(language);
+            await _languageDal.Terminate(language);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Language>> GetAll()
+        public async Task<IDataResult<List<Language>>> GetAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetAll().OrderBy(s => s.LanguageName).ToList(), Messages.SuccessListed);
+            var result = await _languageDal.GetAll();
+            result = result.OrderBy(x => x.LanguageName).ToList();
+            return new SuccessDataResult<List<Language>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Language>> GetDeletedAll()
+        public async Task<IDataResult<List<Language>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageDal.GetDeletedAll().OrderBy(s => s.LanguageName).ToList(), Messages.SuccessListed);
+            var result = await _languageDal.GetDeletedAll();
+            result = result.OrderBy(x => x.LanguageName).ToList();
+            return new SuccessDataResult<List<Language>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<Language> GetById(string id)
+        public async Task<IDataResult<Language?>> GetById(string id)
         {
-            return new SuccessDataResult<Language>(_languageDal.Get(l => l.Id == id));
+            return new SuccessDataResult<Language?>(await _languageDal.Get(l => l.Id == id));
         }
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _languageDal.GetAll(c => c.LanguageName.ToLower() == entityName.ToLower()).Any();
+            var result = await _languageDal.GetAll(c => c.LanguageName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

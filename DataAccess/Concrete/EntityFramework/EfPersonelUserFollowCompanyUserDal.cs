@@ -3,6 +3,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DataAccess.Concrete
 {
     public class EfPersonelUserFollowCompanyUserDal : EfEntityRepositoryBase<PersonelUserFollowCompanyUser, KariyerimContext>, IPersonelUserFollowCompanyUserDal
     {
-        public List<PersonelUserFollowCompanyUserDTO> GetAllDTO()
+        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -36,11 +37,11 @@ namespace DataAccess.Concrete
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
 
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserFollowCompanyUserDTO> GetAllByCompanyIdDTO(string id)
+        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -62,11 +63,11 @@ namespace DataAccess.Concrete
                                  UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<PersonelUserFollowCompanyUserDTO> GetAllByPersonelIdDTO(string id)
+        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -88,7 +89,7 @@ namespace DataAccess.Concrete
                                  UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface ICompanyUserAddressDal : IEntityRepository<CompanyUserAddress>
     {
-        List<CompanyUserAddressDTO> GetAllDTO(); 
-        List<CompanyUserAddressDTO> GetDeletedAllDTO();
+        Task<List<CompanyUserAddressDTO>> GetAllDTO();
+        Task<List<CompanyUserAddressDTO>> GetDeletedAllDTO();
     }
 }

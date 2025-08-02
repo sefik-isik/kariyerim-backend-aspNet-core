@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUniversityDepartmentDescriptionDal : EfEntityRepositoryBase<UniversityDepartmentDescription, KariyerimContext>, IUniversityDepartmentDescriptionDal
     {
-        public List<UniversityDepartmentDescriptionDTO> GetAllDTO()
+        public async Task<List<UniversityDepartmentDescriptionDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -32,11 +33,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDepartmentDescriptions.UpdatedDate,
                                  DeletedDate = universityDepartmentDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UniversityDepartmentDescriptionDTO> GetDeletedAllDTO()
+        public async Task<List<UniversityDepartmentDescriptionDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -56,11 +57,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDepartmentDescriptions.UpdatedDate,
                                  DeletedDate = universityDepartmentDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<UniversityDepartmentDescriptionDTO> GetAllByUniversityDepartmentIdDTO(string id)
+        public async Task<List<UniversityDepartmentDescriptionDTO>> GetAllByUniversityDepartmentIdDTO(string id)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -80,7 +81,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = universityDepartmentDescriptions.UpdatedDate,
                                  DeletedDate = universityDepartmentDescriptions.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 

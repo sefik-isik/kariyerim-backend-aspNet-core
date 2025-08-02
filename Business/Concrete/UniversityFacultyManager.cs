@@ -24,56 +24,60 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(UniversityFaculty universityFaculty)
+        public async Task<IResult> Add(UniversityFaculty universityFaculty)
         {
-            IResult result = BusinessRules.Run(IsNameExist(universityFaculty.FacultyName));
+            IResult result = await BusinessRules.Run(IsNameExist(universityFaculty.FacultyName));
 
             if (result != null)
             {
                 return result;
             }
-            _universityFacultyDal.AddAsync(universityFaculty);
+            await _universityFacultyDal.AddAsync(universityFaculty);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(UniversityFaculty universityFaculty)
+        public async Task<IResult> Update(UniversityFaculty universityFaculty)
         {
-            _universityFacultyDal.UpdateAsync(universityFaculty);
+            await _universityFacultyDal.UpdateAsync(universityFaculty);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(UniversityFaculty universityFaculty)
+        public async Task<IResult> Delete(UniversityFaculty universityFaculty)
         {
-            _universityFacultyDal.Delete(universityFaculty);
+            await _universityFacultyDal.Delete(universityFaculty);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(UniversityFaculty universityFaculty)
+        public async Task<IResult> Terminate(UniversityFaculty universityFaculty)
         {
-            _universityFacultyDal.Terminate(universityFaculty);
+            await _universityFacultyDal.Terminate(universityFaculty);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityFaculty>> GetAll()
+        public async Task<IDataResult<List<UniversityFaculty>>> GetAll()
         {
-            return new SuccessDataResult<List<UniversityFaculty>>(_universityFacultyDal.GetAll().OrderBy(s => s.FacultyName).ToList(), Messages.SuccessListed);
+            var result = await _universityFacultyDal.GetAll();
+            result = result.OrderBy(x => x.FacultyName).ToList();
+            return new SuccessDataResult<List<UniversityFaculty>>(result, Messages.SuccessListed);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<UniversityFaculty>> GetDeletedAll()
+        public async Task<IDataResult<List<UniversityFaculty>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<UniversityFaculty>>(_universityFacultyDal.GetDeletedAll().OrderBy(s => s.FacultyName).ToList(), Messages.SuccessListed);
+            var result = await _universityFacultyDal.GetDeletedAll();
+            result = result.OrderBy(x => x.FacultyName).ToList();
+            return new SuccessDataResult<List<UniversityFaculty>>(result, Messages.SuccessListed);
         }
         //[SecuredOperation("admin,user")]
-        public IDataResult<UniversityFaculty> GetById(string id)
+        public async Task<IDataResult<UniversityFaculty?>> GetById(string id)
         {
-            return new SuccessDataResult<UniversityFaculty>(_universityFacultyDal.Get(l => l.Id == id));
+            return new SuccessDataResult<UniversityFaculty?>(await _universityFacultyDal.Get(l => l.Id == id));
         }
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _universityFacultyDal.GetAll(c => c.FacultyName.ToLower() == entityName.ToLower()).Any();
+            var result = await _universityFacultyDal.GetAll(c => c.FacultyName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

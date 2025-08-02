@@ -19,65 +19,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(City city)
+        public async Task<ActionResult> Add(City city)
         {
-            var result = _cityService.Add(city);
+            var result = await _cityService.Add(city);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(City city)
+        public async Task<ActionResult> Update(City city)
         {
-            var result = _cityService.Update(city);
+            var result = await _cityService.Update(city);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(City city)
+        public async Task<ActionResult> Delete(City city)
         {
-            var result = _cityService.Delete(city);
+            var result = await _cityService.Delete(city);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(City city)
+        public async Task<ActionResult> Terminate(City city)
         {
-            var result = _cityService.Terminate(city);
+            var result = await _cityService.Terminate(city);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _cityService.GetAll();
+            var result = await _cityService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _cityService.GetDeletedAll();
+            var result = await _cityService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _cityService.GetById(id);
+            var result = await _cityService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO()
+        public async Task<ActionResult> GetAllDTO()
         {
-            var result = _cityService.GetAllDTO();
+            var result = await _cityService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedalldto")]
-        public IActionResult GetDeletedAllDTO()
+        public async Task<ActionResult> GetDeletedAllDTO()
         {
-            var result = _cityService.GetDeletedAllDTO();
+            var result = await _cityService.GetDeletedAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

@@ -32,18 +32,18 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(PersonelUserImage personelUserImage)
+        public async Task<IResult> Add(PersonelUserImage personelUserImage)
         {
             if (_userService.GetById(personelUserImage.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _personelUserImageDal.AddAsync(personelUserImage);
+            await _personelUserImageDal.AddAsync(personelUserImage);
             return new SuccessResult(Messages.SuccessAdded);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Update(PersonelUserImage personelUserImage)
+        public async Task<IResult> Update(PersonelUserImage personelUserImage)
         {
             if (_userService.GetById(personelUserImage.UserId) == null)
             {
@@ -52,112 +52,114 @@ namespace Business.Concrete
 
             if (personelUserImage.IsProfilImage == true)
             {
-                _personelUserImageDal.UpdateProfilImage(personelUserImage.PersonelUserId);
+                await _personelUserImageDal.UpdateProfilImage(personelUserImage.PersonelUserId);
             }
 
-            _personelUserImageDal.UpdateAsync(personelUserImage);
+            await _personelUserImageDal.UpdateAsync(personelUserImage);
             return new SuccessResult(Messages.SuccessUpdated);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Delete(PersonelUserImage personelUserImage)
+        public async Task<IResult> Delete(PersonelUserImage personelUserImage)
         {
             if (_userService.GetById(personelUserImage.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _personelUserImageDal.Delete(personelUserImage);
+            await _personelUserImageDal.Delete(personelUserImage);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin")]
-        public IResult Terminate(PersonelUserImage personelUserImage)
+        public async Task<IResult> Terminate(PersonelUserImage personelUserImage)
         {
-            DeleteImage(personelUserImage);
-            _personelUserImageDal.Terminate(personelUserImage);
+            await DeleteImage(personelUserImage);
+            await _personelUserImageDal.Terminate(personelUserImage);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImage>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserImage>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<PersonelUserImage>>(await _personelUserImageDal.GetAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetAll());
+                return new SuccessDataResult<List<PersonelUserImage>>(await _personelUserImageDal.GetAll());
             }
             
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImage>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserImage>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<List<PersonelUserImage>>(await _personelUserImageDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImage>>(_personelUserImageDal.GetDeletedAll());
+                return new SuccessDataResult<List<PersonelUserImage>>(await _personelUserImageDal.GetDeletedAll());
             }
 
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<PersonelUserImage> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<PersonelUserImage?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<PersonelUserImage?>(await _personelUserImageDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<PersonelUserImage>(_personelUserImageDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<PersonelUserImage?>(await _personelUserImageDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
         //DTO
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImageDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserImageDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _personelUserImageDal.GetAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
             }
 
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<PersonelUserImageDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserImageDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _personelUserImageDal.GetDeletedAllDTO();
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(_personelUserImageDal.GetDeletedAllDTO().OrderBy(s => s.Email).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
             }
 
         }
 
-        public IResult DeleteImage(PersonelUserImage personelUserImage)
+        public async Task<IResult> DeleteImage(PersonelUserImage personelUserImage)
         {
             if (personelUserImage == null)
             {
@@ -182,7 +184,7 @@ namespace Business.Concrete
             personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             personelUserImage.ImageName = "noImage.jpg";
 
-            Update(personelUserImage);
+           await Update(personelUserImage);
 
             return new SuccessResult();
         }

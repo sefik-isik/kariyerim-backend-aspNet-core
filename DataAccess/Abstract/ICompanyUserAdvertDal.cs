@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface ICompanyUserAdvertDal : IEntityRepository<CompanyUserAdvert>
     {
         Task TerminateSubDatas(string id);
-        List<CompanyUserAdvertDTO> GetAllDTO();
-        List<CompanyUserAdvertDTO> GetDeletedAllDTO();
+        Task<List<CompanyUserAdvertDTO>> GetAllDTO();
+        Task<List<CompanyUserAdvertDTO>> GetDeletedAllDTO();
     }
 }

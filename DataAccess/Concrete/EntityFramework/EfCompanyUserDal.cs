@@ -20,12 +20,12 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                List<CompanyUserAdvert> adverts = GetAllAdvertCityUserId(id);
+                List<CompanyUserAdvert> adverts = await GetAllAdvertCityUserId(id);
                 if (adverts != null && adverts.Count > 0)
                 {
                     foreach (var advert in adverts)
                     {
-                        _companyUserAdvertDal.TerminateSubDatas(advert.Id);
+                       await _companyUserAdvertDal.TerminateSubDatas(advert.Id);
                     }
                 }
 
@@ -41,7 +41,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-            private List<CompanyUserAdvert> GetAllAdvertCityUserId(string id)
+            private async Task<List<CompanyUserAdvert>> GetAllAdvertCityUserId(string id)
             {
                 using (KariyerimContext context = new KariyerimContext())
                 {
@@ -52,11 +52,11 @@ namespace DataAccess.Concrete.EntityFramework
                               {
                                   Id = companyUserAdverts.Id,
                               };
-                    return adverts.ToList();
+                    return await adverts.ToListAsync();
                 }
             }
         
-        public List<CompanyUserDTO> GetAllDTO()
+        public async Task<List<CompanyUserDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -99,11 +99,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  DeletedDate = companyUsers.DeletedDate,
 
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -145,7 +145,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  DeletedDate = companyUsers.DeletedDate,
 
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

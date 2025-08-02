@@ -12,18 +12,18 @@ namespace Business.Abstract
 {
     public interface IUniversityDepartmentDescriptionService
     {
-        IResult Add(UniversityDepartmentDescription universityDepartmentDescription);
-        IResult Update(UniversityDepartmentDescription universityDepartmentDescription);
-        IResult Delete(UniversityDepartmentDescription universityDepartmentDescription);
-        IResult Terminate(UniversityDepartmentDescription universityDepartmentDescription);
-        IDataResult<List<UniversityDepartmentDescription>> GetAll();
-        IDataResult<List<UniversityDepartmentDescription>> GetDeletedAll();
-        IDataResult<UniversityDepartmentDescription> GetById(string id);
+        Task<IResult> Add(UniversityDepartmentDescription universityDepartmentDescription);
+        Task<IResult> Update(UniversityDepartmentDescription universityDepartmentDescription);
+        Task<IResult> Delete(UniversityDepartmentDescription universityDepartmentDescription);
+        Task<IResult> Terminate(UniversityDepartmentDescription universityDepartmentDescription);
+        Task<IDataResult<List<UniversityDepartmentDescription>>> GetAll();
+        Task<IDataResult<List<UniversityDepartmentDescription>>> GetDeletedAll();
+        Task<IDataResult<UniversityDepartmentDescription>> GetById(string id);
 
         //DTO
-        IDataResult<List<UniversityDepartmentDescriptionDTO>> GetAllDTO();
-        IDataResult<List<UniversityDepartmentDescriptionDTO>> GetDeletedAllDTO();
-        IDataResult<List<UniversityDepartmentDescriptionDTO>> GetAllByUniversityDeparttmetIdDTO(string id);
+        Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetAllDTO();
+        Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetDeletedAllDTO();
+        Task<IDataResult<List<UniversityDepartmentDescriptionDTO>>> GetAllByUniversityDeparttmetIdDTO(string id);
 
     }
 }

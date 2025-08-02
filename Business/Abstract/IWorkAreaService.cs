@@ -11,12 +11,12 @@ namespace Business.Abstract
 {
     public interface IWorkAreaService
     {
-        IResult Add(WorkArea workArea);
-        IResult Update(WorkArea workArea);
-        IResult Delete(WorkArea workArea);
-        IResult Terminate(WorkArea workArea);
-        IDataResult<List<WorkArea>> GetAll();
-        IDataResult<List<WorkArea>> GetDeletedAll();
-        IDataResult<WorkArea> GetById(string id);
+        Task<IResult> Add(WorkArea workArea);
+        Task<IResult> Update(WorkArea workArea);
+        Task<IResult> Delete(WorkArea workArea);
+        Task<IResult> Terminate(WorkArea workArea);
+        Task<IDataResult<List<WorkArea>>> GetAll();
+        Task<IDataResult<List<WorkArea>>> GetDeletedAll();
+        Task<IDataResult<WorkArea>> GetById(string id);
     }
 }

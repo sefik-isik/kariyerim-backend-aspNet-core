@@ -25,66 +25,74 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(Country country)
+        public async Task<IResult> Add(Country country)
         {
-            IResult result = BusinessRules.Run(IsNameExist(country.CountryName));
+            IResult result = await BusinessRules.Run(IsNameExist(country.CountryName));
 
             if (result != null)
             {
                 return result;
             }
 
-            _countryDal.AddAsync(country);
+            await _countryDal.AddAsync(country);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(Country country)
+        public async Task<IResult> Update(Country country)
         {
-            IResult result = BusinessRules.Run(IsNameExist(country.CountryName));
+            IResult result = await BusinessRules.Run(IsNameExist(country.CountryName));
 
             if (result != null)
             {
                 return result;
             }
-            _countryDal.UpdateAsync(country);
+            await _countryDal.UpdateAsync(country);
             return new SuccessResult(Messages.SuccessUpdated);
         }
+
         [SecuredOperation("admin")]
-        public IResult Delete(Country country)
+        public async Task<IResult> Delete(Country country)
         {
-            _countryDal.Delete(country);
+            await _countryDal.Delete(country);
             return new SuccessResult(Messages.SuccessDeleted);
         }
+
         [SecuredOperation("admin")]
-        public IResult Terminate(Country country)
+        public async Task<IResult> Terminate(Country country)
         {
-            _countryDal.TerminateSubDatas(country.Id);
-            _countryDal.Terminate(country);
+            await _countryDal.TerminateSubDatas(country.Id);
+            await _countryDal.Terminate(country);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Country>> GetAll()
+        public async Task<IDataResult<List<Country>>> GetAll()
         {
-            return new SuccessDataResult<List<Country>>(_countryDal.GetAll().OrderBy(s => s.CountryName).ToList(), Messages.SuccessListed);
+            var result = await _countryDal.GetAll();
+            result = result.OrderBy(x => x.CountryName).ToList();
+            return new SuccessDataResult<List<Country>>(result, Messages.SuccessListed);
         }
+
         [SecuredOperation("admin,user")]
-        public IDataResult<List<Country>> GetDeletedAll()
+        public async Task<IDataResult<List<Country>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<Country>>(_countryDal.GetDeletedAll().OrderBy(s => s.CountryName).ToList(), Messages.SuccessListed);
+            var result = await _countryDal.GetDeletedAll();
+            result = result.OrderBy(x => x.CountryName).ToList();
+            return new SuccessDataResult<List<Country>>(result, Messages.SuccessListed);
         }
+
         [SecuredOperation("admin,user")]
-        public IDataResult<Country> GetById(string id)
+        public async Task<IDataResult<Country?>> GetById(string id)
         {
-            return new SuccessDataResult<Country>(_countryDal.Get(c=> c.Id == id));
+            return new SuccessDataResult<Country?>(await _countryDal.Get(c=> c.Id == id));
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _countryDal.GetAll(c => c.CountryName.ToLower() == entityName.ToLower()).Any();
+            var result = await _countryDal.GetAll(c => c.CountryName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

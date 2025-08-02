@@ -1,6 +1,7 @@
 ﻿using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Entities.DTOs;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +12,23 @@ namespace Business.Abstract
 {
     public interface IUserService
     {
-        IDataResult<List<OperationClaim>> GetClaims(User user);
-        IResult Add(User user);
-        IResult Update(User user);
-        IResult Delete(User user);
-        IResult Terminate(User user);
-        IDataResult<User> GetByMail(string email);
-
-        User GetById(string id);
+        
+        Task<IResult> Add(User user);
+        Task<IResult> Update(User user);
+        Task<IResult> Delete(User user);
+        Task<IResult> Terminate(User user);
+        Task<IDataResult<User>> GetByMail(string email);
+        Task<IDataResult<List<OperationClaim>>> GetClaims(User user);
+        Task<User> GetById(string id);
+        Task<IDataResult<UserPageModel>> GetAllByPage(UserPageModel pageModel);
 
         //DTO
-        IDataResult<User> IsAdmin(UserAdminDTO userAdminDTO);
-        IDataResult<UserDTO> GetByIdDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserDTO>> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserDTO>> GetAllPersonelUserDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<UserDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<User>> IsAdmin(UserAdminDTO userAdminDTO);
+        Task<IDataResult<UserDTO>> GetByIdDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserDTO>>> GetAllCompanyUserDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserDTO>>> GetAllPersonelUserDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<UserDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
         
     }
 }

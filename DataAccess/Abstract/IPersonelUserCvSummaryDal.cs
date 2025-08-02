@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IPersonelUserCvSummaryDal : IEntityRepository<PersonelUserCvSummary>
     {
-        List<PersonelUserCvSummaryDTO> GetAllDTO();
-        List<PersonelUserCvSummaryDTO> GetDeletedAllDTO();
+        Task<List<PersonelUserCvSummaryDTO>> GetAllDTO();
+        Task<List<PersonelUserCvSummaryDTO>> GetDeletedAllDTO();
     }
 }

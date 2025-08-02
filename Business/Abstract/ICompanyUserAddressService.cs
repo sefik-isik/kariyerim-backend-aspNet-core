@@ -12,16 +12,16 @@ namespace Business.Abstract
 {
     public interface ICompanyUserAddressService
     {
-        IResult Add(CompanyUserAddress companyUserAddress);
-        IResult Update(CompanyUserAddress companyUserAddress);
-        IResult Delete(CompanyUserAddress companyUserAddress);
-        IResult Terminate(CompanyUserAddress companyUserAddress);
-        IDataResult<List<CompanyUserAddress>> GetAll(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAddress>> GetDeletedAll(UserAdminDTO userAdminDTO);
-        IDataResult<CompanyUserAddress> GetById(UserAdminDTO userAdminDTO);
+        Task<IResult> Add(CompanyUserAddress companyUserAddress);
+        Task<IResult> Update(CompanyUserAddress companyUserAddress);
+        Task<IResult> Delete(CompanyUserAddress companyUserAddress);
+        Task<IResult> Terminate(CompanyUserAddress companyUserAddress);
+        Task<IDataResult<List<CompanyUserAddress>>> GetAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAddress>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<CompanyUserAddress>> GetById(UserAdminDTO userAdminDTO);
 
         //DTO
-        IDataResult<List<CompanyUserAddressDTO>> GetAllDTO(UserAdminDTO userAdminDTO);
-        IDataResult<List<CompanyUserAddressDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAddressDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAddressDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
     }
 }

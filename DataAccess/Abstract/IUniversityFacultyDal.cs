@@ -10,6 +10,5 @@ namespace DataAccess.Abstract
 {
     public interface IUniversityFacultyDal : IEntityRepository<UniversityFaculty>
     {
-        
     }
 }

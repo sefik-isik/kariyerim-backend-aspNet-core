@@ -26,56 +26,56 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
-        public IResult Add(OperationClaim operationClaim)
+        public async Task<IResult> Add(OperationClaim operationClaim)
         {
-            IResult result = BusinessRules.Run(IsNameExist(operationClaim.Name));
+            IResult result = await BusinessRules.Run(IsNameExist(operationClaim.Name));
 
             if (result != null)
             {
                 return result;
             }
-            _operationClaimDal.AddAsync(operationClaim);
+            await _operationClaimDal.AddAsync(operationClaim);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin")]
-        public IResult Update(OperationClaim operationClaim)
+        public async Task<IResult> Update(OperationClaim operationClaim)
         {
-            _operationClaimDal.UpdateAsync(operationClaim);
+            await _operationClaimDal.UpdateAsync(operationClaim);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin")]
-        public IResult Delete(OperationClaim operationClaim)
+        public async Task<IResult> Delete(OperationClaim operationClaim)
         {
-            _operationClaimDal.Delete(operationClaim);
+            await _operationClaimDal.Delete(operationClaim);
             return new SuccessResult(Messages.SuccessDeleted);
         }
         [SecuredOperation("admin")]
-        public IResult Terminate(OperationClaim operationClaim)
+        public async Task<IResult> Terminate(OperationClaim operationClaim)
         {
-            _operationClaimDal.Terminate(operationClaim);
+            await _operationClaimDal.Terminate(operationClaim);
             return new SuccessResult(Messages.SuccessTerminate);
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<OperationClaim>> GetAll()
+        public async Task<IDataResult<List<OperationClaim>>> GetAll()
         {
-            return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetAll());
+            return new SuccessDataResult<List<OperationClaim>>(await _operationClaimDal.GetAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<List<OperationClaim>> GetDeletedAll()
+        public async Task<IDataResult<List<OperationClaim>>> GetDeletedAll()
         {
-            return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetDeletedAll());
+            return new SuccessDataResult<List<OperationClaim>>(await _operationClaimDal.GetDeletedAll());
         }
         [SecuredOperation("admin,user")]
-        public IDataResult<OperationClaim> GetById(string id)
+        public async Task<IDataResult<OperationClaim?>> GetById(string id)
         {
-            return new SuccessDataResult<OperationClaim>(_operationClaimDal.Get(c => c.Id == id));
+            return new SuccessDataResult<OperationClaim?>(await _operationClaimDal.Get(c => c.Id == id));
         }
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _operationClaimDal.GetAll(c => c.Name.ToLower() == entityName.ToLower()).Any();
+            var result = await _operationClaimDal.GetAll(c => c.Name.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

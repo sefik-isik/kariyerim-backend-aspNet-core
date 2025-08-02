@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface IUniversityDal : IEntityRepository<University>
     {
         Task TerminateSubDatas(string id);
-        List<UniversityDTO> GetAllDTO();
-        List<UniversityDTO> GetDeletedAllDTO();
+        Task<List<UniversityDTO>> GetAllDTO();
+        Task<List<UniversityDTO>> GetDeletedAllDTO();
     }
 }

@@ -18,51 +18,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Country country)
+        public async Task<ActionResult> Add(Country country)
         {
-            var result = _countryService.Add(country);
+            var result = await _countryService.Add(country);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Country country)
+        public async Task<ActionResult> Update(Country country)
         {
-            var result = _countryService.Update(country);
+            var result = await _countryService.Update(country);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Country country)
+        public async Task<ActionResult> Delete(Country country)
         {
-            var result = _countryService.Delete(country);
+            var result = await _countryService.Delete(country);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(Country country)
+        public async Task<ActionResult> Terminate(Country country)
         {
-            var result = _countryService.Terminate(country);
+            var result = await _countryService.Terminate(country);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _countryService.GetAll();
+            var result = await _countryService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _countryService.GetDeletedAll();
+            var result = await _countryService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _countryService.GetById(id);
+            var result = await _countryService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

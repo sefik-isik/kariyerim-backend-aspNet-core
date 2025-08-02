@@ -1,6 +1,7 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,19 @@ namespace Business.Abstract
 {
     public interface IUniversityService
     {
-        IResult Add(University university);
-        IResult Update(University university);
-        IResult Delete(University university);
-        IResult Terminate(University university);
-        IDataResult<List<University>> GetAll();
-        IDataResult<List<University>> GetDeletedAll();
-        IDataResult<University> GetById(string id);
-        
+        Task<IResult> Add(University university);
+        Task<IResult> Update(University university);
+        Task<IResult> Delete(University university);
+        Task<IResult> Terminate(University university);
+        Task<IDataResult<List<University>>> GetAll();
+        Task<IDataResult<List<University>>> GetDeletedAll();
+        Task<IDataResult<University>> GetById(string id);
+        Task<IDataResult<UniversityPageModel>> GetAllByPage(UniversityPageModel pageModel);
 
         //DTO
-        IDataResult<List<UniversityDTO>> GetAllDTO();
-        IDataResult<List<UniversityDTO>> GetDeletedAllDTO();
+        Task<IDataResult<List<UniversityDTO>>> GetAllDTO();
+        Task<IDataResult<List<UniversityDTO>>> GetDeletedAllDTO();
+        
 
     }
 }

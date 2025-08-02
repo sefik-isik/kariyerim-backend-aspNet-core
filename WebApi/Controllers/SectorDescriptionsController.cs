@@ -17,72 +17,72 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(SectorDescription sectorDescription)
+        public async Task<ActionResult> Add(SectorDescription sectorDescription)
         {
-            var result = _sectorDescriptionService.Add(sectorDescription);
+            var result = await _sectorDescriptionService.Add(sectorDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(SectorDescription sectorDescription)
+        public async Task<ActionResult> Update(SectorDescription sectorDescription)
         {
-            var result = _sectorDescriptionService.Update(sectorDescription);
+            var result = await _sectorDescriptionService.Update(sectorDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(SectorDescription sectorDescription)
+        public async Task<ActionResult> Delete(SectorDescription sectorDescription)
         {
-            var result = _sectorDescriptionService.Delete(sectorDescription);
+            var result = await _sectorDescriptionService.Delete(sectorDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(SectorDescription sectorDescription)
+        public async Task<ActionResult> Terminate(SectorDescription sectorDescription)
         {
-            var result = _sectorDescriptionService.Terminate(sectorDescription);
+            var result = await _sectorDescriptionService.Terminate(sectorDescription);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var result = _sectorDescriptionService.GetAll();
+            var result = await _sectorDescriptionService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedall")]
-        public IActionResult GetDeletedAll()
+        public async Task<ActionResult> GetDeletedAll()
         {
-            var result = _sectorDescriptionService.GetDeletedAll();
+            var result = await _sectorDescriptionService.GetDeletedAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = _sectorDescriptionService.GetById(id);
+            var result = await _sectorDescriptionService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getalldto")]
-        public IActionResult GetAllDTO()
+        public async Task<ActionResult> GetAllDTO()
         {
-            var result = _sectorDescriptionService.GetAllDTO();
+            var result = await _sectorDescriptionService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getdeletedalldto")]
-        public IActionResult GetDeletedAllDTO()
+        public async Task<ActionResult> GetDeletedAllDTO()
         {
-            var result = _sectorDescriptionService.GetDeletedAllDTO();
+            var result = await _sectorDescriptionService.GetDeletedAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet("getallsectoriddto")]
-        public IActionResult GetAllBySectorIdDTO(string id)
+        public async Task<ActionResult> GetAllBySectorIdDTO(string id)
         {
-            var result = _sectorDescriptionService.GetAllBySectorIdDTO(id);
+            var result = await _sectorDescriptionService.GetAllBySectorIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

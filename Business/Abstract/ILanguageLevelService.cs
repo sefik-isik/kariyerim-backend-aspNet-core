@@ -10,13 +10,13 @@ namespace Business.Abstract
 {
     public interface ILanguageLevelService
     {
-        IResult Add(LanguageLevel languageLevel);
-        IResult Update(LanguageLevel languageLevel);
-        IResult Delete(LanguageLevel languageLevel);
-        IResult Terminate(LanguageLevel languageLevel);
-        IDataResult<List<LanguageLevel>> GetAll();
-        IDataResult<List<LanguageLevel>> GetDeletedAll();
-        IDataResult<LanguageLevel> GetById(string id);
+        Task<IResult> Add(LanguageLevel languageLevel);
+        Task<IResult> Update(LanguageLevel languageLevel);
+        Task<IResult> Delete(LanguageLevel languageLevel);
+        Task<IResult> Terminate(LanguageLevel languageLevel);
+        Task<IDataResult<List<LanguageLevel>>> GetAll();
+        Task<IDataResult<List<LanguageLevel>>> GetDeletedAll();
+        Task<IDataResult<LanguageLevel>> GetById(string id);
         
     }
 }

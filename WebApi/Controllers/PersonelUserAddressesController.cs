@@ -19,65 +19,65 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(PersonelUserAddress personelUserAddress)
+        public async Task<ActionResult> Add(PersonelUserAddress personelUserAddress)
         {
-            var result = _personelUserAddressService.Add(personelUserAddress);
+            var result = await _personelUserAddressService.Add(personelUserAddress);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update(PersonelUserAddress personelUserAddress)
+        public async Task<ActionResult> Update(PersonelUserAddress personelUserAddress)
         {
-            var result = _personelUserAddressService.Update(personelUserAddress);
+            var result = await _personelUserAddressService.Update(personelUserAddress);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(PersonelUserAddress personelUserAddress)
+        public async Task<ActionResult> Delete(PersonelUserAddress personelUserAddress)
         {
-            var result = _personelUserAddressService.Delete(personelUserAddress);
+            var result = await _personelUserAddressService.Delete(personelUserAddress);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("terminate")]
-        public IActionResult Terminate(PersonelUserAddress personelUserAddress)
+        public async Task<ActionResult> Terminate(PersonelUserAddress personelUserAddress)
         {
-            var result = _personelUserAddressService.Terminate(personelUserAddress);
+            var result = await _personelUserAddressService.Terminate(personelUserAddress);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetAll(userAdminDTO);
+            var result = await _personelUserAddressService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetDeletedAll(userAdminDTO);
+            var result = await _personelUserAddressService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetById(userAdminDTO);
+            var result = await _personelUserAddressService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetAllDTO(userAdminDTO);
+            var result = await _personelUserAddressService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _personelUserAddressService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _personelUserAddressService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

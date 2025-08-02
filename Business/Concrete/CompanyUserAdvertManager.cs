@@ -32,150 +32,148 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Add(CompanyUserAdvert companyUserAdvert)
+        public async Task<IResult> Add(CompanyUserAdvert companyUserAdvert)
         {
             if (_userService.GetById(companyUserAdvert.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            IResult result = BusinessRules.Run(IsNameExist(companyUserAdvert.AdvertName));
+            IResult result = await BusinessRules.Run(IsNameExist(companyUserAdvert.AdvertName));
 
             if (result != null)
             {
                 return result;
             }
-            _companyUserAdvertDal.AddAsync(companyUserAdvert);
+            await _companyUserAdvertDal.AddAsync(companyUserAdvert);
             return new SuccessResult(Messages.SuccessAdded);
         }
         [SecuredOperation("admin,user")]
-        public IResult Update(CompanyUserAdvert companyUserAdvert)
+        public async Task<IResult> Update(CompanyUserAdvert companyUserAdvert)
         {
             if (_userService.GetById(companyUserAdvert.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAdvertDal.UpdateAsync(companyUserAdvert);
+            await _companyUserAdvertDal.UpdateAsync(companyUserAdvert);
             return new SuccessResult(Messages.SuccessUpdated);
         }
         [SecuredOperation("admin,user")]
-        public IResult Delete(CompanyUserAdvert companyUserAdvert)
+        public async Task<IResult> Delete(CompanyUserAdvert companyUserAdvert)
         {
             if (_userService.GetById(companyUserAdvert.UserId) == null)
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            _companyUserAdvertDal.Delete(companyUserAdvert);
+            await _companyUserAdvertDal.Delete(companyUserAdvert);
             return new SuccessResult(Messages.SuccessDeleted);
         }
 
         [SecuredOperation("admin,user")]
-        public IResult Terminate(CompanyUserAdvert companyUserAdvert)
+        public async Task<IResult> Terminate(CompanyUserAdvert companyUserAdvert)
         {
-            DeleteImage(companyUserAdvert);
-            _companyUserAdvertDal.TerminateSubDatas(companyUserAdvert.Id);
-            _companyUserAdvertDal.Terminate(companyUserAdvert);
+            await DeleteImage(companyUserAdvert);
+            await _companyUserAdvertDal.TerminateSubDatas(companyUserAdvert.Id);
+            await _companyUserAdvertDal.Terminate(companyUserAdvert);
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvert>> GetAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvert>>> GetAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvert>>(await _companyUserAdvertDal.GetAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetAll().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvert>>(await _companyUserAdvertDal.GetAll(), Messages.SuccessListed);
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvert>> GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvert>>> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvert>>(await _companyUserAdvertDal.GetDeletedAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvert>>(_companyUserAdvertDal.GetDeletedAll().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvert>>(await _companyUserAdvertDal.GetDeletedAll(), Messages.SuccessListed);
             }
         }
 
         [SecuredOperation("admin,user")]
-        public IDataResult<CompanyUserAdvert> GetById(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<CompanyUserAdvert?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<CompanyUserAdvert>(_companyUserAdvertDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
+                return new SuccessDataResult<CompanyUserAdvert?>(await _companyUserAdvertDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
             }
             else
             {
-                return new SuccessDataResult<CompanyUserAdvert>(_companyUserAdvertDal.Get(c => c.Id == userAdminDTO.Id));
+                return new SuccessDataResult<CompanyUserAdvert?>(await _companyUserAdvertDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
 
         //DTO
         //[SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertDTO>> GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<CompanyUserAdvertDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            //var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            //var user = _userService.GetById(userAdminDTO.UserId);
-
-            //if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
-            //{
-            //    return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
-            //}
-            //else
-            //{
-            //    return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
-            //}
-
-            return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
-
-        }
-        [SecuredOperation("admin,user")]
-        public IDataResult<List<CompanyUserAdvertDTO>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
-        {
-            var userIsAdmin = _userService.IsAdmin(userAdminDTO);
-
-            var user = _userService.GetById(userAdminDTO.UserId);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var user = await _userService.GetById(userAdminDTO.UserId);
+            var allDtos = await _companyUserAdvertDal.GetAllDTO();
 
             if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
             {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().FindAll(c => c.UserId == userAdminDTO.UserId).OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(_companyUserAdvertDal.GetDeletedAllDTO().OrderBy(s => s.AdvertName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+            }
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserAdvertDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var user = await _userService.GetById(userAdminDTO.UserId);
+            var allDtos = await _companyUserAdvertDal.GetDeletedAllDTO();
+
+            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
+            {
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
 
         }
 
-        public IResult DeleteImage(CompanyUserAdvert companyUserAdvert)
+        public async Task<IResult> DeleteImage(CompanyUserAdvert companyUserAdvert)
         {
             if (companyUserAdvert == null)
             {
                 return new ErrorDataResult<CompanyUserAdvert>(Messages.ImageNotFound);
             }
 
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserAdvert.UserId + "\\" + companyUserAdvert.AdvertImageName;
+            string fullImagePath =  _environment.WebRootPath + "\\uploads\\images\\" + companyUserAdvert.UserId + "\\" + companyUserAdvert.AdvertImageName;
 
             if (System.IO.File.Exists(fullImagePath))
             {
                 System.IO.File.Delete(fullImagePath);
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserAdvert.UserId + "\\thumbs\\" + companyUserAdvert.AdvertImageName;
+            string fullThumbImagePath =  _environment.WebRootPath + "\\uploads\\images\\" + companyUserAdvert.UserId + "\\thumbs\\" + companyUserAdvert.AdvertImageName;
 
             if (System.IO.File.Exists(fullThumbImagePath))
             {
@@ -186,17 +184,17 @@ namespace Business.Concrete
             companyUserAdvert.AdvertImagePath = "https://localhost:7088/" + "/uploads/images/common/";
             companyUserAdvert.AdvertImageName = "noImage.jpg";
 
-            Update(companyUserAdvert);
+            await Update(companyUserAdvert);
 
             return new SuccessResult();
         }
 
         //Business Rules
-        private IResult IsNameExist(string entityName)
+        private async Task<IResult> IsNameExist(string entityName)
         {
-            var result = _companyUserAdvertDal.GetAll(c => c.AdvertName.ToLower() == entityName.ToLower()).Any();
+            var result = await _companyUserAdvertDal.GetAll(c => c.AdvertName.ToLower() == entityName.ToLower());
 
-            if (result)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

@@ -19,51 +19,51 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(UserOperationClaim userOperationClaim)
+        public async Task<ActionResult> Update(UserOperationClaim userOperationClaim)
         {
-            var result = _userOperationClaimService.Update(userOperationClaim);
+            var result = await _userOperationClaimService.Update(userOperationClaim);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(UserOperationClaim userOperationClaim)
+        public async Task<ActionResult> Delete(UserOperationClaim userOperationClaim)
         {
-            var result = _userOperationClaimService.Delete(userOperationClaim);
+            var result = await _userOperationClaimService.Delete(userOperationClaim);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getall")]
-        public IActionResult GetAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
         {
-            var result = _userOperationClaimService.GetAll(userAdminDTO);
+            var result = await _userOperationClaimService.GetAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getdeletedall")]
-        public IActionResult GetDeletedAll(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
-            var result = _userOperationClaimService.GetDeletedAll(userAdminDTO);
+            var result = await _userOperationClaimService.GetDeletedAll(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getbyid")]
-        public IActionResult GetById(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = _userOperationClaimService.GetById(userAdminDTO);
+            var result = await _userOperationClaimService.GetById(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getalldto")]
-        public IActionResult GetAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userOperationClaimService.GetAllDTO(userAdminDTO);
+            var result = await _userOperationClaimService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("GetDeletedAllDTO")]
-        public IActionResult GetDeletedAllDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = _userOperationClaimService.GetDeletedAllDTO(userAdminDTO);
+            var result = await _userOperationClaimService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

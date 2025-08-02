@@ -10,12 +10,12 @@ namespace Business.Abstract
 {
     public interface IUniversityFacultyService
     {
-        IResult Add(UniversityFaculty universityFaculty);
-        IResult Update(UniversityFaculty universityFaculty);
-        IResult Delete(UniversityFaculty universityFaculty);
-        IResult Terminate(UniversityFaculty universityFaculty);
-        IDataResult<List<UniversityFaculty>> GetAll();
-        IDataResult<List<UniversityFaculty>> GetDeletedAll();
-        IDataResult<UniversityFaculty> GetById(string id);
+        Task<IResult> Add(UniversityFaculty universityFaculty);
+        Task<IResult> Update(UniversityFaculty universityFaculty);
+        Task<IResult> Delete(UniversityFaculty universityFaculty);
+        Task<IResult> Terminate(UniversityFaculty universityFaculty);
+        Task<IDataResult<List<UniversityFaculty>>> GetAll();
+        Task<IDataResult<List<UniversityFaculty>>> GetDeletedAll();
+        Task<IDataResult<UniversityFaculty>> GetById(string id);
     }
 }

@@ -11,17 +11,17 @@ namespace Business.Abstract
 {
     public interface IUniversityDescriptionService
     {
-        IResult Add(UniversityDescription universityDepartment);
-        IResult Update(UniversityDescription universityDepartment);
-        IResult Delete(UniversityDescription universityDepartment);
-        IResult Terminate(UniversityDescription universityDepartment);
-        IDataResult<List<UniversityDescription>> GetAll();
-        IDataResult<List<UniversityDescription>> GetDeletedAll();
-        IDataResult<UniversityDescription> GetById(string id);
+        Task<IResult> Add(UniversityDescription universityDepartment);
+        Task<IResult> Update(UniversityDescription universityDepartment);
+        Task<IResult> Delete(UniversityDescription universityDepartment);
+        Task<IResult> Terminate(UniversityDescription universityDepartment);
+        Task<IDataResult<List<UniversityDescription>>> GetAll();
+        Task<IDataResult<List<UniversityDescription>>> GetDeletedAll();
+        Task<IDataResult<UniversityDescription>> GetById(string id);
 
         //DTO
-        IDataResult<List<UniversityDescriptionDTO>> GetAllDTO();
-        IDataResult<List<UniversityDescriptionDTO>> GetDeletedAllDTO();
-        IDataResult<List<UniversityDescriptionDTO>> GetAllByUniversityIdDTO(string id);
+        Task<IDataResult<List<UniversityDescriptionDTO>>> GetAllDTO();
+        Task<IDataResult<List<UniversityDescriptionDTO>>> GetDeletedAllDTO();
+        Task<IDataResult<List<UniversityDescriptionDTO>>> GetAllByUniversityIdDTO(string id);
     }
 }

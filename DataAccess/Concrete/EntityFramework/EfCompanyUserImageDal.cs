@@ -30,7 +30,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CompanyUserImageDTO> GetAllDTO()
+        public async Task<List<CompanyUserImageDTO>> GetAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -61,11 +61,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserImages.UpdatedDate,
                                  DeletedDate = companyUserImages.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<CompanyUserImageDTO> GetDeletedAllDTO()
+        public async Task<List<CompanyUserImageDTO>> GetDeletedAllDTO()
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -96,7 +96,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  UpdatedDate = companyUserImages.UpdatedDate,
                                  DeletedDate = companyUserImages.DeletedDate,
                              };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
