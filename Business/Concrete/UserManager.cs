@@ -142,6 +142,13 @@ namespace Business.Concrete
             var datas = await _userDal.GetAll();
             var query = datas.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.FirstName.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.LastName.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.Email.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "FirstName":

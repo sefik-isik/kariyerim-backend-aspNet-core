@@ -95,6 +95,11 @@ namespace Business.Concrete
             var datas = await _universityDal.GetAllDTO();
             var query = datas.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.UniversityName.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "UniversityName":

@@ -122,6 +122,14 @@ namespace Business.Concrete
             var datas = await _personelUserDal.GetAllDTO();
             var query = datas.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.FirstName.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.LastName.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.Email.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.IdentityNumber.Contains(pageModel.Filter));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "FirstName":

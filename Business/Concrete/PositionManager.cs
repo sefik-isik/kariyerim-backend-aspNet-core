@@ -79,6 +79,11 @@ namespace Business.Concrete
             var datas = await _positionDal.GetAll();
             var query = datas.AsQueryable();
 
+            if(!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.PositionName.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "PositionName":

@@ -130,6 +130,13 @@ namespace Business.Concrete
             var datas = await _companyUserDal.GetAllDTO();
             var query = datas.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.CompanyUserName.ToLower().Contains(pageModel.Filter.ToLower()) ||
+                                         c.Email.ToLower().Contains(pageModel.Filter.ToLower()) ||
+                                         c.TaxNumber.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "Email":

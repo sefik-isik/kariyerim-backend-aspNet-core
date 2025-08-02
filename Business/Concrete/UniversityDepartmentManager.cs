@@ -84,6 +84,11 @@ namespace Business.Concrete
             var universityDepartments = await _universityDepartmentDal.GetAll();
             var query = universityDepartments.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.DepartmentName.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "DepartmentName":

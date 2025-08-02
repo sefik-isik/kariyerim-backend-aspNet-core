@@ -79,6 +79,12 @@ namespace Business.Concrete
             var datas = await _taxOfficeDal.GetAll();
             var query = datas.AsQueryable();
 
+            if (!string.IsNullOrEmpty(pageModel.Filter))
+            {
+                query = query.Where(c => c.TaxOfficeName.ToLower().Contains(pageModel.Filter.ToLower())
+                                         || c.TaxOfficeCode.ToLower().Contains(pageModel.Filter.ToLower()));
+            }
+
             switch (pageModel.SortColumn)
             {
                 case "TaxOfficeName":

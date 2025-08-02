@@ -62,14 +62,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getallbypage")]
-        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, int pageIndex = 0, int pageSize = 100)
+        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, string? filter, int pageIndex = 0, int pageSize = 100)
         {
             CompanyUserPageModel positionPageModel = new CompanyUserPageModel
             {
                 SortColumn = sortColumn,
                 SortOrder = sortOrder,
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                Filter = filter ?? ""
             };
 
             var result = await _companyUserService.GetAllByPage(positionPageModel);
