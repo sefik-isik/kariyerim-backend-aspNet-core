@@ -30,7 +30,6 @@ namespace DataAccess.Concrete.EntityFramework
                 }
 
                 var companyUserAddressesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAddresses] WHERE [CompanyUserId] = {id}");
-                var companyUserAdvertJobDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertJobDescriptions] WHERE [CompanyUserId] = {id}");
                 var companyUserDepartmentsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserDepartments] WHERE [CompanyUserId] = {id}");
                 var companyUserFilesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserFiles] WHERE [CompanyUserId] = {id}");
                 var companyUserImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserImages] WHERE [CompanyUserId] = {id}");

@@ -19,6 +19,7 @@ namespace DataAccess.Concrete.EntityFramework
             using (KariyerimContext context = new KariyerimContext())
             {
                 var companyUserAdvertCitiesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertCities] WHERE [AdvertId] = {id}");
+                var companyUserAdvertJobDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAdvertJobDescriptions] WHERE [AdvertId] = {id}");
             }
         }
         public async Task<List<CompanyUserAdvertDTO>> GetAllDTO()

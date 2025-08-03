@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
 {
     public interface IPositionDal : IEntityRepository<Position>
     {
+        Task TerminateSubDatas(string id);
     }
 }

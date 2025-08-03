@@ -17,9 +17,8 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var universityDepartmentsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityDepartments] WHERE [UniversityId] = {id}");
-                var universityFacultiesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityFaculties] WHERE [UniversityId] = {id}");
                 var universityImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityImages] WHERE [UniversityId] = {id}");
+                var universityDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [UniversityDescriptions] WHERE [UniversityId] = {id}");
             }
         }
         public async Task<List<UniversityDTO>> GetAllDTO()

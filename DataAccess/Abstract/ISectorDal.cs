@@ -10,6 +10,6 @@ namespace DataAccess.Abstract
 {
     public interface ISectorDal : IEntityRepository<Sector>
     {
-
+        Task TerminateSubDatas(string id);
     }
 }

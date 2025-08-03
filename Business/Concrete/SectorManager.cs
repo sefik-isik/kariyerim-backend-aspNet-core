@@ -53,6 +53,7 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(Sector sector)
         {
+            await _sectorDal.TerminateSubDatas(sector.Id);
             await _sectorDal.Terminate(sector);
             return new SuccessResult(Messages.SuccessTerminate);
         }

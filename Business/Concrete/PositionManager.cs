@@ -54,6 +54,7 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(Position position)
         {
+            await _positionDal.TerminateSubDatas(position.Id);
             await _positionDal.Terminate(position);
             return new SuccessResult(Messages.SuccessTerminate);
         }
