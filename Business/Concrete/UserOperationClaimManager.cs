@@ -48,7 +48,16 @@ namespace Business.Concrete
             }
             await _userOperationClaimDal.UpdateAsync(userOperationClaim);
 
-            MakeUserAdmin(userOperationClaim);
+            if (userOperationClaim.OperationClaimId == "352f7ef8-3a76-4dd9-8458-267fa984c715")
+            {
+                await _userService.MakeUserAdmin(userOperationClaim);
+            }
+            else
+            {
+                await _userService.MakeNormalUser(userOperationClaim);
+            }
+
+            
 
             return new SuccessResult(Messages.SuccessUpdated);
         }
@@ -142,42 +151,6 @@ namespace Business.Concrete
             else
             {
                 return new SuccessDataResult<List<UserOperationClaimDTO>>(allDtos, Messages.SuccessListed);
-            }
-        }
-
-        public async Task<IResult> MakeUserAdmin(UserOperationClaim userOperationClaim)
-        {
-            User currentUser = await _userService.GetById(userOperationClaim.UserId);
-
-            var user = new User
-            {
-                Id = userOperationClaim.UserId,
-                PasswordHash = currentUser.PasswordHash,
-                PasswordSalt = currentUser.PasswordSalt,
-                FirstName = currentUser.FirstName,
-                LastName = currentUser.LastName,
-                PhoneNumber = currentUser.PhoneNumber,
-                Email = currentUser.Email,
-                Status = await GetAdminStatus(userOperationClaim),
-                Code = currentUser.Code,
-                CreatedDate = currentUser.CreatedDate,
-                UpdatedDate = DateTime.Now,
-                DeletedDate = currentUser.DeletedDate,
-            };
-
-            await _userService.Update(user);
-            return new SuccessResult(Messages.SuccessUpdated);
-        }
-
-        private Task<string> GetAdminStatus(UserOperationClaim userOperationClaim)
-        {
-            if (userOperationClaim.OperationClaimId == "352f7ef8-3a76-4dd9-8458-267fa984c715" && userOperationClaim.DeletedDate == null)
-            {
-                return Task.FromResult(UserStatus.Admin);
-            }
-            else
-            {
-                return Task.FromResult(UserStatus.User);
             }
         }
     }

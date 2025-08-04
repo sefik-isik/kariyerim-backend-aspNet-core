@@ -19,15 +19,17 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class UniversityManager: IUniversityService
+    public class UniversityManager : IUniversityService
     {
         IUniversityDal _universityDal;
+        IUniversityImageService _universityImageService;
         readonly IPaginationUriService _uriService;
 
-        public UniversityManager(IUniversityDal universityDal, IPaginationUriService uriService)
+        public UniversityManager(IUniversityDal universityDal, IPaginationUriService uriService, IUniversityImageService universityImageService)
         {
             _universityDal = universityDal;
             _uriService = uriService;
+            _universityImageService = universityImageService;
 
         }
 
@@ -68,6 +70,16 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(University university)
         {
+            List<UniversityImage>? universityImages = await _universityImageService.GetAllByUniversityId(university.Id);
+
+            if (universityImages.Count > 0)
+            {
+                foreach (UniversityImage image in universityImages)
+                {
+                    await _universityImageService.DeleteImage(image);
+                }
+            }
+
             await _universityDal.TerminateSubDatas(university.Id);
             await _universityDal.Terminate(university);
             return new SuccessResult(Messages.SuccessTerminate);
@@ -144,11 +156,11 @@ namespace Business.Concrete
             return new SuccessDataResult<UniversityPageModel>(universityPageModel, Messages.SuccessListed);
         }
 
-        
+
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<University?>> GetById(string id)
         {
-            return new SuccessDataResult<University?>(await _universityDal.Get(u=>u.Id == id));
+            return new SuccessDataResult<University?>(await _universityDal.Get(u => u.Id == id));
         }
         //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<UniversityDTO>>> GetAllDTO()
@@ -170,7 +182,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.UniversityName.ToLower() == entityName.ToLower());
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -180,7 +192,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.WebAddress.ToLower() == entityName.ToLower() && c.WebAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -190,7 +202,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.WebNewsAddress.ToLower() == entityName.ToLower() && c.WebNewsAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -200,7 +212,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.YouTubeEmbedAddress.ToLower() == entityName.ToLower() && c.YouTubeEmbedAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -210,7 +222,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.Address.ToLower() == entityName.ToLower() && c.Address != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -220,7 +232,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.FacebookAddress.ToLower() == entityName.ToLower() && c.FacebookAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -230,7 +242,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.InstagramAddress.ToLower() == entityName.ToLower() && c.InstagramAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -240,7 +252,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.XAddress.ToLower() == entityName.ToLower() && c.XAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }
@@ -250,7 +262,7 @@ namespace Business.Concrete
         {
             var result = await _universityDal.GetAll(c => c.YouTubeAddress.ToLower() == entityName.ToLower() && c.YouTubeAddress != "-");
 
-           if (result != null && result.Count > 0)
+            if (result != null && result.Count > 0)
             {
                 return new ErrorResult(Messages.FieldAlreadyExist);
             }

@@ -124,6 +124,57 @@ namespace Business.Concrete
             }
         }
 
+        public async Task MakeUserAdmin(UserOperationClaim userOperationClaim)
+        {
+            User? currentUser = await GetById(userOperationClaim.UserId);
+
+            if (currentUser != null)
+            {
+                var newUser = new User
+                {
+                    Id = userOperationClaim.UserId,
+                    PasswordHash = currentUser.PasswordHash,
+                    PasswordSalt = currentUser.PasswordSalt,
+                    FirstName = currentUser.FirstName,
+                    LastName = currentUser.LastName,
+                    PhoneNumber = currentUser.PhoneNumber,
+                    Email = currentUser.Email,
+                    Status = UserStatus.Admin,
+                    Code = currentUser.Code,
+                    CreatedDate = currentUser.CreatedDate,
+                    UpdatedDate = DateTime.Now,
+                    DeletedDate = currentUser.DeletedDate,
+                };
+
+                await _userDal.UpdateAsync(newUser);
+            }
+        }
+
+        public async Task MakeNormalUser(UserOperationClaim userOperationClaim)
+        {
+            User? currentUser = await GetById(userOperationClaim.UserId);
+
+            if (currentUser != null)
+            {
+                var newUser = new User
+                {
+                    Id = userOperationClaim.UserId,
+                    PasswordHash = currentUser.PasswordHash,
+                    PasswordSalt = currentUser.PasswordSalt,
+                    FirstName = currentUser.FirstName,
+                    LastName = currentUser.LastName,
+                    PhoneNumber = currentUser.PhoneNumber,
+                    Email = currentUser.Email,
+                    Status = UserStatus.User,
+                    Code = currentUser.Code,
+                    CreatedDate = currentUser.CreatedDate,
+                    UpdatedDate = DateTime.Now,
+                    DeletedDate = currentUser.DeletedDate,
+                };
+
+                await _userDal.UpdateAsync(newUser);
+            }
+        }
 
         public async Task<User?> GetById(string id)
         {

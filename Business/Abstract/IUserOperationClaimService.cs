@@ -22,7 +22,5 @@ namespace Business.Abstract
         //DTO
         Task<IDataResult<List<UserOperationClaimDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<UserOperationClaimDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
-        Task<IResult> MakeUserAdmin(UserOperationClaim userOperationClaim);
-
     }
 }

@@ -20,6 +20,7 @@ namespace Business.Abstract
         Task<IDataResult<List<UniversityImage>>> GetDeletedAll();
         Task<IDataResult<List<UniversityImage>>> GetAllById(string id);
         Task<IDataResult<UniversityImage>> GetById(string id);
-        
+        Task<List<UniversityImage>> GetAllByUniversityId(string id);
+
     }
 }

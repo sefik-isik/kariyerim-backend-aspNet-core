@@ -109,6 +109,14 @@ namespace Business.Concrete
             }
 
         }
+
+        [SecuredOperation("admin,user")]
+        public async Task<List<PersonelUserImage>> GetAllByPersonelUserId(string id)
+        {
+            return await _personelUserImageDal.GetAll(data => data.PersonelUserId == id);
+
+        }
+
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<PersonelUserImage?>> GetById(UserAdminDTO userAdminDTO)
         {

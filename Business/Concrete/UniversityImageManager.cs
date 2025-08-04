@@ -85,6 +85,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<UniversityImage>>(await _universityImageDal.GetAll(i=>i.UniversityId==id));
         }
 
+        [SecuredOperation("admin,user")]
+        public async Task<List<UniversityImage>> GetAllByUniversityId(string id)
+        {
+            return await _universityImageDal.GetAll(data => data.UniversityId == id);
+
+        }
+
         public async Task<IResult> DeleteImage(UniversityImage universityImage)
         {
             if(universityImage == null)

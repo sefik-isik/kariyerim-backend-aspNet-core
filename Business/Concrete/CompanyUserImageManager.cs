@@ -147,6 +147,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
+        public async Task<List<CompanyUserImage>> GetAllByCompanyUserId(string id)
+        {
+                return await _companyUserImageDal.GetAll(data=>data.CompanyUserId==id);
+
+        }
+
+        [SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUserImage?>> GetById(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = await _userService.IsAdmin(userAdminDTO);

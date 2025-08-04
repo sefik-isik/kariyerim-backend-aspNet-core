@@ -27,15 +27,17 @@ namespace Business.Concrete
     {
         ICompanyUserDal _companyUserDal;
         IUserService _userService;
+        ICompanyUserImageService _companyUserImageService;
         readonly IPaginationUriService _uriService;
 
         public CompanyUserManager(
             ICompanyUserDal companyUserDal, 
-            IUserService userService, IPaginationUriService paginationUriService
+            IUserService userService, IPaginationUriService paginationUriService, ICompanyUserImageService companyUserImageService
             ) {
             _companyUserDal = companyUserDal; 
             _userService = userService;
             _uriService = paginationUriService;
+            _companyUserImageService = companyUserImageService;
         }
 
         [SecuredOperation("admin,user")]
@@ -87,6 +89,16 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(CompanyUser companyUser)
         {
+            List<CompanyUserImage>? companyUserImages = await _companyUserImageService.GetAllByCompanyUserId(companyUser.Id);
+
+            if(companyUserImages.Count>0)
+            {
+                foreach (CompanyUserImage image in companyUserImages)
+                {
+                    await _companyUserImageService.DeleteImage(image);
+                }
+            }
+
             await _companyUserDal.TerminateSubDatas(companyUser.Id);
             await _companyUserDal.Terminate(companyUser);
             return new SuccessResult(Messages.SuccessTerminate);

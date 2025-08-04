@@ -21,6 +21,8 @@ namespace Business.Abstract
         Task<IDataResult<List<OperationClaim>>> GetClaims(User user);
         Task<User> GetById(string id);
         Task<IDataResult<UserPageModel>> GetAllByPage(UserPageModel pageModel);
+        Task MakeUserAdmin(UserOperationClaim userOperationClaim);
+        Task MakeNormalUser(UserOperationClaim userOperationClaim);
 
         //DTO
         Task<IDataResult<User>> IsAdmin(UserAdminDTO userAdminDTO);
