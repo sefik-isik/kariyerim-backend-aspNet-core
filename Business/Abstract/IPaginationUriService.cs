@@ -10,5 +10,6 @@ namespace Business.Abstract
     public interface IPaginationUriService
     {
         Uri GetPageUri(PageModel pageModel);
+        Uri GetPageListUri(PageListModel pageListModel);
     }
 }

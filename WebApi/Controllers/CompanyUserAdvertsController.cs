@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
@@ -50,10 +51,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getall")]
-        public async Task<ActionResult> GetAll(UserAdminDTO userAdminDTO)
+        [HttpGet("getall")]
+        public async Task<ActionResult> GetAll()
         {
-            var result = await _companyUserAdvertService.GetAll(userAdminDTO);
+            var result = await _companyUserAdvertService.GetAll();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -64,16 +65,23 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getbyid")]
-        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
+        [HttpPost("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(CompanyUserAdvertPageModel companyUserAdvertPageModel)
         {
-            var result = await _companyUserAdvertService.GetById(userAdminDTO);
+            var result = await _companyUserAdvertService.GetAllByPage(companyUserAdvertPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
-        [HttpPost("getalldto")]
-        public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
+
+        [HttpGet("getbyid")]
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = await _companyUserAdvertService.GetAllDTO(userAdminDTO);
+            var result = await _companyUserAdvertService.GetById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+        [HttpGet("getalldto")]
+        public async Task<ActionResult> GetAllDTO()
+        {
+            var result = await _companyUserAdvertService.GetAllDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

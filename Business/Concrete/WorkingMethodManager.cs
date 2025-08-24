@@ -53,7 +53,7 @@ namespace Business.Concrete
             await _workingMethodDal.Terminate(workingMethod);
             return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<WorkingMethod>>> GetAll()
         {
             var result = await _workingMethodDal.GetAll();

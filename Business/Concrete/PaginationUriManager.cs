@@ -29,5 +29,15 @@ namespace Business.Concrete
             queryUri = QueryHelpers.AddQueryString(queryUri, "pageSize", $"{pageModel.PageSize}");
             return new Uri(queryUri);
         }
+
+        public Uri GetPageListUri(PageListModel pageListModel)
+        {
+            var baseUri = _httpContextAccessor.GetRequestUri();
+            var route = _httpContextAccessor.GetRoute();
+            var endpoint = new Uri(string.Concat(baseUri, route));
+            var queryUri = QueryHelpers.AddQueryString($"{endpoint}", "pageNumber", $"{pageListModel.PageIndex}");
+            queryUri = QueryHelpers.AddQueryString(queryUri, "pageSize", $"{pageListModel.PageSize}");
+            return new Uri(queryUri);
+        }
     }
 }

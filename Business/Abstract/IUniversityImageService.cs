@@ -21,6 +21,8 @@ namespace Business.Abstract
         Task<IDataResult<List<UniversityImage>>> GetAllById(string id);
         Task<IDataResult<UniversityImage>> GetById(string id);
         Task<List<UniversityImage>> GetAllByUniversityId(string id);
+        Task<IDataResult<List<UniversityImage>>> GetUniversityMainImage(string id);
+        Task<IDataResult<List<UniversityImage>>> GetUniversityLogoImage(string id);
 
     }
 }

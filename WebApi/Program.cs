@@ -13,11 +13,6 @@ using SixLabors.ImageSharp.Web.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", builder => builder.WithOrigins("http://localhost:4200,http://localhost:4201"));
-});
-
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -84,11 +79,6 @@ builder.Services.AddSwaggerGen(c =>
     
 });
 
-
-
-
-//builder.Services.AddSingleton<ICityService,CityManager>();
-
 var app = builder.Build();
 
 app.UseImageSharp();
@@ -100,8 +90,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
 }
-
-
 
 app.ConfigureCustomExceptionMiddleware();
 

@@ -56,7 +56,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<Region>>> GetAll()
         {
             var result = await _regionDal.GetAll();
@@ -76,7 +76,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Region?>(await _regionDal.Get(r=>r.Id == id));
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<RegionDTO>>> GetAllDTO()
         {
             var result = await _regionDal.GetAllDTO();

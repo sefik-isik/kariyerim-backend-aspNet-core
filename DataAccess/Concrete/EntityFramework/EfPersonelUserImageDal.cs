@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [isProfilImage]=false  WHERE [PersonelUserId] = {id}");
+                var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [isProfilImage]='false'  WHERE [PersonelUserId] = {id}");
             }
         }
         public async Task<List<PersonelUserImageDTO>> GetAllDTO()
@@ -78,6 +78,31 @@ namespace DataAccess.Concrete.EntityFramework
                                  ImageOwnName = personelUserImages.ImageOwnName,
                                  ImageName = personelUserImages.ImageName,
                                  ImagePath = personelUserImages.ImagePath,
+                                 IsProfilImage = personelUserImages.IsProfilImage,
+                                 CreatedDate = personelUserImages.CreatedDate,
+                                 UpdatedDate = personelUserImages.UpdatedDate,
+                                 DeletedDate = personelUserImages.DeletedDate,
+                             };
+                return await result.ToListAsync();
+            }
+        }
+
+        public async Task<List<PersonelUserImage>> GetPersonelUserProfileImage(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from personelUserImages in context.PersonelUserImages
+
+
+                             where personelUserImages.PersonelUserId == id && personelUserImages.DeletedDate == null && personelUserImages.IsProfilImage == true
+
+                             select new PersonelUserImage
+                             {
+                                 Id = personelUserImages.Id,
+                                 PersonelUserId = personelUserImages.PersonelUserId,
+                                 ImagePath = personelUserImages.ImagePath,
+                                 ImageName = personelUserImages.ImageName,
+                                 ImageOwnName = personelUserImages.ImageOwnName,
                                  IsProfilImage = personelUserImages.IsProfilImage,
                                  CreatedDate = personelUserImages.CreatedDate,
                                  UpdatedDate = personelUserImages.UpdatedDate,

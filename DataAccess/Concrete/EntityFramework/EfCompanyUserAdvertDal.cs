@@ -39,10 +39,15 @@ namespace DataAccess.Concrete.EntityFramework
                              join languages in context.Languages on companyUserAdvert.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on companyUserAdvert.LanguageLevelId equals languageLevels.Id
                              join driverLicences in context.DriverLicences on companyUserAdvert.DriverLicenceId equals driverLicences.Id
+                             join countries in context.Countries on companyUserAdvert.CountryId equals countries.Id
+                             join cities in context.Cities on companyUserAdvert.CityId equals cities.Id
+                             join regions in context.Regions on companyUserAdvert.RegionId equals regions.Id
+                             join sectors in context.Sectors on companyUserAdvert.SectorId equals sectors.Id
 
                              where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate == null && users.DeletedDate == null  && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
                              && workingMethods.DeletedDate == null && experiences.DeletedDate == null 
                              && companyUserDepartments.DeletedDate == null && licenseDegrees.DeletedDate == null
+                             && countries.DeletedDate==null && cities.DeletedDate == null && regions.DeletedDate == null && sectors.DeletedDate == null
 
                              select new CompanyUserAdvertDTO
                              {
@@ -53,7 +58,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
-                                 CompanyUserId = companyUserAdvert.CompanyUserId,
+                                 CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  AdvertName = companyUserAdvert.AdvertName,
                                  AdvertImageName = companyUserAdvert.AdvertImageName,
@@ -80,6 +85,14 @@ namespace DataAccess.Concrete.EntityFramework
                                  LanguageLevelName = languageLevels.LevelTitle,
                                  DriverLicenceId = companyUserAdvert.DriverLicenceId,
                                  DriverLicenceName = driverLicences.DriverLicenceName,
+                                 CountryId = companyUserAdvert.CountryId,
+                                 CountryName=countries.CountryName,
+                                 CityId = companyUserAdvert.CityId,
+                                 CityName=cities.CityName,
+                                 RegionId = companyUserAdvert.RegionId,
+                                 RegionName=regions.RegionName,
+                                 SectorId = companyUserAdvert.SectorId,
+                                 SectorName=sectors.SectorName,
                                  CreatedDate = companyUserAdvert.CreatedDate,
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,
@@ -105,10 +118,15 @@ namespace DataAccess.Concrete.EntityFramework
                              join languages in context.Languages on companyUserAdvert.LanguageId equals languages.Id
                              join languageLevels in context.LanguageLevels on companyUserAdvert.LanguageLevelId equals languageLevels.Id
                              join driverLicences in context.DriverLicences on companyUserAdvert.DriverLicenceId equals driverLicences.Id
+                             join countries in context.Countries on companyUserAdvert.CountryId equals countries.Id
+                             join cities in context.Cities on companyUserAdvert.CityId equals cities.Id
+                             join regions in context.Regions on companyUserAdvert.RegionId equals regions.Id
+                             join sectors in context.Sectors on companyUserAdvert.SectorId equals sectors.Id
 
                              where users.Code == UserCodes.CompanyUserCode && companyUserAdvert.DeletedDate != null && users.DeletedDate == null && companyUsers.DeletedDate == null && workAreas.DeletedDate == null
                              && workingMethods.DeletedDate == null && experiences.DeletedDate == null
                              && companyUserDepartments.DeletedDate == null && licenseDegrees.DeletedDate == null
+                             && countries.DeletedDate == null && cities.DeletedDate == null && regions.DeletedDate == null && sectors.DeletedDate == null
 
                              select new CompanyUserAdvertDTO
                              {
@@ -119,7 +137,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  LastName = users.LastName,
                                  PhoneNumber = users.PhoneNumber,
                                  Code = users.Code,
-                                 CompanyUserId = companyUserAdvert.CompanyUserId,
+                                 CompanyUserId = companyUsers.Id,
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  AdvertName = companyUserAdvert.AdvertName,
                                  AdvertImageName = companyUserAdvert.AdvertImageName,
@@ -146,6 +164,14 @@ namespace DataAccess.Concrete.EntityFramework
                                  LanguageLevelName = languageLevels.LevelTitle,
                                  DriverLicenceId = companyUserAdvert.DriverLicenceId,
                                  DriverLicenceName = driverLicences.DriverLicenceName,
+                                 CountryId = companyUserAdvert.CountryId,
+                                 CountryName = countries.CountryName,
+                                 CityId = companyUserAdvert.CityId,
+                                 CityName = cities.CityName,
+                                 RegionId = companyUserAdvert.RegionId,
+                                 RegionName = regions.RegionName,
+                                 SectorId = companyUserAdvert.SectorId,
+                                 SectorName = sectors.SectorName,
                                  CreatedDate = companyUserAdvert.CreatedDate,
                                  UpdatedDate = companyUserAdvert.UpdatedDate,
                                  DeletedDate = companyUserAdvert.DeletedDate,

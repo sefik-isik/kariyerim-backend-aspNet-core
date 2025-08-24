@@ -16,7 +16,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var sectorDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [Sectors] WHERE [SectorId] = {id}");
+                var positionDescriptionsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [SectorDescriptions] WHERE [SectorId] = {id}");
             }
         }
     }

@@ -85,7 +85,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<University>>> GetAll()
         {
             var result = await _universityDal.GetAll();
@@ -157,7 +157,7 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<University?>> GetById(string id)
         {
             return new SuccessDataResult<University?>(await _universityDal.Get(u => u.Id == id));

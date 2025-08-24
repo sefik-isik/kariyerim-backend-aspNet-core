@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var companyUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isMainImage]=false  WHERE [CompanyUserId] = {id}");
+                var companyUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isMainImage]='false'  WHERE [CompanyUserId] = {id}");
             }
         }
 
@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var companyUserLogoImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isLogo]=false  WHERE [CompanyUserId] = {id}");
+                var companyUserLogoImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isLogo]='false'  WHERE [CompanyUserId] = {id}");
             }
         }
 
@@ -90,6 +90,58 @@ namespace DataAccess.Concrete.EntityFramework
                                  ImageOwnName = companyUserImages.ImageOwnName,
                                  ImageName = companyUserImages.ImageName,
                                  ImagePath = companyUserImages.ImagePath,
+                                 IsMainImage = companyUserImages.IsMainImage,
+                                 IsLogo = companyUserImages.IsLogo,
+                                 CreatedDate = companyUserImages.CreatedDate,
+                                 UpdatedDate = companyUserImages.UpdatedDate,
+                                 DeletedDate = companyUserImages.DeletedDate,
+                             };
+                return await result.ToListAsync();
+            }
+        }
+
+        public async Task<List<CompanyUserImage>> GetCompanyUserMainImage(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUserImages in context.CompanyUserImages
+
+
+                             where companyUserImages.CompanyUserId == id && companyUserImages.DeletedDate == null && companyUserImages.IsMainImage == true
+
+                             select new CompanyUserImage
+                             {
+                                 Id = companyUserImages.Id,
+                                 CompanyUserId = companyUserImages.CompanyUserId,
+                                 ImagePath = companyUserImages.ImagePath,
+                                 ImageName = companyUserImages.ImageName,
+                                 ImageOwnName = companyUserImages.ImageOwnName,
+                                 IsMainImage = companyUserImages.IsMainImage,
+                                 IsLogo = companyUserImages.IsLogo,
+                                 CreatedDate = companyUserImages.CreatedDate,
+                                 UpdatedDate = companyUserImages.UpdatedDate,
+                                 DeletedDate = companyUserImages.DeletedDate,
+                             };
+                return await result.ToListAsync();
+            }
+        }
+
+        public async Task<List<CompanyUserImage>> GetCompanyUserLogoImage(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUserImages in context.CompanyUserImages
+
+
+                             where companyUserImages.CompanyUserId == id && companyUserImages.DeletedDate == null && companyUserImages.IsLogo == true
+
+                             select new CompanyUserImage
+                             {
+                                 Id = companyUserImages.Id,
+                                 CompanyUserId = companyUserImages.CompanyUserId,
+                                 ImagePath = companyUserImages.ImagePath,
+                                 ImageName = companyUserImages.ImageName,
+                                 ImageOwnName = companyUserImages.ImageOwnName,
                                  IsMainImage = companyUserImages.IsMainImage,
                                  IsLogo = companyUserImages.IsLogo,
                                  CreatedDate = companyUserImages.CreatedDate,

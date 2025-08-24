@@ -65,7 +65,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<Country>>> GetAll()
         {
             var result = await _countryDal.GetAll();

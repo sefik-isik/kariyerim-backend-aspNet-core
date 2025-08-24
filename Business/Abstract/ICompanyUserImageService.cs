@@ -19,7 +19,10 @@ namespace Business.Abstract
         Task<IDataResult<List<CompanyUserImage>>> GetAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<CompanyUserImage>>> GetDeletedAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<CompanyUserImage>> GetById(UserAdminDTO userAdminDTO);
-        Task<List<CompanyUserImage>> GetAllByCompanyUserId(string id);
+        Task<List<CompanyUserImage>> GetAllByCompanyUserId(CompanyUser companyUser);
+
+        Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserMainImage(string id);
+        Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserLogoImage(string id);
 
 
         //DTO

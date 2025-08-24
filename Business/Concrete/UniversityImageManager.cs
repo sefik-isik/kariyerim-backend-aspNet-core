@@ -60,7 +60,7 @@ namespace Business.Concrete
             await _universityImageDal.Terminate(universityImage);
             return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<UniversityImage>>> GetAll()
         {
             var result = await _universityImageDal.GetAll();
@@ -75,10 +75,18 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.ImageOwnName).ToList();
             return new SuccessDataResult<List<UniversityImage>>(result);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<UniversityImage?>> GetById(string id)
         {
             return new SuccessDataResult<UniversityImage?>(await _universityImageDal.Get(r => r.Id == id));
+        }
+        public async Task<IDataResult<List<UniversityImage>>> GetUniversityMainImage(string id)
+        {
+            return new SuccessDataResult<List<UniversityImage>> (await _universityImageDal.GetUniversityMainImage(id));
+        }
+        public async Task<IDataResult<List<UniversityImage>>> GetUniversityLogoImage(string id)
+        {
+            return new SuccessDataResult<List<UniversityImage>>(await _universityImageDal.GetUniversityLogoImage(id));
         }
         public async Task<IDataResult<List<UniversityImage>>> GetAllById(string id)
         {
@@ -98,19 +106,29 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<UniversityImage>(Messages.ImageNotFound);
             }
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + universityImage.Id + "\\" + universityImage.ImageName;
 
-            if (System.IO.File.Exists(fullImagePath))
+            string ImagePath = _environment.WebRootPath + "\\uploads\\images\\" + universityImage.Id;
+            string FullImagePath = ImagePath + "\\" + universityImage.ImageName;
+
+            string ThumbImagePath = ImagePath + "\\thumbs\\";
+            string FullThumbImagePath = ThumbImagePath + universityImage.ImageName;
+
+            if (System.IO.File.Exists(FullImagePath))
             {
-                System.IO.File.Delete(fullImagePath);
+                System.IO.File.Delete(FullImagePath);
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + universityImage.Id + "\\thumbs\\" + universityImage.ImageName;
-
-            if (System.IO.File.Exists(fullThumbImagePath))
+            if (System.IO.File.Exists(FullThumbImagePath))
             {
-                System.IO.File.Delete(fullThumbImagePath);
+                System.IO.File.Delete(FullThumbImagePath);
+            }
 
+            DirectoryInfo source = new DirectoryInfo(ImagePath);
+            FileInfo[] sourceFiles = source.GetFiles();
+
+            if (sourceFiles.Length == 0)
+            {
+                System.IO.Directory.Delete(ImagePath, true);
             }
 
             universityImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";

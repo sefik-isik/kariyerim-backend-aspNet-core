@@ -12,5 +12,8 @@ namespace DataAccess.Abstract
     {
         Task UpdateMainImage(string id);
         Task UpdateLogoImage(string id);
+
+        Task<List<UniversityImage>> GetUniversityMainImage(string id);
+        Task<List<UniversityImage>> GetUniversityLogoImage(string id);
     }
 }

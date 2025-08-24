@@ -62,5 +62,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Position> Positions { get; set; }
         public DbSet<PositionDescription> PositionDescriptions { get; set; }
         public DbSet<PositionLevel> PositionLevels { get; set; }
+        public DbSet<AdvertFilter> AdvertFilters { get; set; }
     }
 }

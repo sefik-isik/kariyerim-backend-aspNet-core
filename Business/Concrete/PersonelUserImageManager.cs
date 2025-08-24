@@ -132,6 +132,12 @@ namespace Business.Concrete
             }
         }
 
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<PersonelUserImage>>> GetPersonelUserProfileImage(string id)
+        {
+            return new SuccessDataResult<List<PersonelUserImage>>(await _personelUserImageDal.GetPersonelUserProfileImage(id));
+        }
+
         //DTO
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<List<PersonelUserImageDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
@@ -174,19 +180,28 @@ namespace Business.Concrete
                 return new ErrorDataResult<PersonelUserImage>(Messages.ImageNotFound);
             }
 
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\" + personelUserImage.ImageName;
+            string ImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId;
+            string FullImagePath = ImagePath + "\\" + personelUserImage.ImageName;
 
-            if (System.IO.File.Exists(fullImagePath))
+            string ThumbImagePath = ImagePath + "\\thumbs\\";
+            string FullThumbImagePath = ThumbImagePath + personelUserImage.ImageName;
+
+            if (System.IO.File.Exists(FullImagePath))
             {
-                System.IO.File.Delete(fullImagePath);
+                System.IO.File.Delete(FullImagePath);
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + personelUserImage.UserId + "\\thumbs\\" + personelUserImage.ImageName;
-
-            if (System.IO.File.Exists(fullThumbImagePath))
+            if (System.IO.File.Exists(FullThumbImagePath))
             {
-                System.IO.File.Delete(fullThumbImagePath);
+                System.IO.File.Delete(FullThumbImagePath);
+            }
 
+            DirectoryInfo source = new DirectoryInfo(ImagePath);
+            FileInfo[] sourceFiles = source.GetFiles();
+
+            if (sourceFiles.Length == 0)
+            {
+                System.IO.Directory.Delete(ImagePath, true);
             }
 
             personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";

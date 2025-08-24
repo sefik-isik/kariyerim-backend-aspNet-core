@@ -15,5 +15,6 @@ namespace DataAccess.Abstract
         Task TerminateSubDatas(string id);
         Task<List<CompanyUserDTO>> GetAllDTO();
         Task<List<CompanyUserDTO>> GetDeletedAllDTO();
+        Task<List<CompanyUserDTO>> GetAllForAllUserDTO();
     }
 }

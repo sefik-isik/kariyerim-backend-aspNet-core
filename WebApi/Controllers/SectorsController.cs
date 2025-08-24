@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
 using Entities.Concrete;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,13 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetAll()
         {
             var result = await _sectorService.GetAll();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(SectorPageModel sectorPageModel)
+        {
+            var result = await _sectorService.GetAllByPage(sectorPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

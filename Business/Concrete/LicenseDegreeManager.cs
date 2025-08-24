@@ -53,7 +53,7 @@ namespace Business.Concrete
             await _licenseDegreeDal.Terminate(licenceDegree);
             return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<LicenseDegree>>> GetAll()
         {
             var result = await _licenseDegreeDal.GetAll();

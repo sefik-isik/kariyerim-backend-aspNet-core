@@ -73,7 +73,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.SuccessTerminate);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         //[CacheAspect]
         public async Task<IDataResult<List<City>>> GetAll()
         {

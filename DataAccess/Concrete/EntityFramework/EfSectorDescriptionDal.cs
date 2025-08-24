@@ -68,7 +68,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from sectorDescriptions in context.SectorDescriptions
                              join sectors in context.Sectors on sectorDescriptions.SectorId equals sectors.Id
 
-                             where sectorDescriptions.DeletedDate == null && sectorDescriptions.SectorId == id
+                             where sectorDescriptions.DeletedDate == null && sectors.DeletedDate == null && sectorDescriptions.SectorId == id
 
                              select new SectorDescriptionDTO
                              {

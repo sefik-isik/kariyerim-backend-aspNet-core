@@ -79,8 +79,8 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getallpositioniddto")]
-        public async Task<ActionResult> GetAllByDeparttmetIdDTO(string id)
+        [HttpGet("getallbypositioniddto")]
+        public async Task<ActionResult> GetAllByPositionIdDTO(string id)
         {
             var result = await _positionDescriptionService.GetAllByPositionIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);

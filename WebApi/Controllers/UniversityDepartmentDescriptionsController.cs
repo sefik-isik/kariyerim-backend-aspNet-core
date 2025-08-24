@@ -81,8 +81,8 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getalldepartmentiddto")]
-        public async Task<ActionResult> GetAllByDeparttmetIdDTO(string id)
+        [HttpGet("getallbyuniversitydeparttmetIddto")]
+        public async Task<ActionResult> GetAllByUniversityDeparttmetIdDTO(string id)
         {
             var result = await _universityDepartmentDescriptionService.GetAllByUniversityDeparttmetIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);

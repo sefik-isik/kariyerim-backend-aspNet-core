@@ -19,8 +19,10 @@ namespace Business.Abstract
         Task<IResult> Terminate(CompanyUser companyUser);
         Task<IDataResult<List<CompanyUser>>> GetAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<CompanyUser>>> GetDeletedAll(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserDTO>>> GetAllForAllUserDTO();
         Task<IDataResult<CompanyUser>> GetByAdminId(UserAdminDTO userAdminDTO);
         Task<IDataResult<CompanyUser>> GetById(string id);
+        
         Task<IDataResult<CompanyUserPageModel>> GetAllByPage(CompanyUserPageModel pageModel);
 
         //DTO

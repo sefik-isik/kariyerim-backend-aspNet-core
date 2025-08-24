@@ -61,19 +61,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getallbypage")]
-        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, string? filter, int pageIndex = 0, int pageSize = 100)
+        [HttpPost("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(CompanyUserPageModel companyUserPageModel)
         {
-            CompanyUserPageModel positionPageModel = new CompanyUserPageModel
-            {
-                SortColumn = sortColumn,
-                SortOrder = sortOrder,
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                Filter = filter ?? ""
-            };
-
-            var result = await _companyUserService.GetAllByPage(positionPageModel);
+            var result = await _companyUserService.GetAllByPage(companyUserPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
@@ -95,6 +86,13 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
             var result = await _companyUserService.GetDeletedAllDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getallforalluserdto")]
+        public async Task<ActionResult> GetAllForAllUserDTO()
+        {
+            var result = await _companyUserService.GetAllForAllUserDTO();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

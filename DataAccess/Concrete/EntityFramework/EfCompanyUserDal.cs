@@ -30,7 +30,6 @@ namespace DataAccess.Concrete.EntityFramework
                 }
 
                 var companyUserAddressesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserAddresses] WHERE [CompanyUserId] = {id}");
-                var companyUserDepartmentsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserDepartments] WHERE [CompanyUserId] = {id}");
                 var companyUserFilesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserFiles] WHERE [CompanyUserId] = {id}");
                 var companyUserImagesDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [CompanyUserImages] WHERE [CompanyUserId] = {id}");
                 var personelUserAdvertApplicationsDeleted = await context.Database.ExecuteSqlAsync($"DELETE FROM [PersonelUserAdvertApplications] WHERE [CompanyUserId] = {id}");
@@ -139,6 +138,30 @@ namespace DataAccess.Concrete.EntityFramework
                                  TaxOfficeId = taxOffices.Id,
                                  TaxOfficeName = taxOffices.TaxOfficeName,
                                  TaxNumber = companyUsers.TaxNumber,
+                                 CreatedDate = companyUsers.CreatedDate,
+                                 UpdatedDate = companyUsers.UpdatedDate,
+                                 DeletedDate = companyUsers.DeletedDate,
+
+                             };
+                return await result.ToListAsync();
+            }
+        }
+
+        public async Task<List<CompanyUserDTO>> GetAllForAllUserDTO()
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUsers in context.CompanyUsers
+                             join users in context.Users on companyUsers.UserId equals users.Id
+
+                             where users.Code == UserCodes.CompanyUserCode &&
+                                    companyUsers.DeletedDate == null &&
+                                    users.DeletedDate == null
+
+                             select new CompanyUserDTO
+                             {
+                                 Id = companyUsers.Id,
+                                 CompanyUserName = companyUsers.CompanyUserName,
                                  CreatedDate = companyUsers.CreatedDate,
                                  UpdatedDate = companyUsers.UpdatedDate,
                                  DeletedDate = companyUsers.DeletedDate,

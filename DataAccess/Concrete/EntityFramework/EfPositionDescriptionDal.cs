@@ -66,7 +66,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from positionDescriptions in context.PositionDescriptions
                              join positions in context.Positions on positionDescriptions.PositionId equals positions.Id
 
-                             where positionDescriptions.DeletedDate == null && positionDescriptions.PositionId == id
+                             where positionDescriptions.DeletedDate == null && positions.DeletedDate == null && positionDescriptions.PositionId == id
 
                              select new PositionDescriptionDTO
                              {

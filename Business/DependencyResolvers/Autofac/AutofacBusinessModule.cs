@@ -65,6 +65,7 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<PositionManager>().As<IPositionService>().SingleInstance();
             builderItem.RegisterType<PositionDescriptionManager>().As<IPositionDescriptionService>().SingleInstance();
             builderItem.RegisterType<PositionLevelManager>().As<IPositionLevelService>().SingleInstance();
+            builderItem.RegisterType<AdvertFilterManager>().As<IAdvertFilterService>().SingleInstance();
 
 
             builderItem.RegisterType<EfCityDal>().As<ICityDal>().SingleInstance();
@@ -115,6 +116,7 @@ namespace Business.DependencyResolvers.Autofac
             builderItem.RegisterType<EfPositionDal>().As<IPositionDal>().SingleInstance();
             builderItem.RegisterType<EfPositionDescriptionDal>().As<IPositionDescriptionDal>().SingleInstance();
             builderItem.RegisterType<EfPositionLevelDal>().As<IPositionLevelDal>().SingleInstance();
+            builderItem.RegisterType<EfAdvertFilterDal>().As<IAdvertFilterDal>().SingleInstance();
 
             builderItem.RegisterType<JwtHelper>().As<ITokenHelper>();
 

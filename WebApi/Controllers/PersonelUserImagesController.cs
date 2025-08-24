@@ -75,6 +75,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getpersoneluserprofileimage")]
+        public async Task<ActionResult> GetPersonelUserProfileImage(string id)
+        {
+            var result = await _personelUserImageService.GetPersonelUserProfileImage(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getalldto")]
         public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {

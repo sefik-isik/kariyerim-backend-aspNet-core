@@ -60,19 +60,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("getallbypage")]
-        public async Task<ActionResult> GetAllByPage(string? sortColumn, string? sortOrder, string? filter, int pageIndex = 0, int pageSize = 100)
+        [HttpPost("getallbypage")]
+        public async Task<ActionResult> GetAllByPage(PersonelUserPageModel personelUserPageModel)
         {
-            PersonelUserPageModel positionPageModel = new PersonelUserPageModel
-            {
-                SortColumn = sortColumn,
-                SortOrder = sortOrder,
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                Filter = filter ?? ""
-            };
-
-            var result = await _personelUserService.GetAllByPage(positionPageModel);
+            var result = await _personelUserService.GetAllByPage(personelUserPageModel);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

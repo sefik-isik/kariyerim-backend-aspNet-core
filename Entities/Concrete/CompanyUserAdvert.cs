@@ -24,5 +24,9 @@ namespace Entities.Concrete
         public string LanguageId { get; set; }
         public string LanguageLevelId { get; set; }
         public string DriverLicenceId { get; set; }
+        public string CountryId { get; set; }
+        public string CityId { get; set; }
+        public string RegionId { get; set; }
+        public string SectorId { get; set; }
     }
 }

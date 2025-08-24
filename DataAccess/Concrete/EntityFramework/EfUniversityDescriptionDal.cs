@@ -69,7 +69,7 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = from universityDescriptions in context.UniversityDescriptions
                              join universities in context.Universities on universityDescriptions.UniversityId equals universities.Id
 
-                             where universityDescriptions.DeletedDate != null && universities.DeletedDate == null && universityDescriptions.UniversityId == id
+                             where universityDescriptions.DeletedDate == null && universities.DeletedDate == null && universityDescriptions.UniversityId == id
 
                              select new UniversityDescriptionDTO
                              {

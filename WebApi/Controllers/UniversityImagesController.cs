@@ -71,6 +71,20 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("getuniversitymainimage")]
+        public async Task<ActionResult> GetUniversityMainImage(string id)
+        {
+            var result = await _universityImageService.GetUniversityMainImage(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getuniversitylogoimage")]
+        public async Task<ActionResult> GetUniversityLogoImage(string id)
+        {
+            var result = await _universityImageService.GetUniversityLogoImage(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public async Task<ActionResult> GetById(string id)
         {

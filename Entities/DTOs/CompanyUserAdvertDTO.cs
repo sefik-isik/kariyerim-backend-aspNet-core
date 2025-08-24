@@ -34,6 +34,14 @@ namespace Entities.DTOs
         public string LanguageLevelName { get; set; }
         public string DriverLicenceId { get; set; }
         public string DriverLicenceName { get; set; }
+        public string CountryId { get; set; }
+        public string CountryName { get; set; }
+        public string CityId { get; set; }
+        public string CityName { get; set; }
+        public string RegionId { get; set; }
+        public string RegionName { get; set; }
+        public string SectorId { get; set; }
+        public string SectorName { get; set; }
 
     }
 }

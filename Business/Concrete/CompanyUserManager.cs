@@ -28,16 +28,20 @@ namespace Business.Concrete
         ICompanyUserDal _companyUserDal;
         IUserService _userService;
         ICompanyUserImageService _companyUserImageService;
+        ICompanyUserAdvertService _companyUserAdvertService;
         readonly IPaginationUriService _uriService;
 
         public CompanyUserManager(
             ICompanyUserDal companyUserDal, 
-            IUserService userService, IPaginationUriService paginationUriService, ICompanyUserImageService companyUserImageService
+            IUserService userService, IPaginationUriService paginationUriService, 
+            ICompanyUserImageService companyUserImageService, ICompanyUserAdvertService companyUserAdvertService
             ) {
             _companyUserDal = companyUserDal; 
             _userService = userService;
             _uriService = paginationUriService;
             _companyUserImageService = companyUserImageService;
+
+            _companyUserAdvertService = companyUserAdvertService;
         }
 
         [SecuredOperation("admin,user")]
@@ -89,7 +93,17 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(CompanyUser companyUser)
         {
-            List<CompanyUserImage>? companyUserImages = await _companyUserImageService.GetAllByCompanyUserId(companyUser.Id);
+            List<CompanyUserAdvert>? companyUserAdverts = await _companyUserAdvertService.GetAllByCompanyUserId(companyUser);
+
+            List<CompanyUserImage>? companyUserImages = await _companyUserImageService.GetAllByCompanyUserId(companyUser);
+
+            if(companyUserAdverts.Count > 0)
+            {
+                foreach (CompanyUserAdvert advert in companyUserAdverts)
+                {
+                    await _companyUserAdvertService.DeleteImage(advert);
+                }
+            }
 
             if(companyUserImages.Count>0)
             {
@@ -252,7 +266,13 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<CompanyUserDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList(), Messages.SuccessListed);
             }
-        } 
+        }
+
+        public async Task<IDataResult<List<CompanyUserDTO>>> GetAllForAllUserDTO()
+        {
+            var alldto = await _companyUserDal.GetAllForAllUserDTO();
+            return new SuccessDataResult<List<CompanyUserDTO>>(alldto.OrderBy(x => x.CompanyUserName).ToList(), Messages.SuccessListed);
+        }
 
         //Business Rules
         private async Task<IResult> IsCompanyNameExist(string companyName)
@@ -288,6 +308,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-
+        
     }
 }

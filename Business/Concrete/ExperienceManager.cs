@@ -53,7 +53,7 @@ namespace Business.Concrete
             await _experienceDal.Terminate(experience);
             return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<Experience>>> GetAll()
         {
             var result = await _experienceDal.GetAll();

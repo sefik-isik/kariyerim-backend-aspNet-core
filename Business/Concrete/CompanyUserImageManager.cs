@@ -91,19 +91,29 @@ namespace Business.Concrete
                 return new ErrorDataResult<CompanyUserImage>(Messages.ImageNotFound);
             }
 
-            string fullImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\" + companyUserImage.ImageName;
+            string ImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId;
+            string FullImagePath = ImagePath + "\\" + companyUserImage.ImageName;
 
-            if (System.IO.File.Exists(fullImagePath))
+            string ThumbImagePath = ImagePath + "\\thumbs\\";
+            string FullThumbImagePath = ThumbImagePath + companyUserImage.ImageName;
+
+            if (System.IO.File.Exists(FullImagePath))
             {
-                System.IO.File.Delete(fullImagePath);
+                System.IO.File.Delete(FullImagePath);
             }
 
-            string fullThumbImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserImage.UserId + "\\thumbs\\" + companyUserImage.ImageName;
-
-            if (System.IO.File.Exists(fullThumbImagePath))
+            if (System.IO.File.Exists(FullThumbImagePath))
             {
-                System.IO.File.Delete(fullThumbImagePath);
+                System.IO.File.Delete(FullThumbImagePath);
 
+            }
+
+            DirectoryInfo source = new DirectoryInfo(ImagePath);
+            FileInfo[] sourceFiles = source.GetFiles();
+
+            if (sourceFiles.Length == 0)
+            {
+                System.IO.Directory.Delete(ImagePath, true);
             }
 
             companyUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";
@@ -147,9 +157,9 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<List<CompanyUserImage>> GetAllByCompanyUserId(string id)
+        public async Task<List<CompanyUserImage>> GetAllByCompanyUserId(CompanyUser companyUser)
         {
-                return await _companyUserImageDal.GetAll(data=>data.CompanyUserId==id);
+                return await _companyUserImageDal.GetAll(data=>data.CompanyUserId== companyUser.Id);
 
         }
 
@@ -166,6 +176,17 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<CompanyUserImage?>(await _companyUserImageDal.Get(c => c.Id == userAdminDTO.Id));
             }
+        }
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserMainImage(string id)
+        {
+            return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetCompanyUserMainImage(id));
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserLogoImage(string id)
+        {
+            return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetCompanyUserLogoImage(id));
         }
 
         //DTO

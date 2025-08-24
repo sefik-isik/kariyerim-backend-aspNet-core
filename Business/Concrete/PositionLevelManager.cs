@@ -52,7 +52,7 @@ namespace Business.Concrete
             await _positionLevelDal.Terminate(positionLevel);
             return new SuccessResult(Messages.SuccessTerminate);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<PositionLevel>>> GetAll()
         {
             var result = await _positionLevelDal.GetAll();

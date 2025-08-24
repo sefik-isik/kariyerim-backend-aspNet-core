@@ -20,6 +20,7 @@ namespace Business.Abstract
         Task<IDataResult<List<PersonelUserImage>>> GetDeletedAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<PersonelUserImage>> GetById(UserAdminDTO userAdminDTO);
         Task<List<PersonelUserImage>> GetAllByPersonelUserId(string id);
+        Task<IDataResult<List<PersonelUserImage>>> GetPersonelUserProfileImage(string id);
 
 
         //DTO
