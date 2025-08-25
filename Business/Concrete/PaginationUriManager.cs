@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Abstract;
 using Core.Extensions;
+using Entities.PageModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
@@ -27,16 +28,6 @@ namespace Business.Concrete
             var endpoint = new Uri(string.Concat(baseUri, route));
             var queryUri = QueryHelpers.AddQueryString($"{endpoint}", "pageNumber", $"{pageModel.PageIndex}");
             queryUri = QueryHelpers.AddQueryString(queryUri, "pageSize", $"{pageModel.PageSize}");
-            return new Uri(queryUri);
-        }
-
-        public Uri GetPageListUri(PageListModel pageListModel)
-        {
-            var baseUri = _httpContextAccessor.GetRequestUri();
-            var route = _httpContextAccessor.GetRoute();
-            var endpoint = new Uri(string.Concat(baseUri, route));
-            var queryUri = QueryHelpers.AddQueryString($"{endpoint}", "pageNumber", $"{pageListModel.PageIndex}");
-            queryUri = QueryHelpers.AddQueryString(queryUri, "pageSize", $"{pageListModel.PageSize}");
             return new Uri(queryUri);
         }
     }

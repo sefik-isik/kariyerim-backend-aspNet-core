@@ -196,12 +196,15 @@ namespace Business.Concrete
                 System.IO.File.Delete(FullThumbImagePath);
             }
 
-            DirectoryInfo source = new DirectoryInfo(ImagePath);
-            FileInfo[] sourceFiles = source.GetFiles();
-
-            if (sourceFiles.Length == 0)
+            if (System.IO.Directory.Exists(ImagePath))
             {
-                System.IO.Directory.Delete(ImagePath, true);
+                DirectoryInfo source = new DirectoryInfo(ImagePath);
+                FileInfo[] sourceFiles = source.GetFiles();
+
+                if (sourceFiles.Length == 0)
+                {
+                    System.IO.Directory.Delete(ImagePath, true);
+                }
             }
 
             personelUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";

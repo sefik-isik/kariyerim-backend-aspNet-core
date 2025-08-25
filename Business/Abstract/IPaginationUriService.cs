@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.PageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,5 @@ namespace Business.Abstract
     public interface IPaginationUriService
     {
         Uri GetPageUri(PageModel pageModel);
-        Uri GetPageListUri(PageListModel pageListModel);
     }
 }

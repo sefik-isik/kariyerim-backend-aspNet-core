@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Entities.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Entities.PageModel
 {
-    public class UserPageModel : Core.Entities.Abstract.PageModel, Core.Entities.Abstract.IPageModel
+    public class UserPageModel : PageModel
     {
-
         public List<User>? PageContacts { get; set; }
+        public string? Filter { get; set; }
     }
 }

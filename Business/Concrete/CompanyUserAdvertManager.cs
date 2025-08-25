@@ -27,8 +27,8 @@ namespace Business.Concrete
         readonly IWebHostEnvironment _environment;
         readonly IPaginationUriService _uriService;
 
-        public CompanyUserAdvertManager(ICompanyUserAdvertDal companyUserAdvertDal, 
-            IUserService userService, IWebHostEnvironment environment, 
+        public CompanyUserAdvertManager(ICompanyUserAdvertDal companyUserAdvertDal,
+            IUserService userService, IWebHostEnvironment environment,
             IPaginationUriService paginationUriService)
         {
             _companyUserAdvertDal = companyUserAdvertDal;
@@ -93,7 +93,7 @@ namespace Business.Concrete
         public async Task<List<CompanyUserAdvert>> GetAllByCompanyUserId(CompanyUser companyUser)
         {
 
-            return await _companyUserAdvertDal.GetAll(c=>c.CompanyUserId == companyUser.Id);
+            return await _companyUserAdvertDal.GetAll(c => c.CompanyUserId == companyUser.Id);
         }
 
         [SecuredOperation("admin,user")]
@@ -120,55 +120,56 @@ namespace Business.Concrete
 
 
         //[SecuredOperation("admin,user")]
-        public async Task<IDataResult<CompanyUserAdvertPageModel>> GetAllByPage(CompanyUserAdvertPageModel pageListModel)
+        public async Task<IDataResult<CompanyUserAdvertPageModel>> GetAllByPage(CompanyUserAdvertPageModel companyUserAdvertPageModel)
         {
-            var datas = await _companyUserAdvertDal.GetAllDTO();
-            var query = datas.AsQueryable();
+            companyUserAdvertPageModel.PageContacts = await _companyUserAdvertDal.GetAllDTO();
+            var query = companyUserAdvertPageModel.PageContacts.AsQueryable();
 
-            if (pageListModel.Filters?.Count > 0)
+            if (companyUserAdvertPageModel.PageContacts.Count>0 && companyUserAdvertPageModel.Filters?.Count>0)
             {
-                foreach (var advertFilter in pageListModel.Filters)
+                foreach (var advertFilter in companyUserAdvertPageModel.Filters)
                 {
                     switch (advertFilter.FilterName)
                     {
                         case "AdvertName":
-                            query = query.Where(c => c.AdvertName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.AdvertName.Contains(advertFilter.FilterValue));
                             break;
                         case "CompanyUserName":
-                            query = query.Where(c => c.CompanyUserName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.CompanyUserName.Contains(advertFilter.FilterValue));
                             break;
                         case "CityName":
-                            query = query.Where(c => c.CityName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.CityName.Contains(advertFilter.FilterValue));
                             break;
                         case "RegionName":
-                            query = query.Where(c => c.RegionName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.RegionName.Contains(advertFilter.FilterValue));
                             break;
                         case "AreaName":
-                            query = query.Where(c => c.WorkAreaName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.WorkAreaName.Contains(advertFilter.FilterValue));
                             break;
                         case "CreateDate":
-                            query = query.Where(c => c.CreatedDate.ToLongDateString().Contains(advertFilter.FilterValue));
+                            var filterDate = DateTime.Parse(advertFilter.FilterValue);
+                            query = query.Where(c => c.CreatedDate.Day == filterDate.Day || c.CreatedDate >= filterDate);
                             break;
                         case "SectorName":
-                            query = query.Where(c => c.SectorName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.SectorName.Contains(advertFilter.FilterValue));
                             break;
                         case "PositionLevelName":
-                            query = query.Where(c => c.PositionLevelName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.PositionLevelName.Contains(advertFilter.FilterValue));
                             break;
                         case "DepartmentName":
-                            query = query.Where(c => c.DepartmentName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.DepartmentName.Contains(advertFilter.FilterValue));
                             break;
                         case "MethodName":
-                            query = query.Where(c => c.WorkingMethodName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.WorkingMethodName.Contains(advertFilter.FilterValue));
                             break;
                         case "LicenseDegreeName":
-                            query = query.Where(c => c.LicenseDegreeName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.LicenseDegreeName.Contains(advertFilter.FilterValue));
                             break;
                         case "PositionName":
-                            query = query.Where(c => c.PositionName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.PositionName.Contains(advertFilter.FilterValue));
                             break;
                         case "ExperienceName":
-                            query = query.Where(c => c.ExperienceName.ToLower().Contains(advertFilter.FilterValue.ToLower()));
+                            query = query.Where(c => c.ExperienceName.Contains(advertFilter.FilterValue));
                             break;
                         default:
                             query = query.OrderBy(c => c.CreatedDate);
@@ -177,39 +178,39 @@ namespace Business.Concrete
                 }
             }
 
-            switch (pageListModel.SortColumn)
+            switch (companyUserAdvertPageModel.SortColumn)
             {
                 case "AdvertName":
-                    query = pageListModel.SortOrder == "desc" ? query.OrderByDescending(c => c.AdvertName) : query.OrderBy(c => c.AdvertName);
+                    query = companyUserAdvertPageModel.SortOrder == "desc" ? query.OrderByDescending(c => c.AdvertName) : query.OrderBy(c => c.AdvertName);
                     break;
                 default:
                     query = query.OrderBy(c => c.CreatedDate);
                     break;
             }
 
-            var onePageContactQuery = query.Skip(pageListModel.PageSize * pageListModel.PageIndex).Take(pageListModel.PageSize).ToList();
+            var onePageContactQuery = query.Skip(companyUserAdvertPageModel.PageSize * companyUserAdvertPageModel.PageIndex).Take(companyUserAdvertPageModel.PageSize).ToList();
             var pageContactResult = onePageContactQuery.ToList();
             var totalCount = query.Count();
-            var totalPages = Convert.ToInt32(Math.Ceiling((double)totalCount / pageListModel.PageSize));
+            var totalPages = Convert.ToInt32(Math.Ceiling((double)totalCount / companyUserAdvertPageModel.PageSize));
 
-            Uri? nextPage = pageListModel.PageIndex + 1 >= 1 && pageListModel.PageIndex < totalPages
-                ? _uriService.GetPageUri(new PageModel { PageIndex = pageListModel.PageIndex + 1, PageSize = pageListModel.PageSize })
+            Uri? nextPage = companyUserAdvertPageModel.PageIndex + 1 >= 1 && companyUserAdvertPageModel.PageIndex < totalPages
+                ? _uriService.GetPageUri(new PageModel { PageIndex = companyUserAdvertPageModel.PageIndex + 1, PageSize = companyUserAdvertPageModel.PageSize })
                 : null;
-            Uri? previousPage = pageListModel.PageIndex - 1 >= 1 && pageListModel.PageIndex <= totalPages
-                ? _uriService.GetPageUri(new PageModel { PageIndex = pageListModel.PageIndex - 1, PageSize = pageListModel.PageSize })
+            Uri? previousPage = companyUserAdvertPageModel.PageIndex - 1 >= 1 && companyUserAdvertPageModel.PageIndex <= totalPages
+                ? _uriService.GetPageUri(new PageModel { PageIndex = companyUserAdvertPageModel.PageIndex - 1, PageSize = companyUserAdvertPageModel.PageSize })
                 : null;
-            Uri? firstPage = _uriService.GetPageUri(new PageModel { PageIndex = 1, PageSize = pageListModel.PageSize });
-            Uri? lastPage = _uriService.GetPageUri(new PageModel { PageIndex = totalPages, PageSize = pageListModel.PageSize });
-            Uri? currentPage = _uriService.GetPageListUri(pageListModel);
+            Uri? firstPage = _uriService.GetPageUri(new PageModel { PageIndex = 1, PageSize = companyUserAdvertPageModel.PageSize });
+            Uri? lastPage = _uriService.GetPageUri(new PageModel { PageIndex = totalPages, PageSize = companyUserAdvertPageModel.PageSize });
+            Uri? currentPage = _uriService.GetPageUri(companyUserAdvertPageModel);
 
-            var companyUserAdvertPageModel = new CompanyUserAdvertPageModel
+            var companyUserAdvertPageModelFinal = new CompanyUserAdvertPageModel
             {
                 PageContacts = pageContactResult,
                 ContactTotalCount = totalCount,
-                PageIndex = pageListModel.PageIndex,
-                PageSize = pageListModel.PageSize,
-                SortColumn = pageListModel.SortColumn ?? string.Empty,
-                SortOrder = pageListModel.SortOrder ?? string.Empty,
+                PageIndex = companyUserAdvertPageModel.PageIndex,
+                PageSize = companyUserAdvertPageModel.PageSize,
+                SortColumn = companyUserAdvertPageModel.SortColumn ?? string.Empty,
+                SortOrder = companyUserAdvertPageModel.SortOrder ?? string.Empty,
                 NextPage = nextPage,
                 PreviousPage = previousPage,
                 FirstPage = firstPage,
@@ -218,7 +219,7 @@ namespace Business.Concrete
                 CurrentPage = currentPage
             };
 
-            return new SuccessDataResult<CompanyUserAdvertPageModel>(companyUserAdvertPageModel, Messages.SuccessListed);
+            return new SuccessDataResult<CompanyUserAdvertPageModel>(companyUserAdvertPageModelFinal, Messages.SuccessListed);
         }
 
         //DTO
@@ -270,12 +271,15 @@ namespace Business.Concrete
                 System.IO.File.Delete(FullThumbImagePath);
             }
 
-            DirectoryInfo source = new DirectoryInfo(ImagePath);
-            FileInfo[] sourceFiles = source.GetFiles();
-
-            if(sourceFiles.Length==0)
+            if (System.IO.Directory.Exists(ImagePath))
             {
-                System.IO.Directory.Delete(ImagePath,true);
+                DirectoryInfo source = new DirectoryInfo(ImagePath);
+                FileInfo[] sourceFiles = source.GetFiles();
+
+                if (sourceFiles.Length == 0)
+                {
+                    System.IO.Directory.Delete(ImagePath, true);
+                }
             }
 
             companyUserAdvert.AdvertImagePath = "https://localhost:7088/" + "/uploads/images/common/";

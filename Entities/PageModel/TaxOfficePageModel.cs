@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Entities.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Entities.PageModel
 {
-    public class TaxOfficePageModel : Core.Entities.Abstract.PageModel, Core.Entities.Abstract.IPageModel
+    public class TaxOfficePageModel : PageModel
     {
-
         public List<TaxOffice>? PageContacts { get; set; }
+        public string? Filter { get; set; }
     }
 }

@@ -108,12 +108,15 @@ namespace Business.Concrete
 
             }
 
-            DirectoryInfo source = new DirectoryInfo(ImagePath);
-            FileInfo[] sourceFiles = source.GetFiles();
-
-            if (sourceFiles.Length == 0)
+            if (System.IO.Directory.Exists(ImagePath))
             {
-                System.IO.Directory.Delete(ImagePath, true);
+                DirectoryInfo source = new DirectoryInfo(ImagePath);
+                FileInfo[] sourceFiles = source.GetFiles();
+
+                if (sourceFiles.Length == 0)
+                {
+                    System.IO.Directory.Delete(ImagePath, true);
+                }
             }
 
             companyUserImage.ImagePath = "https://localhost:7088/" + "/uploads/images/common/";

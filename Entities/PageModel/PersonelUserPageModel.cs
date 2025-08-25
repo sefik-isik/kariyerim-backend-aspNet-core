@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Entities.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Entities.PageModel
 {
-    public class PersonelUserPageModel : Core.Entities.Abstract.PageModel, Core.Entities.Abstract.IPageModel
+    public class PersonelUserPageModel :PageModel
     {
-
         public List<PersonelUserDTO>? PageContacts { get; set; }
+        public string? Filter { get; set; }
     }
 }

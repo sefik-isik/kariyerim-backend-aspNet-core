@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Entities.PageModel
 {
-    public class UniversityDepartmentPageModel : Core.Entities.Abstract.PageModel, Core.Entities.Abstract.IPageModel
+    public class UniversityDepartmentPageModel : PageModel
     {
         public List<UniversityDepartment>? PageContacts { get; set; }
+        public string? Filter { get; set; }
     }
 }
