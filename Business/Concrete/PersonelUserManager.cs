@@ -194,13 +194,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<PersonelUser?>> GetByAdminId(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<PersonelUser?>> GetByUserId(UserAdminDTO userAdminDTO)
         {
             var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<PersonelUser?>(await _personelUserDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
+                return new SuccessDataResult<PersonelUser?>(await _personelUserDal.Get(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
             }
             else
             {

@@ -141,5 +141,10 @@ namespace Business.Concrete
             }
 
         }
+
+        public async Task<IDataResult<List<CompanyUserAdvertJobDescriptionDTO>>> GetAllByIdDTO(string id)
+        {
+            return new SuccessDataResult<List<CompanyUserAdvertJobDescriptionDTO>>(await _companyUserAdvertJobDescriptionDal.GetAllByIdDTO(id));
+        }
     }
 }

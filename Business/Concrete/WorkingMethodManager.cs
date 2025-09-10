@@ -67,7 +67,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.MethodName).ToList();
             return new SuccessDataResult<List<WorkingMethod>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<WorkingMethod?>> GetById(string id)
         {
             return new SuccessDataResult<WorkingMethod?>(await _workingMethodDal.Get(w=>w.Id == id));

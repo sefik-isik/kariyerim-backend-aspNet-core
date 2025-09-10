@@ -44,6 +44,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Region> Regions { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<University> Universities { get; set; }
+        public DbSet<UniversityFaculty> UniversityFaculties { get; set; }
         public DbSet<UniversityDepartment> UniversityDepartments { get; set; }
         public DbSet<UniversityDepartmentDescription> UniversityDepartmentDescriptions { get; set; }
         public DbSet<UniversityDescription> UniversityDescriptions { get; set; }

@@ -13,8 +13,9 @@ namespace DataAccess.Abstract
     {
         Task<List<CompanyUserImageDTO>> GetAllDTO();
         Task<List<CompanyUserImageDTO>> GetDeletedAllDTO();
+        Task UpdateLogoImage(string companyUserId, string imageOwnName, string imagPath, string imageName);
         Task UpdateMainImage(string companyUserId);
-        Task UpdateLogoImage(string companyUserId);
+        
 
         Task<List<CompanyUserImage>> GetCompanyUserMainImage(string id);
         Task<List<CompanyUserImage>> GetCompanyUserLogoImage(string id);

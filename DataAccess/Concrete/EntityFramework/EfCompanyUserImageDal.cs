@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,21 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var companyUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isMainImage]='false'  WHERE [CompanyUserId] = {id}");
+                var companyUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [IsMainImage]='false'  WHERE [CompanyUserId] = {id}");
+
+                
             }
         }
 
-        public async Task UpdateLogoImage(string id)
+        public async Task UpdateLogoImage(string id, string imageOwnName, string imagPath, string imageName)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var companyUserLogoImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [isLogo]='false'  WHERE [CompanyUserId] = {id}");
+                var companyUserLogoImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [CompanyUserImages] SET [IsLogo]='false'  WHERE [CompanyUserId] = {id}");
+                var companyUserAdvertUpdated = await context.Database
+ .ExecuteSqlAsync($"UPDATE [CompanyUserAdverts] SET [ImageOwnName]={imageOwnName}, [ImagePath]={imagPath}, [ImageName]={imageName}  WHERE [CompanyUserId] = {id}");
+                var companyUserUpdated = await context.Database
+ .ExecuteSqlAsync($"UPDATE [CompanyUsers] SET [ImageOwnName]={imageOwnName}, [ImagePath]={imagPath}, [ImageName]={imageName}  WHERE [Id] = {id}");
             }
         }
 

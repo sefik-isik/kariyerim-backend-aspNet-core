@@ -77,5 +77,12 @@ namespace WebAPI.Controllers
             var result = await _companyUserAdvertJobDescriptionService.GetDeletedAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("getallbyiddto")]
+        public async Task<ActionResult> GetAllByIdDTO(string id)
+        {
+            var result = await _companyUserAdvertJobDescriptionService.GetAllByIdDTO(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

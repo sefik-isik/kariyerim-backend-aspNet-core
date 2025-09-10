@@ -28,20 +28,18 @@ namespace Business.Concrete
         ICompanyUserDal _companyUserDal;
         IUserService _userService;
         ICompanyUserImageService _companyUserImageService;
-        ICompanyUserAdvertService _companyUserAdvertService;
+
         readonly IPaginationUriService _uriService;
 
         public CompanyUserManager(
             ICompanyUserDal companyUserDal, 
             IUserService userService, IPaginationUriService paginationUriService, 
-            ICompanyUserImageService companyUserImageService, ICompanyUserAdvertService companyUserAdvertService
+            ICompanyUserImageService companyUserImageService
             ) {
             _companyUserDal = companyUserDal; 
             _userService = userService;
             _uriService = paginationUriService;
             _companyUserImageService = companyUserImageService;
-
-            _companyUserAdvertService = companyUserAdvertService;
         }
 
         [SecuredOperation("admin,user")]
@@ -93,17 +91,13 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public async Task<IResult> Terminate(CompanyUser companyUser)
         {
-            List<CompanyUserAdvert>? companyUserAdverts = await _companyUserAdvertService.GetAllByCompanyUserId(companyUser);
-
-            List<CompanyUserImage>? companyUserImages = await _companyUserImageService.GetAllByCompanyUserId(companyUser);
-
-            if(companyUserAdverts.Count > 0)
-            {
-                foreach (CompanyUserAdvert advert in companyUserAdverts)
+            var result = await _companyUserImageService.GetAllByCompanyUserId(companyUser);
+            if (result == null)
                 {
-                    await _companyUserAdvertService.DeleteImage(advert);
-                }
+                return new ErrorResult(Messages.PermissionError);
             }
+
+            List<CompanyUserImage>? companyUserImages = result.Data;
 
             if(companyUserImages.Count>0)
             {
@@ -225,7 +219,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUser?>> GetById(string id)
         {
             return new SuccessDataResult<CompanyUser?>(await _companyUserDal.Get(c => c.Id == id));

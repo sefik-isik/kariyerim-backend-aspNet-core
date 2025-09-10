@@ -81,5 +81,33 @@ namespace DataAccess.Concrete.EntityFramework
                 return await result.ToListAsync();
             }
         }
+
+        public async Task<List<CompanyUserAdvertJobDescriptionDTO>> GetAllByIdDTO(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from companyUserAdvertJobDescriptions in context.CompanyUserAdvertJobDescriptions
+                             join companyUserAdverts in context.CompanyUserAdverts on companyUserAdvertJobDescriptions.AdvertId equals companyUserAdverts.Id
+                             join companyUsers in context.CompanyUsers on companyUserAdverts.CompanyUserId equals companyUsers.Id
+
+                             where companyUserAdvertJobDescriptions.DeletedDate == null && companyUserAdverts.DeletedDate == null
+                              && companyUsers.DeletedDate == null && companyUserAdvertJobDescriptions.AdvertId == id
+
+                             select new CompanyUserAdvertJobDescriptionDTO
+                             {
+                                 Id = companyUserAdvertJobDescriptions.Id,
+                                 Description = companyUserAdvertJobDescriptions.Description,
+                                 Title = companyUserAdvertJobDescriptions.Title,
+                                 AdvertId = companyUserAdvertJobDescriptions.AdvertId,
+                                 AdvertName= companyUserAdverts.AdvertName,
+                                 CompanyUserId = companyUserAdverts.CompanyUserId,
+                                 CompanyUserName=companyUsers.CompanyUserName,
+                                 CreatedDate = companyUserAdvertJobDescriptions.CreatedDate,
+                                 UpdatedDate = companyUserAdvertJobDescriptions.UpdatedDate,
+                                 DeletedDate = companyUserAdvertJobDescriptions.DeletedDate,
+                             };
+                return await result.ToListAsync();
+            }
+        }
     }
 }

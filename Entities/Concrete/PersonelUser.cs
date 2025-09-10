@@ -11,6 +11,7 @@ namespace Entities.Concrete
     {
         public string IdentityNumber { get; set; }
         public bool Gender { get; set; }
+        public string? Title { get; set; }
         public string LicenseDegreeId { get; set; }
         public string BirthPlaceId { get; set; }
         public bool NationalStatus { get; set; }

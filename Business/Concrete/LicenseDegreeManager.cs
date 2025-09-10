@@ -67,7 +67,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.LicenseDegreeName).ToList();
             return new SuccessDataResult<List<LicenseDegree>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<LicenseDegree?>> GetById(string id)
         {
             return new SuccessDataResult<LicenseDegree?>(await _licenseDegreeDal.Get(l=>l.Id == id));

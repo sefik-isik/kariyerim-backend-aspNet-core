@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (KariyerimContext context = new KariyerimContext())
             {
-                var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [isProfilImage]='false'  WHERE [PersonelUserId] = {id}");
+                var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [IsProfilImage]='false'  WHERE [PersonelUserId] = {id}");
             }
         }
         public async Task<List<PersonelUserImageDTO>> GetAllDTO()

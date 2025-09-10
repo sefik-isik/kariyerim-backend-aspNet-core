@@ -68,10 +68,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getbyid")]
-        public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
+        [HttpGet("getbyid")]
+        public async Task<ActionResult> GetById(string id)
         {
-            var result = await _companyUserService.GetByAdminId(userAdminDTO);
+            var result = await _companyUserService.GetById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

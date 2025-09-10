@@ -13,5 +13,6 @@ namespace DataAccess.Abstract
     {
         Task<List<CompanyUserAdvertJobDescriptionDTO>> GetAllDTO();
         Task<List<CompanyUserAdvertJobDescriptionDTO>> GetDeletedAllDTO();
+        Task<List<CompanyUserAdvertJobDescriptionDTO>> GetAllByIdDTO(string id);
     }
 }

@@ -67,7 +67,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.ExperienceName).ToList();
             return new SuccessDataResult<List<Experience>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<Experience?>> GetById(string id)
         {
             return new SuccessDataResult<Experience?>(await _experienceDal.Get(f => f.Id == id));

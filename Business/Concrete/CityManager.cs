@@ -91,7 +91,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<City>>(result, Messages.SuccessListed);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         //[CacheAspect]
         public async Task<IDataResult<City?>> GetById(string id)
         {

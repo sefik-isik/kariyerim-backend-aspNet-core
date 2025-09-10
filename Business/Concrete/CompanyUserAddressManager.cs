@@ -100,6 +100,11 @@ namespace Business.Concrete
             }
         }
 
+        public async Task<IDataResult<List<CompanyUserAddress>>> GetAllByCompanyUserId(CompanyUser companyUser)
+        {
+            return new SuccessDataResult<List<CompanyUserAddress>>(await _companyUserAddressDal.GetAll(c => c.CompanyUserId == companyUser.Id));
+        }
+
         [SecuredOperation("admin,user")]
         //[CacheAspect]
         public async Task<IDataResult<List<CompanyUserAddress>>> GetDeletedAll(UserAdminDTO userAdminDTO)
@@ -131,8 +136,6 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<CompanyUserAddress?>(await _companyUserAddressDal.Get(c => c.Id == userAdminDTO.Id));
             }
-
-            
         }
 
         //DTO

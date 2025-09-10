@@ -68,7 +68,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.Order).ToList();
             return new SuccessDataResult<List<Count>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<Count?>> GetById(string id)
         {
             return new SuccessDataResult<Count?>(await _countDal.Get(l => l.Id == id));

@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Core.Entities.Concrete;
+using Core.Utilities.Business.Constans;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
@@ -63,11 +64,17 @@ namespace Business.Concrete
            return userForRegisterDto.Code == "personel" ? UserCode.PersonelUser : UserCode.CompanyUser;
         }
 
+        private string SelectUserCodeForLogin(string code)
+        {
+            return code == "CompanyUser" ? UserCode.CompanyUser : UserCode.PersonelUser;
+        }
+
         public async Task<IDataResult<User>> Login(UserForLoginDTO userForLoginDto)
         {
             var userToCheck = await _userService.GetByMail(userForLoginDto.Email);
+            string userCode = SelectUserCodeForLogin(userForLoginDto.UserType);
 
-            if (userToCheck.Data == null)
+            if (userToCheck.Data == null || userToCheck.Data.Code != userCode)
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }

@@ -58,7 +58,7 @@ namespace Business.Concrete
 
             if (companyUserImage.IsLogo == true)
             {
-                await _companyUserImageDal.UpdateLogoImage(companyUserImage.CompanyUserId);
+                await _companyUserImageDal.UpdateLogoImage(companyUserImage.CompanyUserId, companyUserImage.ImageOwnName, companyUserImage.ImagePath, companyUserImage.ImageName);
             }
 
             await _companyUserImageDal.UpdateAsync(companyUserImage);
@@ -159,10 +159,10 @@ namespace Business.Concrete
 
         }
 
-        [SecuredOperation("admin,user")]
-        public async Task<List<CompanyUserImage>> GetAllByCompanyUserId(CompanyUser companyUser)
+        //[SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserImage>>> GetAllByCompanyUserId(CompanyUser companyUser)
         {
-                return await _companyUserImageDal.GetAll(data=>data.CompanyUserId== companyUser.Id);
+                return  new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetAll(data=>data.CompanyUserId == companyUser.Id));
 
         }
 
@@ -180,13 +180,13 @@ namespace Business.Concrete
                 return new SuccessDataResult<CompanyUserImage?>(await _companyUserImageDal.Get(c => c.Id == userAdminDTO.Id));
             }
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserMainImage(string id)
         {
             return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetCompanyUserMainImage(id));
         }
 
-        [SecuredOperation("admin,user")]
+       // [SecuredOperation("admin,user")]
         public async Task<IDataResult<List<CompanyUserImage>>> GetCompanyUserLogoImage(string id)
         {
             return new SuccessDataResult<List<CompanyUserImage>>(await _companyUserImageDal.GetCompanyUserLogoImage(id));

@@ -66,7 +66,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.PositionLevelName).ToList();
             return new SuccessDataResult<List<PositionLevel>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<PositionLevel?>> GetById(string id)
         {
             return new SuccessDataResult<PositionLevel?>(await _positionLevelDal.Get(l => l.Id == id));

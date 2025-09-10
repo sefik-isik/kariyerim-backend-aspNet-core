@@ -68,7 +68,7 @@ namespace Business.Concrete
             result = result.OrderBy(x => x.AreaName).ToList();
             return new SuccessDataResult<List<WorkArea>>(result, Messages.SuccessListed);
         }
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<WorkArea?>> GetById(string id)
         {
             return new SuccessDataResult<WorkArea?>(await _workAreaDal.Get(f => f.Id == id));

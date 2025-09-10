@@ -10,6 +10,9 @@ namespace Entities.Concrete
     public class CompanyUser : BaseUser, IEntity
     {
         public string CompanyUserName { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageOwnName { get; set; }
+        public string? ImagePath { get; set; }
         public string About { get; set; }
         public string Clarification { get; set; }
         public string WorkerCountId { get; set; }

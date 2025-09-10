@@ -77,7 +77,6 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public async Task<IResult> Terminate(CompanyUserAdvert companyUserAdvert)
         {
-            await DeleteImage(companyUserAdvert);
             await _companyUserAdvertDal.TerminateSubDatas(companyUserAdvert.Id);
             await _companyUserAdvertDal.Terminate(companyUserAdvert);
             return new SuccessResult(Messages.SuccessTerminate);
@@ -111,7 +110,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUserAdvert?>> GetById(string id)
         {
 
@@ -135,7 +134,7 @@ namespace Business.Concrete
                             query = query.Where(c => c.AdvertName.Contains(advertFilter.FilterValue));
                             break;
                         case "CompanyUserName":
-                            query = query.Where(c => c.CompanyUserName.Contains(advertFilter.FilterValue));
+                            query = query.Where(c => c.CompanyUserName == advertFilter.FilterValue);
                             break;
                         case "CityName":
                             query = query.Where(c => c.CityName.Contains(advertFilter.FilterValue));
@@ -246,48 +245,6 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
-        }
-
-        public async Task<IResult> DeleteImage(CompanyUserAdvert companyUserAdvert)
-        {
-            if (companyUserAdvert == null)
-            {
-                return new ErrorDataResult<CompanyUserAdvert>(Messages.ImageNotFound);
-            }
-
-            string ImagePath = _environment.WebRootPath + "\\uploads\\images\\" + companyUserAdvert.UserId;
-            string FullImagePath = ImagePath + "\\" + companyUserAdvert.AdvertImageName;
-
-            string ThumbImagePath = ImagePath + "\\thumbs\\";
-            string FullThumbImagePath = ThumbImagePath + companyUserAdvert.AdvertImageName;
-
-            if (System.IO.File.Exists(FullImagePath))
-            {
-                System.IO.File.Delete(FullImagePath);
-            }
-
-            if (System.IO.File.Exists(FullThumbImagePath))
-            {
-                System.IO.File.Delete(FullThumbImagePath);
-            }
-
-            if (System.IO.Directory.Exists(ImagePath))
-            {
-                DirectoryInfo source = new DirectoryInfo(ImagePath);
-                FileInfo[] sourceFiles = source.GetFiles();
-
-                if (sourceFiles.Length == 0)
-                {
-                    System.IO.Directory.Delete(ImagePath, true);
-                }
-            }
-
-            companyUserAdvert.AdvertImagePath = "https://localhost:7088/" + "/uploads/images/common/";
-            companyUserAdvert.AdvertImageName = "noImage.jpg";
-
-            await Update(companyUserAdvert);
-
-            return new SuccessResult();
         }
 
         //Business Rules

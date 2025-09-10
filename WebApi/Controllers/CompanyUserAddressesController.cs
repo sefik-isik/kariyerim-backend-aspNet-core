@@ -60,6 +60,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("getallbycompanyuserid")]
+        public async Task<ActionResult> GetAllByCompanyUserId(CompanyUser companyUser)
+        {
+            var result = await _companyUserAddressService.GetAllByCompanyUserId(companyUser);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getbyid")]
         public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {

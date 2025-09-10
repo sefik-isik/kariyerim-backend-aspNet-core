@@ -10,9 +10,9 @@ namespace Entities.DTOs
     public class CompanyUserAdvertDTO : BaseCompanyUserDTO, IDto
     {
         public string AdvertName { get; set; }
-        public string AdvertImageName { get; set; }
-        public string AdvertImagePath { get; set; }
-        public string AdvertImageOwnName { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageOwnName { get; set; }
+        public string? ImagePath { get; set; }
         public string WorkAreaId { get; set; }
         public string WorkAreaName { get; set; }
         public string WorkingMethodId { get; set; }

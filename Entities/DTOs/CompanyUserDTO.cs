@@ -11,6 +11,9 @@ namespace Entities.DTOs
     public class CompanyUserDTO : BaseUserDTO, IDto
     {
         public string CompanyUserName { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageOwnName { get; set; }
+        public string? ImagePath { get; set; }
         public string SectorId { get; set; }
         public string SectorName { get; set; }
         public string About { get; set; }

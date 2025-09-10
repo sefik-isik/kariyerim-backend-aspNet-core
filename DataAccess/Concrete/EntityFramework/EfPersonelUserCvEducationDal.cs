@@ -23,7 +23,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join universities in context.Universities on personelUserCvEducations.UniversityId equals universities.Id
-                             join companyUserDepartments in context.CompanyUserDepartments on personelUserCvEducations.DepartmentId equals companyUserDepartments.Id
+                             join universityDepartments in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals universityDepartments.Id
+                             join universityFaculties in context.UniversityFaculties on personelUserCvEducations.FacultyId equals universityFaculties.Id
 
 
                              where users.Code == UserCodes.PersonelUserCode &&
@@ -45,8 +46,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  EducationInfo = personelUserCvEducations.EducationInfo,
                                  UniversityId = universities.Id,
                                  UniversityName = universities.UniversityName,
-                                 DepartmentId = companyUserDepartments.Id,
-                                 DepartmentName = companyUserDepartments.DepartmentName,
+                                 DepartmentId = universityDepartments.Id,
+                                 DepartmentName = universityDepartments.DepartmentName,
+                                 FacultyId=universityFaculties.Id,
+                                 FacultyName=universityFaculties.FacultyName,
                                  StartDate = personelUserCvEducations.StartDate,
                                  EndDate = personelUserCvEducations.EndDate,
                                  Detail = personelUserCvEducations.Detail,
@@ -67,7 +70,8 @@ namespace DataAccess.Concrete.EntityFramework
                              join personelUsers in context.PersonelUsers on personelUserCvEducations.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
                              join universities in context.Universities on personelUserCvEducations.UniversityId equals universities.Id
-                             join companyUserDepartments in context.CompanyUserDepartments on personelUserCvEducations.DepartmentId equals companyUserDepartments.Id
+                             join universityDepartments in context.UniversityDepartments on personelUserCvEducations.DepartmentId equals universityDepartments.Id
+                             join universityFaculties in context.UniversityFaculties on personelUserCvEducations.FacultyId equals universityFaculties.Id
 
 
                              where users.Code == UserCodes.PersonelUserCode &&
@@ -89,8 +93,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  EducationInfo = personelUserCvEducations.EducationInfo,
                                  UniversityId = universities.Id,
                                  UniversityName = universities.UniversityName,
-                                 DepartmentId = companyUserDepartments.Id,
-                                 DepartmentName = companyUserDepartments.DepartmentName,
+                                 DepartmentId = universityDepartments.Id,
+                                 DepartmentName = universityDepartments.DepartmentName,
+                                 FacultyId = universityFaculties.Id,
+                                 FacultyName = universityFaculties.FacultyName,
                                  StartDate = personelUserCvEducations.StartDate,
                                  EndDate = personelUserCvEducations.EndDate,
                                  Detail = personelUserCvEducations.Detail,

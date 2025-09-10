@@ -70,9 +70,10 @@ namespace WebAPI.Controllers
         [HttpPost("getbyid")]
         public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUserService.GetByAdminId(userAdminDTO);
+            var result = await _personelUserService.GetByUserId(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
 
         [HttpPost("getalldto")]
         public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)

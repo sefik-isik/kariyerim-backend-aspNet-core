@@ -72,6 +72,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("getallbycompanyuserid")]
+        public async Task<ActionResult> GetAllByCompanyUserId(CompanyUser companyUser)
+        {
+            var result = await _companyUserImageService.GetAllByCompanyUserId(companyUser);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("getcompanyusermainimage")]
         public async Task<ActionResult> GetCompanyUserMainImage(string id)
         {

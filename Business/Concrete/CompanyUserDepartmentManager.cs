@@ -68,7 +68,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CompanyUserDepartment>>(await _companyUserDepartmentDal.GetDeletedAll(), Messages.SuccessListed);
         }
 
-        [SecuredOperation("admin,user")]
+        //[SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUserDepartment?>> GetById(string id)
         {
             return new SuccessDataResult<CompanyUserDepartment?>(await _companyUserDepartmentDal.Get(c => c.Id == id));
