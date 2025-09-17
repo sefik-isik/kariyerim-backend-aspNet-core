@@ -18,10 +18,11 @@ namespace Business.Abstract
         Task<IDataResult<List<CompanyUserAdvertJobDescription>>> GetAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<CompanyUserAdvertJobDescription>>> GetDeletedAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<CompanyUserAdvertJobDescription>> GetById(UserAdminDTO userAdminDTO);
-        Task<IDataResult<List<CompanyUserAdvertJobDescriptionDTO>>> GetAllByIdDTO(string id);
+        
 
         //DTO
         Task<IDataResult<List<CompanyUserAdvertJobDescriptionDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<CompanyUserAdvertJobDescriptionDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertJobDescriptionDTO>>> GetAllByIdDTO(string id);
     }
 }

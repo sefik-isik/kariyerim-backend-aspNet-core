@@ -15,10 +15,13 @@ namespace Business.Abstract
         Task<IResult> Terminate(PersonelUserAdvertApplication personelUserAdvertApplication);
         Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<PersonelUserAdvertApplication>> GetById(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAllByCompanyId(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplication>>> GetAllByPersonelId(string id);
 
         //dto
-        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(string id);
-        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(string id);
-        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelIdDTO(string id);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelUserIdDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO);
     }
 }

@@ -21,7 +21,8 @@ namespace Business.Abstract
         Task<IDataResult<List<CompanyUserAdvert>>> GetAll();
         Task<IDataResult<List<CompanyUserAdvert>>> GetDeletedAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<CompanyUserAdvertPageModel>> GetAllByPage(CompanyUserAdvertPageModel companyUserAdvertPageModel);
-        Task<List<CompanyUserAdvert>> GetAllByCompanyUserId(CompanyUser companyUser);
+        Task<IDataResult<List<CompanyUserAdvertDTO>>> GetAllByCompanyUserId(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<CompanyUserAdvertDTO>>> GetByAdvertId(UserAdminDTO userAdminDTO);
         Task<IDataResult<CompanyUserAdvert>> GetById(string id);
 
 

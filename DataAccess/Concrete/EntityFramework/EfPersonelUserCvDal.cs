@@ -116,5 +116,51 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
+        public async Task<List<PersonelUserCvDTO>> GetByIdDTO(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from personelUserCvs in context.PersonelUserCvs
+                             join personelUsers in context.PersonelUsers on personelUserCvs.PersonelUserId equals personelUsers.Id
+                             join users in context.Users on personelUsers.UserId equals users.Id
+                             join languages in context.Languages on personelUserCvs.LanguageId equals languages.Id
+                             join languageLevels in context.LanguageLevels on personelUserCvs.LanguageLevelId equals languageLevels.Id
+                             join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
+
+                             where personelUserCvs.Id == id && personelUserCvs.IsPrivate == false &&
+                             personelUserCvs.DeletedDate == null && users.DeletedDate == null && personelUsers.DeletedDate == null
+
+
+                             select new PersonelUserCvDTO
+                             {
+                                 Id = personelUserCvs.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+
+                                 PersonelUserId = personelUsers.Id,
+                                 IdentityNumber = personelUsers.IdentityNumber,
+                                 DateOfBirth = personelUsers.DateOfBirth,
+                                 CvId = personelUserCvs.Id,
+                                 CvName = personelUserCvs.CvName,
+                                 LanguageId = languages.Id,
+                                 LanguageName = languages.LanguageName,
+                                 LanguageLevelId = languageLevels.Id,
+                                 Level = languageLevels.Level,
+                                 LevelTitle = languageLevels.LevelTitle,
+                                 LevelDescription = languageLevels.LevelDescription,
+                                 BirthPlaceId = cities.Id,
+                                 BirthPlaceName = cities.CityName,
+                                 IsPrivate = personelUserCvs.IsPrivate,
+                                 CreatedDate = personelUserCvs.CreatedDate,
+                                 UpdatedDate = personelUserCvs.UpdatedDate,
+                                 DeletedDate = personelUserCvs.DeletedDate,
+                             };
+                return await result.ToListAsync();
+            }
+        }
+
     }
 }

@@ -70,6 +70,20 @@ namespace WebAPI.Controllers
         [HttpPost("getbyid")]
         public async Task<ActionResult> GetById(UserAdminDTO userAdminDTO)
         {
+            var result = await _personelUserService.GetById(userAdminDTO.Id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getbyiddto")]
+        public async Task<ActionResult> GetByIdDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = await _personelUserService.GetByIdDTO(userAdminDTO.Id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getbyuserid")]
+        public async Task<ActionResult> GetByUserId(UserAdminDTO userAdminDTO)
+        {
             var result = await _personelUserService.GetByUserId(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }

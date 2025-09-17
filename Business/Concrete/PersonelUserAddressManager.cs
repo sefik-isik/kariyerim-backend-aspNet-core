@@ -127,11 +127,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserAddressDTO>>(alldto.ToList().FindAll(c => c.PersonelUserId == userAdminDTO.Id), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserAddressDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserAddressDTO>>(alldto.ToList(), Messages.SuccessListed);
             }
             
         }

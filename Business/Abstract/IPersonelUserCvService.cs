@@ -23,5 +23,6 @@ namespace Business.Abstract
         //DTO
         Task<IDataResult<List<PersonelUserCvDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<PersonelUserCvDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserCvDTO?>>> GetByIdDTO(UserAdminDTO userAdminDTO);
     }
 }

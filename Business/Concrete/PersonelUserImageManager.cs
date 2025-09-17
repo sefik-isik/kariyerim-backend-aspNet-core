@@ -52,7 +52,7 @@ namespace Business.Concrete
 
             if (personelUserImage.IsProfilImage == true)
             {
-                await _personelUserImageDal.UpdateProfilImage(personelUserImage.PersonelUserId);
+                await _personelUserImageDal.UpdateProfilImage(personelUserImage.PersonelUserId, personelUserImage.ImageOwnName, personelUserImage.ImagePath, personelUserImage.ImageName);
             }
 
             await _personelUserImageDal.UpdateAsync(personelUserImage);
@@ -147,7 +147,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserImageDTO>>(allDtos.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.PersonelUserId == userAdminDTO.Id), Messages.SuccessListed);
             }
             else
             {

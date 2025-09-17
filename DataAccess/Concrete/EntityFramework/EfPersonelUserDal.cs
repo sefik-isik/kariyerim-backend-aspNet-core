@@ -145,5 +145,51 @@ namespace DataAccess.Concrete.EntityFramework
                 return await result.ToListAsync();
             }
         }
+
+        public async Task<List<PersonelUserDTO>> GetByIdDTO(string id)
+        {
+            using (KariyerimContext context = new KariyerimContext())
+            {
+                var result = from personelUsers in context.PersonelUsers
+                             join users in context.Users on personelUsers.UserId equals users.Id
+                             join driverLicences in context.DriverLicences on personelUsers.DriverLicenceId equals driverLicences.Id
+                             join licenceDegrees in context.LicenseDegrees on personelUsers.LicenseDegreeId equals licenceDegrees.Id
+                             join cities in context.Cities on personelUsers.BirthPlaceId equals cities.Id
+
+                             where personelUsers.Id == id &&
+                             personelUsers.DeletedDate == null && users.DeletedDate == null
+
+                             select new PersonelUserDTO
+                             {
+                                 Id = personelUsers.Id,
+                                 UserId = users.Id,
+                                 Email = users.Email,
+                                 FirstName = users.FirstName,
+                                 LastName = users.LastName,
+                                 PhoneNumber = users.PhoneNumber,
+                                 IdentityNumber = personelUsers.IdentityNumber,
+                                 Gender = personelUsers.Gender,
+                                 LicenseDegreeId = personelUsers.LicenseDegreeId,
+                                 LicenseDegreeName = licenceDegrees.LicenseDegreeName,
+                                 DriverLicenceId = driverLicences.Id,
+                                 DriverLicenceName = driverLicences.DriverLicenceName,
+                                 Title = personelUsers.Title,
+                                 MilitaryStatus = personelUsers.MilitaryStatus,
+                                 NationalStatus = personelUsers.NationalStatus,
+                                 RetirementStatus = personelUsers.RetirementStatus,
+                                 BirthPlaceId = personelUsers.BirthPlaceId,
+                                 BirthPlaceName = cities.CityName,
+                                 ImagePath=personelUsers.ImagePath,
+                                 ImageOwnName = personelUsers.ImageOwnName,
+                                 ImageName = personelUsers.ImageName,
+                                 DateOfBirth = personelUsers.DateOfBirth,
+                                 CreatedDate = personelUsers.CreatedDate,
+                                 UpdatedDate = personelUsers.UpdatedDate,
+                                 DeletedDate = personelUsers.DeletedDate,
+
+                             };
+                return await result.ToListAsync();
+            }
+        }
     }
 }

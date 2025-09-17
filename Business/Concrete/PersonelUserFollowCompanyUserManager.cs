@@ -20,12 +20,11 @@ namespace Business.Concrete
     {
         IPersonelUserFollowCompanyUserDal _personelUserFollowCompanyUserDal;
         IUserService _userService;
-        ICompanyUserService _companyUserService;
-        public PersonelUserFollowCompanyUserManager(IPersonelUserFollowCompanyUserDal personelUserFollowCompanyUserDal, IUserService userService, ICompanyUserService companyUserService)
+
+        public PersonelUserFollowCompanyUserManager(IPersonelUserFollowCompanyUserDal personelUserFollowCompanyUserDal, IUserService userService)
         {
             _personelUserFollowCompanyUserDal = personelUserFollowCompanyUserDal;
             _userService = userService;
-            _companyUserService = companyUserService;
         }
 
         [SecuredOperation("admin,user")]
@@ -92,9 +91,7 @@ namespace Business.Concrete
         {
             var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
-            var user = await _userService.GetById(userAdminDTO.UserId);
-
-            if (userIsAdmin.Data == null && user.Code == UserCode.CompanyUser)
+            if (userIsAdmin.Data == null)
             {
                 return new ErrorDataResult<List<PersonelUserFollowCompanyUserDTO>>(Messages.PermissionError);
             }
@@ -105,38 +102,17 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllByCompanyIdDTO(userAdminDTO.Id), Messages.SuccessListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllDTO(), Messages.SuccessListed);
-            }
-
-            
+            return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllByCompanyUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<IDataResult<List<PersonelUserFollowCompanyUserDTO>>> GetAllByPersonelUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
-
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllByPersonelIdDTO(userAdminDTO.Id), Messages.SuccessListed);
-            }
-            else
-            {
-                return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllDTO(), Messages.SuccessListed);
-            }
-
-            
+            return new SuccessDataResult<List<PersonelUserFollowCompanyUserDTO>>(await _personelUserFollowCompanyUserDal.GetAllByPersonelUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
+
 
         //Business Rules
         private async Task<IResult> IsNameExist(string companyUserId, string personelUserId)

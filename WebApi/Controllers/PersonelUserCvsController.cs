@@ -66,6 +66,13 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpPost("getbyiddto")]
+        public async Task<ActionResult> GetByIdDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = await _personelUserCvService.GetByIdDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("getalldto")]
         public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {

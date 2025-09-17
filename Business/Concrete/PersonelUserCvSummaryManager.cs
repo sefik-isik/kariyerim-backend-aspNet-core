@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
+using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Status;
 using DataAccess.Abstract;
@@ -34,9 +36,17 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
+            var result = await _personelUserCvSummaryDal.GetAll(c => c.CvId == personelUserCvSummary.CvId);
+
+            if (result != null)
+            {
+                return new ErrorResult(Messages.FieldAlreadyExist);
+            }
             await _personelUserCvSummaryDal.AddAsync(personelUserCvSummary);
             return new SuccessResult(Messages.SuccessAdded);
         }
+
         [SecuredOperation("admin,user")]
         public async Task<IResult> Update(PersonelUserCvSummary personelUserCvSummary)
         {
@@ -119,7 +129,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId).FindAll(c => c.CvId == userAdminDTO.Id), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCvSummaryDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.CvId == userAdminDTO.Id), Messages.SuccessListed);
             }
             else
             {
@@ -144,5 +154,7 @@ namespace Business.Concrete
             }
 
         }
+
+        
     }
 }

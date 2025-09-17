@@ -21,10 +21,12 @@ namespace Business.Abstract
         Task<IDataResult<List<PersonelUser>>> GetDeletedAll(UserAdminDTO userAdminDTO);
         Task<IDataResult<PersonelUser>> GetByUserId(UserAdminDTO userAdminDTO);
         Task<IDataResult<PersonelUser>> GetById(string id);
+        
         Task<IDataResult<PersonelUserPageModel>> GetAllByPage(PersonelUserPageModel pageModel);
 
         //DTO
         Task<IDataResult<List<PersonelUserDTO>>> GetAllDTO(UserAdminDTO userAdminDTO);
         Task<IDataResult<List<PersonelUserDTO>>> GetDeletedAllDTO(UserAdminDTO userAdminDTO);
+        Task<IDataResult<List<PersonelUserDTO>>> GetByIdDTO(string id);
     }
 }

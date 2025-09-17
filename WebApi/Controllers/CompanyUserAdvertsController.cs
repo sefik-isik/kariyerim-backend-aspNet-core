@@ -14,13 +14,13 @@ namespace WebAPI.Controllers
     public class CompanyUserAdvertsController : ControllerBase
     {
         ICompanyUserAdvertService _companyUserAdvertService;
-        ICompanyUserService _companyUserService;
+
         private readonly IWebHostEnvironment _environment;
-        public CompanyUserAdvertsController(ICompanyUserAdvertService companyUserAdvertService, IWebHostEnvironment environment, ICompanyUserService companyUserService)
+        public CompanyUserAdvertsController(ICompanyUserAdvertService companyUserAdvertService, 
+            IWebHostEnvironment environment)
         {
             _companyUserAdvertService = companyUserAdvertService;
             _environment = environment;
-            _companyUserService = companyUserService;
         }
 
         [HttpPost("add")]
@@ -62,6 +62,20 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetDeletedAll(UserAdminDTO userAdminDTO)
         {
             var result = await _companyUserAdvertService.GetDeletedAll(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getallbycompanyuserid")]
+        public async Task<ActionResult> GetAllByCompanyUserId(UserAdminDTO userAdminDTO)
+        {
+            var result = await _companyUserAdvertService.GetAllByCompanyUserId(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getbyadvertid")]
+        public async Task<ActionResult> GetByAdvertId(UserAdminDTO userAdminDTO)
+        {
+            var result = await _companyUserAdvertService.GetByAdvertId(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfPersonelUserImageDal : EfEntityRepositoryBase<PersonelUserImage, KariyerimContext>, IPersonelUserImageDal
     {
-        public async Task UpdateProfilImage(string id)
+        public async Task UpdateProfilImage(string id, string imageOwnName, string imagePath, string imageName)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
                 var personelUserMainImageUpdated = await context.Database.ExecuteSqlAsync($"UPDATE [PersonelUserImages] SET [IsProfilImage]='false'  WHERE [PersonelUserId] = {id}");
+
+                var personelUserUpdated = await context.Database
+ .ExecuteSqlAsync($"UPDATE [PersonelUsers] SET [ImageOwnName]={imageOwnName}, [ImagePath]={imagePath}, [ImageName]={imageName}  WHERE [Id] = {id}");
             }
         }
         public async Task<List<PersonelUserImageDTO>> GetAllDTO()

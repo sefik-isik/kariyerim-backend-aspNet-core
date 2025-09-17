@@ -4,6 +4,7 @@ using Business.Constans;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -24,7 +25,6 @@ namespace Business.Concrete
         {
             _personelUserAdvertFollowDal = personelUserAdvertFollowDal;
             _userService = userService;
-
         }
 
         [SecuredOperation("admin,user")]
@@ -86,23 +86,36 @@ namespace Business.Concrete
         //DTO Methods
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllDTO(), Messages.SuccessListed);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
 
-
+            if (userIsAdmin.Data != null)
+            {
+                return new ErrorDataResult<List<PersonelUserAdvertFollowDTO>>(Messages.PermissionError);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllDTO(), Messages.SuccessListed);
+            }
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllByAdvertIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllByAdvertIdDTO(id), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllByCompanyUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllByPersonelIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllByPersonelUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllByPersonelIdDTO(id), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllByPersonelUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<PersonelUserAdvertFollowDTO>>> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        {
+            return new SuccessDataResult<List<PersonelUserAdvertFollowDTO>>(await _personelUserAdvertFollowDal.GetAllByAdvertIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
 
         //Business Rules
@@ -116,5 +129,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
+
     }
 }

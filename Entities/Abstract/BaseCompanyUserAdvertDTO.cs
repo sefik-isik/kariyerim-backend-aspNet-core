@@ -17,5 +17,7 @@ namespace Entities.Abstract
         public string Code { get; set; }
         public string CompanyUserId { get; set; }
         public string CompanyUserName { get; set; }
+        public string AdvertId { get; set; }
+        public string AdvertName { get; set; }
     }
 }

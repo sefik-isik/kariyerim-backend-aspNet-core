@@ -5,6 +5,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -85,21 +86,36 @@ namespace Business.Concrete
         //DTO Methods
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllDTO(), Messages.SuccessListed);
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+
+            if (userIsAdmin.Data != null)
+            {
+                return new ErrorDataResult<List<PersonelUserAdvertApplicationDTO>>(Messages.PermissionError);
+            }
+            else
+            {
+                return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllDTO(), Messages.SuccessListed);
+            }
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByAdvertIdDTO(id), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByCompanyUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
 
         [SecuredOperation("admin,user")]
-        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelIdDTO(string id)
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByPersonelUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByPersonelIdDTO(id), Messages.SuccessListed);
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByPersonelUserIdDTO(userAdminDTO.Id), Messages.SuccessListed);
+        }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<PersonelUserAdvertApplicationDTO>>> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        {
+            return new SuccessDataResult<List<PersonelUserAdvertApplicationDTO>>(await _personelUseradvertApplicationDal.GetAllByAdvertIdDTO(userAdminDTO.Id), Messages.SuccessListed);
         }
 
         //Business Rules

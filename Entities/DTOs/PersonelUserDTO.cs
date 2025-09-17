@@ -22,5 +22,8 @@ namespace Entities.DTOs
         public bool MilitaryStatus { get; set; }
         public bool RetirementStatus { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageOwnName { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

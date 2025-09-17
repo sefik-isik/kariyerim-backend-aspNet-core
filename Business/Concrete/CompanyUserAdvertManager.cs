@@ -24,17 +24,20 @@ namespace Business.Concrete
     {
         ICompanyUserAdvertDal _companyUserAdvertDal;
         IUserService _userService;
+        ICompanyUserService _companyUserService;
         readonly IWebHostEnvironment _environment;
         readonly IPaginationUriService _uriService;
 
         public CompanyUserAdvertManager(ICompanyUserAdvertDal companyUserAdvertDal,
             IUserService userService, IWebHostEnvironment environment,
-            IPaginationUriService paginationUriService)
+            IPaginationUriService paginationUriService, ICompanyUserService companyUserService)
         {
             _companyUserAdvertDal = companyUserAdvertDal;
             _userService = userService;
             _environment = environment;
             _uriService = paginationUriService;
+            _companyUserService = companyUserService;
+
         }
 
         [SecuredOperation("admin,user")]
@@ -50,9 +53,21 @@ namespace Business.Concrete
             {
                 return result;
             }
+
+            var companyUser = await _companyUserService.GetById(companyUserAdvert.CompanyUserId);
+
+            if(companyUser.Data.ImagePath != null && companyUser.Data.ImageName != null && companyUser.Data.ImageOwnName != null)
+            {
+                companyUserAdvert.ImagePath = companyUser.Data.ImagePath;
+                companyUserAdvert.ImageName = companyUser.Data.ImageName;
+                companyUserAdvert.ImageOwnName = companyUser.Data.ImageOwnName;
+            }
+            
+
             await _companyUserAdvertDal.AddAsync(companyUserAdvert);
             return new SuccessResult(Messages.SuccessAdded);
         }
+
         [SecuredOperation("admin,user")]
         public async Task<IResult> Update(CompanyUserAdvert companyUserAdvert)
         {
@@ -60,6 +75,16 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
+
+            var companyUser = await _companyUserService.GetById(companyUserAdvert.CompanyUserId);
+
+            if (companyUser.Data.ImagePath != null && companyUser.Data.ImageName != null && companyUser.Data.ImageOwnName != null)
+            {
+                companyUserAdvert.ImagePath = companyUser.Data.ImagePath;
+                companyUserAdvert.ImageName = companyUser.Data.ImageName;
+                companyUserAdvert.ImageOwnName = companyUser.Data.ImageOwnName;
+            }
+
             await _companyUserAdvertDal.UpdateAsync(companyUserAdvert);
             return new SuccessResult(Messages.SuccessUpdated);
         }
@@ -89,11 +114,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CompanyUserAdvert>>(await _companyUserAdvertDal.GetAll(), Messages.SuccessListed);
         }
 
-        public async Task<List<CompanyUserAdvert>> GetAllByCompanyUserId(CompanyUser companyUser)
-        {
-
-            return await _companyUserAdvertDal.GetAll(c => c.CompanyUserId == companyUser.Id);
-        }
+        
 
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<List<CompanyUserAdvert>>> GetDeletedAll(UserAdminDTO userAdminDTO)
@@ -110,6 +131,14 @@ namespace Business.Concrete
             }
         }
 
+        public async Task<IDataResult<List<CompanyUserAdvertDTO>>> GetAllByCompanyUserId(UserAdminDTO userAdminDTO)
+        {
+
+            var allDtos = await _companyUserAdvertDal.GetAllByCompanyUserId(userAdminDTO.Id);
+
+            return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+        }
+
         //[SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUserAdvert?>> GetById(string id)
         {
@@ -117,6 +146,14 @@ namespace Business.Concrete
             return new SuccessDataResult<CompanyUserAdvert?>(await _companyUserAdvertDal.Get(c => c.Id == id));
         }
 
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserAdvertDTO>>> GetByAdvertId(UserAdminDTO userAdminDTO)
+        {
+
+            var allDtos = await _companyUserAdvertDal.GetByAdvertId(userAdminDTO.Id);
+
+            return new SuccessDataResult<List<CompanyUserAdvertDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+        }
 
         //[SecuredOperation("admin,user")]
         public async Task<IDataResult<CompanyUserAdvertPageModel>> GetAllByPage(CompanyUserAdvertPageModel companyUserAdvertPageModel)

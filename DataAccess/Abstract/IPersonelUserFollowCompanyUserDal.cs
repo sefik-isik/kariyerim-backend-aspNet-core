@@ -13,7 +13,7 @@ namespace DataAccess.Abstract
     {
 
         Task<List<PersonelUserFollowCompanyUserDTO>> GetAllDTO();
-        Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(string id);
-        Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(string id);
+        Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyUserIdDTO(string companyUserId);
+        Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelUserIdDTO(string personelUserId);
     }
 }

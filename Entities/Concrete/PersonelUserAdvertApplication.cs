@@ -12,5 +12,6 @@ namespace Entities.Concrete
     {
         public string CompanyUserId { get; set; }
         public string PersonelUserId { get; set; }
+        public string? PersonelUserCvId { get; set; }
     }
 }

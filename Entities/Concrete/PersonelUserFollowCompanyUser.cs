@@ -9,8 +9,9 @@ namespace Entities.Concrete
 {
     public class PersonelUserFollowCompanyUser : Entity, IEntity
     {
-        public string CompanyUserId { get; set; }
-        public string PersonelUserId { get; set; }
-        
+        public string? CompanyUserId { get; set; }
+        public string? PersonelUserId { get; set; }
+        public string? PersonelUserCvId { get; set; }
+
     }
 }

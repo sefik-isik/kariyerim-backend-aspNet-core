@@ -141,5 +141,22 @@ namespace Business.Concrete
             }
 
         }
+
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<CompanyUserAdvertCityDTO>>> GetAllByIdDTO(UserAdminDTO userAdminDTO)
+        {
+            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            var allDtos = await _companyUserAdvertCityDal.GetAllByIdDTO(userAdminDTO.Id);
+
+            if (userIsAdmin.Data == null)
+            {
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CompanyUserAdvertCityDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+            }
+
+        }
     }
 }

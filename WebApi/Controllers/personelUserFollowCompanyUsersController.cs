@@ -66,16 +66,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("getallbycompanyiddto")]
-        public async Task<ActionResult> GetAllByCompanyIdDTO(UserAdminDTO userAdminDTO)
+        public async Task<ActionResult> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUserFollowCompanyUserService.GetAllByCompanyIdDTO(userAdminDTO);
+            var result = await _personelUserFollowCompanyUserService.GetAllByCompanyUserIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
         public async Task<ActionResult> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUserFollowCompanyUserService.GetAllByPersonelIdDTO(userAdminDTO);
+            var result = await _personelUserFollowCompanyUserService.GetAllByPersonelUserIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

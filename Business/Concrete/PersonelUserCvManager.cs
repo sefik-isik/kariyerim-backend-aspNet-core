@@ -110,16 +110,13 @@ namespace Business.Concrete
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<PersonelUserCv?>> GetById(UserAdminDTO userAdminDTO)
         {
-            var userIsAdmin = await _userService.IsAdmin(userAdminDTO);
+            return new SuccessDataResult<PersonelUserCv?>(await _personelUserCvDal.Get(c => c.Id == userAdminDTO.Id && c.IsPrivate ==false));
+        }
 
-            if (userIsAdmin.Data == null)
-            {
-                return new SuccessDataResult<PersonelUserCv?>(await _personelUserCvDal.Get(c => c.Id == userAdminDTO.Id && c.UserId == userAdminDTO.UserId));
-            }
-            else
-            {
-                return new SuccessDataResult<PersonelUserCv?>(await _personelUserCvDal.Get(c => c.Id == userAdminDTO.Id));
-            }
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<PersonelUserCvDTO?>>> GetByIdDTO(UserAdminDTO userAdminDTO)
+        {
+            return new SuccessDataResult<List<PersonelUserCvDTO?>>(await _personelUserCvDal.GetByIdDTO(userAdminDTO.Id));
         }
 
         [SecuredOperation("admin")]

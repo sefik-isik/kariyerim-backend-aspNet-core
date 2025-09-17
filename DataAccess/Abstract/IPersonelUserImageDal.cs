@@ -13,8 +13,7 @@ namespace DataAccess.Abstract
     {
         Task<List<PersonelUserImageDTO>> GetAllDTO();
         Task<List<PersonelUserImageDTO>> GetDeletedAllDTO();
-        Task UpdateProfilImage(string id);
-
+        Task UpdateProfilImage(string id, string imageOwnName, string imagePath, string imageName);
         Task<List<PersonelUserImage>> GetPersonelUserProfileImage(string id);
     }
 }

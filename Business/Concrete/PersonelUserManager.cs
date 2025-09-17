@@ -215,6 +215,15 @@ namespace Business.Concrete
 
         }
 
+        [SecuredOperation("admin,user")]
+        public async Task<IDataResult<List<PersonelUserDTO>>> GetByIdDTO(string id)
+        {
+            var allDtos = await _personelUserDal.GetByIdDTO(id);
+
+            return new SuccessDataResult<List<PersonelUserDTO>>(allDtos.ToList());
+
+        }
+
         //DTO
         [SecuredOperation("admin,user")]
         public async Task<IDataResult<List<PersonelUserDTO>>> GetAllDTO(UserAdminDTO userAdminDTO)

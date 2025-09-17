@@ -22,8 +22,9 @@ namespace DataAccess.Concrete
                              join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
+                             join personelUserCvs in context.PersonelUserCvs on personelUserFollowCompanyUsers.PersonelUserCvId equals personelUserCvs.Id
 
-                             where users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
+                             where users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCvs.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
@@ -32,6 +33,23 @@ namespace DataAccess.Concrete
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
                                  PersonelUserMail = users.Email,
+                                 PersonelUserFirstName = users.FirstName,
+                                 PersonelUserLastName = users.LastName,
+                                 PersonelUserPhoneNumber = users.PhoneNumber,
+                                 PersonelUserTitle = personelUsers.Title,
+                                 PersonelUserGender = personelUsers.Gender,
+                                 PersonelUserDateOfBirth = personelUsers.DateOfBirth,
+                                 PersonelUserMilitaryStatus = personelUsers.MilitaryStatus,
+                                 PersonelUserNationalStatus = personelUsers.NationalStatus,
+                                 PersonelUserRetirementStatus = personelUsers.RetirementStatus,
+                                 CompanyUserImagePath = companyUsers.ImagePath,
+                                 CompanyUserImageName = companyUsers.ImageName,
+                                 CompanyUserImageOwnName = companyUsers.ImageOwnName,
+                                 PersonelUserImagePath = personelUsers.ImagePath,
+                                 PersonelUserImageName = personelUsers.ImageName,
+                                 PersonelUserImageOwnName = personelUsers.ImageOwnName,
+                                 PersonelUserCvId = personelUserFollowCompanyUsers.PersonelUserCvId,
+                                 PersonelUserCvName = personelUserCvs.CvName,
                                  CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
                                  UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
@@ -41,7 +59,7 @@ namespace DataAccess.Concrete
             }
         }
 
-        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyIdDTO(string id)
+        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByCompanyUserIdDTO(string companyUserId)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -49,8 +67,9 @@ namespace DataAccess.Concrete
                              join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
+                             join personelUserCvs in context.PersonelUserCvs on personelUserFollowCompanyUsers.PersonelUserCvId equals personelUserCvs.Id
 
-                             where companyUsers.UserId == id && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
+                             where personelUserFollowCompanyUsers.CompanyUserId == companyUserId && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCvs.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
@@ -59,15 +78,33 @@ namespace DataAccess.Concrete
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
                                  PersonelUserMail = users.Email,
+                                 PersonelUserFirstName = users.FirstName,
+                                 PersonelUserLastName = users.LastName,
+                                 PersonelUserPhoneNumber = users.PhoneNumber,
+                                 PersonelUserTitle = personelUsers.Title,
+                                 PersonelUserGender = personelUsers.Gender,
+                                 PersonelUserDateOfBirth = personelUsers.DateOfBirth,
+                                 PersonelUserMilitaryStatus = personelUsers.MilitaryStatus,
+                                 PersonelUserNationalStatus = personelUsers.NationalStatus,
+                                 PersonelUserRetirementStatus = personelUsers.RetirementStatus,
+                                 CompanyUserImagePath = companyUsers.ImagePath,
+                                 CompanyUserImageName = companyUsers.ImageName,
+                                 CompanyUserImageOwnName = companyUsers.ImageOwnName,
+                                 PersonelUserImagePath = personelUsers.ImagePath,
+                                 PersonelUserImageName = personelUsers.ImageName,
+                                 PersonelUserImageOwnName = personelUsers.ImageOwnName,
+                                 PersonelUserCvId = personelUserFollowCompanyUsers.PersonelUserCvId,
+                                 PersonelUserCvName = personelUserCvs.CvName,
                                  CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
                                  UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
+
                 return await result.ToListAsync();
             }
         }
 
-        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelIdDTO(string id)
+        public async Task<List<PersonelUserFollowCompanyUserDTO>> GetAllByPersonelUserIdDTO(string personelUserId)
         {
             using (KariyerimContext context = new KariyerimContext())
             {
@@ -75,8 +112,9 @@ namespace DataAccess.Concrete
                              join companyUsers in context.CompanyUsers on personelUserFollowCompanyUsers.CompanyUserId equals companyUsers.Id
                              join personelUsers in context.PersonelUsers on personelUserFollowCompanyUsers.PersonelUserId equals personelUsers.Id
                              join users in context.Users on personelUsers.UserId equals users.Id
+                             join personelUserCvs in context.PersonelUserCvs on personelUserFollowCompanyUsers.PersonelUserCvId equals personelUserCvs.Id
 
-                             where personelUsers.UserId == id && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null
+                             where personelUserFollowCompanyUsers.PersonelUserId == personelUserId && users.DeletedDate == null && companyUsers.DeletedDate == null && personelUsers.DeletedDate == null && personelUserCvs.DeletedDate == null
 
                              select new PersonelUserFollowCompanyUserDTO
                              {
@@ -85,16 +123,30 @@ namespace DataAccess.Concrete
                                  CompanyUserName = companyUsers.CompanyUserName,
                                  PersonelUserId = personelUserFollowCompanyUsers.PersonelUserId,
                                  PersonelUserMail = users.Email,
+                                 PersonelUserFirstName = users.FirstName,
+                                 PersonelUserLastName = users.LastName,
+                                 PersonelUserPhoneNumber = users.PhoneNumber,
+                                 PersonelUserTitle = personelUsers.Title,
+                                 PersonelUserGender = personelUsers.Gender,
+                                 PersonelUserDateOfBirth = personelUsers.DateOfBirth,
+                                 PersonelUserMilitaryStatus = personelUsers.MilitaryStatus,
+                                 PersonelUserNationalStatus = personelUsers.NationalStatus,
+                                 PersonelUserRetirementStatus = personelUsers.RetirementStatus,
+                                 CompanyUserImagePath = companyUsers.ImagePath,
+                                 CompanyUserImageName = companyUsers.ImageName,
+                                 CompanyUserImageOwnName = companyUsers.ImageOwnName,
+                                 PersonelUserImagePath = personelUsers.ImagePath,
+                                 PersonelUserImageName = personelUsers.ImageName,
+                                 PersonelUserImageOwnName = personelUsers.ImageOwnName,
+                                 PersonelUserCvId = personelUserFollowCompanyUsers.PersonelUserCvId,
+                                 PersonelUserCvName = personelUserCvs.CvName,
                                  CreatedDate = personelUserFollowCompanyUsers.CreatedDate,
                                  UpdatedDate = personelUserFollowCompanyUsers.UpdatedDate,
                                  DeletedDate = personelUserFollowCompanyUsers.DeletedDate,
                              };
+
                 return await result.ToListAsync();
             }
         }
     }
-
-
-
-
 }

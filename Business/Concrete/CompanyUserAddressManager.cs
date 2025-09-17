@@ -148,7 +148,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o=>o.CompanyUserName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId && c.CompanyUserId==userAdminDTO.Id).OrderBy(o=>o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {
@@ -165,7 +165,7 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<CompanyUserAddressDTO>>(allDtos.OrderBy(o => o.CompanyUserName).ToList().Where(c => c.UserId == userAdminDTO.UserId && c.CompanyUserId == userAdminDTO.Id).OrderBy(o => o.CompanyUserName).ToList(), Messages.SuccessListed);
             }
             else
             {

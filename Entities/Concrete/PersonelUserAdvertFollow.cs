@@ -10,8 +10,9 @@ namespace Entities.Concrete
 {
     public class PersonelUserAdvertFollow : BaseAdvert, IEntity
     {
-        public string CompanyUserId { get; set; }
-        public string PersonelUserId { get; set; }
-        
+        public string? CompanyUserId { get; set; }
+        public string? PersonelUserId { get; set; }
+        public string? PersonelUserCvId { get; set; }
+
     }
 }

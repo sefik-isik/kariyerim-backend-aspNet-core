@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class PersonelUserFollowCompanyUserDTO : Dto, IDto
+    public class PersonelUserFollowCompanyUserDTO : BaseAdvertDTO, IDto
     {
-        public string CompanyUserId { get; set; }
-        public string CompanyUserName { get; set; }
-        public string PersonelUserId { get; set; }
-        public string PersonelUserMail { get; set; }
-
     }
 }

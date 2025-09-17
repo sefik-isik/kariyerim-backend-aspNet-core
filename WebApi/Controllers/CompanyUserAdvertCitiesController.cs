@@ -71,10 +71,17 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("GetDeletedAllDTO")]
+        [HttpPost("getdeletedalldto")]
         public async Task<ActionResult> GetDeletedAllDTO(UserAdminDTO userAdminDTO)
         {
             var result = await _companyUserAdvertCityService.GetDeletedAllDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getallbyiddto")]
+        public async Task<ActionResult> GetAllByIdDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = await _companyUserAdvertCityService.GetAllByIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

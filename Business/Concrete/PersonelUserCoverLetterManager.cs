@@ -37,11 +37,12 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.PermissionError);
             }
-            IResult result = await BusinessRules.Run(IsNameExist(personelUserCoverLetter.Title));
+
+            var result = await _personelUserCoverLetterDal.GetAll(c => c.UserId == personelUserCoverLetter.UserId);
 
             if (result != null)
             {
-                return result;
+                return new ErrorResult(Messages.FieldAlreadyExist);
             }
             await _personelUserCoverLetterDal.AddAsync(personelUserCoverLetter);
             return new SuccessResult(Messages.SuccessAdded);
@@ -132,11 +133,11 @@ namespace Business.Concrete
 
             if (userIsAdmin.Data == null)
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList().FindAll(c => c.UserId == userAdminDTO.UserId), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(alldto.ToList().FindAll(c => c.PersonelUserId == userAdminDTO.Id), Messages.SuccessListed);
             }
             else
             {
-                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(alldto.OrderBy(x => x.FirstName).OrderBy(x => x.LastName).ToList(), Messages.SuccessListed);
+                return new SuccessDataResult<List<PersonelUserCoverLetterDTO>>(alldto.ToList(), Messages.SuccessListed);
             }
 
         }
@@ -157,17 +158,7 @@ namespace Business.Concrete
             }
 
         }
-        //Business Rules
-        private async Task<IResult> IsNameExist(string entityName)
-        {
-            var result = await _personelUserCoverLetterDal.GetAll(c => c.Title.ToLower() == entityName.ToLower());
 
-            if (result != null && result.Count > 0)
-            {
-                return new ErrorResult(Messages.FieldAlreadyExist);
-            }
-            return new SuccessResult();
-        }
 
     }
 }

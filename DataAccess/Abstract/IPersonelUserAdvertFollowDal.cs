@@ -12,7 +12,8 @@ namespace DataAccess.Abstract
     public interface IPersonelUserAdvertFollowDal : IEntityRepository<PersonelUserAdvertFollow>
     {
         Task<List<PersonelUserAdvertFollowDTO>> GetAllDTO();
-        Task<List<PersonelUserAdvertFollowDTO>> GetAllByAdvertIdDTO(string id);
-        Task<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelIdDTO(string id);
+        Task<List<PersonelUserAdvertFollowDTO>> GetAllByCompanyUserIdDTO(string companyUserId);
+        Task<List<PersonelUserAdvertFollowDTO>> GetAllByPersonelUserIdDTO(string personelUserId);
+        Task<List<PersonelUserAdvertFollowDTO>> GetAllByAdvertIdDTO(string advertId);
     }
 }

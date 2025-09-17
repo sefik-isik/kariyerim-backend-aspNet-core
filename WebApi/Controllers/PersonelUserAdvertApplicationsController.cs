@@ -61,21 +61,28 @@ namespace WebAPI.Controllers
         [HttpPost("getalldto")]
         public async Task<ActionResult> GetAllDTO(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUseradvertApplicationService.GetAllDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getallbyadvertiddto")]
-        public async Task<ActionResult> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        [HttpPost("getallbycompanyiddto")]
+        public async Task<ActionResult> GetAllByCompanyUserIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUseradvertApplicationService.GetAllByAdvertIdDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllByCompanyUserIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost("getallbypersoneliddto")]
         public async Task<ActionResult> GetAllByPersonelIdDTO(UserAdminDTO userAdminDTO)
         {
-            var result = await _personelUseradvertApplicationService.GetAllByPersonelIdDTO(userAdminDTO.Id);
+            var result = await _personelUseradvertApplicationService.GetAllByPersonelUserIdDTO(userAdminDTO);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("getallbyadvertiddto")]
+        public async Task<ActionResult> GetAllByAdvertIdDTO(UserAdminDTO userAdminDTO)
+        {
+            var result = await _personelUseradvertApplicationService.GetAllByAdvertIdDTO(userAdminDTO);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
