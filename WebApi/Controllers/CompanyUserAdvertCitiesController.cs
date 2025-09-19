@@ -78,10 +78,10 @@ namespace WebAPI.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost("getallbyiddto")]
-        public async Task<ActionResult> GetAllByIdDTO(UserAdminDTO userAdminDTO)
+        [HttpGet("getallbyiddto")]
+        public async Task<ActionResult> GetAllByIdDTO(string id)
         {
-            var result = await _companyUserAdvertCityService.GetAllByIdDTO(userAdminDTO);
+            var result = await _companyUserAdvertCityService.GetAllByIdDTO(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

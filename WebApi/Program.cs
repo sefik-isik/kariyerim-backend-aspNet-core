@@ -6,9 +6,11 @@ using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
+using DotNetOpenAuth.OpenId;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Owin.Security.WsFederation;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDependencyResolvers(new ICoreModule[] {
     new CoreModule(),
 });
+
+
 
 
 var configureBuilder = builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
